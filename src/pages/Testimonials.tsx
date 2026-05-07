@@ -1,0 +1,115 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Quote, Star, Flower2 } from 'lucide-react';
+
+const TestimonialsPage = () => {
+  const testimonials = [
+    {
+      name: 'Rachel Arthur',
+      role: 'Director of Wellness',
+      company: 'Zenith Global',
+      text: 'LiveFit has transformed our office culture. The daily asana streaks and guided meditations have become a sacred part of our team\'s routine.',
+      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80'
+    },
+    {
+      name: 'Shyam Surendran',
+      role: 'Head of People',
+      company: 'Nova Interactive',
+      text: "The collective flow sessions have brought a level of harmony to our distributed teams that we never thought possible through a digital platform.",
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80'
+    },
+    {
+      name: 'Matt Whitmore',
+      role: 'Operations Director',
+      company: 'Flow Systems',
+      text: 'In just a few months, we\'ve seen a measurable decrease in stress levels and a significant increase in team focus. The ROI on inner peace is undeniable.',
+      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80'
+    },
+    {
+      name: 'Elsa Robertson',
+      role: 'Chief Culture Officer',
+      company: 'Aura Logistics',
+      text: 'The most elegant and effective mindfulness tool we\'ve ever implemented. It\'s not just a platform; it\'s a path to a more conscious workplace.',
+      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80'
+    }
+  ];
+
+  return (
+    <div className="pb-16 bg-brand-white overflow-hidden">
+      {/* Header */}
+      <section className="py-20 bg-sky-50/50 relative">
+        <div className="absolute top-0 right-0 w-1/4 h-full opacity-5 pointer-events-none">
+          <Flower2 className="w-full h-full text-sky-600" />
+        </div>
+        <div className="container mx-auto px-6 text-center relative z-10">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-7xl font-serif italic text-sky-950 mb-6 tracking-tight"
+          >
+            Voices of <br /> <span className="text-sky-500">The Sangha</span>
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-sky-700 max-w-xl mx-auto font-medium"
+          >
+            Discover how leading organizations are cultivating resilience and clarity through LiveFit.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Grid */}
+      <section className="py-20 container mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {testimonials.map((t, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.8 }}
+              className="p-10 rounded-[2.5rem] bg-white border border-sky-100 shadow-xl shadow-sky-100/20 flex flex-col group hover:-translate-y-1 transition-all duration-500"
+            >
+              <div className="mb-8 flex gap-1">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} className="w-3.5 h-3.5 fill-sky-500 text-sky-500" />
+                ))}
+              </div>
+              <Quote className="w-12 h-12 text-sky-50/50 mb-4 group-hover:text-sky-100 transition-colors" />
+              <p className="text-xl text-sky-800 leading-relaxed italic mb-8 flex-1 font-serif">
+                "{t.text}"
+              </p>
+              <div className="flex items-center gap-5 pt-8 border-t border-sky-50">
+                <div className="w-14 h-14 rounded-full overflow-hidden shadow-md border-2 border-white">
+                  <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sky-900 text-base">{t.name}</h4>
+                  <p className="text-[10px] text-sky-400 font-bold uppercase tracking-widest">{t.role} @ {t.company}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Trust Banner */}
+      <section className="py-16 bg-white overflow-hidden border-y border-sky-50">
+        <div className="container mx-auto px-6">
+          <p className="text-center text-[10px] font-bold text-sky-400 uppercase tracking-[0.3em] mb-12">
+            Trusted by conscious leaders
+          </p>
+          <div className="flex flex-wrap justify-center gap-12 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all duration-1000">
+            {['SAMSUNG', 'ADOBE', 'GOOGLE', 'NIKE', 'WORKDAY'].map((brand) => (
+              <span key={brand} className="text-2xl font-serif italic font-bold text-sky-900">{brand}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default TestimonialsPage;

@@ -1,56 +1,42 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 
 const AsanaGallery = () => {
-  const targetRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  });
-
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-75%"]);
-
-  const poses = [
-    { name: "Warrior I", image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800" },
-    { name: "Tree Pose", image: "https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&q=80&w=800" },
-    { name: "Lotus", image: "https://images.unsplash.com/photo-1588286840104-8957b019727f?auto=format&fit=crop&q=80&w=800" },
-    { name: "Downward Dog", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTATD_51KOiBSInJTR1yE9NUN_EI7Rzska_Xw&s" },
-    { name: "Cobra", image: "https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?auto=format&fit=crop&q=80&w=800" },
+  const asanas = [
+    { name: 'Vrikshasana', translation: 'Tree Pose', image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80' },
+    { name: 'Trikonasana', translation: 'Triangle Pose', image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80' },
+    { name: 'Adho Mukha', translation: 'Downward Dog', image: 'https://images.unsplash.com/photo-1524673317493-2340aa41256b?auto=format&fit=crop&q=80' },
+    { name: 'Virabhadrasana', translation: 'Warrior Pose', image: 'https://images.unsplash.com/photo-1510894347713-fc3ed6fdf539?auto=format&fit=crop&q=80' },
+    { name: 'Savasana', translation: 'Corpse Pose', image: 'https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&q=80' },
+    { name: 'Bakasana', translation: 'Crow Pose', image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80' },
   ];
 
   return (
-    <section ref={targetRef} className="relative h-[300vh] bg-black">
-      <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
-        <h2 className="text-5xl md:text-8xl font-light tracking-tighter mb-12 uppercase text-white/90 z-10 mix-blend-difference">
-          flow <span className="font-serif italic lowercase">in motion</span>
-        </h2>
+    <section className="py-20 bg-white overflow-hidden">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <div className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Visual Wisdom</div>
+          <h2 className="text-4xl md:text-5xl font-serif italic text-sky-950">The Art of <span className="text-sky-500">Alignment</span></h2>
+        </div>
         
-        <motion.div style={{ x }} className="flex gap-12 w-max px-12">
-          {poses.map((pose, idx) => (
-            <div 
-              key={idx} 
-              className="group relative w-[300px] md:w-[500px] h-[400px] md:h-[600px] overflow-hidden rounded-[2rem] shrink-0"
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {asanas.map((asana, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              className="relative aspect-[3/4] rounded-2xl overflow-hidden group cursor-pointer shadow-lg"
             >
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-700 z-10"></div>
-              <img 
-                src={pose.image} 
-                alt={pose.name} 
-                className="w-full h-full object-cover transform transition-transform duration-1000 group-hover:scale-110"
-              />
-              <div className="absolute bottom-10 left-10 z-20 overflow-hidden">
-                <motion.h3 
-                  initial={{ y: 50, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="text-4xl text-white font-medium"
-                >
-                  {pose.name}
-                </motion.h3>
+              <img src={asana.image} alt={asana.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-sky-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+                <h4 className="text-white font-bold text-sm">{asana.name}</h4>
+                <p className="text-sky-200 text-[10px] font-medium">{asana.translation}</p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

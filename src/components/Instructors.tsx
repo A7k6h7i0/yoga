@@ -1,64 +1,42 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Globe, Link as LinkIcon } from 'lucide-react';
 
 const Instructors = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "center center"]
-  });
-
-  const titleY = useTransform(scrollYProgress, [0, 1], [100, 0]);
-  const titleOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
-  const instructors = [
-    {
-      name: "Maya Lin",
-      role: "Lead Vinyasa Instructor",
-      image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800",
-    },
-    {
-      name: "David Chen",
-      role: "Meditation Guide",
-      image: "https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&q=80&w=800",
-    },
-    {
-      name: "Sarah Jenkins",
-      role: "Flexibility Coach",
-      image: "https://images.unsplash.com/photo-1588286840104-8957b019727f?auto=format&fit=crop&q=80&w=800",
-    }
+  const masters = [
+    { name: 'Acharya Vayu', role: 'Pranayama Expert', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80' },
+    { name: 'Dr. Ishvari', role: 'Ayurvedic Consultant', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80' },
+    { name: 'Deva Das', role: 'Vinyasa Master', image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80' },
   ];
 
   return (
-    <section ref={containerRef} className="bg-black py-32 text-white relative overflow-hidden">
-      <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <motion.div style={{ y: titleY, opacity: titleOpacity }} className="text-center mb-24">
-          <h2 className="text-5xl md:text-8xl font-medium tracking-tighter mb-6">guided by experts</h2>
-          <p className="text-xl text-white/60 max-w-2xl mx-auto">
-            Our world-class instructors are here to help you find your flow, build strength, and achieve mental clarity.
-          </p>
-        </motion.div>
-
+    <section className="py-20 bg-sky-50/10 overflow-hidden">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <div className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">The Masters</div>
+          <h2 className="text-4xl md:text-5xl font-serif italic text-sky-950">Guided by <span className="text-sky-500">True Lineage</span></h2>
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {instructors.map((instructor, idx) => (
-            <motion.div 
-              key={instructor.name}
-              initial={{ opacity: 0, y: 50 }}
+          {masters.map((master, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: idx * 0.2 }}
-              className="group relative overflow-hidden rounded-[2rem] aspect-[3/4]"
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1 }}
+              className="relative group rounded-[2.5rem] overflow-hidden shadow-xl"
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
-              <img 
-                src={instructor.image} 
-                alt={instructor.name} 
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-8 z-20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <h3 className="text-3xl font-medium mb-2">{instructor.name}</h3>
-                <p className="text-white/70">{instructor.role}</p>
+              <div className="aspect-[4/5]">
+                <img src={master.image} alt={master.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-sky-900/80 via-transparent to-transparent flex flex-col justify-end p-8 text-white">
+                <h4 className="text-2xl font-serif italic mb-1">{master.name}</h4>
+                <p className="text-sky-200 text-xs font-bold uppercase tracking-widest mb-4">{master.role}</p>
+                <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity translate-y-4 group-hover:translate-y-0 duration-500">
+                  <Globe className="w-5 h-5 cursor-pointer hover:text-sky-200" />
+                  <LinkIcon className="w-5 h-5 cursor-pointer hover:text-sky-200" />
+                </div>
               </div>
             </motion.div>
           ))}

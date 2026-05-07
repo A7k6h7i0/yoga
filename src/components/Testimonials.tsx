@@ -1,53 +1,62 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Star, Quote } from 'lucide-react';
 
 const Testimonials = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  // Using a spring for a more organic flowing scroll effect
-  const x = useTransform(scrollYProgress, [0, 1], ["10%", "-40%"]);
-
-  const reviews = [
-    { text: "Yoga completely transformed my morning routine. I feel more centered and energized than ever before.", author: "Elena R." },
-    { text: "The personalized flows adapt perfectly to how my physical body is feeling each day. Highly recommended.", author: "Marcus T." },
-    { text: "A truly sacred experience. The spiritual guidance and the quality of the asanas are unmatched.", author: "Sophia W." },
-    { text: "I've never been able to stick to meditation until I found this digital sanctuary.", author: "Julian H." },
-    { text: "Yoga completely transformed my morning routine. I feel more centered and energized than ever before.", author: "Elena R." },
-    { text: "The personalized flows adapt perfectly to how my body is feeling each day. Highly recommended.", author: "Marcus T." },
+  const testimonials = [
+    {
+      name: 'Sarah Chen',
+      role: 'HR Manager',
+      company: 'TechFlow',
+      text: 'LiveFit has completely changed our team dynamic. The asana streaks are a hit!',
+      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80'
+    },
+    {
+      name: 'David Miller',
+      role: 'CEO',
+      company: 'Nova Interactive',
+      text: 'The best investment we made for employee well-being this year.',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80'
+    }
   ];
 
   return (
-    <section ref={containerRef} className="bg-[#111] py-32 text-white relative overflow-hidden">
-      <div className="mb-24 px-6 md:px-12 text-center">
-        <h2 className="text-5xl md:text-8xl font-light italic tracking-tighter">voices of the sangha</h2>
-        <p className="text-white/50 mt-6 text-xl font-light max-w-2xl mx-auto">discover how our community is transforming their lives through dedicated practice and mindful breathing.</p>
+    <section className="py-20 bg-sky-50/20 overflow-hidden">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <div className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">The Sangha</div>
+          <h2 className="text-4xl md:text-5xl font-serif italic text-sky-950">Voices of <span className="text-sky-500">Practice</span></h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {testimonials.map((t, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="p-8 rounded-[2.5rem] bg-white border border-sky-100 shadow-xl shadow-sky-100/30 group"
+            >
+              <div className="flex gap-1 mb-6">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} className="w-3.5 h-3.5 fill-sky-500 text-sky-500" />
+                ))}
+              </div>
+              <Quote className="w-10 h-10 text-sky-50 mb-4" />
+              <p className="text-xl text-sky-900 font-serif italic mb-8">"{t.text}"</p>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-sky-100">
+                  <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sky-950 text-sm">{t.name}</h4>
+                  <p className="text-[10px] font-bold text-sky-400 uppercase tracking-widest">{t.role} @ {t.company}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
-
-      <motion.div style={{ x }} className="flex gap-8 px-6 whitespace-nowrap">
-        {reviews.map((review, idx) => (
-          <motion.div 
-            key={idx}
-            whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)", rotateZ: idx % 2 === 0 ? 2 : -2 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="shrink-0 w-[400px] md:w-[600px] bg-white/5 border border-white/10 rounded-3xl p-10 md:p-12 transition-colors duration-300 whitespace-normal backdrop-blur-md"
-          >
-            <div className="flex gap-1 mb-8">
-              {[...Array(5)].map((_, i) => (
-                <svg key={i} width="24" height="24" viewBox="0 0 24 24" fill="#FACC15" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
-                </svg>
-              ))}
-            </div>
-            <p className="text-2xl md:text-3xl font-light leading-relaxed mb-8">"{review.text}"</p>
-            <p className="text-white/60 font-medium tracking-widest uppercase text-sm">— {review.author}</p>
-          </motion.div>
-        ))}
-      </motion.div>
     </section>
   );
 };

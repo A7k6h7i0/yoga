@@ -1,105 +1,181 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-const chakras = [
-  { name: "Crown", sanskrit: "Sahasrara", color: "bg-purple-500", glow: "shadow-purple-500/50", desc: "Spiritual connection, enlightenment, and universal consciousness." },
-  { name: "Third Eye", sanskrit: "Ajna", color: "bg-indigo-500", glow: "shadow-indigo-500/50", desc: "Intuition, imagination, and inner wisdom." },
-  { name: "Throat", sanskrit: "Vishuddha", color: "bg-blue-500", glow: "shadow-blue-500/50", desc: "Communication, self-expression, and speaking your truth." },
-  { name: "Heart", sanskrit: "Anahata", color: "bg-emerald-500", glow: "shadow-emerald-500/50", desc: "Love, compassion, and emotional balance." },
-  { name: "Solar Plexus", sanskrit: "Manipura", color: "bg-yellow-400", glow: "shadow-yellow-400/50", desc: "Confidence, personal power, and self-esteem." },
-  { name: "Sacral", sanskrit: "Svadhisthana", color: "bg-orange-500", glow: "shadow-orange-500/50", desc: "Creativity, passion, and emotional fluidity." },
-  { name: "Root", sanskrit: "Muladhara", color: "bg-red-600", glow: "shadow-red-600/50", desc: "Grounding, security, and basic survival needs." },
-];
+import { Sparkles, Activity, Zap, Shield, Sun, Wind, Flower2 } from 'lucide-react';
 
 const Chakras = () => {
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [activeChakra, setActiveChakra] = useState(0);
+
+  const chakras = [
+    {
+      name: 'Muladhara',
+      translation: 'Root Center',
+      focus: 'Stability & Security',
+      desc: 'Foundation for corporate resilience. Building a secure environment where teams feel grounded and supported.',
+      icon: Shield,
+      color: 'text-sky-950 bg-sky-100',
+      accent: 'sky'
+    },
+    {
+      name: 'Svadhisthana',
+      translation: 'Sacral Center',
+      focus: 'Creativity & Flow',
+      desc: 'Igniting creative potential and emotional intelligence to foster innovative problem-solving and adaptable team dynamics.',
+      icon: Sparkles,
+      color: 'text-sky-800 bg-sky-100',
+      accent: 'sky'
+    },
+    {
+      name: 'Manipura',
+      translation: 'Solar Plexus',
+      focus: 'Power & Vitality',
+      desc: 'Harnessing the collective willpower and digestive fire (Agni) of the organization to drive purposeful action.',
+      icon: Zap,
+      color: 'text-sky-700 bg-sky-100',
+      accent: 'sky'
+    },
+    {
+      name: 'Anahata',
+      translation: 'Heart Center',
+      focus: 'Compassion & Unity',
+      desc: 'Opening the channels of empathy and horizontal leadership. Cultivating a culture of radical inclusion and kindness.',
+      icon: Activity,
+      color: 'text-sky-600 bg-sky-100',
+      accent: 'sky'
+    },
+    {
+      name: 'Vishuddha',
+      translation: 'Throat Center',
+      focus: 'Truthful Expression',
+      desc: 'Mastering the art of conscious communication. Ensuring every voice is heard with clarity and authentic integrity.',
+      icon: Wind,
+      color: 'text-sky-500 bg-sky-100',
+      accent: 'sky'
+    },
+    {
+      name: 'Ajna',
+      translation: 'Third Eye',
+      focus: 'Insight & Strategy',
+      desc: 'Developing corporate intuition and visionary leadership. Aligning tactical decisions with long-term spiritual purpose.',
+      icon: Sun,
+      color: 'text-sky-400 bg-sky-100',
+      accent: 'sky'
+    },
+    {
+      name: 'Sahasrara',
+      translation: 'Crown Center',
+      focus: 'Infinite Connection',
+      desc: 'Total integration of corporate consciousness. Connecting the organization to its highest contribution to the world.',
+      icon: Flower2,
+      color: 'text-sky-300 bg-sky-100',
+      accent: 'sky'
+    }
+  ];
 
   return (
-    <section className="bg-[#050505] py-40 text-white relative overflow-hidden">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <div className="text-center mb-24">
-          <motion.h2 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="text-5xl md:text-8xl font-light tracking-tighter"
-          >
-            the energy centers
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="mt-6 text-xl text-white/50 max-w-2xl mx-auto font-light"
-          >
-            Awaken the seven chakras within. Hover to explore the subtle energy that flows through your body.
-          </motion.p>
-        </div>
-
-        <div className="flex flex-col md:flex-row items-center justify-center gap-16 md:gap-32">
+    <section className="py-20 bg-white">
+      <div className="container mx-auto px-6">
+        <div className="flex flex-col lg:flex-row gap-12">
+          <div className="lg:w-1/3">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">
+                Corporate Consciousness
+              </div>
+              <h2 className="text-4xl md:text-5xl font-serif italic text-sky-950 tracking-tight mb-8 leading-tight">
+                Aligning the <br /> <span className="text-sky-500">Corporate Energy</span>
+              </h2>
+              <p className="text-sky-800 leading-relaxed font-medium mb-10 text-sm">
+                Just as the human body has energy centers, a healthy organization flows through distinct levels of consciousness. Map your team's path to enlightenment.
+              </p>
+              
+              <div className="space-y-2">
+                {chakras.map((chakra, idx) => (
+                  <button
+                    key={chakra.name}
+                    onClick={() => setActiveChakra(idx)}
+                    className={`w-full p-4 rounded-2xl flex items-center gap-4 transition-all text-left group ${
+                      activeChakra === idx 
+                      ? 'bg-sky-600 text-white shadow-lg' 
+                      : 'hover:bg-sky-50 text-sky-900'
+                    }`}
+                  >
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
+                      activeChakra === idx ? 'bg-white/20' : 'bg-sky-50 group-hover:bg-white'
+                    }`}>
+                      <chakra.icon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-sm tracking-wide">{chakra.name}</h4>
+                      <p className={`text-[10px] font-medium opacity-70 ${activeChakra === idx ? 'text-sky-50' : 'text-sky-400'}`}>
+                        {chakra.focus}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </div>
           
-          {/* Visual Chakra Column */}
-          <div className="flex flex-col items-center gap-6 relative">
-            {/* Energy Line */}
-            <div className="absolute top-0 bottom-0 w-px bg-white/10 left-1/2 -translate-x-1/2"></div>
-            
-            {chakras.map((chakra, idx) => (
-              <motion.div
-                key={chakra.name}
-                onHoverStart={() => setHoveredIdx(idx)}
-                onMouseLeave={() => setHoveredIdx(null)}
-                className="relative z-10 cursor-pointer"
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1, type: "spring", stiffness: 200 }}
-              >
-                <motion.div 
-                  className={`w-16 h-16 rounded-full ${chakra.color} flex items-center justify-center text-white font-serif text-sm transition-shadow duration-500`}
-                  animate={{ 
-                    scale: hoveredIdx === idx ? 1.4 : 1,
-                    boxShadow: hoveredIdx === idx ? `0 0 40px var(--tw-shadow-color)` : `0 0 0px transparent` 
-                  }}
-                  className={`w-16 h-16 rounded-full ${chakra.color} ${chakra.glow} flex items-center justify-center transition-all duration-300`}
-                >
-                  <div className="w-full h-full rounded-full border border-white/20 absolute"></div>
-                </motion.div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Dynamic Information Display */}
-          <div className="w-full md:w-1/2 h-[300px] flex items-center justify-center relative">
-            <AnimatePresence mode="wait">
-              {hoveredIdx !== null ? (
+          <div className="lg:w-2/3">
+            <div className="h-full flex items-center">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  key={hoveredIdx}
-                  initial={{ opacity: 0, x: 50, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, x: -50, filter: "blur(10px)" }}
-                  transition={{ duration: 0.4 }}
-                  className="text-center md:text-left"
+                  key={activeChakra}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="w-full bg-sky-50/50 rounded-[3rem] p-10 md:p-16 border border-sky-100 relative overflow-hidden"
                 >
-                  <h3 className="text-sm tracking-[0.4em] uppercase text-white/50 mb-4">{chakras[hoveredIdx].sanskrit}</h3>
-                  <h2 className="text-6xl font-medium tracking-tight mb-6" style={{ color: chakras[hoveredIdx].color.replace('bg-', '') }}>{chakras[hoveredIdx].name}</h2>
-                  <p className="text-2xl font-light text-white/80 leading-relaxed max-w-md">{chakras[hoveredIdx].desc}</p>
+                  <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+                    {(() => {
+                      const Icon = chakras[activeChakra].icon;
+                      return <Icon className="w-48 h-48" />;
+                    })()}
+                  </div>
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-8">
+                      {(() => {
+                        const Icon = chakras[activeChakra].icon;
+                        return (
+                          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${chakras[activeChakra].color} shadow-lg`}>
+                            <Icon className="w-8 h-8" />
+                          </div>
+                        );
+                      })()}
+                      <div>
+                        <h3 className="text-3xl md:text-4xl font-serif italic text-sky-950 mb-1">{chakras[activeChakra].name}</h3>
+                        <p className="text-sky-500 font-bold text-xs uppercase tracking-[0.2em]">{chakras[activeChakra].translation}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-8">
+                      <div>
+                        <h4 className="text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-3">Organizational Focus</h4>
+                        <p className="text-2xl font-bold text-sky-900 leading-tight">
+                          {chakras[activeChakra].focus}
+                        </p>
+                      </div>
+                      
+                      <div>
+                        <h4 className="text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-3">Evolutionary Path</h4>
+                        <p className="text-lg text-sky-800 leading-relaxed font-medium">
+                          {chakras[activeChakra].desc}
+                        </p>
+                      </div>
+                      
+                      <button className="px-8 py-4 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-xl shadow-sky-100/50 text-sm uppercase tracking-widest">
+                        Activate this Center
+                      </button>
+                    </div>
+                  </div>
                 </motion.div>
-              ) : (
-                <motion.div
-                  key="empty"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="text-center md:text-left text-white/20 text-3xl font-light italic"
-                >
-                  Hover over a chakra to focus your intent...
-                </motion.div>
-              )}
-            </AnimatePresence>
+              </AnimatePresence>
+            </div>
           </div>
-
         </div>
       </div>
     </section>

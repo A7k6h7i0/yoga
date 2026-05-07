@@ -1,86 +1,78 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Play, Sparkles, Wind } from 'lucide-react';
 
 const Hero = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = React.useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ["start start", "end end"]
   });
 
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const imageRotate = useTransform(scrollYProgress, [0, 1], [-2, 5]);
-
-  const words = [
-    { text: "find", className: "text-white font-light" },
-    { text: "balance", className: "text-white/60 ml-4 font-serif italic" }
-  ];
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <section ref={containerRef} className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
-      <div className="container mx-auto px-6 relative z-10 w-full max-w-5xl">
-        <motion.div style={{ y: textY }} className="flex flex-col items-center text-center">
-          <h1 className="text-7xl md:text-9xl lg:text-[12rem] font-medium tracking-tighter flex mb-8">
-            {words.map((word, i) => (
-              <span key={word.text} className={word.className}>
-                {word.text.split('').map((char, j) => (
-                  <motion.span
-                    key={`${word.text}-${j}`}
-                    initial={{ opacity: 0, y: 100, filter: "blur(20px)", scale: 0.8 }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-                    transition={{
-                      duration: 1.2,
-                      ease: [0.16, 1, 0.3, 1],
-                      delay: i * 0.2 + j * 0.08
-                    }}
-                    className="inline-block"
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </span>
-            ))}
-          </h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1.5, delay: 1 }}
-            className="max-w-xl text-lg md:text-2xl text-white/70 leading-relaxed font-light mt-8"
-          >
-            yoga is an ancient discipline that unites the body, mind, and spirit. embark on a transformative journey into deep mindfulness and physical mastery.
-          </motion.p>
-          
-          <motion.div
+    <section ref={containerRef} className="relative h-[80vh] flex items-center justify-center overflow-hidden bg-brand-white">
+      {/* Dynamic Background Elements */}
+      <motion.div style={{ y, opacity }} className="absolute inset-0 z-0">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-sky-100 rounded-full blur-[120px] opacity-60" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-sky-50 rounded-full blur-[120px] opacity-60" />
+      </motion.div>
+
+      <div className="container mx-auto px-6 relative z-10 text-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-50 border border-sky-100 text-sky-600 text-[10px] font-bold uppercase tracking-widest mb-8"
+        >
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>The Evolution of Corporate Flow</span>
+        </motion.div>
+
+        <div className="max-w-4xl mx-auto">
+          <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="mt-12"
+            className="text-6xl md:text-8xl lg:text-9xl font-serif italic text-sky-950 mb-6 tracking-tight leading-[0.85] text-balance"
           >
-            <a href="#" className="inline-flex items-center justify-center px-10 py-5 rounded-full bg-white text-black font-semibold text-sm uppercase tracking-widest hover:scale-105 transition-transform duration-300">
-              begin practice
-            </a>
+            Cultivating <br /> <span className="text-sky-500">LiveFit</span> Potential
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg md:text-xl text-sky-800 max-w-xl mx-auto mb-10 font-medium leading-relaxed"
+          >
+            The premium mindfulness ecosystem designed for high-performance teams. Experience the future of corporate well-being with LiveFit.
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-wrap justify-center gap-4"
+          >
+            <button className="px-10 py-4 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-xl shadow-sky-100 flex items-center gap-2 group">
+              Begin the Journey
+              <Play className="w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
+            </button>
+            <button className="px-10 py-4 bg-white text-sky-900 border border-sky-100 rounded-full font-bold hover:bg-sky-50 transition-all">
+              Request Custom Plan
+            </button>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
 
-      <motion.div
-        style={{ y: imageY, rotate: imageRotate }}
-        className="absolute right-0 bottom-0 md:-right-10 md:-bottom-10 w-4/5 md:w-1/2 max-w-3xl z-0 pointer-events-none opacity-80 mix-blend-screen"
+      {/* Decorative Elements */}
+      <motion.div 
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-40"
       >
-        <motion.img 
-          initial={{ scale: 0.8, opacity: 0, rotate: -10 }}
-          animate={{ scale: 1, opacity: 1, rotate: [0, -2, 0] }}
-          transition={{ 
-            scale: { duration: 2, ease: "easeOut" },
-            opacity: { duration: 2 },
-            rotate: { duration: 10, repeat: Infinity, ease: "easeInOut" }
-          }}
-          src="/images/yoga_hero_1777977865538.png" 
-          alt="Premium Yoga Mat" 
-          className="w-full h-auto object-contain drop-shadow-2xl"
-        />
+        <span className="text-[10px] font-bold text-sky-400 uppercase tracking-widest">Discover More</span>
+        <div className="w-px h-12 bg-gradient-to-b from-sky-400 to-transparent" />
       </motion.div>
     </section>
   );
