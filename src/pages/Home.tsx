@@ -8,8 +8,8 @@ import Stick from '../components/Stick';
 import Capsules from '../components/Capsules';
 import AsanaGallery from '../components/AsanaGallery';
 import Instructors from '../components/Instructors';
-import AppShowcase from '../components/AppShowcase';
 import Testimonials from '../components/Testimonials';
+import GlobalReach from '../components/GlobalReach';
 
 const Home = () => {
   return (
@@ -17,13 +17,13 @@ const Home = () => {
       <Hero />
       <Breathwork />
       <Philosophy />
+      <GlobalReach />
       <Chakras />
       <Journey />
       <Stick />
       <Capsules />
       <AsanaGallery />
       <Instructors />
-      <AppShowcase />
       <Testimonials />
     </>
   );

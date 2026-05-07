@@ -1,82 +1,100 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Globe, Link as LinkIcon, Share2, Mail, MapPin, Phone } from 'lucide-react';
 import Navigation from './Navigation';
-import { motion, useScroll, useSpring } from 'framer-motion';
-import { Flower2 } from 'lucide-react';
+import Logo from './Logo';
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="bg-brand-white min-h-screen text-sky-950 font-sans selection:bg-sky-100">
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-sky-500 origin-left z-[100]"
-        style={{ scaleX }}
-      />
-      
+    <div className="min-h-screen bg-brand-white flex flex-col">
       <Navigation />
-      
-      <main className="pt-16">
+      <main className="flex-grow">
         {children}
       </main>
+      
+      <footer className="bg-white pt-24 pb-12 border-t border-sky-50 relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
+            {/* Brand Section */}
+            <div className="lg:col-span-4 text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start mb-8">
+                <Link to="/">
+                  <Logo />
+                </Link>
+              </div>
+              <p className="text-sky-800 font-medium leading-relaxed mb-10 max-w-sm mx-auto md:mx-0 opacity-70">
+                Elevating corporate consciousness through ancient wisdom and modern technology. We build resilient, healthy, and high-performance teams worldwide.
+              </p>
+              <div className="flex justify-center md:justify-start space-x-4">
+                {[Globe, LinkIcon, Share2].map((Icon, idx) => (
+                  <a key={idx} href="#" className="w-12 h-12 rounded-xl bg-sky-50 flex items-center justify-center text-sky-500 hover:bg-sky-600 hover:text-white transition-all shadow-sm group">
+                    <Icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  </a>
+                ))}
+              </div>
+            </div>
 
-      <footer className="bg-sky-50/30 text-sky-800 py-12 border-t border-sky-100 mt-20 relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-16 opacity-5 pointer-events-none">
-          <Flower2 className="w-48 h-48 text-sky-900" />
-        </div>
-        <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
-          <div className="space-y-4">
-            <h3 className="font-serif text-3xl italic text-sky-600">LiveFit</h3>
-            <p className="text-sm text-sky-700 font-medium leading-relaxed max-w-xs">
-              The premium mindfulness ecosystem for high-performance teams. We cultivate resilience, vitality, and focus through integrated wellness solutions.
+            {/* Links Sections */}
+            <div className="lg:col-span-2 text-center md:text-left">
+              <h4 className="font-bold text-sky-950 mb-8 uppercase tracking-widest text-[10px]">Ecosystem</h4>
+              <ul className="space-y-4">
+                <li><Link to="/workfit" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">WorkFit</Link></li>
+                <li><Link to="/about" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Our Story</Link></li>
+                <li><Link to="/blog" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Wellness Journal</Link></li>
+                <li><Link to="/testimonials" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Voices</Link></li>
+              </ul>
+            </div>
+
+            <div className="lg:col-span-2 text-center md:text-left">
+              <h4 className="font-bold text-sky-950 mb-8 uppercase tracking-widest text-[10px]">Resources</h4>
+              <ul className="space-y-4">
+                <li><a href="#" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Help Center</a></li>
+                <li><a href="#" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Careers</a></li>
+                <li><a href="#" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Partnerships</a></li>
+                <li><a href="#" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Press Kit</a></li>
+              </ul>
+            </div>
+
+            {/* Contact Section */}
+            <div className="lg:col-span-4 text-center md:text-left">
+              <h4 className="font-bold text-sky-950 mb-8 uppercase tracking-widest text-[10px]">Connect</h4>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-center justify-center md:justify-start gap-4 text-sky-800 text-sm font-bold">
+                  <div className="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-400">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  hello@livefit.io
+                </li>
+                <li className="flex items-center justify-center md:justify-start gap-4 text-sky-800 text-sm font-bold">
+                  <div className="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-400">
+                    <Phone className="w-4 h-4" />
+                  </div>
+                  +1 (555) 012-3456
+                </li>
+                <li className="flex items-center justify-center md:justify-start gap-4 text-sky-800 text-sm font-bold">
+                  <div className="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-400">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  San Francisco, CA
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="pt-12 border-t border-sky-50 flex flex-col md:flex-row justify-between items-center gap-8 text-center">
+            <p className="text-sky-400 text-[10px] font-bold uppercase tracking-[0.2em]">
+              © 2024 LiveFit. Designed for the Conscious Professional.
             </p>
-          </div>
-          
-          <div>
-            <h4 className="font-bold text-sky-900 mb-4 uppercase tracking-widest text-[10px]">Pathways</h4>
-            <ul className="space-y-2 text-sm text-sky-600 font-medium">
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">WorkFit Challenges</li>
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">Collective Flow</li>
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">Mindfulness</li>
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">Vitals Analytics</li>
-            </ul>
-          </div>
-          
-          <div>
-            <h4 className="font-bold text-sky-900 mb-4 uppercase tracking-widest text-[10px]">The Community</h4>
-            <ul className="space-y-2 text-sm text-sky-600 font-medium">
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">Our Story</li>
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">Instructors</li>
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">Careers</li>
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">Contact</li>
-            </ul>
-          </div>
-          
-          <div>
-            <h4 className="font-bold text-sky-900 mb-4 uppercase tracking-widest text-[10px]">Resources</h4>
-            <ul className="space-y-2 text-sm text-sky-600 font-medium">
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">The LiveFit Journal</li>
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">Case Studies</li>
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">Wellness Digest</li>
-              <li className="hover:text-sky-900 transition-colors cursor-pointer">Help Center</li>
-            </ul>
+            <div className="flex gap-8">
+              <a href="#" className="text-sky-400 hover:text-sky-600 text-[10px] font-bold uppercase tracking-widest transition-colors">Privacy Policy</a>
+              <a href="#" className="text-sky-400 hover:text-sky-600 text-[10px] font-bold uppercase tracking-widest transition-colors">Terms of Service</a>
+            </div>
           </div>
         </div>
-        <div className="container mx-auto px-6 mt-12 pt-6 border-t border-sky-100 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-sky-400 font-bold uppercase tracking-widest">
-          <p>© {new Date().getFullYear()} LiveFit. All rights reserved.</p>
-          <div className="flex gap-6">
-            <span className="hover:text-sky-900 cursor-pointer transition-colors">Privacy Policy</span>
-            <span className="hover:text-sky-900 cursor-pointer transition-colors">Terms of Service</span>
-          </div>
-        </div>
+
+        {/* Subtle Decorative Gradient */}
+        <div className="absolute top-0 right-0 w-[40%] h-[100%] bg-sky-50/50 rounded-full blur-[120px] -z-10" />
       </footer>
     </div>
   );

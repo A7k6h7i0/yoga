@@ -1,78 +1,71 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Flower2, Sparkles, Heart, Sun } from 'lucide-react';
+import { Leaf, Sun, Heart, Sparkles } from 'lucide-react';
 
 const Philosophy = () => {
   const pillars = [
     {
-      title: 'Dharma',
-      subtitle: 'Purposeful Work',
-      desc: 'Aligning corporate goals with individual purpose to foster a sense of meaningful contribution.',
-      icon: Sun,
-      color: 'text-sky-600 bg-sky-50'
+      title: 'Mindful Intent',
+      desc: 'Moving from reactive stress to conscious action through daily practice.',
+      icon: Leaf
     },
     {
-      title: 'Sangha',
-      subtitle: 'Conscious Community',
-      desc: 'Building deep connections and mutual support networks within the professional environment.',
-      icon: Heart,
-      color: 'text-sky-600 bg-sky-50'
+      title: 'Radical Flow',
+      desc: 'Finding the intersection between professional focus and inner peace.',
+      icon: Sparkles
     },
     {
-      title: 'Metta',
-      subtitle: 'Loving Kindness',
-      desc: 'Cultivating compassion for self and others to reduce workplace friction and enhance empathy.',
-      icon: Sparkles,
-      color: 'text-sky-600 bg-sky-50'
+      title: 'Collective Care',
+      desc: 'Building teams that support each other as a unified wellness ecosystem.',
+      icon: Heart
     },
     {
-      title: 'Satya',
-      subtitle: 'Truthful Action',
-      desc: 'Promoting transparency and integrity as the foundation for high-trust team dynamics.',
-      icon: Flower2,
-      color: 'text-sky-600 bg-sky-50'
+      title: 'Luminous Spirit',
+      desc: 'Connecting individual purpose with the organizations highest mission.',
+      icon: Sun
     }
   ];
 
   return (
-    <section className="py-20 bg-white overflow-hidden">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+    <section className="py-16 md:py-32 bg-brand-white relative overflow-hidden">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-16 md:mb-24">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-4"
+            className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[9px] md:text-[10px] mb-4"
           >
             The Four Pillars of LiveFit
           </motion.div>
-          <h2 className="text-4xl md:text-6xl font-serif italic text-sky-950 tracking-tight">
+          <h2 className="text-4xl md:text-7xl font-serif italic text-sky-950 tracking-tight leading-tight">
             Rooted in <span className="text-sky-500">Ancient Wisdom</span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {pillars.map((pillar, idx) => (
             <motion.div
               key={pillar.title}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              whileHover={{ y: -5 }}
-              className="p-8 rounded-[2.5rem] bg-sky-50/50 border border-sky-100 hover:bg-white hover:shadow-xl hover:shadow-sky-100/50 transition-all group"
+              className="text-center group"
             >
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform ${pillar.color}`}>
-                <pillar.icon className="w-6 h-6" />
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-sky-50 rounded-full flex items-center justify-center mx-auto mb-6 md:mb-8 transition-transform duration-500 group-hover:scale-110 group-hover:bg-sky-100 shadow-sm">
+                <pillar.icon className="w-8 h-8 md:w-10 md:h-10 text-sky-500" />
               </div>
-              <h3 className="text-2xl font-serif italic text-sky-900 mb-1">{pillar.title}</h3>
-              <p className="text-sky-500 font-bold text-[10px] uppercase tracking-widest mb-4">{pillar.subtitle}</p>
-              <p className="text-sky-800 text-sm leading-relaxed font-medium">
+              <h3 className="text-xl md:text-2xl font-bold text-sky-900 mb-4 font-serif italic leading-none">{pillar.title}</h3>
+              <p className="text-sm md:text-base text-sky-600 leading-relaxed font-medium px-4">
                 {pillar.desc}
               </p>
             </motion.div>
           ))}
         </div>
       </div>
+      
+      {/* Decorative center piece - smaller/hidden on small mobile */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] border border-sky-50 rounded-full opacity-20 pointer-events-none hidden md:block" />
     </section>
   );
 };

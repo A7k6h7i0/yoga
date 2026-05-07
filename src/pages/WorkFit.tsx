@@ -1,10 +1,12 @@
 import React from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
-  CheckCircle2, TrendingUp, Users2, Brain, Activity, Zap, 
-  Wind, Trophy, Settings2, MapPin, Star, Globe, Heart, BarChart3,
-  ArrowRight, Smartphone, Sparkles, Flower2
+  CheckCircle2, Users2, Brain, Activity, Zap, 
+  Wind, Trophy, MapPin, Star, Globe,
+  ArrowRight, Sparkles, Flower2, ShieldCheck, Microscope, 
+  TrendingUp, Calendar, ChevronRight, GraduationCap, Building2,
+  Stethoscope, Landmark, Rocket
 } from 'lucide-react';
 
 const WorkFit = () => {
@@ -14,15 +16,33 @@ const WorkFit = () => {
     offset: ["start start", "end end"]
   });
 
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const heroY = useTransform(smoothProgress, [0, 0.2], [0, 150]);
+  const heroScale = useTransform(smoothProgress, [0, 0.2], [1, 1.1]);
+
+  const mentors = [
+    { name: 'Dr. Aris Thorne', role: 'Chief of Breathwork', img: 'https://i.pravatar.cc/150?u=aris', specialty: 'Neural Regulation' },
+    { name: 'Maya Sterling', role: 'Vinyasa Lead', img: 'https://i.pravatar.cc/150?u=maya', specialty: 'Flow State Optimization' },
+    { name: 'Julian Vane', role: 'Mindfulness Architect', img: 'https://i.pravatar.cc/150?u=julian', specialty: 'Executive Presence' },
+    { name: 'Sienna Ross', role: 'Spinal Health Expert', img: 'https://i.pravatar.cc/150?u=sienna', specialty: 'Posture Mechanics' },
+  ];
+
+  const industries = [
+    { name: 'FinTech', icon: Landmark, desc: 'High-frequency focus for high-pressure markets.' },
+    { name: 'HealthTech', icon: Stethoscope, desc: 'Wellbeing solutions for the healers themselves.' },
+    { name: 'SaaS', icon: Rocket, desc: 'Scaling calm alongside rapid growth.' },
+    { name: 'Architecture', icon: Building2, desc: 'Building structural integrity in the body and mind.' },
+  ];
+
   const categories = [
     {
       id: 'challenges',
       title: 'WorkFit Challenges',
       image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80',
       items: [
-        { name: 'Daily Asana', slug: 'steps-challenge', desc: 'Engage in daily posture challenges designed for office mobility and spinal health.', icon: Wind, color: 'text-sky-600 bg-sky-50' },
-        { name: 'Zen Mastery', slug: 'custom-challenges', desc: 'Achieve deep focus with customized meditation streaks and mindful breathing.', icon: Brain, color: 'text-sky-600 bg-sky-50' },
-        { name: 'Collective Flow', slug: 'team-challenge', desc: 'Foster team unity through synchronized group yoga and collective energy.', icon: Users2, color: 'text-sky-600 bg-sky-50' },
+        { name: 'Daily Asana', slug: 'steps-challenge', desc: 'Daily posture challenges designed for office mobility and spinal health.', icon: Wind, color: 'text-sky-600 bg-sky-50' },
+        { name: 'Zen Mastery', slug: 'custom-challenges', desc: 'Deep focus with meditation streaks and mindful breathing.', icon: Brain, color: 'text-sky-600 bg-sky-50' },
+        { name: 'Collective Flow', slug: 'team-challenge', desc: 'Team unity through synchronized group yoga and collective energy.', icon: Users2, color: 'text-sky-600 bg-sky-50' },
         { name: 'Pranayama Quest', slug: 'virtual-marathon', desc: 'A global journey through ancient breathwork techniques to boost vitality.', icon: Trophy, color: 'text-sky-600 bg-sky-50' },
       ]
     },
@@ -42,109 +62,217 @@ const WorkFit = () => {
   return (
     <div ref={containerRef} className="pb-16 overflow-hidden bg-brand-white">
       {/* Hero */}
-      <section className="relative py-20 bg-sky-50/50 overflow-hidden">
+      <section className="relative py-24 md:py-40 bg-sky-50/50 overflow-hidden">
         <motion.div 
-          style={{ y: useTransform(scrollYProgress, [0, 0.2], [0, 80]) }}
-          className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none"
+          style={{ y: heroY, scale: heroScale }}
+          className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-10 pointer-events-none"
         >
           <img src="https://images.unsplash.com/photo-1524673317493-2340aa41256b?auto=format&fit=crop&q=80" alt="Yoga" className="w-full h-full object-cover" />
         </motion.div>
         
-        <div className="container mx-auto px-6 text-center relative z-10">
+        <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-3 py-1 bg-white text-sky-600 rounded-full text-xs font-bold mb-6 shadow-sm border border-sky-100"
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-3 py-1 bg-white text-sky-600 rounded-full text-[10px] md:text-xs font-bold mb-8 shadow-sm border border-sky-100"
           >
             <Flower2 className="w-3.5 h-3.5" />
             <span>Elevating Workplace Consciousness</span>
           </motion.div>
-          <h1 className="text-5xl md:text-7xl font-serif italic text-sky-950 mb-6 max-w-4xl mx-auto tracking-tight leading-[0.95]">
-            LiveFit: A Corporate <br /> <span className="text-sky-500">Wellness Sanctuary</span>
+          <h1 className="text-5xl md:text-9xl font-serif italic text-sky-950 mb-10 max-w-6xl mx-auto tracking-tight leading-[0.8] md:leading-[0.75]">
+            Corporate <br className="hidden md:block" /> <span className="text-sky-500">Vitality Hub</span>
           </h1>
-          <p className="text-lg md:text-xl text-sky-800 max-w-xl mx-auto mb-8 font-medium">
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="text-lg md:text-3xl text-sky-800 max-w-3xl mx-auto mb-16 font-medium px-4 opacity-80"
+          >
             Transform your company culture with ancient wisdom, gamified mindfulness, and real-time community engagement.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="px-10 py-4 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-xl shadow-sky-100 group flex items-center gap-2 text-sm">
-              Book a Consultation
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </motion.p>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="flex flex-col sm:flex-row justify-center gap-4 px-6"
+          >
+            <button className="px-10 md:px-12 py-5 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-2xl shadow-sky-100 group flex items-center justify-center gap-3 text-sm md:text-base overflow-hidden relative">
+              <span className="relative z-10">Request a Demo</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
             </button>
-            <button className="px-10 py-4 bg-white text-sky-900 rounded-full font-bold border border-sky-100 hover:bg-sky-50 transition-all text-sm">
-              Calculate Wellness ROI
+            <button className="px-10 md:px-12 py-5 bg-white text-sky-900 rounded-full font-bold border border-sky-100 hover:bg-sky-50 transition-all text-sm md:text-base shadow-lg shadow-sky-50">
+              View ROI Report
             </button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Corporate Lineage Section */}
+      <section className="py-24 md:py-48 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-20 md:mb-32">
+            <h2 className="text-4xl md:text-8xl font-serif italic text-sky-950 mb-8 leading-none">The Lineage of <br /> <span className="text-sky-500">Transformation</span></h2>
+            <p className="text-lg md:text-2xl text-sky-800 max-w-2xl mx-auto font-medium opacity-60">
+              Tailored wellness architectures for the world's most demanding industries.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+            {industries.map((ind, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.1 }}
+                className="p-10 rounded-[3rem] bg-sky-50/50 border border-sky-100 hover:bg-sky-600 hover:text-white transition-all group"
+              >
+                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-sky-600 mb-8 shadow-sm group-hover:rotate-12 transition-transform">
+                  <ind.icon className="w-8 h-8" />
+                </div>
+                <h4 className="text-2xl font-bold mb-4">{ind.name}</h4>
+                <p className="text-sm md:text-base font-medium opacity-70 group-hover:opacity-100">{ind.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Categories Grid */}
-      {categories.map((cat, catIdx) => (
-        <section key={cat.id} className={`py-20 ${catIdx % 2 === 0 ? 'bg-white' : 'bg-sky-50/20'}`}>
-          <div className="container mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-              <motion.div 
-                initial={{ opacity: 0, x: catIdx % 2 === 0 ? -30 : 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className={catIdx % 2 === 0 ? 'order-1' : 'order-2'}
-              >
-                <h2 className="text-4xl md:text-6xl font-serif italic text-sky-950 mb-6">{cat.title}</h2>
-                <p className="text-lg text-sky-700 leading-relaxed font-medium mb-8">
-                  Comprehensive wellness solutions designed to restore balance to your workforce, from physical vigor to mental clarity.
-                </p>
-                <div className="flex gap-4">
-                  <div className="flex -space-x-3">
-                    {[1,2,3,4].map(i => (
-                      <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-sky-100 overflow-hidden shadow-md">
-                        <img src={`https://i.pravatar.cc/150?u=${i + catIdx*10}`} alt="User" />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="text-sky-500 font-bold text-xs flex flex-col justify-center">
-                    <span>100k+ Practitioners</span>
-                    <span>Already Flowing</span>
-                  </div>
-                </div>
-              </motion.div>
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
+      {/* Scientific Foundation Section */}
+      <section className="py-24 md:py-48 bg-sky-50/30 overflow-hidden border-y border-sky-100">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1 }}
+            >
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-2xl flex items-center justify-center text-sky-600 mb-8 shadow-sm">
+                <Microscope className="w-6 md:w-8 h-6 md:h-8" />
+              </div>
+              <h2 className="text-4xl md:text-7xl font-serif italic text-sky-950 mb-10 leading-none tracking-tight">The Science <br /> <span className="text-sky-500">of Calm</span></h2>
+              <p className="text-lg md:text-xl text-sky-800 leading-relaxed font-medium mb-12 opacity-80">
+                LiveFit isn't just a wellness platform—it's a neuro-integrated ecosystem. We've collaborated with cognitive scientists to translate yogic practices into measurable corporate outcomes.
+              </p>
+              
+              <div className="space-y-8">
+                {[
+                  { title: 'Cortisol Reduction', desc: 'Targeted breathwork cycles proven to lower stress hormones by 24% in high-pressure environments.', icon: ShieldCheck },
+                  { title: 'Cognitive Agility', desc: 'Mindfulness streaks that enhance prefrontal cortex activity and executive function.', icon: TrendingUp },
+                  { title: 'Collective Heart-Rate', desc: 'Synchronized team sessions that align cardiac rhythms and build interpersonal trust.', icon: Users2 }
+                ].map((item, i) => (
+                  <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.2 }}
+                    className="flex gap-6 group"
+                  >
+                    <div className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-xl flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all shrink-0 shadow-sm">
+                      <item.icon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-sky-900 text-lg md:text-xl mb-2">{item.title}</h4>
+                      <p className="text-sm md:text-base text-sky-700 font-medium opacity-70 group-hover:opacity-100 transition-opacity">{item.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+            
+            <div className="relative">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className={`relative rounded-[2.5rem] overflow-hidden shadow-xl aspect-video ${catIdx % 2 === 0 ? 'order-2' : 'order-1'}`}
+                className="aspect-square rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-2xl relative z-10"
               >
-                <img src={cat.image} alt={cat.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-sky-900/40 to-transparent flex items-end p-8">
+                <img src="https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80" alt="Science" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-sky-950/60 to-transparent flex items-end p-12">
                   <div className="text-white">
-                    <Sparkles className="w-6 h-6 mb-3 text-sky-200" />
-                    <h3 className="text-xl font-bold">The LiveFit Experience</h3>
+                    <div className="text-4xl md:text-6xl font-bold mb-2">98%</div>
+                    <div className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] opacity-80">User Satisfaction Rate</div>
                   </div>
                 </div>
               </motion.div>
+              <div className="absolute -top-10 -right-10 w-64 h-64 bg-sky-200/40 rounded-full blur-[100px] -z-10" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Meet the Mentors Section */}
+      <section className="py-24 md:py-48 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col lg:flex-row justify-between items-end mb-16 md:mb-32 gap-8">
+            <div className="max-w-2xl text-center lg:text-left">
+              <h2 className="text-4xl md:text-8xl font-serif italic text-sky-950 mb-8 leading-none">Masters of the <br /> <span className="text-sky-500">Sacred Shift</span></h2>
+              <p className="text-lg md:text-2xl text-sky-800 font-medium opacity-60">
+                Learn from world-class architects of wellbeing and cognitive performance.
+              </p>
+            </div>
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              className="px-10 py-4 border border-sky-100 rounded-full font-bold text-sky-600 hover:bg-sky-50 transition-all flex items-center gap-3"
+            >
+              Meet the Full Team <ChevronRight className="w-4 h-4" />
+            </motion.button>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+            {mentors.map((mentor, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="group"
+              >
+                <div className="aspect-[3/4] rounded-[3rem] overflow-hidden mb-8 relative">
+                  <img src={mentor.img} alt={mentor.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-sky-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute bottom-6 left-6 right-6 p-4 bg-white/90 backdrop-blur-md rounded-2xl translate-y-20 group-hover:translate-y-0 transition-transform duration-500">
+                    <div className="text-[10px] font-bold text-sky-500 uppercase tracking-widest mb-1">{mentor.specialty}</div>
+                    <div className="font-bold text-sky-950">Bio-Link <ArrowRight className="w-3 h-3 inline ml-1" /></div>
+                  </div>
+                </div>
+                <h4 className="text-2xl font-bold text-sky-950 mb-1 font-serif italic">{mentor.name}</h4>
+                <p className="text-sky-500 font-bold text-xs uppercase tracking-widest">{mentor.role}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Main Categories */}
+      {categories.map((cat, catIdx) => (
+        <section key={cat.id} className={`py-24 md:py-48 ${catIdx % 2 === 0 ? 'bg-sky-50/20' : 'bg-white'}`}>
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center mb-16 md:mb-24">
+              <h2 className="text-4xl md:text-8xl font-serif italic text-sky-950 mb-8 leading-none tracking-tight">{cat.title}</h2>
+              <p className="text-lg md:text-2xl text-sky-800 max-w-2xl mx-auto font-medium opacity-70">
+                Specialized pathways designed for the modern professional spirit.
+              </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {cat.items.map((item, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="p-8 rounded-[2rem] bg-white border border-sky-50 hover:shadow-xl hover:shadow-sky-100/50 transition-all group relative overflow-hidden"
+                  whileHover={{ y: -15 }}
+                  className="p-8 md:p-10 rounded-[2.5rem] bg-white border border-sky-100 hover:shadow-2xl transition-all group h-full flex flex-col"
                 >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform ${item.color}`}>
-                    <item.icon className="w-6 h-6" />
+                  <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center mb-8 ${item.color}`}>
+                    <item.icon className="w-7 md:w-8 h-7 md:h-8" />
                   </div>
-                  <h3 className="text-xl font-bold mb-3 text-sky-900">{item.name}</h3>
-                  <p className="text-sky-600 leading-relaxed mb-6 font-medium text-xs">
+                  <h3 className="text-2xl font-serif italic font-bold mb-4 text-sky-900">{item.name}</h3>
+                  <p className="text-sky-700 leading-relaxed mb-10 font-medium text-sm flex-1 opacity-70">
                     {item.desc}
                   </p>
-                  <Link 
-                    to={`/solutions/${item.slug}`}
-                    className="text-[10px] font-bold text-sky-400 uppercase tracking-widest flex items-center gap-2 group-hover:text-sky-900 transition-colors"
-                  >
-                    Enter the Path <ArrowRight className="w-3.5 h-3.5" />
+                  <Link to={`/solutions/${item.slug}`} className="text-xs font-bold text-sky-400 uppercase tracking-widest flex items-center gap-2 group-hover:text-sky-900 transition-colors">
+                    Explore Solution <ChevronRight className="w-4 h-4" />
                   </Link>
                 </motion.div>
               ))}
@@ -153,114 +281,133 @@ const WorkFit = () => {
         </section>
       ))}
 
-      {/* Mobile App Showcase */}
-      <section className="py-20 bg-sky-600 text-white overflow-hidden relative">
-        <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
-          <div>
+      {/* Implementation Roadmap */}
+      <section className="py-24 md:py-48 bg-sky-950 text-white overflow-hidden relative">
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="text-center mb-20 md:mb-32">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-sky-100 text-[10px] font-bold mb-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              className="text-sky-400 font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs mb-8"
             >
-              <Smartphone className="w-3.5 h-3.5" />
-              <span>A Personal Sanctuary in Your Pocket</span>
+              The Path to Transformation
             </motion.div>
-            <h2 className="text-4xl md:text-6xl font-serif italic mb-6 leading-tight">Mindfulness <br /> <span className="text-sky-200">Simplified</span></h2>
-            <p className="text-lg text-sky-50 leading-relaxed mb-8 font-medium opacity-90">
-              Access curated wellness paths and meditation cycles anywhere. Track your progress, log your calm moments, and connect with your team—all in one beautiful space.
-            </p>
-            <div className="flex gap-4">
-              <div className="px-6 py-3 bg-white text-sky-600 rounded-xl font-bold flex items-center gap-2 cursor-pointer hover:bg-sky-50 transition-all text-sm shadow-lg">
-                Download for iOS
-              </div>
-              <div className="px-6 py-3 border border-white/30 text-white rounded-xl font-bold flex items-center gap-2 cursor-pointer hover:bg-white/10 transition-all text-sm">
-                Download for Android
-              </div>
-            </div>
+            <h2 className="text-4xl md:text-8xl font-serif italic mb-10 tracking-tight leading-none">Your <span className="text-sky-400">Implementation</span> Roadmap</h2>
           </div>
-          <div className="relative">
-            <motion.div 
-              initial={{ y: 50, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1 }}
-              className="relative z-10"
-            >
-              <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&q=80" alt="LiveFit App" className="w-full max-w-xs mx-auto rounded-[2.5rem] shadow-2xl rotate-3" />
-            </motion.div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-white/10 rounded-full blur-[100px] -z-10" />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-24">
+            {[
+              { phase: '01', title: 'Cultural Audit', desc: 'We begin with a deep analysis of your company pulse, identifying stress hotspots and engagement gaps.' },
+              { phase: '02', title: 'Sacred Setup', icon: Calendar, desc: 'Seamless integration with your existing tools and the creation of your custom digital shala.' },
+              { phase: '03', title: 'Collective Flow', icon: Zap, desc: 'Launching synchronized team challenges and starting the global mindfulness journey.' }
+            ].map((step, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.2 }}
+                className="relative"
+              >
+                <div className="text-6xl md:text-9xl font-serif italic text-white/5 absolute -top-16 md:-top-24 left-0 -z-10">{step.phase}</div>
+                <h4 className="text-2xl md:text-4xl font-serif italic font-bold mb-6">{step.title}</h4>
+                <p className="text-lg md:text-xl text-sky-100/60 leading-relaxed font-medium">
+                  {step.desc}
+                </p>
+                {i < 2 && (
+                  <div className="hidden md:block absolute top-1/2 -right-12 translate-x-1/2 w-24 h-px bg-white/10" />
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Analytics Section */}
-      <section className="py-20 container mx-auto px-6">
-        <div className="bg-sky-50/50 rounded-[3rem] p-10 md:p-16 flex flex-col lg:flex-row gap-16 items-center overflow-hidden relative border border-sky-100">
-          <div className="lg:w-1/2 relative z-10">
-            <div className="w-14 h-14 rounded-xl bg-sky-600 flex items-center justify-center text-white mb-6 shadow-lg">
-              <Activity className="w-7 h-7" />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-serif italic text-sky-950 mb-6 leading-tight">Insight into <br /> collective calm</h2>
-            <p className="text-sky-800 text-base leading-relaxed mb-8 font-medium">
-              Monitor your team's stress resilience and engagement with detailed analytics. Our AI identifies burn-out risks and recommends specific wellness practices to restore balance.
-            </p>
-            <ul className="space-y-4">
-              {['Stress resilience index', 'Collective mindfulness minutes', 'Engagement heartbeats'].map((f) => (
-                <li key={f} className="flex items-center gap-3 text-sky-900 font-bold text-sm">
-                  <div className="w-5 h-5 rounded-full bg-sky-600 flex items-center justify-center text-white">
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                  </div>
-                  {f}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="lg:w-1/2 relative">
-            <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-sky-50">
-              <div className="h-60 flex items-end gap-2 px-2">
+      {/* Analytics Insight */}
+      <section className="py-24 md:py-48 container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32 items-center">
+          <div className="relative order-2 lg:order-1">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              className="bg-white rounded-[3rem] md:rounded-[4rem] p-8 md:p-16 shadow-[0_50px_100px_-20px_rgba(12,74,110,0.15)] border border-sky-50"
+            >
+              <div className="h-48 md:h-72 flex items-end gap-3 md:gap-4">
                 {[45, 65, 55, 95, 75, 85, 60].map((h, i) => (
                   <motion.div 
                     key={i}
                     initial={{ height: 0 }}
                     whileInView={{ height: `${h}%` }}
-                    transition={{ delay: i * 0.1, duration: 1, ease: "easeOut" }}
-                    className="flex-1 bg-gradient-to-t from-sky-600 to-sky-400 rounded-t-lg opacity-90"
+                    transition={{ delay: i * 0.1, duration: 1.5 }}
+                    className="flex-1 bg-gradient-to-t from-sky-600 to-sky-400 rounded-t-xl"
                   />
                 ))}
               </div>
-              <div className="mt-8 pt-8 border-t border-sky-50 grid grid-cols-2 gap-8 text-center">
+              <div className="mt-12 md:mt-20 flex justify-around text-center">
                 <div>
-                  <div className="text-3xl font-bold text-sky-900 mb-1">92%</div>
-                  <div className="text-[10px] text-sky-400 uppercase tracking-[0.2em] font-bold">Focus Level</div>
+                  <div className="text-3xl md:text-5xl font-bold text-sky-950 mb-2">92%</div>
+                  <div className="text-[10px] font-bold text-sky-400 uppercase tracking-widest">Resilience</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-sky-900 mb-1">45m</div>
-                  <div className="text-[10px] text-sky-400 uppercase tracking-[0.2em] font-bold">Avg. Session</div>
+                  <div className="text-3xl md:text-5xl font-bold text-sky-950 mb-2">45m</div>
+                  <div className="text-[10px] font-bold text-sky-400 uppercase tracking-widest">Avg Session</div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
+          
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="order-1 lg:order-2"
+          >
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-sky-600 rounded-2xl flex items-center justify-center text-white mb-8 shadow-xl">
+              <Activity className="w-6 md:w-8 h-6 md:h-8" />
+            </div>
+            <h2 className="text-4xl md:text-7xl font-serif italic text-sky-950 mb-10 leading-none tracking-tight">Real-time <br /> <span className="text-sky-500">Corporate Pulse</span></h2>
+            <p className="text-lg md:text-xl text-sky-800 leading-relaxed font-medium mb-12 opacity-80">
+              Go beyond basic tracking. Our AI engine analyzes collective engagement and provides leadership with actionable insights to prevent burnout and boost morale.
+            </p>
+            <ul className="space-y-6">
+              {['Advanced stress-mapping', 'Departmental engagement heatmaps', 'AI-driven wellbeing forecasts'].map((f, i) => (
+                <motion.li 
+                  key={i}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="flex items-center gap-4 text-sky-900 font-bold text-base md:text-lg"
+                >
+                  <div className="w-6 h-6 rounded-full bg-sky-600 flex items-center justify-center text-white shrink-0">
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                  {f}
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 container mx-auto px-6">
-        <div className="bg-sky-600 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-xl">
-          <div className="absolute inset-0 opacity-10 pointer-events-none">
-            <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&q=80" alt="LiveFit CTA" className="w-full h-full object-cover" />
-          </div>
-          <div className="relative z-10">
-            <h2 className="text-4xl md:text-7xl font-serif italic text-white mb-6 tracking-tight leading-tight">Begin your <br /> corporate journey</h2>
-            <p className="text-lg text-sky-100 max-w-2xl mx-auto mb-10 font-medium opacity-90">
-              Join visionary companies using LiveFit to cultivate a healthy, resilient, and thriving workplace culture.
+      <section className="py-24 md:py-48 container mx-auto px-4 md:px-6">
+        <div className="bg-sky-600 rounded-[3rem] md:rounded-[5rem] p-12 md:p-32 text-center relative overflow-hidden shadow-2xl">
+          <div className="relative z-10 max-w-5xl mx-auto">
+            <h2 className="text-4xl md:text-9xl font-serif italic text-white mb-12 tracking-tight leading-[0.85]">Join the <span className="text-sky-200">Global</span> Sanctuary</h2>
+            <p className="text-lg md:text-3xl text-sky-50 mb-16 font-medium opacity-90 max-w-3xl mx-auto leading-relaxed">
+              Experience the platform that is redefining corporate culture across 45 countries. Begin your team's transformation today.
             </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <button className="px-10 py-5 bg-white text-sky-600 rounded-full font-bold hover:bg-sky-50 transition-all shadow-xl shadow-black/10 text-base">
-                Request a Custom Plan
-              </button>
-              <button className="px-10 py-5 bg-transparent text-white border border-white/20 rounded-full font-bold hover:bg-white/10 transition-all text-base flex items-center gap-2">
-                Watch the Experience
-                <Sparkles className="w-4 h-4" />
-              </button>
+            <div className="flex flex-col sm:flex-row justify-center gap-6 md:gap-8 px-6">
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                className="px-12 md:px-16 py-5 md:py-6 bg-white text-sky-600 rounded-full font-bold text-base md:text-lg shadow-xl"
+              >
+                Request Custom Plan
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                className="px-12 md:px-16 py-5 md:py-6 bg-transparent text-white border border-white/20 rounded-full font-bold text-base md:text-lg"
+              >
+                Explore Case Studies
+              </motion.button>
             </div>
           </div>
         </div>
