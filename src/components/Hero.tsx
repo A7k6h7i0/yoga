@@ -27,17 +27,7 @@ const Hero = () => {
       </motion.div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="max-w-6xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-sky-50 text-sky-600 rounded-full text-[10px] md:text-xs font-bold mb-10 tracking-[0.3em] uppercase border border-sky-100 shadow-sm"
-          >
-            <Sparkles className="w-4 h-4 animate-pulse" />
-            <span>Premium Wellness Ecosystem</span>
-          </motion.div>
-
+        <div className="max-w-6xl text-left">
           <h1 className="text-6xl md:text-[10rem] font-serif italic text-sky-950 mb-10 tracking-tight leading-[0.8] md:leading-[0.75]">
             <motion.span
               initial={{ opacity: 0, x: -50 }}
@@ -49,46 +39,46 @@ const Hero = () => {
             </motion.span>
             <br />
             <motion.span
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1.2, delay: 0.4 }}
-              className="text-sky-500 inline-block"
+              className="text-orange-500 inline-block"
             >
               Your Flow
             </motion.span>
           </h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="text-lg md:text-3xl text-sky-800 mb-16 max-w-3xl mx-auto font-medium leading-relaxed opacity-80"
+            className="text-lg md:text-3xl text-orange-900/80 mb-16 max-w-3xl font-medium leading-relaxed"
           >
             Elevate your corporate vitality through ancient wisdom, <br className="hidden md:block" /> 
             scientific precision, and collective harmony.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6"
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-6"
           >
             <motion.button 
-              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(12, 74, 110, 0.2)" }}
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.2)" }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 md:px-12 py-4 md:py-5 bg-sky-600 text-white rounded-full font-bold text-base md:text-lg shadow-xl transition-all group overflow-hidden relative"
+              className="px-10 md:px-12 py-4 md:py-5 bg-orange-600 text-white rounded-full font-bold text-base md:text-lg shadow-xl transition-all group overflow-hidden relative"
             >
               <span className="relative z-10 flex items-center gap-3">
                 Begin The Path <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
-              <motion.div className="absolute inset-0 bg-sky-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left -z-0" />
+              <motion.div className="absolute inset-0 bg-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left -z-0" />
             </motion.button>
             
             <motion.button 
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(12, 74, 110, 0.05)" }}
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(249, 115, 22, 0.05)" }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 md:px-12 py-4 md:py-5 bg-white text-sky-900 border border-sky-100 rounded-full font-bold text-sm md:text-base transition-all flex items-center gap-3"
+              className="px-10 md:px-12 py-4 md:py-5 bg-white text-orange-900 border border-orange-100 rounded-full font-bold text-sm md:text-base transition-all flex items-center gap-3"
             >
               <Play className="w-4 h-4 fill-current" /> Watch Experience
             </motion.button>
@@ -112,8 +102,8 @@ const Hero = () => {
       </motion.div>
 
       {/* Background Gradient Orbs */}
-      <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-sky-100/50 rounded-full blur-[120px] -z-10" />
-      <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-sky-50/50 rounded-full blur-[150px] -z-10" />
+      <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-orange-100/50 rounded-full blur-[120px] -z-10" />
+      <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-orange-50/50 rounded-full blur-[150px] -z-10" />
     </section>
   );
 };

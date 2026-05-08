@@ -24,7 +24,7 @@ const ChakraDetail = ({ chakra, index, onInView }: { chakra: any, index: number,
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="w-full bg-sky-50/30 rounded-[2.5rem] p-8 md:p-16 border border-sky-100/50 relative overflow-hidden backdrop-blur-sm shadow-sm"
+        className="w-full bg-orange-50/30 rounded-[2.5rem] p-8 md:p-16 border border-orange-100/50 relative overflow-hidden backdrop-blur-sm shadow-sm"
       >
         {/* Decorative Background Icon */}
         <div className="absolute top-0 right-0 p-8 md:p-12 opacity-[0.03] pointer-events-none">
@@ -37,28 +37,28 @@ const ChakraDetail = ({ chakra, index, onInView }: { chakra: any, index: number,
               <Icon className="w-6 md:w-10 h-6 md:h-10" />
             </div>
             <div>
-              <h3 className="text-2xl md:text-5xl font-serif italic text-sky-950 mb-1 leading-none">{chakra.name}</h3>
-              <p className="text-sky-500 font-bold text-[9px] md:text-xs uppercase tracking-[0.2em]">{chakra.translation}</p>
+              <h3 className="text-2xl md:text-5xl font-serif italic text-orange-950 mb-1 leading-none">{chakra.name}</h3>
+              <p className="text-orange-500 font-bold text-[9px] md:text-xs uppercase tracking-[0.2em]">{chakra.translation}</p>
             </div>
           </div>
           
           <div className="space-y-6 md:space-y-10">
             <div>
-              <h4 className="text-[9px] md:text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-2">Organizational Focus</h4>
-              <p className="text-xl md:text-3xl font-bold text-sky-900 leading-tight">
+              <h4 className="text-[9px] md:text-[10px] font-bold text-orange-400 uppercase tracking-widest mb-2">Organizational Focus</h4>
+              <p className="text-xl md:text-3xl font-bold text-orange-900 leading-tight">
                 {chakra.focus}
               </p>
             </div>
             
             <div>
-              <h4 className="text-[9px] md:text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-2">Evolutionary Path</h4>
-              <p className="text-sm md:text-lg text-sky-800 leading-relaxed font-medium">
+              <h4 className="text-[9px] md:text-[10px] font-bold text-orange-400 uppercase tracking-widest mb-2">Evolutionary Path</h4>
+              <p className="text-sm md:text-lg text-orange-800 leading-relaxed font-medium">
                 {chakra.desc}
               </p>
             </div>
             
             <div className="pt-4">
-              <button className="px-8 py-3 md:py-4 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-xl shadow-sky-100/50 text-xs md:text-sm uppercase tracking-widest">
+              <button className="px-8 py-3 md:py-4 bg-orange-600 text-white rounded-full font-bold hover:bg-orange-700 transition-all shadow-xl shadow-orange-100/50 text-xs md:text-sm uppercase tracking-widest">
                 Activate Center
               </button>
             </div>
@@ -79,7 +79,7 @@ const Chakras = () => {
       focus: 'Stability & Security',
       desc: 'Foundation for corporate resilience. Building a secure environment where teams feel grounded and supported.',
       icon: Shield,
-      color: 'text-sky-950 bg-sky-100',
+      color: 'text-orange-950 bg-orange-100',
     },
     {
       name: 'Svadhisthana',
@@ -87,7 +87,7 @@ const Chakras = () => {
       focus: 'Creativity & Flow',
       desc: 'Igniting creative potential and emotional intelligence to foster innovative problem-solving and adaptable team dynamics.',
       icon: Sparkles,
-      color: 'text-sky-800 bg-sky-100',
+      color: 'text-orange-800 bg-orange-100',
     },
     {
       name: 'Manipura',
@@ -95,7 +95,7 @@ const Chakras = () => {
       focus: 'Power & Vitality',
       desc: 'Harnessing the collective willpower and digestive fire (Agni) of the organization to drive purposeful action.',
       icon: Zap,
-      color: 'text-sky-700 bg-sky-100',
+      color: 'text-orange-700 bg-orange-100',
     },
     {
       name: 'Anahata',
@@ -103,7 +103,7 @@ const Chakras = () => {
       focus: 'Compassion & Unity',
       desc: 'Opening the channels of empathy and horizontal leadership. Cultivating a culture of radical inclusion and kindness.',
       icon: Activity,
-      color: 'text-sky-600 bg-sky-100',
+      color: 'text-orange-600 bg-orange-100',
     },
     {
       name: 'Vishuddha',
@@ -111,7 +111,7 @@ const Chakras = () => {
       focus: 'Truthful Expression',
       desc: 'Mastering the art of conscious communication. Ensuring every voice is heard with clarity and authentic integrity.',
       icon: Wind,
-      color: 'text-sky-500 bg-sky-100',
+      color: 'text-orange-500 bg-orange-100',
     },
     {
       name: 'Ajna',
@@ -119,7 +119,7 @@ const Chakras = () => {
       focus: 'Insight & Strategy',
       desc: 'Developing corporate intuition and visionary leadership. Aligning tactical decisions with long-term spiritual purpose.',
       icon: Sun,
-      color: 'text-sky-400 bg-sky-100',
+      color: 'text-orange-400 bg-orange-100',
     },
     {
       name: 'Sahasrara',
@@ -127,7 +127,7 @@ const Chakras = () => {
       focus: 'Infinite Connection',
       desc: 'Total integration of corporate consciousness. Connecting the organization to its highest contribution to the world.',
       icon: Flower2,
-      color: 'text-sky-300 bg-sky-100',
+      color: 'text-orange-300 bg-orange-100',
     }
   ];
 
@@ -157,14 +157,14 @@ const Chakras = () => {
                 <motion.h2 
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  className="text-5xl md:text-8xl font-serif italic text-sky-950 mb-4 tracking-tighter"
+                  className="text-5xl md:text-8xl font-serif italic text-orange-950 mb-4 tracking-tighter"
                 >
                   Energy
                 </motion.h2>
                 <motion.div
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
-                  className="text-sky-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-12"
+                  className="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-12"
                 >
                   Corporate Consciousness
                 </motion.div>
@@ -178,18 +178,18 @@ const Chakras = () => {
                     onClick={() => scrollToSection(idx)}
                     className={`flex-none w-[200px] lg:w-full p-4 lg:p-5 rounded-[2rem] flex items-center gap-4 transition-all duration-500 text-left group border ${
                       activeChakra === idx 
-                      ? 'bg-sky-600 text-white shadow-[0_20px_40px_-10px_rgba(2,132,199,0.3)] border-sky-500' 
-                      : 'bg-white hover:bg-sky-50/50 text-sky-900 border-sky-50'
+                      ? 'bg-orange-600 text-white shadow-[0_20px_40px_-10px_rgba(249,115,22,0.3)] border-orange-500' 
+                      : 'bg-white hover:bg-orange-50/50 text-orange-900 border-orange-50'
                     }`}
                   >
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 shrink-0 ${
-                      activeChakra === idx ? 'bg-white/20 rotate-12' : 'bg-sky-50 group-hover:bg-white'
+                      activeChakra === idx ? 'bg-white/20 rotate-12' : 'bg-orange-50 group-hover:bg-white'
                     }`}>
-                      <chakra.icon className={`w-5 h-5 ${activeChakra === idx ? 'text-white' : 'text-sky-500'}`} />
+                      <chakra.icon className={`w-5 h-5 ${activeChakra === idx ? 'text-white' : 'text-orange-500'}`} />
                     </div>
                     <div className="min-w-0">
                       <h4 className="font-bold text-sm lg:text-base tracking-tight truncate mb-0.5">{chakra.name}</h4>
-                      <p className={`text-[10px] lg:text-xs font-medium opacity-60 truncate ${activeChakra === idx ? 'text-sky-50' : 'text-sky-400'}`}>
+                      <p className={`text-[10px] lg:text-xs font-medium opacity-60 truncate ${activeChakra === idx ? 'text-orange-50' : 'text-orange-400'}`}>
                         {chakra.focus}
                       </p>
                     </div>
