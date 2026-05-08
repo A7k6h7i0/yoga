@@ -185,7 +185,7 @@ const WorkFit = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 className="aspect-square rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-2xl relative z-10"
               >
-                <img src="https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80" alt="Science" className="w-full h-full object-cover" />
+                <img src="/wellness_analytics.png" alt="Science" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-sky-950/60 to-transparent flex items-end p-12">
                   <div className="text-white">
                     <div className="text-4xl md:text-6xl font-bold mb-2">98%</div>

@@ -1,6 +1,73 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Activity, Zap, Shield, Sun, Wind, Flower2, ChevronRight, ChevronLeft } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { Sparkles, Activity, Zap, Shield, Sun, Wind, Flower2 } from 'lucide-react';
+
+const ChakraDetail = ({ chakra, index, onInView }: { chakra: any, index: number, onInView: (id: number) => void }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { margin: "-45% 0px -45% 0px" });
+
+  useEffect(() => {
+    if (isInView) {
+      onInView(index);
+    }
+  }, [isInView, index, onInView]);
+
+  const Icon = chakra.icon;
+
+  return (
+    <div 
+      ref={ref}
+      id={`chakra-section-${index}`}
+      className="min-h-[60vh] flex flex-col justify-center py-20 md:py-32 first:pt-0 last:pb-0"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="w-full bg-sky-50/30 rounded-[2.5rem] p-8 md:p-16 border border-sky-100/50 relative overflow-hidden backdrop-blur-sm shadow-sm"
+      >
+        {/* Decorative Background Icon */}
+        <div className="absolute top-0 right-0 p-8 md:p-12 opacity-[0.03] pointer-events-none">
+          <Icon className="w-32 md:w-64 h-32 md:h-64" />
+        </div>
+        
+        <div className="relative z-10">
+          <div className="flex items-center gap-4 mb-8 lg:mb-12">
+            <div className={`w-12 h-12 md:w-20 md:h-20 rounded-2xl flex items-center justify-center ${chakra.color} shadow-lg shrink-0`}>
+              <Icon className="w-6 md:w-10 h-6 md:h-10" />
+            </div>
+            <div>
+              <h3 className="text-2xl md:text-5xl font-serif italic text-sky-950 mb-1 leading-none">{chakra.name}</h3>
+              <p className="text-sky-500 font-bold text-[9px] md:text-xs uppercase tracking-[0.2em]">{chakra.translation}</p>
+            </div>
+          </div>
+          
+          <div className="space-y-6 md:space-y-10">
+            <div>
+              <h4 className="text-[9px] md:text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-2">Organizational Focus</h4>
+              <p className="text-xl md:text-3xl font-bold text-sky-900 leading-tight">
+                {chakra.focus}
+              </p>
+            </div>
+            
+            <div>
+              <h4 className="text-[9px] md:text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-2">Evolutionary Path</h4>
+              <p className="text-sm md:text-lg text-sky-800 leading-relaxed font-medium">
+                {chakra.desc}
+              </p>
+            </div>
+            
+            <div className="pt-4">
+              <button className="px-8 py-3 md:py-4 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-xl shadow-sky-100/50 text-xs md:text-sm uppercase tracking-widest">
+                Activate Center
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
 
 const Chakras = () => {
   const [activeChakra, setActiveChakra] = useState(0);
@@ -64,128 +131,88 @@ const Chakras = () => {
     }
   ];
 
+  const scrollToSection = (index: number) => {
+    const element = document.getElementById(`chakra-section-${index}`);
+    if (element) {
+      const offset = 100; // Adjust for sticky header
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
-    <section className="py-12 md:py-24 bg-white overflow-hidden">
+    <section className="py-24 md:py-48 bg-white relative">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-          <div className="lg:w-1/3">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="mb-8 lg:mb-0"
-            >
-              <div className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[9px] md:text-[10px] mb-4 text-center lg:text-left">
-                Corporate Consciousness
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          
+          {/* Left Column - Sticky */}
+          <div className="lg:w-[350px] shrink-0">
+            <div className="lg:sticky lg:top-32 space-y-12">
+              <div>
+                <motion.h2 
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  className="text-5xl md:text-8xl font-serif italic text-sky-950 mb-4 tracking-tighter"
+                >
+                  Energy
+                </motion.h2>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  className="text-sky-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-12"
+                >
+                  Corporate Consciousness
+                </motion.div>
               </div>
-              <h2 className="text-3xl md:text-5xl font-serif italic text-sky-950 tracking-tight mb-6 lg:mb-8 leading-tight text-center lg:text-left">
-                Aligning <br className="hidden lg:block" /> <span className="text-sky-500">Corporate Energy</span>
-              </h2>
-              
-              {/* Desktop List / Mobile Scroller */}
-              <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 hide-scrollbar snap-x">
+
+              {/* Sidebar Navigation */}
+              <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 hide-scrollbar scroll-smooth">
                 {chakras.map((chakra, idx) => (
                   <button
                     key={chakra.name}
-                    onClick={() => setActiveChakra(idx)}
-                    className={`flex-none w-[180px] lg:w-full p-3 lg:p-4 rounded-2xl flex items-center gap-3 lg:gap-4 transition-all text-left group snap-center ${
+                    onClick={() => scrollToSection(idx)}
+                    className={`flex-none w-[200px] lg:w-full p-4 lg:p-5 rounded-[2rem] flex items-center gap-4 transition-all duration-500 text-left group border ${
                       activeChakra === idx 
-                      ? 'bg-sky-600 text-white shadow-lg' 
-                      : 'bg-sky-50/50 hover:bg-sky-50 text-sky-900'
+                      ? 'bg-sky-600 text-white shadow-[0_20px_40px_-10px_rgba(2,132,199,0.3)] border-sky-500' 
+                      : 'bg-white hover:bg-sky-50/50 text-sky-900 border-sky-50'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors shrink-0 ${
-                      activeChakra === idx ? 'bg-white/20' : 'bg-sky-100 group-hover:bg-white'
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 shrink-0 ${
+                      activeChakra === idx ? 'bg-white/20 rotate-12' : 'bg-sky-50 group-hover:bg-white'
                     }`}>
-                      <chakra.icon className="w-4 h-4" />
+                      <chakra.icon className={`w-5 h-5 ${activeChakra === idx ? 'text-white' : 'text-sky-500'}`} />
                     </div>
                     <div className="min-w-0">
-                      <h4 className="font-bold text-xs lg:text-sm tracking-wide truncate">{chakra.name}</h4>
-                      <p className={`text-[9px] lg:text-[10px] font-medium opacity-70 truncate ${activeChakra === idx ? 'text-sky-50' : 'text-sky-400'}`}>
+                      <h4 className="font-bold text-sm lg:text-base tracking-tight truncate mb-0.5">{chakra.name}</h4>
+                      <p className={`text-[10px] lg:text-xs font-medium opacity-60 truncate ${activeChakra === idx ? 'text-sky-50' : 'text-sky-400'}`}>
                         {chakra.focus}
                       </p>
                     </div>
                   </button>
                 ))}
               </div>
-            </motion.div>
-          </div>
-          
-          <div className="lg:w-2/3">
-            <div className="h-full flex items-center min-h-[400px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeChakra}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="w-full bg-sky-50/50 rounded-[2.5rem] p-8 md:p-16 border border-sky-100 relative overflow-hidden"
-                >
-                  {/* Decorative Background Icon */}
-                  <div className="absolute top-0 right-0 p-8 md:p-12 opacity-5 pointer-events-none">
-                    {(() => {
-                      const Icon = chakras[activeChakra].icon;
-                      return <Icon className="w-32 md:w-64 h-32 md:h-64" />;
-                    })()}
-                  </div>
-                  
-                  <div className="relative z-10">
-                    <div className="flex items-center gap-4 mb-8 lg:mb-12">
-                      {(() => {
-                        const Icon = chakras[activeChakra].icon;
-                        return (
-                          <div className={`w-12 h-12 md:w-20 md:h-20 rounded-2xl flex items-center justify-center ${chakras[activeChakra].color} shadow-lg shrink-0`}>
-                            <Icon className="w-6 md:w-10 h-6 md:h-10" />
-                          </div>
-                        );
-                      })()}
-                      <div>
-                        <h3 className="text-2xl md:text-5xl font-serif italic text-sky-950 mb-1 leading-none">{chakras[activeChakra].name}</h3>
-                        <p className="text-sky-500 font-bold text-[9px] md:text-xs uppercase tracking-[0.2em]">{chakras[activeChakra].translation}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-6 md:space-y-10">
-                      <div>
-                        <h4 className="text-[9px] md:text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-2">Organizational Focus</h4>
-                        <p className="text-xl md:text-3xl font-bold text-sky-900 leading-tight">
-                          {chakras[activeChakra].focus}
-                        </p>
-                      </div>
-                      
-                      <div>
-                        <h4 className="text-[9px] md:text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-2">Evolutionary Path</h4>
-                        <p className="text-sm md:text-lg text-sky-800 leading-relaxed font-medium">
-                          {chakras[activeChakra].desc}
-                        </p>
-                      </div>
-                      
-                      <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                        <button className="px-8 py-3 md:py-4 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-xl shadow-sky-100/50 text-xs md:text-sm uppercase tracking-widest">
-                          Activate Center
-                        </button>
-                        <div className="flex items-center justify-center gap-4 sm:hidden pt-4 border-t border-sky-100">
-                          <button 
-                            onClick={() => setActiveChakra(prev => (prev > 0 ? prev - 1 : chakras.length - 1))}
-                            className="p-3 rounded-full bg-white border border-sky-100 text-sky-600"
-                          >
-                            <ChevronLeft className="w-5 h-5" />
-                          </button>
-                          <span className="text-[10px] font-bold text-sky-400">{activeChakra + 1} / {chakras.length}</span>
-                          <button 
-                            onClick={() => setActiveChakra(prev => (prev < chakras.length - 1 ? prev + 1 : 0))}
-                            className="p-3 rounded-full bg-white border border-sky-100 text-sky-600"
-                          >
-                            <ChevronRight className="w-5 h-5" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
             </div>
           </div>
+
+          {/* Right Column - Scrollable Content */}
+          <div className="flex-1">
+            <div className="space-y-0">
+              {chakras.map((chakra, idx) => (
+                <ChakraDetail 
+                  key={chakra.name} 
+                  chakra={chakra} 
+                  index={idx} 
+                  onInView={setActiveChakra} 
+                />
+              ))}
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

@@ -89,7 +89,7 @@ const Navigation = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
-    { name: 'Philosophy', path: '/#philosophy' },
+    { name: 'Philosophy', path: '/philosophy' },
   ];
 
   return (
