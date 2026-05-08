@@ -19,9 +19,9 @@ const Hero = () => {
         className="absolute inset-0 z-0"
       >
         <img 
-          src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80" 
-          alt="Zen Background" 
-          className="w-full h-full object-cover opacity-20 scale-110"
+          src="/hero.png" 
+          alt="Yoga Background" 
+          className="w-full h-full object-cover opacity-100"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-brand-white via-transparent to-brand-white" />
       </motion.div>

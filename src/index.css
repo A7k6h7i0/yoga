@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-sky-50: #f0f9ff;
-  --color-sky-100: #e0f2fe;
-  --color-sky-200: #bae6fd;
-  --color-sky-300: #7dd3fc;
-  --color-sky-400: #38bdf8;
-  --color-sky-500: #0ea5e9;
-  --color-sky-600: #0284c7;
-  --color-sky-700: #0369a1;
-  --color-sky-800: #075985;
-  --color-sky-900: #0c4a6e;
-  --color-sky-950: #082f49;
+  --color-sky-50: #fffaf5;
+  --color-sky-100: #fee7d1;
+  --color-sky-200: #ffb366;
+  --color-sky-300: #ff9933;
+  --color-sky-400: #ff8c1a;
+  --color-sky-500: #ff7f00;
+  --color-sky-600: #e67200;
+  --color-sky-700: #cc6600;
+  --color-sky-800: #b35900;
+  --color-sky-900: #994d00;
+  --color-sky-950: #111111;
 
-  --color-brand-white: #ffffff;
-  --color-brand-offwhite: #f8fafc;
+  --color-brand-primary: #ff7f00;
+  --color-brand-dark: #111111;
+  --color-brand-white: #fffaf5;
   
   --font-serif: "Instrument Serif", serif;
   --font-sans: "Inter", sans-serif;
@@ -22,7 +23,7 @@
 
 @layer base {
   body {
-    @apply bg-brand-white text-sky-950 antialiased selection:bg-sky-100 selection:text-sky-900;
+    @apply bg-sky-50 text-sky-950 antialiased selection:bg-sky-500 selection:text-white;
   }
 
   /* Custom Scrollbar */

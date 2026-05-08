@@ -52,7 +52,7 @@ const GlobalReach = () => {
              <motion.path 
                d="M250,125 Q400,225 480,150 T720,200 T880,325" 
                fill="none" 
-               stroke="#38bdf8" 
+               stroke="#ff7f00" 
                strokeWidth="1.5" 
                strokeDasharray="4 4"
                initial={{ pathLength: 0, opacity: 0 }}
@@ -81,7 +81,7 @@ const GlobalReach = () => {
                 
                 {/* High-Contrast Map Icon */}
                 <div className="relative z-10 -translate-x-1/2 -translate-y-1/2">
-                  <div className="p-2 bg-white rounded-full shadow-[0_0_20px_rgba(56,189,248,0.8)] border border-sky-100 group-hover:scale-125 transition-transform">
+                  <div className="p-2 bg-white rounded-full shadow-[0_0_20px_rgba(255,127,0,0.8)] border border-sky-100 group-hover:scale-125 transition-transform">
                     <MapPin className="w-4 h-4 md:w-5 md:h-5 text-sky-600" />
                   </div>
                 </div>
