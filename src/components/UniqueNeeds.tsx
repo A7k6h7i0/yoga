@@ -11,7 +11,7 @@ const UniqueNeeds = () => {
     { 
       title: 'Yoga for Pain Relief', 
       desc: 'Ease back pain, neck tension, and joint stiffness naturally', 
-      image: 'https://images.unsplash.com/photo-1600618528240-fb9fc964b853?auto=format&fit=crop&q=80' 
+      image: 'https://images.unsplash.com/photo-1722508722772-d13a7c575a81?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
     },
     { 
       title: 'Yoga for Stress, Anxiety & Meditation', 
@@ -21,12 +21,12 @@ const UniqueNeeds = () => {
     { 
       title: 'Prenatal, Fertility & Postnatal Yoga', 
       desc: 'Safe, nurturing practice for expecting mothers and postpartum recovery', 
-      image: 'https://images.unsplash.com/photo-1515023677547-593d7638cbd6?auto=format&fit=crop&q=80' 
+      image: 'https://plus.unsplash.com/premium_photo-1664453892232-15d0fc379b22?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' 
     },
     { 
       title: 'Yoga for Weight Loss', 
       desc: 'Support weight loss with mindful movement, stress relief, and improved metabolism', 
-      image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80' 
+      image: '/flattoslim.png' 
     },
     { 
       title: 'Yoga for Seniors', 
