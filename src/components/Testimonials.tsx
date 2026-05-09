@@ -21,8 +21,8 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-20 bg-sky-50/20 overflow-hidden">
-      <div className="container mx-auto px-6">
+    <section className="py-24 md:py-40 bg-white overflow-hidden">
+      <div className="container mx-auto px-4 md:px-12 lg:px-20">
         <div className="text-center mb-16">
           <div className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">The Sangha</div>
           <h2 className="text-4xl md:text-5xl font-serif italic text-sky-950">Voices of <span className="text-sky-500">Practice</span></h2>

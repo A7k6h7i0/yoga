@@ -10,8 +10,8 @@ const AsanaGallery = () => {
   ];
 
   return (
-    <section className="py-12 md:py-24 bg-white">
-      <div className="container mx-auto px-4 md:px-6">
+    <section className="py-24 md:py-40 bg-white">
+      <div className="container mx-auto px-4 md:px-12 lg:px-20">
         <div className="text-center mb-12 md:mb-20">
           <div className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[9px] md:text-[10px] mb-4">Visual Wisdom</div>
           <h2 className="text-4xl md:text-6xl font-serif italic text-sky-950 leading-tight">Mastering the <span className="text-sky-500">Asana</span></h2>

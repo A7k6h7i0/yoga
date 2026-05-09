@@ -23,7 +23,7 @@ const solutionData: any = {
       layout: 'split',
       title: "Bio-Mechanical Precision",
       desc: "Our AI analysis identifies your specific postural deviations and crafts a path that restores your natural alignment.",
-      image: "https://images.unsplash.com/photo-1549576490-b0b4831da60a?auto=format&fit=crop&q=80",
+      image: "/biomechanical_spine.png",
       accent: "bg-sky-600",
       icon: Shield
     },
@@ -138,7 +138,7 @@ const solutionData: any = {
       layout: 'balanced',
       title: "Emotional Equilibrium",
       desc: "Develop a 'Centered Workspace' mindset that maintains peak productivity without compromising mental health.",
-      image: "https://images.unsplash.com/photo-1499209974431-9dac3adaf471?auto=format&fit=crop&q=80",
+      image: "https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?auto=format&fit=crop&q=80",
       accent: "bg-sky-500",
       icon: Sparkles
     },
@@ -207,7 +207,7 @@ const solutionData: any = {
       layout: 'pillars',
       title: "The Architecture of Self",
       desc: "Build a foundation that supports physical strength, mental clarity, and professional purpose.",
-      image: "https://images.unsplash.com/photo-1518005020470-588a3a60df2a?auto=format&fit=crop&q=80",
+      image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80",
       accent: "bg-sky-600",
       icon: Layers
     },
@@ -230,13 +230,13 @@ const solutionData: any = {
       layout: 'dashboard',
       title: "Biological Feedback Loop",
       desc: "Translate physiological data into actionable lifestyle changes that optimize your performance.",
-      image: "https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80",
       accent: "bg-sky-500",
       icon: Activity
     },
     icon: Activity,
     color: 'text-sky-600 bg-sky-50',
-    image: 'https://images.unsplash.com/photo-1504813184591-01592fd039ed?auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?auto=format&fit=crop&q=80',
     features: ['Wearable integration', 'Stress-level mapping', 'Longitudinal reports', 'AI recommendations']
   }
 };
@@ -433,32 +433,32 @@ const SolutionDetail = () => {
   };
 
   return (
-    <div className="pb-16 bg-brand-white pt-24 md:pt-40 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
+    <div className="pb-16 bg-white pt-24 md:pt-40 overflow-hidden">
+      <div className="container mx-auto px-4 md:px-12 lg:px-20">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Link to="/solutions" className="inline-flex items-center gap-2 text-sky-400 hover:text-sky-600 font-bold text-[10px] md:text-xs uppercase tracking-[0.3em] mb-12 md:mb-16 transition-colors group">
+          <Link to="/workfit" className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-bold text-[10px] md:text-xs uppercase tracking-[0.3em] mb-12 md:mb-16 transition-colors group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to WorkFit
           </Link>
         </motion.div>
 
         {/* Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-start mb-24 md:mb-48">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center mb-24 md:mb-48">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.div 
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              className={`w-16 h-16 md:w-24 md:h-24 rounded-[2.5rem] flex items-center justify-center mb-10 md:mb-12 shadow-2xl ${solution.color}`}
+              whileHover={{ scale: 1.05 }}
+              className={`w-20 h-20 md:w-24 md:h-24 rounded-[2rem] flex items-center justify-center mb-10 md:mb-12 shadow-2xl ${solution.color}`}
             >
               {(() => {
                 const Icon = solution.icon;
-                return <Icon className="w-8 md:w-12 h-8 md:h-12" />;
+                return <Icon className="w-10 md:w-12 h-10 md:h-12 text-orange-600" />;
               })()}
             </motion.div>
             
@@ -470,7 +470,7 @@ const SolutionDetail = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="text-sky-500 font-bold text-xs md:text-sm uppercase tracking-[0.4em] mb-8 md:mb-12"
+              className="text-orange-500 font-bold text-xs md:text-sm uppercase tracking-[0.4em] mb-8 md:mb-12"
             >
               {solution.subtitle}
             </motion.p>
@@ -479,7 +479,7 @@ const SolutionDetail = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="text-lg md:text-2xl text-sky-800 leading-relaxed font-medium mb-12 md:mb-16 max-w-xl opacity-80"
+              className="text-lg md:text-2xl text-sky-900/60 leading-relaxed font-medium mb-12 md:mb-16 max-w-xl"
             >
               {solution.desc}
             </motion.p>
@@ -491,12 +491,12 @@ const SolutionDetail = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.7 + i * 0.1 }}
-                  className="flex items-center gap-4 text-sky-900 font-bold text-sm md:text-base group"
+                  className="flex items-center gap-4 text-sky-950 font-bold text-sm md:text-base group"
                 >
-                  <div className="w-6 h-6 rounded-full bg-sky-600 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
+                  <div className="w-6 h-6 rounded-full bg-orange-600 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
-                  <span className="opacity-70 group-hover:opacity-100 transition-opacity">{f}</span>
+                  <span className="text-sky-900/60 group-hover:text-sky-950 transition-colors">{f}</span>
                 </motion.div>
               ))}
             </div>
@@ -510,53 +510,47 @@ const SolutionDetail = () => {
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 md:px-10 py-3.5 md:py-4 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-xl shadow-sky-100 flex items-center justify-center gap-3 text-sm md:text-base group"
+                className="px-10 md:px-12 py-5 bg-orange-600 text-white rounded-full font-bold shadow-2xl shadow-orange-100 flex items-center justify-center gap-3 text-sm md:text-base"
               >
-                Watch Demo <Play className="w-4 md:w-5 h-4 md:h-5 fill-current group-hover:scale-110 transition-transform" />
+                Request a Quote <ArrowRight className="w-5 h-5" />
               </motion.button>
               <motion.button 
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(2, 132, 199, 0.05)" }}
+                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 md:px-10 py-3.5 md:py-4 bg-white text-sky-900 border border-sky-100 rounded-full font-bold transition-all text-sm md:text-base flex items-center justify-center gap-3"
+                className="px-10 md:px-12 py-5 bg-white text-sky-950 border border-sky-100 rounded-full font-bold transition-all text-sm md:text-base"
               >
-                Book Session <Calendar className="w-4 md:w-5 h-4 md:h-5" />
+                Case Study
               </motion.button>
             </motion.div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="relative"
           >
-            <motion.div 
-              className="aspect-[4/5] rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(12,74,110,0.2)] relative z-10 max-w-xl mx-auto lg:mx-0 lg:ml-auto"
-              whileHover={{ rotate: 1, scale: 1.02 }}
-              transition={{ duration: 0.5 }}
-            >
+            <div className="aspect-[4/5] rounded-[4rem] overflow-hidden shadow-2xl relative z-10 max-w-xl mx-auto lg:ml-auto">
               <img src={solution.image} alt={solution.title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-sky-950/40 via-transparent to-transparent" />
-            </motion.div>
+            </div>
+            <div className="absolute -top-10 -right-10 w-64 h-64 bg-orange-50 rounded-full blur-[100px] -z-10" />
           </motion.div>
         </div>
 
         {/* Science & Testimonial Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center mb-24 md:mb-48">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32 items-center mb-24 md:mb-48">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
           >
-            <div className="w-12 h-12 bg-sky-50 rounded-xl flex items-center justify-center text-sky-600 mb-8">
-              <Microscope className="w-6 h-6" />
-            </div>
-            <h2 className="text-3xl md:text-6xl font-serif italic text-sky-950 mb-8 leading-none tracking-tight">The <span className="text-sky-500">Science</span> Behind The Flow</h2>
-            <p className="text-lg md:text-xl text-sky-800 leading-relaxed font-medium mb-10 opacity-70">
+            <div className="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-6">The Scientific Method</div>
+            <h2 className="text-4xl md:text-7xl font-serif italic text-sky-950 mb-10 leading-none tracking-tight">Evidence Based <br /> <span className="text-orange-500">Wellness</span></h2>
+            <p className="text-lg md:text-xl text-sky-900/60 leading-relaxed font-medium mb-12">
               {solution.science}
             </p>
             <div className="p-8 bg-sky-50 rounded-[2.5rem] border border-sky-100 flex gap-6 items-start">
-              <Lightbulb className="w-8 h-8 text-sky-600 shrink-0" />
-              <p className="text-sky-900 font-bold text-sm md:text-base italic leading-relaxed">
+              <Microscope className="w-8 h-8 text-orange-600 shrink-0" />
+              <p className="text-sky-950 font-bold text-sm md:text-base italic leading-relaxed">
                 "Our neural-mapping shows that consistent practice of {solution.title} enhances neuro-plasticity by 15% within the first 60 days."
               </p>
             </div>
@@ -565,20 +559,20 @@ const SolutionDetail = () => {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            className="bg-white p-10 md:p-16 rounded-[3.5rem] md:rounded-[4.5rem] shadow-2xl border border-sky-50 relative"
+            className="bg-[#fffaf5] p-10 md:p-20 rounded-[4rem] shadow-sm border border-sky-50 relative overflow-hidden"
           >
-            <Quote className="w-16 h-16 text-sky-100 absolute top-10 right-10" />
+            <Quote className="w-32 h-32 text-orange-500/5 absolute -top-10 -right-10" />
             <div className="relative z-10">
-              <p className="text-xl md:text-3xl text-sky-950 font-serif italic leading-relaxed mb-10">
+              <p className="text-2xl md:text-4xl text-sky-950 font-serif italic leading-tight mb-12">
                 "{solution.userStory.quote}"
               </p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 font-bold">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 rounded-2xl bg-orange-600 flex items-center justify-center text-white font-bold text-2xl">
                   {solution.userStory.author[0]}
                 </div>
                 <div>
-                  <div className="font-bold text-sky-900">{solution.userStory.author}</div>
-                  <div className="text-xs text-sky-500 font-medium">{solution.userStory.role}</div>
+                  <div className="font-serif italic font-bold text-sky-950 text-xl">{solution.userStory.author}</div>
+                  <div className="text-xs text-orange-500 font-black uppercase tracking-widest">{solution.userStory.role}</div>
                 </div>
               </div>
             </div>

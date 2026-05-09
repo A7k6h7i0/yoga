@@ -60,77 +60,97 @@ const WorkFit = () => {
   ];
 
   return (
-    <div ref={containerRef} className="pb-16 overflow-hidden bg-brand-white">
+    <div ref={containerRef} className="pb-16 overflow-hidden bg-white">
       {/* Hero */}
-      <section className="relative py-24 md:py-40 bg-sky-50/50 overflow-hidden">
-        <motion.div 
-          style={{ y: heroY, scale: heroScale }}
-          className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-10 pointer-events-none"
-        >
-          <img src="https://images.unsplash.com/photo-1524673317493-2340aa41256b?auto=format&fit=crop&q=80" alt="Yoga" className="w-full h-full object-cover" />
-        </motion.div>
+      <section className="relative min-h-[90vh] flex items-center pt-32 md:pt-40 lg:pt-48 overflow-hidden bg-white">
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ff7f00 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         
-        <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 bg-white text-sky-600 rounded-full text-[10px] md:text-xs font-bold mb-8 shadow-sm border border-sky-100"
-          >
-            <Flower2 className="w-3.5 h-3.5" />
-            <span>Elevating Workplace Consciousness</span>
-          </motion.div>
-          <h1 className="text-5xl md:text-9xl font-serif italic text-sky-950 mb-10 max-w-6xl mx-auto tracking-tight leading-[0.8] md:leading-[0.75]">
-            Corporate <br className="hidden md:block" /> <span className="text-sky-500">Vitality Hub</span>
-          </h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-lg md:text-3xl text-sky-800 max-w-3xl mx-auto mb-16 font-medium px-4 opacity-80"
-          >
-            Transform your company culture with ancient wisdom, gamified mindfulness, and real-time community engagement.
-          </motion.p>
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="flex flex-col sm:flex-row justify-center gap-4 px-6"
-          >
-            <button className="px-10 md:px-12 py-5 bg-sky-600 text-white rounded-full font-bold hover:bg-sky-700 transition-all shadow-2xl shadow-sky-100 group flex items-center justify-center gap-3 text-sm md:text-base overflow-hidden relative">
-              <span className="relative z-10">Request a Demo</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform relative z-10" />
-            </button>
-            <button className="px-10 md:px-12 py-5 bg-white text-sky-900 rounded-full font-bold border border-sky-100 hover:bg-sky-50 transition-all text-sm md:text-base shadow-lg shadow-sky-50">
-              View ROI Report
-            </button>
-          </motion.div>
+        <div className="container mx-auto px-4 md:px-12 lg:px-20 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1 }}
+            >
+              <div className="text-orange-600 font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs mb-8">
+                The Future of Corporate Vitality
+              </div>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif italic text-sky-950 mb-10 tracking-tight leading-[1.1]">
+                Elevating <br /> <span className="text-orange-500">Workplace Consciousness</span>
+              </h1>
+              <p className="text-lg md:text-xl lg:text-2xl text-sky-900/60 mb-12 max-w-2xl font-medium leading-relaxed">
+                Transform your company culture with ancient wisdom, gamified mindfulness, and real-time community engagement. Designed for high-performance global teams.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-6">
+                <button className="px-12 py-5 bg-orange-600 text-white rounded-full font-bold text-sm md:text-base shadow-2xl shadow-orange-100 hover:bg-orange-700 transition-all">
+                  Request a Demo
+                </button>
+                <button className="px-12 py-5 bg-white text-sky-950 border border-sky-100 rounded-full font-bold text-sm md:text-base hover:bg-sky-50 transition-all">
+                  View ROI Report
+                </button>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1 }}
+              className="relative hidden lg:block"
+            >
+              <div className="aspect-square rounded-[4rem] overflow-hidden shadow-2xl relative z-10">
+                <img src="/workplace_consciousness.png" alt="Workplace Wellness" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute -top-10 -right-10 w-64 h-64 bg-orange-100 rounded-full blur-[100px] -z-10" />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Statistics Block - Vantage Fit Style */}
+      <section className="py-12 bg-sky-50/30 border-y border-sky-100">
+        <div className="container mx-auto px-4 md:px-12 lg:px-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left items-center">
+            <div>
+              <div className="text-orange-600 text-[10px] font-black uppercase tracking-[0.3em] mb-2">Impact Study</div>
+              <h3 className="text-3xl font-serif italic text-sky-950">Improving wellness across global organizations</h3>
+            </div>
+            <div className="flex flex-col items-center md:items-start">
+              <div className="text-4xl lg:text-5xl font-serif italic font-bold text-orange-600 mb-1">40%</div>
+              <div className="text-[10px] font-bold text-sky-950 uppercase tracking-widest opacity-60">More Motivated Employees</div>
+            </div>
+            <div className="flex flex-col items-center md:items-start">
+              <div className="text-4xl lg:text-5xl font-serif italic font-bold text-orange-600 mb-1">26%</div>
+              <div className="text-[10px] font-bold text-sky-950 uppercase tracking-widest opacity-60">Drop in Absenteeism</div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Corporate Lineage Section */}
       <section className="py-24 md:py-48 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-20 md:mb-32">
-            <h2 className="text-4xl md:text-8xl font-serif italic text-sky-950 mb-8 leading-none">The Lineage of <br /> <span className="text-sky-500">Transformation</span></h2>
-            <p className="text-lg md:text-2xl text-sky-800 max-w-2xl mx-auto font-medium opacity-60">
-              Tailored wellness architectures for the world's most demanding industries.
+        <div className="container mx-auto px-4 md:px-12 lg:px-20">
+          <div className="max-w-4xl mb-20 md:mb-32">
+            <div className="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-6">Industries We Serve</div>
+            <h2 className="text-4xl md:text-7xl lg:text-8xl font-serif italic text-sky-950 mb-8 leading-none">The Lineage of <br /> <span className="text-orange-500">Transformation</span></h2>
+            <p className="text-lg md:text-2xl text-sky-900/60 font-medium leading-relaxed max-w-2xl">
+              Tailored wellness architectures designed specifically for the world's most demanding high-performance industries.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {industries.map((ind, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="p-10 rounded-[3rem] bg-sky-50/50 border border-sky-100 hover:bg-sky-600 hover:text-white transition-all group"
+                className="p-10 rounded-[2.5rem] bg-white border border-sky-50 shadow-sm hover:shadow-xl transition-all group"
               >
-                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-sky-600 mb-8 shadow-sm group-hover:rotate-12 transition-transform">
+                <div className="w-16 h-16 bg-sky-50 rounded-2xl flex items-center justify-center text-orange-600 mb-8 transition-transform group-hover:scale-110">
                   <ind.icon className="w-8 h-8" />
                 </div>
-                <h4 className="text-2xl font-bold mb-4">{ind.name}</h4>
-                <p className="text-sm md:text-base font-medium opacity-70 group-hover:opacity-100">{ind.desc}</p>
+                <h4 className="text-2xl font-serif italic font-bold mb-4 text-sky-900">{ind.name}</h4>
+                <p className="text-sm md:text-base font-medium text-sky-900/60 leading-relaxed">{ind.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -138,19 +158,17 @@ const WorkFit = () => {
       </section>
 
       {/* Scientific Foundation Section */}
-      <section className="py-24 md:py-48 bg-sky-50/30 overflow-hidden border-y border-sky-100">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
+      <section className="py-24 md:py-48 bg-[#fffaf5] overflow-hidden border-y border-sky-100">
+        <div className="container mx-auto px-4 md:px-12 lg:px-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 1 }}
             >
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-white rounded-2xl flex items-center justify-center text-sky-600 mb-8 shadow-sm">
-                <Microscope className="w-6 md:w-8 h-6 md:h-8" />
-              </div>
-              <h2 className="text-4xl md:text-7xl font-serif italic text-sky-950 mb-10 leading-none tracking-tight">The Science <br /> <span className="text-sky-500">of Calm</span></h2>
-              <p className="text-lg md:text-xl text-sky-800 leading-relaxed font-medium mb-12 opacity-80">
+              <div className="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-6">Neuro-Wellness Research</div>
+              <h2 className="text-4xl md:text-7xl lg:text-8xl font-serif italic text-sky-950 mb-10 leading-none tracking-tight">The Science <br /> <span className="text-orange-500">of Calm</span></h2>
+              <p className="text-lg md:text-xl text-sky-900/60 leading-relaxed font-medium mb-12">
                 LiveFit isn't just a wellness platform—it's a neuro-integrated ecosystem. We've collaborated with cognitive scientists to translate yogic practices into measurable corporate outcomes.
               </p>
               
@@ -167,12 +185,12 @@ const WorkFit = () => {
                     transition={{ delay: i * 0.2 }}
                     className="flex gap-6 group"
                   >
-                    <div className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-xl flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all shrink-0 shadow-sm">
+                    <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all shrink-0 shadow-sm">
                       <item.icon className="w-6 h-6" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-sky-900 text-lg md:text-xl mb-2">{item.title}</h4>
-                      <p className="text-sm md:text-base text-sky-700 font-medium opacity-70 group-hover:opacity-100 transition-opacity">{item.desc}</p>
+                      <h4 className="font-serif italic font-bold text-sky-900 text-xl md:text-2xl mb-2">{item.title}</h4>
+                      <p className="text-sm md:text-base text-sky-900/60 font-medium leading-relaxed">{item.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -183,7 +201,7 @@ const WorkFit = () => {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                className="aspect-square rounded-[3rem] md:rounded-[5rem] overflow-hidden shadow-2xl relative z-10"
+                className="aspect-square rounded-[4rem] overflow-hidden shadow-2xl relative z-10"
               >
                 <img src="/wellness_analytics.png" alt="Science" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-sky-950/60 to-transparent flex items-end p-12">
@@ -193,7 +211,7 @@ const WorkFit = () => {
                   </div>
                 </div>
               </motion.div>
-              <div className="absolute -top-10 -right-10 w-64 h-64 bg-sky-200/40 rounded-full blur-[100px] -z-10" />
+              <div className="absolute -top-10 -right-10 w-64 h-64 bg-orange-100 rounded-full blur-[100px] -z-10" />
             </div>
           </div>
         </div>

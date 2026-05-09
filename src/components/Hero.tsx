@@ -12,8 +12,8 @@ const Hero = () => {
   const smoothY1 = useSpring(y1, { stiffness: 100, damping: 30 });
 
   return (
-    <section className="relative min-h-[100vh] flex items-center pt-20 overflow-hidden bg-brand-white">
-      {/* Cinematic Background */}
+    <section className="relative min-h-[100vh] flex items-center pt-48 md:pt-64 lg:pt-80 overflow-hidden bg-white">
+      {/* Cinematic Background with subtle parallax */}
       <motion.div 
         style={{ scale, opacity }}
         className="absolute inset-0 z-0"
@@ -21,66 +21,70 @@ const Hero = () => {
         <img 
           src="/hero.png" 
           alt="Yoga Background" 
-          className="w-full h-full object-cover opacity-100"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-white via-transparent to-brand-white" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/40 to-transparent" />
       </motion.div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="max-w-6xl text-left">
-          <h1 className="text-6xl md:text-[10rem] font-serif italic text-sky-950 mb-10 tracking-tight leading-[0.8] md:leading-[0.75]">
+      <div className="container mx-auto px-4 md:px-12 lg:px-20 relative z-10">
+        <div className="max-w-4xl text-left">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-orange-600 font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6"
+          >
+            Experience the Evolution of Wellness
+          </motion.div>
+          
+          <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-serif italic text-sky-950 mb-8 tracking-tight leading-[1.1] md:leading-[1.05]">
             <motion.span
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.2, delay: 0.2 }}
-              className="inline-block"
+              transition={{ duration: 1, delay: 0.2 }}
+              className="block"
             >
-              Master
+              Master Your
             </motion.span>
-            <br />
             <motion.span
-              initial={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1.2, delay: 0.4 }}
-              className="text-orange-500 inline-block"
+              transition={{ duration: 1, delay: 0.4 }}
+              className="text-orange-500 block"
             >
-              Your Flow
+              Inner Flow
             </motion.span>
           </h1>
 
           <motion.p
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6 }}
-            className="text-lg md:text-3xl text-orange-900/80 mb-16 max-w-3xl font-medium leading-relaxed"
+            className="text-lg md:text-xl lg:text-2xl text-sky-900/70 mb-12 max-w-2xl font-medium leading-relaxed"
           >
-            Elevate your corporate vitality through ancient wisdom, <br className="hidden md:block" /> 
-            scientific precision, and collective harmony.
+            Join a global community of practitioners. Elevate your corporate vitality through ancient wisdom, scientific precision, and collective harmony.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-6"
+            className="flex flex-col sm:flex-row items-start gap-6"
           >
             <motion.button 
-              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.2)" }}
-              whileTap={{ scale: 0.95 }}
-              className="px-10 md:px-12 py-4 md:py-5 bg-orange-600 text-white rounded-full font-bold text-base md:text-lg shadow-xl transition-all group overflow-hidden relative"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-12 py-5 bg-orange-600 text-white rounded-full font-bold text-sm md:text-base shadow-2xl shadow-orange-100 transition-all"
             >
-              <span className="relative z-10 flex items-center gap-3">
-                Begin The Path <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-              <motion.div className="absolute inset-0 bg-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform origin-left -z-0" />
+              Start Free Trial
             </motion.button>
             
             <motion.button 
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(249, 115, 22, 0.05)" }}
-              whileTap={{ scale: 0.95 }}
-              className="px-10 md:px-12 py-4 md:py-5 bg-white text-orange-900 border border-orange-100 rounded-full font-bold text-sm md:text-base transition-all flex items-center gap-3"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="px-12 py-5 bg-white text-sky-950 border border-sky-100 rounded-full font-bold text-sm md:text-base shadow-sm hover:bg-sky-50 transition-all flex items-center gap-3"
             >
-              <Play className="w-4 h-4 fill-current" /> Watch Experience
+              Explore Classes
             </motion.button>
           </motion.div>
         </div>

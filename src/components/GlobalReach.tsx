@@ -14,7 +14,7 @@ const GlobalReach = () => {
 
   return (
     <section className="py-24 md:py-48 bg-[#020617] text-white overflow-hidden relative">
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-12 lg:px-20 relative z-10">
         <div className="text-center mb-20 md:mb-32">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}

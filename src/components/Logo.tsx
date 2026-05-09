@@ -10,17 +10,17 @@ const Logo = ({ className = "" }: { className?: string }) => {
         <img 
           src="/flowerlogo.png" 
           alt="LiveFit Flower" 
-          className="h-10 w-10 md:h-16 md:w-16 object-cover rounded-full shadow-2xl border-2 border-[#ff7f00]/30 relative z-10"
+          className="h-8 w-8 md:h-10 md:w-10 lg:h-14 lg:w-14 object-cover rounded-full shadow-2xl border-2 border-[#ff7f00]/30 relative z-10"
         />
       </div>
       
       {/* Elegant Separator */}
-      <div className="h-10 md:h-14 w-[1px] bg-gradient-to-b from-transparent via-[#ff7f00]/30 to-transparent" />
+      <div className="h-8 md:h-10 lg:h-12 w-[1px] bg-gradient-to-b from-transparent via-[#ff7f00]/30 to-transparent" />
 
       {/* Advanced Brushed Copper Typography */}
       <div className="flex flex-col justify-center">
         <div className="relative">
-          <h2 className="text-3xl md:text-5xl font-sans font-[900] leading-none text-[#ff7f00] drop-shadow-[0_1px_1px_rgba(0,0,0,0.1)]">
+          <h2 className="text-xl md:text-2xl lg:text-4xl font-sans font-[900] leading-none text-[#ff7f00] drop-shadow-[0_1px_1px_rgba(0,0,0,0.1)]">
             livef<span className="relative inline-block mx-0.5 md:mx-1">
               <span className="invisible">i</span>
               <span className="absolute inset-0 flex flex-col items-center justify-end">

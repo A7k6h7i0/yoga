@@ -27,18 +27,18 @@ const Philosophy = () => {
   ];
 
   return (
-    <section className="py-16 md:py-32 bg-brand-white relative overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-16 md:mb-24">
+    <section className="py-24 md:py-40 bg-[#fffaf5] relative overflow-hidden">
+      <div className="container mx-auto px-4 md:px-12 lg:px-20">
+        <div className="max-w-4xl mb-20 md:mb-32">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[9px] md:text-[10px] mb-4"
+            className="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-6"
           >
             The Four Pillars of LiveFit
           </motion.div>
-          <h2 className="text-4xl md:text-7xl font-serif italic text-sky-950 tracking-tight leading-tight">
-            Rooted in <span className="text-sky-500">Ancient Wisdom</span>
+          <h2 className="text-4xl md:text-7xl lg:text-8xl font-serif italic text-sky-950 tracking-tight leading-tight">
+            Rooted in <span className="text-orange-500">Ancient Wisdom</span>
           </h2>
         </div>
 

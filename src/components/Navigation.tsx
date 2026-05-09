@@ -2,67 +2,84 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Menu, X, ChevronDown, Sparkles, Globe, 
-  Wind, Brain, Users2, Trophy, MapPin, 
-  Star, Activity, Flower2, Heart, Sparkle
+  Menu, X, ChevronDown, Sparkles
 } from 'lucide-react';
 import Logo from './Logo';
+import {
+  StepsIcon, CustomIcon, TeamIcon, MarathonIcon,
+  RemoteIcon, MentalIcon, RewardsIcon, GlobalIcon,
+  HolisticIcon, AnalyticsIcon
+} from './WorkFitIcons';
 
 const solutions = [
   { 
-    name: 'Daily Asana', 
+    name: 'Steps Challenge', 
     slug: 'steps-challenge', 
-    desc: 'Posture & Spinal Health', 
-    icon: Wind,
+    desc: 'Promote physical activity through varied step challenges', 
+    icon: StepsIcon,
     color: 'text-orange-500 bg-orange-50'
   },
   { 
-    name: 'Zen Mastery', 
+    name: 'Custom Challenges', 
     slug: 'custom-challenges', 
-    desc: 'Mindfulness Streaks', 
-    icon: Brain,
+    desc: 'Create custom challenges catering to different health goals', 
+    icon: CustomIcon,
     color: 'text-orange-500 bg-orange-50'
   },
   { 
-    name: 'Collective Flow', 
+    name: 'Team Challenge', 
     slug: 'team-challenge', 
-    desc: 'Team Wellness', 
-    icon: Users2,
+    desc: 'Promote collaboration through team challenges', 
+    icon: TeamIcon,
     color: 'text-orange-500 bg-orange-50'
   },
   { 
-    name: 'Pranayama Quest', 
+    name: 'Virtual Marathon', 
     slug: 'virtual-marathon', 
-    desc: 'Breathwork Journey', 
-    icon: Trophy,
+    desc: 'Unite your global workforce with one day virtual marathon', 
+    icon: MarathonIcon,
     color: 'text-orange-500 bg-orange-50'
   },
   { 
-    name: 'Remote Studio', 
+    name: 'Remote Team Wellness', 
     slug: 'remote-team-wellness', 
-    desc: 'Virtual Shala', 
-    icon: MapPin,
+    desc: 'Offer wellness plans crafted for remote teams', 
+    icon: RemoteIcon,
     color: 'text-orange-500 bg-orange-50'
   },
   { 
-    name: 'Mindful Workplace', 
+    name: 'Mental Health & Well-being', 
     slug: 'mental-health', 
-    desc: 'Cognitive Resilience', 
-    icon: Sparkles,
+    desc: 'Support mental health at work', 
+    icon: MentalIcon,
     color: 'text-orange-500 bg-orange-50'
   },
   { 
-    name: 'Wellness Credits', 
+    name: 'Wellness Rewards Program', 
     slug: 'wellness-rewards', 
-    desc: 'Incentivized Practice', 
-    icon: Star,
+    desc: 'Encourage healthy behaviours through rewards', 
+    icon: RewardsIcon,
     color: 'text-orange-500 bg-orange-50'
   },
   { 
-    name: '8 Pillars', 
+    name: 'Global Employee Engagement', 
+    slug: 'global-engagement', 
+    desc: 'Connect employees across diverse cultures', 
+    icon: GlobalIcon,
+    color: 'text-orange-500 bg-orange-50'
+  },
+  { 
+    name: 'Holistic Wellness Program', 
     slug: 'holistic-wellness', 
-    desc: 'Complete Path', 
-    icon: Flower2,
+    desc: 'Promote a well-rounded approach to wellness', 
+    icon: HolisticIcon,
+    color: 'text-orange-500 bg-orange-50'
+  },
+  { 
+    name: 'Health & Fitness Analytics', 
+    slug: 'health-analytics', 
+    desc: 'Track and optimize wellness programs', 
+    icon: AnalyticsIcon,
     color: 'text-orange-500 bg-orange-50'
   }
 ];
@@ -94,7 +111,7 @@ const Navigation = () => {
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-500 ${
-      isScrolled ? 'py-4 bg-white/80 backdrop-blur-xl border-b border-sky-50 shadow-sm' : 'py-8 bg-transparent'
+      isScrolled ? 'py-2 md:py-3 bg-white/80 backdrop-blur-xl border-b border-sky-50 shadow-sm' : 'py-4 md:py-6 bg-transparent'
     }`}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
@@ -126,43 +143,53 @@ const Navigation = () => {
               <AnimatePresence>
                 {activeDropdown === 'workfit' && (
                   <motion.div
-                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                    initial={{ opacity: 0, y: 15, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute top-full right-[-100px] w-[600px] mt-4 bg-white/95 backdrop-blur-2xl rounded-[3rem] p-8 shadow-[0_40px_80px_-20px_rgba(12,74,110,0.2)] border border-sky-50"
+                    exit={{ opacity: 0, y: 15, scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full right-[-80px] w-[850px] mt-6 rounded-[24px] shadow-2xl overflow-hidden flex border border-slate-700/50"
                   >
-                    <div className="flex items-center justify-between mb-6 px-4">
-                       <div className="text-[10px] font-black text-orange-300 uppercase tracking-[0.4em]">Corporate Solutions</div>
-                       <Link to="/workfit" className="text-[10px] font-black text-orange-600 hover:text-sky-950 uppercase tracking-widest flex items-center gap-2">
-                          Overview <ChevronDown className="w-3 h-3 -rotate-90" />
-                       </Link>
+                    {/* Left Column - Challenges */}
+                    <div className="w-[40%] bg-[#141920] p-8">
+                      <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Challenges</h3>
+                      <div className="flex flex-col gap-2">
+                        {solutions.slice(0,4).map((item) => (
+                          <Link key={item.slug} to={`/solutions/${item.slug}`} className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group">
+                            <div className="mt-0.5">
+                              <item.icon className="w-6 h-6 text-slate-300 group-hover:text-white transition-colors" />
+                            </div>
+                            <div>
+                              <div className="font-semibold text-slate-100 group-hover:text-white text-[15px] mb-1">{item.name}</div>
+                              <div className="text-[13px] text-slate-400 group-hover:text-slate-300 leading-relaxed">{item.desc}</div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
-                      {solutions.map((item) => (
-                        <Link
-                          key={item.slug}
-                          to={`/solutions/${item.slug}`}
-                          className="flex items-center gap-4 p-4 rounded-3xl hover:bg-orange-50/80 transition-all group border border-transparent hover:border-orange-100"
-                        >
-                          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all group-hover:scale-110 shadow-sm ${item.color}`}>
-                            <item.icon className="w-6 h-6" />
-                          </div>
-                          <div>
-                            <div className="font-serif italic font-bold text-sky-950 text-base group-hover:text-orange-600 transition-colors leading-none mb-1">{item.name}</div>
-                            <div className="text-[10px] text-orange-400 font-bold group-hover:text-orange-500 tracking-wide">{item.desc}</div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                    
-                    <div className="mt-8 pt-6 border-t border-sky-50 flex items-center justify-between px-4">
-                       <div className="flex items-center gap-2 text-sky-400">
-                          <Activity className="w-4 h-4 animate-pulse" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest">Live Practitioners: 85k+</span>
-                       </div>
-                       <Sparkle className="w-4 h-4 text-sky-200" />
+                    {/* Right Column - Other Solutions */}
+                    <div className="w-[60%] bg-[#1d232a] p-8 flex flex-col border-l border-white/5">
+                      <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Other Solutions</h3>
+                      <div className="grid grid-cols-2 gap-x-6 gap-y-4 mb-auto">
+                        {solutions.slice(4,10).map((item) => (
+                          <Link key={item.slug} to={`/solutions/${item.slug}`} className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group">
+                            <div className="mt-0.5">
+                              <item.icon className="w-5 h-5 text-slate-300 group-hover:text-white transition-colors" />
+                            </div>
+                            <div>
+                              <div className="font-semibold text-slate-100 group-hover:text-white text-[14px] mb-1">{item.name}</div>
+                              <div className="text-[12px] text-slate-400 group-hover:text-slate-300 leading-relaxed">{item.desc}</div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                      
+                      <Link to="/workfit" className="mt-8 block">
+                        <div className="p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors flex items-center justify-between group">
+                          <span className="text-[13px] font-medium text-slate-300 group-hover:text-white">See how Vantage Fit works as your all-in-one employee wellness software</span>
+                          <span className="text-slate-500 group-hover:text-white transition-colors">→</span>
+                        </div>
+                      </Link>
                     </div>
                   </motion.div>
                 )}

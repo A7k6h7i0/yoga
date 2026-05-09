@@ -25,35 +25,26 @@ const Breathwork = () => {
   ];
 
   return (
-    <section className="py-12 md:py-24 bg-sky-50/30 overflow-hidden relative">
-      {/* Decorative Grid - Faded on mobile */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] md:opacity-5 pointer-events-none">
-        <div className="grid grid-cols-6 md:grid-cols-12 h-full">
-          {[...Array(12)].map((_, i) => (
-            <div key={i} className="border-r border-sky-200 hidden md:block" />
-          ))}
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="border-r border-sky-200 md:hidden" />
-          ))}
-        </div>
-      </div>
+    <section className="py-24 md:py-40 bg-white overflow-hidden relative">
+      {/* Subtle Background Pattern */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ff7f00 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
       
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
-          <div className="lg:w-1/2 w-full">
+      <div className="container mx-auto px-4 md:px-12 lg:px-20 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-20 lg:gap-32 items-center">
+          <div className="lg:w-5/12 w-full">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <div className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[9px] md:text-[10px] mb-4 text-center lg:text-left">
-                Pranayama Masterclass
+              <div className="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-6">
+                The Science of Breath
               </div>
-              <h2 className="text-3xl md:text-6xl font-serif italic text-sky-950 tracking-tight mb-6 md:mb-8 text-center lg:text-left leading-tight">
-                The Power of <br className="hidden sm:block" /> <span className="text-sky-500">Prana Flow</span>
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-serif italic text-sky-950 tracking-tight mb-10 leading-[1.1]">
+                Master Your <br /> <span className="text-orange-500">Prana Flow</span>
               </h2>
-              <p className="text-base md:text-lg text-sky-800 leading-relaxed font-medium mb-8 md:mb-12 max-w-xl text-center lg:text-left mx-auto lg:mx-0">
-                Breath is the bridge between the body and mind. Our guided pranayama sessions empower your team to master their internal state in seconds.
+              <p className="text-lg md:text-xl text-sky-900/60 leading-relaxed font-medium mb-12">
+                Breath is the bridge between the body and mind. Our guided pranayama sessions empower you to master your internal state in seconds.
               </p>
               
               <div className="space-y-4 max-w-lg mx-auto lg:mx-0">
