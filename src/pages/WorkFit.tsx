@@ -65,7 +65,7 @@ const WorkFit = () => {
       <section className="relative min-h-[90vh] flex items-center pt-32 md:pt-40 lg:pt-48 overflow-hidden bg-white">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ff7f00 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         
-        <div className="container mx-auto px-4 md:px-12 lg:px-20 relative z-10">
+        <div className="w-full px-4 md:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -108,7 +108,7 @@ const WorkFit = () => {
 
       {/* Statistics Block - Vantage Fit Style */}
       <section className="py-12 bg-sky-50/30 border-y border-sky-100">
-        <div className="container mx-auto px-4 md:px-12 lg:px-20">
+        <div className="w-full px-4 md:px-8 lg:px-20">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left items-center">
             <div>
               <div className="text-orange-600 text-[10px] font-black uppercase tracking-[0.3em] mb-2">Impact Study</div>
@@ -128,7 +128,7 @@ const WorkFit = () => {
 
       {/* Corporate Lineage Section */}
       <section className="py-24 md:py-48 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 md:px-12 lg:px-20">
+        <div className="w-full px-4 md:px-8 lg:px-20">
           <div className="max-w-4xl mb-20 md:mb-32">
             <div className="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-6">Industries We Serve</div>
             <h2 className="text-4xl md:text-7xl lg:text-8xl font-serif italic text-sky-950 mb-8 leading-none">The Lineage of <br /> <span className="text-orange-500">Transformation</span></h2>
@@ -159,7 +159,7 @@ const WorkFit = () => {
 
       {/* Scientific Foundation Section */}
       <section className="py-24 md:py-48 bg-[#fffaf5] overflow-hidden border-y border-sky-100">
-        <div className="container mx-auto px-4 md:px-12 lg:px-20">
+        <div className="w-full px-4 md:px-8 lg:px-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-32 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -219,7 +219,7 @@ const WorkFit = () => {
 
       {/* Meet the Mentors Section */}
       <section className="py-24 md:py-48 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="w-full px-4 md:px-8 md:px-6">
           <div className="flex flex-col lg:flex-row justify-between items-end mb-16 md:mb-32 gap-8">
             <div className="max-w-2xl text-center lg:text-left">
               <h2 className="text-4xl md:text-8xl font-serif italic text-sky-950 mb-8 leading-none">Masters of the <br /> <span className="text-sky-500">Sacred Shift</span></h2>
@@ -263,7 +263,7 @@ const WorkFit = () => {
       {/* Main Categories */}
       {categories.map((cat, catIdx) => (
         <section key={cat.id} className={`py-24 md:py-48 ${catIdx % 2 === 0 ? 'bg-sky-50/20' : 'bg-white'}`}>
-          <div className="container mx-auto px-4 md:px-6">
+          <div className="w-full px-4 md:px-8 md:px-6">
             <div className="text-center mb-16 md:mb-24">
               <h2 className="text-4xl md:text-8xl font-serif italic text-sky-950 mb-8 leading-none tracking-tight">{cat.title}</h2>
               <p className="text-lg md:text-2xl text-sky-800 max-w-2xl mx-auto font-medium opacity-70">
@@ -301,7 +301,7 @@ const WorkFit = () => {
 
       {/* Implementation Roadmap */}
       <section className="py-24 md:py-48 bg-sky-950 text-white overflow-hidden relative">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="w-full px-4 md:px-8 relative z-10">
           <div className="text-center mb-20 md:mb-32">
             <motion.div
               initial={{ opacity: 0 }}
@@ -341,7 +341,7 @@ const WorkFit = () => {
       </section>
 
       {/* Analytics Insight */}
-      <section className="py-24 md:py-48 container mx-auto px-4 md:px-6">
+      <section className="py-24 md:py-48 w-full px-4 md:px-8 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32 items-center">
           <div className="relative order-2 lg:order-1">
             <motion.div
@@ -406,7 +406,7 @@ const WorkFit = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 md:py-48 container mx-auto px-4 md:px-6">
+      <section className="py-24 md:py-48 w-full px-4 md:px-8 md:px-6">
         <div className="bg-sky-600 rounded-[3rem] md:rounded-[5rem] p-12 md:p-32 text-center relative overflow-hidden shadow-2xl">
           <div className="relative z-10 max-w-5xl mx-auto">
             <h2 className="text-4xl md:text-9xl font-serif italic text-white mb-12 tracking-tight leading-[0.85]">Join the <span className="text-sky-200">Global</span> Sanctuary</h2>

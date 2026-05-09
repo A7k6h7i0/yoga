@@ -53,7 +53,7 @@ const PhilosophyPage = () => {
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
         <motion.div 
           style={{ opacity, scale }}
-          className="container mx-auto px-4 text-center z-10"
+          className="w-full px-4 md:px-8 text-center z-10"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -84,7 +84,7 @@ const PhilosophyPage = () => {
       </section>
 
       {/* Deep Dive Pillars */}
-      <section className="py-24 md:py-48 container mx-auto px-4">
+      <section className="py-24 md:py-48 w-full px-4 md:px-8 px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {deepPillars.map((pillar, idx) => (
             <motion.div
@@ -109,7 +109,7 @@ const PhilosophyPage = () => {
       {/* Detailed Content Sections */}
       {philosophyValues.map((val, idx) => (
         <section key={idx} className={`py-24 md:py-48 ${idx % 2 === 0 ? 'bg-sky-50/30' : 'bg-white'}`}>
-          <div className="container mx-auto px-4">
+          <div className="w-full px-4 md:px-8 px-4">
             <div className={`flex flex-col ${idx % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-16 md:gap-32`}>
               <div className="flex-1">
                 <h2 className="text-4xl md:text-7xl font-serif italic text-sky-950 mb-10 leading-none tracking-tight">
@@ -134,7 +134,7 @@ const PhilosophyPage = () => {
       ))}
 
       {/* Quote Section */}
-      <section className="py-24 md:py-48 text-center container mx-auto px-4">
+      <section className="py-24 md:py-48 text-center w-full px-4 md:px-8 px-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -153,7 +153,7 @@ const PhilosophyPage = () => {
       </section>
 
       {/* Final Call to Action */}
-      <section className="py-24 md:py-48 container mx-auto px-4">
+      <section className="py-24 md:py-48 w-full px-4 md:px-8 px-4">
         <div className="bg-sky-950 rounded-[4rem] p-12 md:p-32 text-center text-white relative overflow-hidden">
           <h2 className="text-4xl md:text-8xl font-serif italic mb-10 leading-none">Embrace the <span className="text-sky-400">Shift</span></h2>
           <p className="text-lg md:text-2xl text-sky-100/60 max-w-2xl mx-auto mb-16 font-medium">

@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { Flower2, ArrowRight, Sparkles, Play } from 'lucide-react';
 
 const Hero = () => {
@@ -11,59 +11,84 @@ const Hero = () => {
   
   const smoothY1 = useSpring(y1, { stiffness: 100, damping: 30 });
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slides = [
+    {
+      image: '/hero.png',
+      eyebrow: 'Experience the Evolution of Wellness',
+      title1: 'Master Your',
+      title2: 'Inner Flow',
+      description: 'Join a global community of practitioners. Elevate your corporate vitality through ancient wisdom, scientific precision, and collective harmony.'
+    },
+    {
+      image: '/hero1.png',
+      eyebrow: 'Corporate Wellness Reimagined',
+      title1: 'Empower Your',
+      title2: 'Remote Teams',
+      description: 'Bring balance and focus to your workforce with guided virtual sessions designed specifically for modern professionals.'
+    },
+    {
+      image: '/globall.png',
+      eyebrow: 'Connect Without Borders',
+      title1: 'A Global',
+      title2: 'Yoga Shala',
+      description: 'Practice with world-class instructors from anywhere on the planet. Seamless, interactive, and truly transformative.'
+    }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
   return (
     <section className="relative min-h-[100vh] flex items-center pt-48 md:pt-64 lg:pt-80 overflow-hidden bg-white">
       {/* Cinematic Background with subtle parallax */}
       <motion.div 
         style={{ scale, opacity }}
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 bg-white"
       >
-        <img 
-          src="/hero.png" 
-          alt="Yoga Background" 
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/40 to-transparent" />
+        <AnimatePresence mode="popLayout">
+          <motion.img
+            key={currentSlide}
+            src={slides[currentSlide].image}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full object-cover"
+            alt="Yoga Background"
+          />
+        </AnimatePresence>
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/50 to-transparent z-10" />
       </motion.div>
 
-      <div className="container mx-auto px-4 md:px-12 lg:px-20 relative z-10">
+      <div className="w-full px-4 md:px-8 relative z-10">
         <div className="max-w-4xl text-left">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-orange-600 font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6"
-          >
-            Experience the Evolution of Wellness
-          </motion.div>
-          
-          <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-serif italic text-sky-950 mb-8 tracking-tight leading-[1.1] md:leading-[1.05]">
-            <motion.span
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="block"
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
-              Master Your
-            </motion.span>
-            <motion.span
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.4 }}
-              className="text-orange-500 block"
-            >
-              Inner Flow
-            </motion.span>
-          </h1>
+              <div className="text-orange-600 font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6">
+                {slides[currentSlide].eyebrow}
+              </div>
+              
+              <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-serif italic text-sky-950 mb-8 tracking-tight leading-[1.1] md:leading-[1.05]">
+                <span className="block">{slides[currentSlide].title1}</span>
+                <span className="text-orange-500 block">{slides[currentSlide].title2}</span>
+              </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="text-lg md:text-xl lg:text-2xl text-sky-900/70 mb-12 max-w-2xl font-medium leading-relaxed"
-          >
-            Join a global community of practitioners. Elevate your corporate vitality through ancient wisdom, scientific precision, and collective harmony.
-          </motion.p>
+              <p className="text-lg md:text-xl lg:text-2xl text-sky-900/70 mb-12 max-w-2xl font-medium leading-relaxed">
+                {slides[currentSlide].description}
+              </p>
+            </motion.div>
+          </AnimatePresence>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

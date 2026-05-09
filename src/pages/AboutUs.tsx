@@ -36,7 +36,7 @@ const AboutUs = () => {
     <div className="pb-16 bg-brand-white pt-10 overflow-hidden">
       {/* Hero Section */}
       <section className="py-24 md:py-48 bg-sky-50/50 relative overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
+        <div className="w-full px-4 md:px-8 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -72,7 +72,7 @@ const AboutUs = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 md:py-20 container mx-auto px-4 md:px-6 -mt-16 md:-mt-32 relative z-20">
+      <section className="py-12 md:py-20 w-full px-4 md:px-8 -mt-16 md:-mt-32 relative z-20">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {stats.map((stat, idx) => (
             <motion.div
@@ -95,7 +95,7 @@ const AboutUs = () => {
       </section>
 
       {/* Philosophy Section */}
-      <section className="py-24 md:py-48 container mx-auto px-4 md:px-6">
+      <section className="py-24 md:py-48 w-full px-4 md:px-8 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 md:gap-32 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -167,7 +167,7 @@ const AboutUs = () => {
       </section>
 
       {/* Bottom Banner */}
-      <section className="py-24 md:py-48 container mx-auto px-4 md:px-6">
+      <section className="py-24 md:py-48 w-full px-4 md:px-8 md:px-6">
         <motion.div 
           whileHover={{ scale: 0.99 }}
           className="bg-sky-600 rounded-[3.5rem] md:rounded-[6rem] p-12 md:p-32 text-center relative overflow-hidden shadow-[0_50px_100px_-20px_rgba(2,132,199,0.3)]"

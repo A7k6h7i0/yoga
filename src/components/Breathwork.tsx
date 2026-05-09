@@ -29,7 +29,7 @@ const Breathwork = () => {
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ff7f00 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
       
-      <div className="container mx-auto px-4 md:px-12 lg:px-20 relative z-10">
+      <div className="w-full px-4 md:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row gap-20 lg:gap-32 items-center">
           <div className="lg:w-5/12 w-full">
             <motion.div

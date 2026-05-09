@@ -6,14 +6,14 @@ import Logo from './Logo';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-h-screen bg-brand-white flex flex-col">
+    <div className="min-h-screen bg-brand-white flex flex-col w-full">
       <Navigation />
       <main className="flex-grow">
         {children}
       </main>
       
       <footer className="bg-white pt-24 pb-12 border-t border-sky-50 relative overflow-hidden">
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="w-full px-4 md:px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
             {/* Brand Section */}
             <div className="lg:col-span-4 text-center md:text-left">
@@ -38,10 +38,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <div className="lg:col-span-2 text-center md:text-left">
               <h4 className="font-bold text-sky-950 mb-8 uppercase tracking-widest text-[10px]">Ecosystem</h4>
               <ul className="space-y-4">
-                <li><Link to="/workfit" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">WorkFit</Link></li>
-                <li><Link to="/about" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Our Story</Link></li>
+                <li><a href="/workfit" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">WorkFit</a></li>
+                <li><Link to="/" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Our Story</Link></li>
                 <li><Link to="/blog" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Wellness Journal</Link></li>
-                <li><Link to="/testimonials" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Voices</Link></li>
+                <li><Link to="/" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Voices</Link></li>
               </ul>
             </div>
 

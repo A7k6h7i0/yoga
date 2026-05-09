@@ -4,139 +4,133 @@ import { Globe, MapPin, Users, Heart, Sparkles } from 'lucide-react';
 
 const GlobalReach = () => {
   const network = [
-    { top: '25%', left: '25%', label: 'San Francisco' },
-    { top: '45%', left: '32%', label: 'New York' },
-    { top: '30%', left: '48%', label: 'London' },
-    { top: '55%', left: '60%', label: 'Dubai' },
-    { top: '40%', left: '72%', label: 'Singapore' },
-    { top: '65%', left: '88%', label: 'Sydney' },
+    { top: '25%', left: '25%', label: 'San Francisco', image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80' },
+    { top: '45%', left: '32%', label: 'New York', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80' },
+    { top: '30%', left: '48%', label: 'London', image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=100&q=80' },
+    { top: '55%', left: '60%', label: 'Dubai', image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80' },
+    { top: '40%', left: '72%', label: 'Singapore', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80' },
+    { top: '65%', left: '88%', label: 'Sydney', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80' },
   ];
 
   return (
-    <section className="py-24 md:py-48 bg-[#020617] text-white overflow-hidden relative">
-      <div className="container mx-auto px-4 md:px-12 lg:px-20 relative z-10">
-        <div className="text-center mb-20 md:mb-32">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-orange-300 text-[10px] md:text-xs font-black mb-8 tracking-[0.4em] uppercase border border-white/20"
-          >
-            <Globe className="w-4 h-4 animate-spin-slow" />
-            <span>The Global Network</span>
-          </motion.div>
-          <h2 className="text-4xl md:text-8xl font-serif italic mb-10 tracking-tight leading-none">
-            Our Global <br /> <span className="text-orange-400">Footprint</span>
-          </h2>
-          <p className="text-lg md:text-2xl text-orange-100/60 max-w-3xl mx-auto font-medium leading-relaxed">
-            From Silicon Valley to the heart of Singapore, LiveFit connects visionary corporate cultures into a single, synchronized shala.
-          </p>
-        </div>
-
-        <div className="relative aspect-[21/9] md:aspect-[16/7] w-full max-w-6xl mx-auto mb-24 md:mb-32">
-          {/* HIGH-VISIBILITY World Map Overlay */}
-          <div className="absolute inset-0 opacity-30 pointer-events-none">
-            <div 
-              className="w-full h-full bg-white"
-              style={{
-                maskImage: 'url("https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg")',
-                maskSize: '100% 100%',
-                maskRepeat: 'no-repeat',
-                maskPosition: 'center',
-                WebkitMaskImage: 'url("https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg")',
-                WebkitMaskSize: '100% 100%',
-                WebkitMaskRepeat: 'no-repeat',
-                WebkitMaskPosition: 'center',
-              }}
-            />
-            {/* Subtle glow for the map */}
-            <div className="absolute inset-0 bg-orange-500/20 blur-[2px] -z-10" style={{
-                maskImage: 'url("https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg")',
-                maskSize: '100% 100%',
-                WebkitMaskImage: 'url("https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg")',
-                WebkitMaskSize: '100% 100%',
-            }} />
+    <section className="py-24 md:py-32 bg-[#020617] text-white overflow-hidden relative">
+      <div className="w-full px-4 md:px-8 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+          
+          {/* LEFT: Text Content */}
+          <div className="w-full lg:w-1/2 text-left">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-orange-300 text-[10px] md:text-xs font-black mb-8 tracking-[0.4em] uppercase border border-white/20"
+            >
+              <Globe className="w-4 h-4 animate-spin-slow" />
+              <span>The Global Network</span>
+            </motion.div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-sans font-medium mb-8 tracking-tight leading-tight">
+              Struggling to maintain wellness routines for your remote teams?
+            </h2>
+            <p className="text-lg md:text-xl text-white/80 max-w-xl font-medium leading-relaxed mb-12">
+              Our remote team wellness solutions are designed to bridge the gap, ensuring your employees stay healthy, no matter where they are.
+            </p>
+            
+            {/* Global Statistics */}
+            <div className="grid grid-cols-2 gap-8 max-w-lg border-t border-white/20 pt-12">
+              { [
+                { label: 'Active Cities', value: '142', icon: MapPin },
+                { label: 'Daily Practitioners', value: '85k+', icon: Users },
+                { label: 'Total Calm Minutes', value: '1.2M', icon: Heart },
+                { label: 'Corporate Partners', value: '450+', icon: Sparkles },
+              ].map((stat, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group flex flex-col"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                     <stat.icon className="w-5 h-5 text-orange-400" />
+                     <div className="text-2xl font-serif italic font-bold">{stat.value}</div>
+                  </div>
+                  <div className="text-[10px] text-orange-300/40 font-black uppercase tracking-[0.2em]">{stat.label}</div>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
-          {/* Connection Lines between Pins */}
-          <svg viewBox="0 0 1000 500" className="absolute inset-0 w-full h-full pointer-events-none">
-             <motion.path 
-               d="M250,125 Q400,225 480,150 T720,200 T880,325" 
-               fill="none" 
-               stroke="#ff7f00" 
-               strokeWidth="1.5" 
-               strokeDasharray="4 4"
-               initial={{ pathLength: 0, opacity: 0 }}
-               whileInView={{ pathLength: 1, opacity: 0.8 }}
-               transition={{ duration: 4, ease: "easeInOut" }}
-             />
-          </svg>
+          {/* RIGHT: Map & Image */}
+          <div className="w-full lg:w-1/2 relative min-h-[400px] md:min-h-[600px] flex flex-col items-center justify-center mt-12 lg:mt-0">
+            {/* HIGH-VISIBILITY World Map Overlay */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none flex items-center justify-center">
+              <div 
+                className="w-full aspect-[2/1] bg-white scale-110 lg:scale-125"
+                style={{
+                  maskImage: 'url("https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg")',
+                  maskSize: 'contain',
+                  maskRepeat: 'no-repeat',
+                  maskPosition: 'center',
+                  WebkitMaskImage: 'url("https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg")',
+                  WebkitMaskSize: 'contain',
+                  WebkitMaskRepeat: 'no-repeat',
+                  WebkitMaskPosition: 'center',
+                }}
+              />
+            </div>
 
-          {/* Network Map Pins */}
-          {network.map((node, i) => (
-            <motion.div
-              key={i}
-              className="absolute"
-              style={{ top: node.top, left: node.left }}
-              initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.1, type: "spring", stiffness: 120 }}
-            >
-              <div className="relative group cursor-pointer">
-                {/* Visual Pulse */}
-                <motion.div
-                  animate={{ scale: [1, 2.2, 1], opacity: [0.5, 0, 0.5] }}
-                  transition={{ duration: 2.5, repeat: Infinity }}
-                  className="absolute inset-0 w-12 h-12 md:w-16 md:h-16 -translate-x-1/2 -translate-y-1/2 bg-orange-400/30 rounded-full blur-md"
-                />
-                
-                {/* High-Contrast Map Icon */}
-                <div className="relative z-10 -translate-x-1/2 -translate-y-1/2">
-                  <div className="p-2 bg-white rounded-full shadow-[0_0_20px_rgba(255,127,0,0.8)] border border-orange-100 group-hover:scale-125 transition-transform">
-                    <MapPin className="w-4 h-4 md:w-5 md:h-5 text-orange-600" />
-                  </div>
-                </div>
-
-                {/* City Label */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  whileHover={{ opacity: 1, y: 0 }}
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-6 px-4 py-2 bg-white text-sky-950 text-[10px] md:text-xs font-black rounded-xl whitespace-nowrap shadow-2xl border border-sky-50"
-                >
-                  {node.label}
-                </motion.div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Global Statistics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 max-w-5xl mx-auto border-t border-white/20 pt-16 md:pt-24">
-            { [
-              { label: 'Active Cities', value: '142', icon: MapPin },
-              { label: 'Daily Practitioners', value: '85k+', icon: Users },
-              { label: 'Total Calm Minutes', value: '1.2M', icon: Heart },
-              { label: 'Corporate Partners', value: '450+', icon: Sparkles },
-            ].map((stat, i) => (
+            {/* Network Map Pins */}
+            {network.map((node, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="text-center group"
+                className="absolute z-10"
+                style={{ top: node.top, left: node.left }}
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.1, type: "spring", stiffness: 120 }}
               >
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-600/20 transition-colors">
-                  <stat.icon className="w-6 md:w-8 h-6 md:h-8 text-orange-400" />
+                <div className="relative group cursor-pointer -translate-x-1/2 -translate-y-full hover:-translate-y-[120%] transition-transform duration-300">
+                  
+                  {/* Custom Avatar Map Pin - Fixed to point vertically DOWN */}
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-[50%_50%_50%_0] -rotate-45 p-[2px] shadow-2xl flex items-center justify-center relative z-10">
+                    <img 
+                      src={node.image} 
+                      className="w-full h-full rounded-full rotate-45 object-cover" 
+                      alt={node.label} 
+                    />
+                  </div>
+                  
+                  {/* Green Status Dot (placed below the pin) */}
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 md:w-2 md:h-2 bg-[#10b981] rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)] z-0" />
+
+                  {/* City Label */}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 px-3 py-1.5 bg-white text-slate-900 text-[10px] md:text-xs font-bold rounded-lg whitespace-nowrap shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+                    {node.label}
+                  </div>
                 </div>
-                <div className="text-4xl md:text-6xl font-serif italic font-bold mb-3 tracking-tight">{stat.value}</div>
-                <div className="text-[10px] md:text-xs text-orange-300/40 font-black uppercase tracking-[0.3em]">{stat.label}</div>
               </motion.div>
             ))}
+
+            {/* Center Yoga Master Overlay */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.4 }}
+              className="relative z-20 w-[70%] md:w-[60%] max-w-[320px] translate-y-24 md:translate-y-32"
+            >
+               {/* Displayed as a clean cutout or rounded frame, adapting to the user's uploaded image */}
+               <img 
+                  src="/globalnetwork.png" 
+                  alt="Yoga Master Teaching Online" 
+                  className="w-full h-auto object-contain drop-shadow-2xl"
+               />
+            </motion.div>
+          </div>
         </div>
       </div>
 
       {/* Background Decorative */}
-      <div className="absolute top-0 right-0 w-[60%] h-[60%] bg-orange-500/10 rounded-full blur-[180px] -z-10" />
-      <div className="absolute bottom-0 left-0 w-[50%] h-[50%] bg-orange-400/10 rounded-full blur-[150px] -z-10" />
+      <div className="absolute top-0 right-0 w-[40%] h-[60%] bg-orange-500/5 rounded-full blur-[150px] -z-10" />
+      <div className="absolute bottom-0 left-0 w-[40%] h-[50%] bg-orange-400/5 rounded-full blur-[120px] -z-10" />
     </section>
   );
 };

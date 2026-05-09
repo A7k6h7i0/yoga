@@ -41,7 +41,7 @@ const TestimonialsPage = () => {
         <div className="absolute top-0 right-0 w-full md:w-1/4 h-full opacity-5 pointer-events-none">
           <Flower2 className="w-full h-full text-sky-600" />
         </div>
-        <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
+        <div className="w-full px-4 md:px-8 text-center relative z-10">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -61,7 +61,7 @@ const TestimonialsPage = () => {
       </section>
 
       {/* Grid */}
-      <section className="py-12 md:py-20 container mx-auto px-4 md:px-6">
+      <section className="py-12 md:py-20 w-full px-4 md:px-8 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {testimonials.map((t, idx) => (
             <motion.div
@@ -97,7 +97,7 @@ const TestimonialsPage = () => {
 
       {/* Trust Banner */}
       <section className="py-12 md:py-20 bg-white overflow-hidden border-y border-sky-50">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="w-full px-4 md:px-8 md:px-6">
           <p className="text-center text-[9px] md:text-[10px] font-bold text-sky-400 uppercase tracking-[0.3em] mb-10 md:mb-16">
             Trusted by conscious leaders
           </p>

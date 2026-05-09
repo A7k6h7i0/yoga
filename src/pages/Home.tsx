@@ -1,30 +1,32 @@
 import React from 'react';
 import Hero from '../components/Hero';
-import Breathwork from '../components/Breathwork';
-import Philosophy from '../components/Philosophy';
-import Chakras from '../components/Chakras';
-import Journey from '../components/Journey';
-import Stick from '../components/Stick';
-import Capsules from '../components/Capsules';
-import AsanaGallery from '../components/AsanaGallery';
-import Instructors from '../components/Instructors';
-import Testimonials from '../components/Testimonials';
 import GlobalReach from '../components/GlobalReach';
+import Chakras from '../components/Chakras';
+import UniqueNeeds from '../components/UniqueNeeds';
+import OneOnOne from '../components/OneOnOne';
+import ZoomSessions from '../components/ZoomSessions';
+import GroupClasses from '../components/GroupClasses';
+import IndividualClasses from '../components/IndividualClasses';
+import AboutUsSection from '../components/AboutUsSection';
+import MyYogaTestimonials from '../components/MyYogaTestimonials';
+import MyYogaGuides from '../components/MyYogaGuides';
+import MyYogaFaq from '../components/MyYogaFaq';
 
 const Home = () => {
   return (
     <>
       <Hero />
-      <Breathwork />
-      <Philosophy />
+      <UniqueNeeds />
+      <AboutUsSection />
+      <OneOnOne />
+      <ZoomSessions />
+      <GroupClasses />
+      <IndividualClasses />
       <GlobalReach />
       <Chakras />
-      <Journey />
-      <Stick />
-      <Capsules />
-      <AsanaGallery />
-      <Instructors />
-      <Testimonials />
+      <MyYogaGuides />
+      <MyYogaTestimonials />
+      <MyYogaFaq />
     </>
   );
 };

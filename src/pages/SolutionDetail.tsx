@@ -434,7 +434,7 @@ const SolutionDetail = () => {
 
   return (
     <div className="pb-16 bg-white pt-24 md:pt-40 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-12 lg:px-20">
+      <div className="w-full px-4 md:px-8 lg:px-20">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -581,7 +581,7 @@ const SolutionDetail = () => {
 
         {/* BESPOKE UNIQUE SECTION (Varied Layouts) */}
         <section className="py-24 md:py-48 relative overflow-hidden">
-          <div className="container mx-auto">
+          <div className="w-full px-4 md:px-8">
              {renderUniqueSection()}
           </div>
           

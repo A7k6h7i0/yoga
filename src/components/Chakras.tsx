@@ -147,7 +147,7 @@ const Chakras = () => {
 
   return (
     <section className="py-24 md:py-48 bg-white relative">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="w-full px-4 md:px-8 md:px-6">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
           
           {/* Left Column - Sticky */}

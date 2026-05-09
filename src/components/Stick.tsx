@@ -38,7 +38,7 @@ const Stick = () => {
 
   return (
     <section ref={containerRef} className="relative py-12 md:py-32 bg-white">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="w-full px-4 md:px-8 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Left Content - Sticky only on Desktop */}
           <div className="lg:h-screen lg:sticky lg:top-0 flex flex-col justify-center py-10 lg:py-0">

@@ -20,7 +20,7 @@ const Capsules = () => {
 
   return (
     <section className="py-16 md:py-32 bg-sky-50/20 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="w-full px-4 md:px-8 md:px-6">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
           <div className="lg:w-1/2 text-center lg:text-left">
             <div className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[9px] md:text-[10px] mb-4">Zen Capsules</div>

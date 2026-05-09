@@ -11,7 +11,7 @@ const Instructors = () => {
 
   return (
     <section className="py-24 md:py-40 bg-sky-50/10 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-12 lg:px-20">
+      <div className="w-full px-4 md:px-8 lg:px-20">
         <div className="text-center mb-12 md:mb-20">
           <div className="text-sky-500 font-bold uppercase tracking-[0.3em] text-[9px] md:text-[10px] mb-4">The Masters</div>
           <h2 className="text-4xl md:text-6xl font-serif italic text-sky-950 leading-tight">Guided by <span className="text-sky-500">True Lineage</span></h2>

@@ -28,7 +28,7 @@ const Philosophy = () => {
 
   return (
     <section className="py-24 md:py-40 bg-[#fffaf5] relative overflow-hidden">
-      <div className="container mx-auto px-4 md:px-12 lg:px-20">
+      <div className="w-full px-4 md:px-8 lg:px-20">
         <div className="max-w-4xl mb-20 md:mb-32">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
