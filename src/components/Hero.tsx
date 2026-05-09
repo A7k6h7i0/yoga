@@ -75,11 +75,11 @@ const Hero = () => {
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
             >
-              <div className="text-orange-600 font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs mb-6">
+              <div className="text-orange-600 font-bold uppercase tracking-widest sm:tracking-[0.4em] text-[10px] md:text-xs mb-6 break-words">
                 {slides[currentSlide].eyebrow}
               </div>
               
-              <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-serif italic text-sky-950 mb-8 tracking-tight leading-[1.1] md:leading-[1.05]">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-serif italic text-sky-950 mb-8 tracking-tight leading-[1.1] md:leading-[1.05] break-words">
                 <span className="block">{slides[currentSlide].title1}</span>
                 <span className="text-orange-500 block">{slides[currentSlide].title2}</span>
               </h1>
@@ -94,12 +94,12 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-start gap-6"
+            className="flex flex-col sm:flex-row items-stretch sm:items-start gap-4 sm:gap-6 w-full"
           >
             <motion.button 
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-12 py-5 bg-orange-600 text-white rounded-full font-bold text-sm md:text-base shadow-2xl shadow-orange-100 transition-all"
+              className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 bg-orange-600 text-white rounded-full font-bold text-sm md:text-base shadow-2xl shadow-orange-100 transition-all text-center"
             >
               Start Free Trial
             </motion.button>
@@ -107,7 +107,7 @@ const Hero = () => {
             <motion.button 
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-12 py-5 bg-white text-sky-950 border border-sky-100 rounded-full font-bold text-sm md:text-base shadow-sm hover:bg-sky-50 transition-all flex items-center gap-3"
+              className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 bg-white text-sky-950 border border-sky-100 rounded-full font-bold text-sm md:text-base shadow-sm hover:bg-sky-50 transition-all flex items-center justify-center gap-3"
             >
               Explore Classes
             </motion.button>

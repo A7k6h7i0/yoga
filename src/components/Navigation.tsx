@@ -109,9 +109,9 @@ const Navigation = () => {
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-500 ${
-      isScrolled ? 'py-2 md:py-3 bg-white/80 backdrop-blur-xl border-b border-sky-50 shadow-sm' : 'py-4 md:py-6 bg-transparent'
+      isScrolled && !isOpen ? 'py-2 md:py-3 bg-white/80 backdrop-blur-xl border-b border-sky-50 shadow-sm' : isOpen ? 'py-2 md:py-3 bg-transparent' : 'py-4 md:py-6 bg-transparent'
     }`}>
-      <div className="w-full px-4 md:px-8 md:px-6">
+      <div className="w-full px-4 md:px-8">
         <div className="flex items-center justify-between">
           <Link to="/">
             <Logo />
@@ -222,9 +222,9 @@ const Navigation = () => {
             className="fixed inset-0 lg:hidden bg-white z-[60] overflow-y-auto"
           >
             <div className="w-full px-4 md:px-8 py-8 h-full flex flex-col">
-              <div className="flex justify-between items-center mb-12">
+              <div className="flex justify-between items-center mb-12 gap-4">
                  <Logo />
-                 <button onClick={() => setIsOpen(false)} className="p-2 bg-sky-50 rounded-full">
+                 <button onClick={() => setIsOpen(false)} className="p-2 bg-sky-50 rounded-full shrink-0">
                     <X className="w-8 h-8 text-sky-600" />
                  </button>
               </div>
@@ -234,23 +234,23 @@ const Navigation = () => {
                   <Link
                     key={link.name}
                     to={link.path}
-                    className="text-4xl font-serif italic font-bold text-sky-950"
+                    className="text-2xl md:text-3xl font-serif italic font-bold text-sky-950"
                   >
                     {link.name}
                   </Link>
                 ))}
                 
-                <div className="mt-12">
-                   <div className="text-[10px] font-black text-sky-300 uppercase tracking-[0.4em] mb-8">WorkFit Solutions</div>
-                   <div className="grid grid-cols-1 gap-6">
+                <div className="mt-8">
+                   <div className="text-[10px] font-black text-sky-300 uppercase tracking-[0.4em] mb-6">WorkFit Solutions</div>
+                   <div className="grid grid-cols-1 gap-4">
                      {solutions.map((item) => (
-                       <Link key={item.slug} to={`/solutions/${item.slug}`} className="flex items-center gap-5 group">
-                          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${item.color}`}>
-                             <item.icon className="w-7 h-7" />
+                       <Link key={item.slug} to={`/solutions/${item.slug}`} className="flex items-center gap-4 group">
+                          <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
+                             <item.icon className="w-5 h-5 md:w-6 md:h-6" />
                           </div>
                           <div className="flex flex-col">
-                             <span className="text-2xl font-serif italic font-bold text-sky-950 leading-none mb-1">{item.name}</span>
-                             <span className="text-xs text-sky-400 font-bold">{item.desc}</span>
+                             <span className="text-lg md:text-xl font-serif italic font-bold text-sky-950 leading-none mb-1">{item.name}</span>
+                             <span className="text-[10px] md:text-xs text-sky-400 font-bold leading-tight">{item.desc}</span>
                           </div>
                        </Link>
                      ))}
