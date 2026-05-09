@@ -18,21 +18,24 @@ const Hero = () => {
       eyebrow: 'Connect Without Borders',
       title1: 'A Global',
       title2: 'Yoga Shala',
-      description: 'Practice with world-class instructors from anywhere on the planet. Seamless, interactive, and truly transformative.'
+      description: 'Experience live online yoga sessions with Experts from the comfort of your home. Build strength, flexibility, and inner balance — anytime, anywhere. 1-on-1 & Group classes- available 24x7, Live via Zoom',
+      primaryButtonText: 'Start Free Trial'
     },
     {
       image: '/hero.png',
       eyebrow: 'Experience the Evolution of Wellness',
       title1: 'Master Your',
       title2: 'Inner Flow',
-      description: 'Join a global community of practitioners. Elevate your corporate vitality through ancient wisdom, scientific precision, and collective harmony.'
+      description: 'Elevate Your Team’s Productivity with WorkFit Yoga Boost focus, reduce stress, and energize your workplace with WorkFit’s tailored yoga sessions',
+      primaryButtonText: 'Book Demo'
     },
     {
       image: '/hero1.png',
       eyebrow: 'Wellness for kids through yoga & meditation To improve their focus and holistic health',
       title1: 'Empower Your',
       title2: 'Remote Teams',
-      description: 'Bring balance and focus to your workforce with guided virtual sessions designed specifically for modern professionals.'
+      description: 'Bring balance and focus to your workforce with guided virtual sessions designed specifically for modern professionals.',
+      primaryButtonText: 'Book Demo'
     },
     
   ];
@@ -102,7 +105,7 @@ const Hero = () => {
               whileTap={{ scale: 0.98 }}
               className="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 bg-orange-600 text-white rounded-full font-bold text-sm md:text-base shadow-2xl shadow-orange-100 transition-all text-center"
             >
-              Start Free Trial
+              {slides[currentSlide].primaryButtonText}
             </motion.button>
             
             <motion.button 
