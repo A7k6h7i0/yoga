@@ -14,6 +14,13 @@ const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slides = [
     {
+      image: '/globall.png',
+      eyebrow: 'Connect Without Borders',
+      title1: 'A Global',
+      title2: 'Yoga Shala',
+      description: 'Practice with world-class instructors from anywhere on the planet. Seamless, interactive, and truly transformative.'
+    },
+    {
       image: '/hero.png',
       eyebrow: 'Experience the Evolution of Wellness',
       title1: 'Master Your',
@@ -22,18 +29,12 @@ const Hero = () => {
     },
     {
       image: '/hero1.png',
-      eyebrow: 'Corporate Wellness Reimagined',
+      eyebrow: 'Wellness for kids through yoga & meditation To improve their focus and holistic health',
       title1: 'Empower Your',
       title2: 'Remote Teams',
       description: 'Bring balance and focus to your workforce with guided virtual sessions designed specifically for modern professionals.'
     },
-    {
-      image: '/globall.png',
-      eyebrow: 'Connect Without Borders',
-      title1: 'A Global',
-      title2: 'Yoga Shala',
-      description: 'Practice with world-class instructors from anywhere on the planet. Seamless, interactive, and truly transformative.'
-    }
+    
   ];
 
   useEffect(() => {
