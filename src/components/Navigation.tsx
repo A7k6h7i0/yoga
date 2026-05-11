@@ -108,9 +108,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-500 ${
-      isScrolled && !isOpen ? 'py-2 md:py-3 bg-white/80 backdrop-blur-xl border-b border-sky-50 shadow-sm' : isOpen ? 'py-2 md:py-3 bg-transparent' : 'py-4 md:py-6 bg-transparent'
-    }`}>
+    <nav className="sticky top-0 w-full z-50 bg-[#F5F5F3] py-0.5 md:py-1 border-b border-orange-100/50">
       <div className="w-full px-4 md:px-8">
         <div className="flex items-center justify-between">
           <Link to="/">

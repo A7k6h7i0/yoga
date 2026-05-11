@@ -6,7 +6,7 @@ const Logo = ({ className = "" }: { className?: string }) => {
       <img 
         src="/logo.png" 
         alt="LiveFit Logo" 
-        className="w-[200px] sm:w-[280px] md:w-[350px] lg:w-[310px] h-12 sm:h-20 md:h-24 lg:h-28 object-fill mix-blend-multiply contrast-125 transition-transform duration-300 hover:scale-105 max-w-[65vw]"
+        className="w-auto h-8 sm:h-12 md:h-14 lg:h-16 object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105"
       />
     </div>
   );
