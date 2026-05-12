@@ -132,9 +132,10 @@ const Navigation = () => {
               onMouseEnter={() => setActiveDropdown('workfit')}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <button className="flex items-center gap-2 text-sm font-black text-sky-950 hover:text-sky-600 transition-colors uppercase tracking-[0.25em]">
-                WorkFit <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === 'workfit' ? 'rotate-180' : ''}`} />
-              </button>
+              <div className="flex items-center gap-2 text-sm font-black text-sky-950 hover:text-sky-600 transition-colors uppercase tracking-[0.25em]">
+                <Link to="/workfit" onClick={() => setIsOpen(false)}>WorkFit</Link>
+                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === 'workfit' ? 'rotate-180' : ''}`} />
+              </div>
 
               <AnimatePresence>
                 {activeDropdown === 'workfit' && (
@@ -150,7 +151,7 @@ const Navigation = () => {
                       <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Challenges</h3>
                       <div className="flex flex-col gap-2">
                         {solutions.slice(0,4).map((item) => (
-                          <Link key={item.slug} to={`/solutions/${item.slug}`} className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group">
+                          <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setActiveDropdown(null)} className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group">
                             <div className="mt-0.5">
                               <item.icon className="w-6 h-6 text-slate-300 group-hover:text-white transition-colors" />
                             </div>
@@ -168,7 +169,7 @@ const Navigation = () => {
                       <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Other Solutions</h3>
                       <div className="grid grid-cols-2 gap-x-6 gap-y-4 mb-auto">
                         {solutions.slice(4,10).map((item) => (
-                          <Link key={item.slug} to={`/solutions/${item.slug}`} className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group">
+                          <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setActiveDropdown(null)} className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group">
                             <div className="mt-0.5">
                               <item.icon className="w-5 h-5 text-slate-300 group-hover:text-white transition-colors" />
                             </div>
@@ -180,7 +181,7 @@ const Navigation = () => {
                         ))}
                       </div>
                       
-                      <Link to="/workfit" className="mt-8 block">
+                      <Link to="/workfit" onClick={() => setActiveDropdown(null)} className="mt-8 block">
                         <div className="p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors flex items-center justify-between group">
                           <span className="text-[13px] font-medium text-slate-300 group-hover:text-white">See how Vantage Fit works as your all-in-one employee wellness software</span>
                           <span className="text-slate-500 group-hover:text-white transition-colors">→</span>
@@ -239,10 +240,10 @@ const Navigation = () => {
                 ))}
                 
                 <div className="mt-8">
-                   <div className="text-[10px] font-black text-sky-300 uppercase tracking-[0.4em] mb-6">WorkFit Solutions</div>
+                   <Link to="/workfit" onClick={() => setIsOpen(false)} className="text-[10px] font-black text-sky-300 hover:text-sky-500 transition-colors uppercase tracking-[0.4em] mb-6 block">WorkFit Solutions</Link>
                    <div className="grid grid-cols-1 gap-4">
                      {solutions.map((item) => (
-                       <Link key={item.slug} to={`/solutions/${item.slug}`} className="flex items-center gap-4 group">
+                       <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setIsOpen(false)} className="flex items-center gap-4 group">
                           <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
                              <item.icon className="w-5 h-5 md:w-6 md:h-6" />
                           </div>
