@@ -63,19 +63,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   <div className="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-400">
                     <Mail className="w-4 h-4" />
                   </div>
-                  hello@livefit.io
+                  Workfitbylivefit@gmail.com
                 </li>
                 <li className="flex items-center justify-center md:justify-start gap-4 text-sky-800 text-sm font-bold">
                   <div className="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-400">
                     <Phone className="w-4 h-4" />
                   </div>
-                  +1 (555) 012-3456
+                  +91 9890008742
                 </li>
                 <li className="flex items-center justify-center md:justify-start gap-4 text-sky-800 text-sm font-bold">
                   <div className="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-400">
                     <MapPin className="w-4 h-4" />
                   </div>
-                  San Francisco, CA
+                  1508, JP Imperia tower 2, Mira Road, Mumbai 401107
                 </li>
               </ul>
             </div>

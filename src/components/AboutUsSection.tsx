@@ -75,7 +75,7 @@ const AboutUsSection = () => {
               transition={{ duration: 0.8 }}
             >
               <div className="text-orange-500 font-bold tracking-widest text-[10px] mb-4 uppercase">OUR STORY</div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 font-serif leading-tight">
+              <h2 className="text-2xl md:text-2xl lg:text-5xl font-bold mb-8 font-serif leading-tight">
                 Wellness Rooted in <br />
                 <span className="text-orange-500">Balance & Growth</span>
               </h2>
@@ -94,8 +94,8 @@ const AboutUsSection = () => {
 
               {/* Branding Highlight */}
               <div className="mt-12 p-6 rounded-2xl bg-white border border-orange-100 flex items-start gap-6 shadow-sm">
-                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-white shrink-0 shadow-lg shadow-orange-100 p-3">
-                   <img src="/flowerlogo.png" alt="Lotus" className="w-full h-full object-contain" />
+                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-white shrink-0 shadow-lg shadow-orange-100 p-1">
+                   <img src="/flowerlogo2.png" alt="Lotus" className="w-full h-full object-contain" />
                 </div>
                 <p className="text-sm md:text-base text-slate-600 font-medium italic">
                   "Our lotus-inspired logo represents growth, resilience, balance, and transformation. Just as the lotus rises and blooms beautifully through every condition, LiveFit encourages people to grow, thrive, and live with greater purpose and well-being."

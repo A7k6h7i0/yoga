@@ -1,16 +1,15 @@
 import React from 'react';
 import Hero from '../components/Hero';
-import GlobalReach from '../components/GlobalReach';
-import Chakras from '../components/Chakras';
 import UniqueNeeds from '../components/UniqueNeeds';
 import OneOnOne from '../components/OneOnOne';
 import ZoomSessions from '../components/ZoomSessions';
-import GroupClasses from '../components/GroupClasses';
-import IndividualClasses from '../components/IndividualClasses';
 import AboutUsSection from '../components/AboutUsSection';
-import MyYogaTestimonials from '../components/MyYogaTestimonials';
-import MyYogaGuides from '../components/MyYogaGuides';
-import MyYogaFaq from '../components/MyYogaFaq';
+import Programs from '../components/Programs';
+import GalleryLibrary from '../components/GalleryLibrary';
+import WorkoutStats from '../components/WorkoutStats';
+import ScheduleCTA from '../components/ScheduleCTA';
+import GlobalSchedule from '../components/GlobalSchedule';
+
 
 const Home = () => {
   return (
@@ -20,15 +19,15 @@ const Home = () => {
       <AboutUsSection />
       <OneOnOne />
       <ZoomSessions />
-      <GroupClasses />
-      <IndividualClasses />
-      <GlobalReach />
-      <Chakras />
-      <MyYogaGuides />
-      <MyYogaTestimonials />
-      <MyYogaFaq />
+      <Programs />
+      <GlobalSchedule />
+      <ScheduleCTA />
+      <WorkoutStats />
+      <GalleryLibrary />
     </>
   );
 };
 
 export default Home;
+
+

@@ -1,52 +1,148 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Video } from 'lucide-react';
+import { Users, MapPin, Calendar, User, MonitorPlay, Sparkles } from 'lucide-react';
 
 const ZoomSessions = () => {
   return (
-    <section className="py-24 bg-white text-black text-center">
-      <div className="w-full px-4 md:px-8 lg:px-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
+    <section className="py-24 bg-[#F8F5F1] bg-[url('/workflow-bg.jpg')] bg-cover bg-center bg-no-repeat relative overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 relative z-10">
+        
+        {/* Top Section */}
+        <div className="flex flex-col lg:flex-row items-center gap-16 mb-20">
+          
+          {/* Left Column - Content */}
+          <div className="lg:w-5/12">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-5xl md:text-5xl font-bold mb-6 text-slate-900 leading-[1.1]">
+                Your Wellness, <br/>
+                <span className="text-orange-500">Anywhere</span>
+              </h2>
+              
+              <p className="text-[17px] text-slate-600 mb-12 leading-relaxed max-w-md">
+                Live small-group wellness sessions designed for modern living — accessible from home, office, travel, or anywhere your day begins.
+              </p>
+              
+              <div className="space-y-8 mb-12">
+                {/* Feature 1 */}
+                <div className="flex items-start gap-5">
+                  <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center shrink-0 shadow-md">
+                    <Users className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-[17px] font-bold text-slate-900 mb-1">Small Groups</h3>
+                    <p className="text-[14px] text-slate-600">Personal attention. Real connection.</p>
+                  </div>
+                </div>
+                
+                {/* Feature 2 */}
+                <div className="flex items-start gap-5">
+                  <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center shrink-0 shadow-md">
+                    <MapPin className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-[17px] font-bold text-slate-900 mb-1">Join From Anywhere</h3>
+                    <p className="text-[14px] text-slate-600">Home, office, travel, or outdoors.</p>
+                  </div>
+                </div>
+
+                {/* Feature 3 */}
+                <div className="flex items-start gap-5">
+                  <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center shrink-0 shadow-md">
+                    <Calendar className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-[17px] font-bold text-slate-900 mb-1">Flexible & Consistent</h3>
+                    <p className="text-[14px] text-slate-600">Sessions throughout the day<br/>to fit your routine.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <button className="px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30 uppercase tracking-wide text-sm hover:-translate-y-0.5">
+                Join a Live Session
+              </button>
+            </motion.div>
+          </div>
+          
+          {/* Right Column - Image */}
+          <div className="lg:w-7/12 w-full relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative w-full drop-shadow-2xl rounded-[2rem] overflow-hidden"
+            >
+              <img 
+                src="/zoom.png" 
+                alt="Live Wellness Session" 
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Bottom Banner */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-12"
+          className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4 relative z-10"
         >
-          <div className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-slate-700 font-bold text-sm mb-6">
-            <Video className="w-4 h-4 text-orange-500" />
-            Live over Zoom
+          {/* Item 1 */}
+          <div className="flex items-start gap-4 flex-1">
+            <div className="shrink-0">
+              <User className="w-9 h-9 text-orange-500" strokeWidth={1} />
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-900 text-[15px] mb-1">Expert Instructors</h4>
+              <p className="text-[13px] text-slate-600 leading-tight">Learn from certified<br/>wellness professionals.</p>
+            </div>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Seamlessly Integrated <br className="hidden md:block"/> with your workflow</h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            No commute. No hassle. Unroll your mat and connect with your teacher in high-definition video, right from your living room.
-          </p>
+          
+          <div className="hidden md:block w-px h-12 bg-orange-100 shrink-0"></div>
+
+          {/* Item 2 */}
+          <div className="flex items-start gap-4 flex-1">
+            <div className="shrink-0">
+              <MonitorPlay className="w-9 h-9 text-orange-500" strokeWidth={1} />
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-900 text-[15px] mb-1">Live & Interactive</h4>
+              <p className="text-[13px] text-slate-600 leading-tight">Real-time guidance.<br/>Real-time support.</p>
+            </div>
+          </div>
+
+          <div className="hidden md:block w-px h-12 bg-orange-100 shrink-0"></div>
+
+          {/* Item 3 */}
+          <div className="flex items-start gap-4 flex-1">
+            <div className="shrink-0">
+              <Users className="w-9 h-9 text-orange-500" strokeWidth={1} />
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-900 text-[15px] mb-1">Supportive Community</h4>
+              <p className="text-[13px] text-slate-600 leading-tight">Stay motivated with like-minded<br/>people on the same journey.</p>
+            </div>
+          </div>
+
+          <div className="hidden md:block w-px h-12 bg-orange-100 shrink-0"></div>
+
+          {/* Item 4 */}
+          <div className="flex items-start gap-4 flex-1">
+            <div className="shrink-0">
+              <Sparkles className="w-9 h-9 text-orange-500" strokeWidth={1} />
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-900 text-[15px] mb-1">Holistic Approach</h4>
+              <p className="text-[13px] text-slate-600 leading-tight">Yoga, fitness, breathwork,<br/>meditation & more.</p>
+            </div>
+          </div>
         </motion.div>
         
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="relative max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-100"
-        >
-          {/* Faux Zoom UI Header */}
-          <div className="bg-slate-900 px-4 py-3 flex items-center justify-between text-white border-b border-slate-800">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <div className="text-sm font-medium">LiveFit Session</div>
-            <div className="text-sm px-2 py-1 bg-red-500 rounded text-xs font-bold">REC</div>
-          </div>
-          <div className="aspect-video relative bg-slate-900">
-            <img 
-              src="/groupyoga.png" 
-              alt="Zoom Session" 
-              className="w-full h-full object-cover"
-            />
-
-          </div>
-        </motion.div>
       </div>
     </section>
   );

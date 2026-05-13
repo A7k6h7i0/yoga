@@ -376,7 +376,7 @@ const WorkFit = () => {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           <div className="text-center mb-16">
-            <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">How WorkFit Helps</div>
+            <div className="text-orange-500 font-bold text-lg tracking-[0.2em] uppercase mb-4">How WorkFit Helps</div>
             <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
               Wellness Programs That Drive Real Impact
             </h2>
@@ -1409,10 +1409,10 @@ const WorkFit = () => {
                 </div>
                 <div className="flex flex-col gap-2 shrink-0">
                   <div className="flex items-center gap-2 text-xs font-medium text-orange-400">
-                    <Mail className="w-3.5 h-3.5" /> Work.fit.wellnesss@gmail.com
+                    <Mail className="w-3.5 h-3.5" /> Workfitbylivefit@gmail.com
                   </div>
                   <div className="flex items-center gap-2 text-xs font-medium text-orange-400">
-                    <Phone className="w-3.5 h-3.5" /> +91 9890008743
+                    <Phone className="w-3.5 h-3.5" /> +91 9890008742
                   </div>
                 </div>
               </div>
