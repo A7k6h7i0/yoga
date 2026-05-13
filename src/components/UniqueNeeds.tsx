@@ -253,11 +253,11 @@ const UniqueNeeds = () => {
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
-            <button className="w-full sm:w-auto px-10 py-4 bg-orange-500 text-white rounded-2xl font-bold text-sm shadow-xl shadow-orange-200 hover:bg-slate-900 transition-all duration-300">
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-[20%] lg:w-auto">
+            <button className="w-[40%] sm:w-auto px-10 py-4 bg-orange-500 text-white rounded-2xl font-bold text-sm shadow-xl shadow-orange-200 hover:bg-slate-900 transition-all duration-300">
               EXPLORE ALL PROGRAMS
             </button>
-            <button className="w-full sm:w-auto px-10 py-4 bg-white text-orange-600 border border-orange-100 rounded-2xl font-bold text-sm hover:bg-orange-50 transition-all duration-300 flex items-center justify-center gap-2">
+            <button className="w-[20%] sm:w-auto px-10 py-4 bg-white text-orange-600 border border-orange-100 rounded-2xl font-bold text-sm hover:bg-orange-50 transition-all duration-300 flex items-center justify-center gap-2">
               BOOK FREE CONSULTATION <ArrowRight className="w-4 h-4" />
             </button>
           </div>
