@@ -9,6 +9,7 @@ import GalleryLibrary from '../components/GalleryLibrary';
 import WorkoutStats from '../components/WorkoutStats';
 import ScheduleCTA from '../components/ScheduleCTA';
 import GlobalSchedule from '../components/GlobalSchedule';
+import LiveFitTestimonials from '../components/LiveFitTestimonials';
 
 
 const Home = () => {
@@ -24,6 +25,7 @@ const Home = () => {
       <ScheduleCTA />
       <WorkoutStats />
       <GalleryLibrary />
+      <LiveFitTestimonials />
     </>
   );
 };
