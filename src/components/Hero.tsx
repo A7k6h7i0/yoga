@@ -27,7 +27,8 @@ const slides = [
       'Increase productivity & morale'
     ],
     primaryButtonText: 'Explore WorkFit',
-    buttonStyle: 'outline'
+    buttonStyle: 'outline',
+    link: '/workfit'
   },
   {
     image: '/yoga_children.png',
@@ -185,7 +186,7 @@ const Hero = () => {
                 <motion.button 
                   whileHover={{ scale: 1.05, boxShadow: "0 25px 50px -12px rgba(249, 115, 22, 0.4)" }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => navigate('/schedule')}
+                  onClick={() => navigate((slides[currentSlide] as any).link || '/schedule')}
                   className="group relative overflow-hidden px-10 py-5 bg-orange-500 text-white rounded-full font-black transition-all flex items-center gap-3 text-sm md:text-base uppercase tracking-widest shadow-2xl shadow-orange-200"
                 >
                   {slides[currentSlide].primaryButtonText}
