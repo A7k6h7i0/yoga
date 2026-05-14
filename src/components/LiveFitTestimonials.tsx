@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { Star, Quote, Globe2, Users2, Building, Activity } from 'lucide-react';
 
 const testimonialsData = [
@@ -111,6 +112,7 @@ const testimonialsData = [
 ];
 
 const LiveFitTestimonials = () => {
+  const navigate = useNavigate();
   return (
     <section className="py-24 bg-[#FAFAFA] text-sky-950 overflow-hidden relative">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -230,11 +232,17 @@ const LiveFitTestimonials = () => {
               <p className="text-gray-500 font-bold text-xs md:text-sm">Move better. Breathe deeper. Live healthier.</p>
             </div>
           </div>
-          <div className="flex flex-row items-center gap-3 relative z-10 w-full lg:w-auto">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-orange-500/20 hover:-translate-y-1 flex-1 sm:flex-none text-[12px] uppercase tracking-wider whitespace-nowrap">
+          <div className="flex flex-col sm:flex-row items-center gap-3 relative z-10 w-full lg:w-auto">
+            <button 
+              onClick={() => navigate('/schedule')}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-lg shadow-orange-500/20 hover:-translate-y-1 w-full sm:w-auto text-[12px] uppercase tracking-wider whitespace-nowrap"
+            >
               Join Live Classes
             </button>
-            <button className="bg-white border-2 border-sky-950 text-sky-950 hover:bg-gray-50 font-bold py-3 px-6 rounded-xl transition-all flex-1 sm:flex-none text-[12px] uppercase tracking-wider whitespace-nowrap">
+            <button 
+              onClick={() => navigate('/inquiry')}
+              className="bg-white border-2 border-sky-950 text-sky-950 hover:bg-gray-50 font-bold py-3.5 px-8 rounded-xl transition-all w-full sm:w-auto text-[12px] uppercase tracking-wider whitespace-nowrap"
+            >
               Book Free Consultation
             </button>
           </div>

@@ -245,21 +245,27 @@ const UniqueNeeds = () => {
           viewport={{ once: true }}
           className="rounded-[3rem] bg-[#FFF8F2] py-8 px-8 md:px-16 flex flex-col lg:flex-row items-center justify-between gap-8 border border-orange-100"
         >
-          <div className="flex items-center gap-8">
-            <div className="w-16 h-16 rounded-3xl bg-white flex items-center justify-center text-orange-500 shadow-xl shadow-orange-100/50 border border-orange-50">
+          <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+            <div className="w-16 h-16 rounded-3xl bg-white flex items-center justify-center text-orange-500 shadow-xl shadow-orange-100/50 border border-orange-50 shrink-0">
               <Sparkles className="w-8 h-8" />
             </div>
-            <div className="text-left">
-              <h4 className="text-2xl md:text-3xl font-bold font-serif mb-1">Start Your Wellness Journey</h4>
+            <div>
+              <h4 className="text-2xl md:text-3xl font-bold font-serif mb-1 text-sky-950">Start Your Wellness Journey Today</h4>
               <p className="text-slate-500 font-medium">Move better. Breathe deeper. Live healthier.</p>
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-[20%] lg:w-auto">
-            <button className="w-[40%] sm:w-auto px-10 py-4 bg-orange-500 text-white rounded-2xl font-bold text-sm shadow-xl shadow-orange-200 hover:bg-slate-900 transition-all duration-300">
-              EXPLORE ALL PROGRAMS
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
+            <button 
+              onClick={() => navigate('/schedule')}
+              className="w-full sm:w-auto px-10 py-4 bg-orange-500 text-white rounded-2xl font-bold text-sm shadow-xl shadow-orange-200 hover:bg-slate-900 transition-all duration-300"
+            >
+              JOIN LIVE CLASSES
             </button>
-            <button className="w-[20%] sm:w-auto px-10 py-4 bg-white text-orange-600 border border-orange-100 rounded-2xl font-bold text-sm hover:bg-orange-50 transition-all duration-300 flex items-center justify-center gap-2">
+            <button 
+              onClick={() => navigate('/inquiry')}
+              className="w-full sm:w-auto px-10 py-4 bg-white text-orange-600 border border-orange-100 rounded-2xl font-bold text-sm hover:bg-orange-50 transition-all duration-300 flex items-center justify-center gap-2"
+            >
               BOOK FREE CONSULTATION <ArrowRight className="w-4 h-4" />
             </button>
           </div>
