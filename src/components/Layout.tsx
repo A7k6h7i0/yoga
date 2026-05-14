@@ -75,7 +75,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   <div className="w-8 h-8 rounded-lg bg-sky-50 flex items-center justify-center text-sky-400">
                     <MapPin className="w-4 h-4" />
                   </div>
-                  1508, JP Imperia tower 2, Mira Road, Mumbai 401107
+                  Imperia tower II, Mira Road, Mumbai 401107,India
                 </li>
               </ul>
             </div>

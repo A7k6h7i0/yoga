@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { 
   Dumbbell, Heart, Brain, Baby, Flame, 
   UserRound, Smile, Users, User, Calendar,
@@ -7,11 +8,12 @@ import {
 } from 'lucide-react';
 
 const UniqueNeeds = () => {
+  const navigate = useNavigate();
   const [selectedProgram, setSelectedProgram] = useState(null);
 
   const programs = [
     {
-      title: 'Strength & Mobility',
+      title: 'Flexibility,Strength & Mobility',
       tagline: 'Move Better. Feel Stronger.',
       desc: 'Build flexibility, core strength, posture, and endurance through mindful movement and functional training.',
       image: '/1.png',
@@ -117,7 +119,7 @@ const UniqueNeeds = () => {
       title: 'Breathwork & Pranayama',
       tagline: 'Breathe Better. Live Better.',
       desc: 'Powerful breathing techniques to improve focus, energy, sleep, and stress management naturally.',
-      image: '/11.png',
+      image: '/12.png',
       icon: Wind,
       overview: 'Discover the power of conscious breathing techniques that help improve focus, energy, sleep quality, emotional balance, and stress management.',
       details: 'These guided pranayama sessions help calm the mind while energizing the body naturally.',
@@ -127,7 +129,7 @@ const UniqueNeeds = () => {
       title: 'Meditation & Mental Wellness',
       tagline: 'Find Stillness in a Busy World',
       desc: 'Guided meditation practices to improve clarity, emotional balance, mindfulness, and inner calm.',
-      image: '/12.png',
+      image: '/11.png',
       icon: Moon,
       overview: 'Guided meditation sessions designed to help you relax deeply, improve clarity, reduce overthinking, and build emotional resilience.',
       details: 'Learn simple mindfulness practices that can bring calm and balance into your everyday life.',
@@ -344,10 +346,16 @@ const UniqueNeeds = () => {
                 </div>
 
                 <div className="mt-12 flex flex-col sm:flex-row gap-4">
-                  <button className="flex-1 bg-orange-500 text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-orange-100 hover:bg-slate-900 transition-all duration-300">
+                  <button 
+                    onClick={() => navigate('/login')}
+                    className="flex-1 bg-orange-500 text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-orange-100 hover:bg-slate-900 transition-all duration-300"
+                  >
                     Start Today
                   </button>
-                  <button className="flex-1 bg-white text-slate-900 border border-slate-200 py-4 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all duration-300">
+                  <button 
+                    onClick={() => navigate('/inquiry')}
+                    className="flex-1 bg-white text-orange-500 border border-orange-500 py-4 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all duration-300"
+                  >
                     Free Consultation
                   </button>
                 </div>

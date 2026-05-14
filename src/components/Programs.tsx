@@ -389,11 +389,11 @@ function Programs() {
               className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-[2.5rem] shadow-2xl z-[101] overflow-hidden max-h-[90vh] flex flex-col"
             >
               {/* Modal Header/Image */}
-              <div className="relative h-48 md:h-64 shrink-0">
+              <div className="relative h-80 md:h-[400px] shrink-0">
                 <img
                   src={selectedProgram.image}
                   alt={selectedProgram.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-[center_top]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
                 <button

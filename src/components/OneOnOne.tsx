@@ -1,8 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Activity, Calendar, Globe, ArrowRight, PlayCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const OneOnOne = () => {
+  const navigate = useNavigate();
+
+  const navigateToHowItWorks = () => {
+    navigate('/how-it-works');
+  };
+
   return (
     <section className="py-24 bg-[#FFFAF5] text-black overflow-hidden relative">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 relative z-10">
@@ -65,10 +72,16 @@ const OneOnOne = () => {
               </div>
               
               <div className="flex flex-wrap items-center gap-6">
-                <button className="px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30 flex items-center gap-2 hover:-translate-y-0.5">
+                <button 
+                  onClick={() => navigate('/schedule')}
+                  className="px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30 flex items-center gap-2 hover:-translate-y-0.5"
+                >
                   Book Your Personalized Session <ArrowRight className="w-5 h-5" />
                 </button>
-                <button className="px-6 py-4 text-slate-700 font-bold hover:text-orange-500 transition-colors flex items-center gap-3 group">
+                <button 
+                  onClick={navigateToHowItWorks}
+                  className="px-6 py-4 text-slate-700 font-bold hover:text-orange-500 transition-colors flex items-center gap-3 group border border-orange-500 rounded-full"
+                >
                   <PlayCircle className="w-7 h-7 text-slate-800 group-hover:text-orange-500 transition-colors" strokeWidth={1.5} /> 
                   How It Works
                 </button>

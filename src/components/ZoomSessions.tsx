@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Users, MapPin, Calendar, User, MonitorPlay, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ZoomSessions = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="py-24 bg-[#F8F5F1] bg-[url('/workflow-bg.jpg')] bg-cover bg-center bg-no-repeat relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 relative z-10">
@@ -61,7 +64,10 @@ const ZoomSessions = () => {
                 </div>
               </div>
               
-              <button className="px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30 uppercase tracking-wide text-sm hover:-translate-y-0.5">
+              <button 
+                onClick={() => navigate('/schedule')}
+                className="px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30 uppercase tracking-wide text-sm hover:-translate-y-0.5"
+              >
                 Join a Live Session
               </button>
             </motion.div>

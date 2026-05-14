@@ -9,7 +9,7 @@ const ScheduleCTA: React.FC = () => {
           No Excuses! It’s your move
         </p>
         
-        <button className="px-16 py-6 bg-[#FF69B4] hover:bg-[#FF1493] text-white rounded-full font-bold text-xl shadow-2xl shadow-pink-500/20 transition-all duration-500 transform hover:scale-105 active:scale-95 flex items-center gap-3 group">
+        <button className="px-16 py-6 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-bold text-xl shadow-2xl shadow-pink-500/20 transition-all duration-500 transform hover:scale-105 active:scale-95 flex items-center gap-3 group">
           Start your 3-day free trial
           <MoveRight className="group-hover:translate-x-2 transition-transform" />
         </button>

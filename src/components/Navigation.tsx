@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, X, ChevronDown, Sparkles
@@ -89,6 +89,7 @@ const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -196,7 +197,8 @@ const Navigation = () => {
             <motion.button 
               whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-4 bg-orange-600 text-white rounded-full font-black text-[10px] md:text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-100 transition-all flex items-center gap-2"
+              onClick={() => navigate('/schedule')}
+              className="px-12 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-100 transition-all flex items-center gap-2"
             >
               Book Demo <Sparkles className="w-3 h-3" />
             </motion.button>

@@ -116,7 +116,10 @@ const GalleryLibrary: React.FC = () => {
               <p className="text-base text-sky-900/60 max-w-xl">Dive into our library and gallery to learn, relax, and stay inspired every day.</p>
             </div>
           </div>
-          <button className="bg-[#ff7f00] text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-sky-900 transition-all duration-300 shadow-lg shadow-orange-200 flex-shrink-0 active:scale-95 group/main-btn overflow-hidden relative">
+          <button 
+            onClick={() => window.open('https://www.youtube.com/watch?v=sTANio_2E0Q', '_blank')}
+            className="bg-[#ff7f00] text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-sky-900 transition-all duration-300 shadow-lg shadow-orange-200 flex-shrink-0 active:scale-95 group/main-btn overflow-hidden relative"
+          >
             <span className="relative z-10 flex items-center gap-2">
               EXPLORE ALL RESOURCES
               <MoveRight className="group-hover/main-btn:translate-x-1 transition-transform" />

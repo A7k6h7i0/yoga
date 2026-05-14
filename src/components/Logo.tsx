@@ -10,7 +10,7 @@ const Logo = ({ className = "" }: { className?: string }) => {
       <img 
         src={isWorkfit ? "/workfitlogo.png" : "/logo.png"} 
         alt={isWorkfit ? "WorkFit Logo" : "LiveFit Logo"} 
-        className="w-auto h-8 sm:h-12 md:h-14 lg:h-16 object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105"
+        className="w-auto h-12 sm:h-16 md:h-20 lg:h-24 object-contain mix-blend-multiply transition-all duration-300 hover:scale-105"
       />
     </div>
   );
