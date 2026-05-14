@@ -9,105 +9,105 @@ const testimonialsData = [
     date: '18 Apr 2026',
     location: 'New York, USA',
     text: 'Sujit at LiveFit is very considerate of students who recently joined his class. Being a beginner, I cannot get to the fullest of some poses. He will make sure to give the starting poses instructions given to me so that I can still do. He is very accommodating, having a lot of patience. And give instructions slowly so that beginners can also understand.',
-    image: 'https://i.pravatar.cc/150?u=remya'
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Katy',
     date: '16 Mar 2025',
     location: 'California, USA',
     text: 'I had a wonderful experience in this class! The combination of Ashtanga and Kundalini. The flow was beautifully structured, allowing for strength, breathwork, and inner connection. The instructor was knowledgeable and supportive. Highly recommend for anyone looking for a transformative and balanced practice!',
-    image: 'https://i.pravatar.cc/150?u=katy'
+    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Dani',
     date: '06 Jun 2022',
     location: 'Texas, USA',
     text: "I had to hold my membership due to family. It is so good to be back. I love Sujit at LiveFit's class! It is my favorite and it has helped me make so many positive changes in my body, mind and lifestyle.",
-    image: 'https://i.pravatar.cc/150?u=dani'
+    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Alex Seidel',
     date: '04 Mar 2022',
     location: 'Florida, USA',
     text: "I was quite happy to realise through today's practice that I have obtained considerably more flexibility in my arms and shoulders through the work I have been doing with SUJIT at LiveFit in that area.",
-    image: 'https://i.pravatar.cc/150?u=alex'
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Sri',
     date: '06 Jun 2022',
     location: 'Illinois, USA',
     text: "Thanks Sujit at LiveFit, for another lovely practice. I want to say that you are helping me a lot to connect with my inner self and wanting to do more. Can't express my gratitude enough.",
-    image: 'https://i.pravatar.cc/150?u=sri'
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Vimi',
     date: '04 Mar 2022',
     location: 'Washington, USA',
     text: "I am so glad that I connected with Sujit at LiveFit. He is a young man who can give you immense knowledge throughout your class. He keeps it fun and peaceful at the same time. Looking forward to many classes with him.",
-    image: 'https://i.pravatar.cc/150?u=vimi'
+    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Sheetal',
     date: '21 Mar 2022',
     location: 'New Jersey, USA',
     text: "Sujit at LiveFit's classes are a complete stress buster for me. My PCOD symptoms have improved, I feel more energetic, sleep better and my mind feels calm and positive.",
-    image: 'https://i.pravatar.cc/150?u=sheetal'
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Priyanki And Douglas',
     date: '20 Mar 2022',
     location: 'Massachusetts, USA',
     text: "He is the best, my daughter loves doing yoga with him. Sujit at LiveFit makes the sessions so much fun and engaging for kids.",
-    image: 'https://i.pravatar.cc/150?u=douglas'
+    image: 'https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Sonia',
     date: '23 Mar 2023',
     location: 'Arizona, USA',
     text: "I really like Sujit at LiveFit as a teacher, deep learning, I feel I go deeper in yoga in every class.",
-    image: 'https://i.pravatar.cc/150?u=sonia'
+    image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Margaret',
     date: '01 May 2023',
     location: 'Ohio, USA',
     text: "Great workout session. The teacher loves to sing during poses which is great. Plus he has a nice singing voice. Love his way of teaching which is fun and relaxed.",
-    image: 'https://i.pravatar.cc/150?u=margaret'
+    image: 'https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Carol',
     date: '30 Apr 2023',
     location: 'Georgia, USA',
     text: "Sujit Sunday Kundalini class was wonderful. I love it when he introduces new breathing and movement techniques. My stress and anxiety have reduced significantly.",
-    image: 'https://i.pravatar.cc/150?u=carol'
+    image: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Taina Pereenniemi',
     date: '05 May 2023',
     location: 'Helsinki, Finland',
     text: "Thank you so much for innovating a special chair yoga session today, as I did not have my yoga mat with me at the hotel. Very much appreciated!",
-    image: 'https://i.pravatar.cc/150?u=taina'
+    image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Reena Marwah',
     date: '31 Mar 2023',
     location: 'Toronto, Canada',
     text: "Sujit at LiveFit makes me work hard with my yoga practice—and teaches in a fun, relaxed way. I appreciate his work ethic!",
-    image: 'https://i.pravatar.cc/150?u=reena'
+    image: 'https://images.unsplash.com/photo-1589386417686-0d34b5903d23?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'Nasaya Turpin',
     date: '18 Mar 2023',
     location: 'London, UK',
     text: "Sujit is highly perceptive and skilled about knowing where the body is in any given pose, and gives great pointers on when and how to make corrections. It helps me improve. He's a great conversationalist too!",
-    image: 'https://i.pravatar.cc/150?u=nasaya'
+    image: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
     name: 'James Walker',
     date: '02 May 2023',
     location: 'Seattle, USA',
     text: "As someone with a desk job and constant neck pain, Sujit at LiveFit's sessions changed my life. Pain reduced, focus improved, and energy levels are much higher now.",
-    image: 'https://i.pravatar.cc/150?u=james'
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150&h=150'
   }
 ];
 
