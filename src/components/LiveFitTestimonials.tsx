@@ -54,11 +54,11 @@ const testimonialsData = [
     image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
-    name: 'Priyanki And Douglas',
+    name: 'Priya',
     date: '20 Mar 2022',
     location: 'Massachusetts, USA',
     text: "He is the best, my daughter loves doing yoga with him. Sujit at LiveFit makes the sessions so much fun and engaging for kids.",
-    image: 'https://images.unsplash.com/photo-1554151228-14d9def656e4?auto=format&fit=crop&q=80&w=150&h=150'
+    image: 'https://media.istockphoto.com/id/1293903541/photo/young-woman-stock-photo.webp?a=1&b=1&s=612x612&w=0&k=20&c=UdxFAngDV5MeDQ5f3Ff5CavYTh1Fu-RnQ3PsY6SER3s='
   },
   {
     name: 'Sonia',
@@ -68,11 +68,11 @@ const testimonialsData = [
     image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
-    name: 'Margaret',
+    name: 'Amelia',
     date: '01 May 2023',
     location: 'Ohio, USA',
     text: "Great workout session. The teacher loves to sing during poses which is great. Plus he has a nice singing voice. Love his way of teaching which is fun and relaxed.",
-    image: 'https://images.unsplash.com/photo-1548142813-c348350df52b?auto=format&fit=crop&q=80&w=150&h=150'
+    image: 'https://media.istockphoto.com/id/1308542628/photo/young-business-woman-stock-photo.webp?a=1&b=1&s=612x612&w=0&k=20&c=pGz9vgby9CStcjvSX1Oc9rj1XqXn2Yw_5sPS4w5Vy74='
   },
   {
     name: 'Carol',
@@ -89,18 +89,18 @@ const testimonialsData = [
     image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
-    name: 'Reena Marwah',
+    name: 'Ava',
     date: '31 Mar 2023',
     location: 'Toronto, Canada',
     text: "Sujit at LiveFit makes me work hard with my yoga practice—and teaches in a fun, relaxed way. I appreciate his work ethic!",
-    image: 'https://images.unsplash.com/photo-1589386417686-0d34b5903d23?auto=format&fit=crop&q=80&w=150&h=150'
+    image: 'https://media.istockphoto.com/id/1282562437/photo/woman-at-home-sofa-sitting-stock-photo.webp?a=1&b=1&s=612x612&w=0&k=20&c=cClABsdy226UgQ-9m2P6dAgUKXdknKzBKk4bmiw0b14='
   },
   {
-    name: 'Nasaya Turpin',
+    name: 'Freya',
     date: '18 Mar 2023',
     location: 'London, UK',
     text: "Sujit is highly perceptive and skilled about knowing where the body is in any given pose, and gives great pointers on when and how to make corrections. It helps me improve. He's a great conversationalist too!",
-    image: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&q=80&w=150&h=150'
+    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d29tYW58ZW58MHx8MHx8fDA%3D'
   },
   {
     name: 'James Walker',
