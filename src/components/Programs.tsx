@@ -365,7 +365,9 @@ function Programs() {
               "One Commitment. 30 Days. <span className="text-brand-primary">A healthier, stronger, calmer you.</span>"
             </p>
           </div>
-          <button className="bg-brand-primary text-white px-8 py-3 rounded-full font-bold hover:bg-brand-dark transition-all duration-300 shadow-lg shadow-brand-primary/20 hover:shadow-brand-dark/20 uppercase text-xs tracking-widest">
+          <button className="bg-brand-primary text-white px-8 py-3 rounded-full font-bold hover:bg-brand-dark transition-all duration-300 shadow-lg shadow-brand-primary/20 hover:shadow-brand-dark/20 uppercase text-xs tracking-widest"
+          onClick={() => window.open('https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w', '_blank')}
+          >
             Explore All Programs
           </button>
         </motion.div>
