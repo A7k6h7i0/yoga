@@ -1,11 +1,12 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
-dotenv.config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 app.use(express.json());
@@ -66,6 +67,35 @@ app.post('/api/auth/login', async (req, res) => {
     res.json({ token, user: { id: user._id, name: user.name, email } });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Payment Route
+app.post('/api/payment/create-checkout-session', async (req, res) => {
+  try {
+    const { items, successUrl, cancelUrl } = req.body;
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: items.map(item => ({
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: item.name,
+          },
+          unit_amount: item.amount * 100, // amount in cents
+        },
+        quantity: item.quantity || 1,
+      })),
+      mode: 'payment',
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+    });
+
+    res.json({ id: session.id, url: session.url });
+  } catch (err) {
+    console.error('Stripe error:', err);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 

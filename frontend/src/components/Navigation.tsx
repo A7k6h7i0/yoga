@@ -22,7 +22,7 @@ const solutions = [
   { 
     name: 'Custom Challenges', 
     slug: 'custom-challenges', 
-    desc: 'Create custom challenges catering to different health goals', 
+    desc: 'Design bespoke wellness challenges aligned with corporate goals', 
     icon: CustomIcon,
     color: 'text-orange-500 bg-orange-50'
   },
@@ -91,7 +91,8 @@ const Navigation = () => {
   }, [location]);
 
   const navLinks = [
-    { name: 'Home', path: '/' }
+    { name: 'Home', path: '/' },
+    { name: 'Pricing', path: '/pricing' }
   ];
 
   const user = JSON.parse(localStorage.getItem('user') || 'null');

@@ -10,50 +10,50 @@ import {
 
 const solutionData: any = {
   'steps-challenge': {
-    title: 'Daily Asana',
-    subtitle: 'Posture & Spinal Health',
-    desc: 'Engage in daily posture challenges designed for office mobility and spinal health. Our AI-driven sequences focus on reversing the effects of prolonged sitting.',
-    science: 'Recent studies in spinal mechanics show that micro-breaks of just 3 minutes every hour can reduce lower-back inflammation by up to 30%.',
+    title: 'Step Marathon',
+    subtitle: 'Active Workforce',
+    desc: 'Ignite a culture of movement with our competitive step challenges. Empower your team to reach new heights through daily walking goals, real-time leaderboards, and virtual global routes.',
+    science: 'Walking 10,000 steps a day is linked to a 50% lower risk of cardiovascular disease and significantly improves mental clarity and metabolic health.',
     userStory: {
-      quote: "The desk-life was killing my focus. With Daily Asana, my back feels decades younger.",
-      author: "Sarah Chen",
-      role: "Lead Engineer @ TechNexus"
+      quote: "The Step Marathon turned our office into a thriving community of walkers. I've never felt more energized!",
+      author: "Michael Scott",
+      role: "Regional Manager @ Dunder Mifflin"
     },
     uniqueSection: {
       layout: 'split',
-      title: "Bio-Mechanical Precision",
-      desc: "Our AI analysis identifies your specific postural deviations and crafts a path that restores your natural alignment.",
-      image: "/biomechanical_spine.png",
-      accent: "bg-sky-600",
-      icon: Shield
+      title: "Real-Time Mobility Hub",
+      desc: "Sync with any wearable device and watch your team traverse virtual landscapes from the Himalayas to the Amazon Rainforest.",
+      image: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&q=80",
+      accent: "bg-orange-600",
+      icon: Activity
     },
     icon: Wind,
-    color: 'text-sky-600 bg-sky-50',
-    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80',
-    features: ['Real-time posture feedback', 'Spinal alignment exercises', 'Office-friendly sequences', 'Progress analytics']
+    color: 'text-orange-600 bg-orange-50',
+    image: 'https://plus.unsplash.com/premium_photo-1727444085897-35a0197a7ea6?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    features: ['Real-time leaderboard', 'Wearable device sync', 'Virtual global routes', 'Team milestones']
   },
   'custom-challenges': {
-    title: 'Zen Mastery',
-    subtitle: 'Mindfulness Streaks',
-    desc: 'Personalized meditation and mindfulness journeys. Build mental resilience with streaks that adapt to your schedule and stress levels.',
-    science: 'Mindfulness training has been shown to increase grey matter density in the prefrontal cortex responsible for executive decision-making.',
+    title: 'Custom Challenges',
+    subtitle: 'Tailored Wellness Journeys',
+    desc: 'Design bespoke wellness challenges aligned with your corporate goals. From hydration tracking to targeted fitness milestones, create programs that resonate with your unique workforce.',
+    science: 'Customized wellness programs experience up to 60% higher engagement rates compared to generic fitness tracking solutions.',
     userStory: {
-      quote: "Zen Mastery helped me find calm in the middle of a major merger. It's a mental gym.",
-      author: "Marcus Thorne",
-      role: "VP of Operations @ GlobalLogistics"
+      quote: "Being able to design our own 'Summer Active' challenge completely transformed our team's engagement. It felt like it was truly ours.",
+      author: "Elena Rodriguez",
+      role: "HR Director @ TechNova"
     },
     uniqueSection: {
       layout: 'centered',
-      title: "Neural Plasticity Lab",
-      desc: "Measure the physical change in your brain's focus centers as you progress through advanced meditation cycles.",
-      image: "https://images.unsplash.com/photo-1507120410856-1f35574c3b45?auto=format&fit=crop&q=80",
-      accent: "bg-sky-500",
-      icon: Lightbulb
+      title: "Challenge Builder Studio",
+      desc: "Use our intuitive drag-and-drop builder to mix and match activities, set custom rules, define milestones, and create reward tiers tailored to your company culture.",
+      image: "https://images.unsplash.com/photo-1560233075-4c1e2007908e?q=80&w=715&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      accent: "bg-indigo-500",
+      icon: Layers
     },
-    icon: Brain,
-    color: 'text-sky-600 bg-sky-50',
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80',
-    features: ['Custom meditation timers', 'Guided focus sessions', 'Stress level tracking', 'Mindfulness certifications']
+    icon: Target,
+    color: 'text-indigo-600 bg-indigo-50',
+    image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80',
+    features: ['Drag-and-drop challenge builder', 'Customizable reward tiers', 'Flexible activity tracking', 'Branded interface options']
   },
   'team-challenge': {
     title: 'Collective Flow',
@@ -79,27 +79,27 @@ const solutionData: any = {
     features: ['Live group sessions', 'Team leaderboard', 'Collaborative goals', 'Shared relaxation space']
   },
   'virtual-marathon': {
-    title: 'Pranayama Quest',
-    subtitle: 'Breathwork Journey',
-    desc: 'A global quest through the science of breath. Master ancient pranayama techniques to instantly regulate your nervous system.',
-    science: 'Controlled breathing acts as a hack for the Vagus nerve, switching from the sympathetic to the parasympathetic nervous system.',
+    title: 'Global Sprint',
+    subtitle: 'Virtual Endurance Race',
+    desc: 'Unite your global workforce with a high-impact virtual marathon. Participants can run, walk, or cycle to complete a shared distance across iconic global landmarks.',
+    science: 'Long-distance endurance activities strengthen the prefrontal cortex, enhancing resilience and long-term goal orientation in professional settings.',
     userStory: {
-      quote: "I used to reach for coffee every 2 hours. Now, a 5-minute Pranayama cycle gives me more clarity.",
-      author: "David Wu",
-      role: "Hedge Fund Analyst @ ApexCapital"
+      quote: "Crossing the virtual finish line with 500 colleagues across 12 countries was an unforgettable bonding experience.",
+      author: "Sarah Jenkins",
+      role: "Operations Lead @ GlobalLogistics"
     },
     uniqueSection: {
       layout: 'atmospheric',
-      title: "The Oxygen Revolution",
-      desc: "Unlock cellular vitality through precise CO2 tolerance training and ancient breath retention methods.",
-      image: "https://images.unsplash.com/photo-1510894347713-fc3ed6fdf539?auto=format&fit=crop&q=80",
-      accent: "bg-sky-300",
-      icon: Wind
+      title: "Landmark Achievement",
+      desc: "Our platform visualizes your progress against world-famous routes, providing historical facts and cultural insights at every milestone.",
+      image: "https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?auto=format&fit=crop&q=80",
+      accent: "bg-sky-700",
+      icon: Trophy
     },
     icon: Trophy,
     color: 'text-sky-600 bg-sky-50',
-    image: 'https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?auto=format&fit=crop&q=80',
-    features: ['Advanced breath techniques', 'Energy management tools', 'Guided audio journeys', 'Vitality metrics']
+    image: 'https://images.unsplash.com/photo-1530549387074-d56a99e1bf81?auto=format&fit=crop&q=80',
+    features: ['Global route tracking', 'Interval training tools', 'Team relays', 'Interactive map stats']
   },
   'remote-team-wellness': {
     title: 'Remote Yoga Studio',

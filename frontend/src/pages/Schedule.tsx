@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Mail, CheckCircle2, ArrowRight, Globe2, MessageSquare, Target } from 'lucide-react';
+import { Calendar, Clock, Mail, CheckCircle2, ArrowRight, Globe2, MessageSquare, Target, Phone } from 'lucide-react';
 
 const Schedule = () => {
   const [submitted, setSubmitted] = useState(false);

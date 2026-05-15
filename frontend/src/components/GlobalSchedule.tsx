@@ -89,8 +89,8 @@ const GlobalSchedule = () => {
                   <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_2078_272" result="shape"></feBlend>
                 </filter>
                 <linearGradient id="paint0_linear_2078_272" x1="413.157" y1="743.955" x2="413.677" y2="569.205" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#002A9C"></stop>
-                  <stop offset="1" stop-color="#7DC4FF"></stop>
+                  <stop stopColor="#002A9C"></stop>
+                  <stop offset="1" stopColor="#7DC4FF"></stop>
                 </linearGradient>
                 <clipPath id="clip0_2078_272">
                   <rect width="600.511" height="1203.19" fill="white" transform="translate(0.332031 0.585938)"></rect>
