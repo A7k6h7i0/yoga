@@ -222,24 +222,24 @@ const Hero = () => {
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-3 bg-white/10 backdrop-blur-xl p-2 rounded-full border border-white/20 shadow-2xl">
+        <div className="flex items-center gap-6 bg-[#2B2D42] text-white/90 px-6 py-3 rounded-full shadow-2xl backdrop-blur-md">
           <button 
             onClick={handlePrev}
-            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 text-white transition-colors"
+            className="hover:text-white transition-colors p-1 text-lg"
           >
-            <ChevronLeft size={20} />
+            ←
           </button>
           <button 
             onClick={() => setIsPaused(!isPaused)}
-            className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white hover:bg-orange-600 transition-colors shadow-lg shadow-orange-200"
+            className="hover:text-orange-400 text-orange-500 transition-colors flex items-center justify-center p-1"
           >
-            {isPaused ? <Play size={22} fill="currentColor" /> : <Pause size={22} fill="currentColor" />}
+            {isPaused ? <Play size={18} fill="currentColor" /> : <Pause size={18} fill="currentColor" />}
           </button>
           <button 
             onClick={handleNext}
-            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 text-white transition-colors"
+            className="hover:text-white transition-colors p-1 text-lg"
           >
-            <ChevronRight size={20} />
+            →
           </button>
         </div>
       </div>

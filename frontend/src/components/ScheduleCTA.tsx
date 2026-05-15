@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const ScheduleCTA: React.FC = () => {
   const navigate = useNavigate();
   return (
-    <div className="relative z-[100] bg-black py-20 px-4">
+    <div className="relative z-10 bg-black py-20 px-4">
       <div className="max-w-4xl mx-auto flex flex-col items-center gap-12">
         <p className="text-4xl md:text-6xl font-bold text-white text-center font-serif italic tracking-tight">
           No Excuses! It’s your move

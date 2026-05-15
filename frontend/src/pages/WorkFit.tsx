@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'fra
 import { 
   Menu, X, Sparkles, ChevronRight
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   ArrowRight, Flower2, Activity, Apple, 
   Play, Users, Headphones, FileText, Monitor, 
@@ -13,10 +13,12 @@ import {
   TrendingUp, ShieldCheck, CheckCircle2,
   CalendarDays, Zap, Scale, DollarSign,
   Wind, Shield, Droplets, Check,
-  Quote, Building, Globe2, PlusCircle, MinusCircle, ChevronDown, ChevronUp, Mail, Phone
+  Quote, Building, Globe2, PlusCircle, MinusCircle, ChevronDown, ChevronUp, Mail, Phone,
+  Footprints, Smile, Target, Trophy, Leaf, Moon
 } from 'lucide-react';
 
 const WorkFit = () => {
+  const navigate = useNavigate();
   const containerRef = React.useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -51,8 +53,6 @@ const WorkFit = () => {
       iconColor: 'bg-[#f97316]',
       badgeColor: 'text-[#f97316]',
       IconComponent: Flower2,
-      badge: '01',
-      badgeStyle: 'number',
       title: ['Move Together'],
       subtitle: 'Yoga & Stretch at Work',
       description: 'Boost energy and reduce sedentary stress with desk and mat-based yoga sessions.'
@@ -64,11 +64,15 @@ const WorkFit = () => {
       iconColor: 'bg-[#3b82f6]',
       badgeColor: 'text-[#3b82f6]',
       IconComponent: Flower2,
-      badge: '02',
-      badgeStyle: 'number',
       title: ['Mind. Calm. Focused.'],
-      subtitle: 'Mindfulness & Meditation',
-      description: 'Guided sessions to reduce stress, improve focus and build mental resilience.'
+      subtitle: 'Mental & Emotional Wellbeing for Your Team',
+      description: 'Support your team\'s mental and emotional wellbeing with expert-led sessions and resources that truly make a difference.',
+      listFeatures: [
+        { icon: UserCircle2, title: 'Live 1-on-1 Sessions', desc: 'Personalized support for stress, anxiety, burnout and more.' },
+        { icon: Users2, title: 'Group Sessions', desc: 'Interactive sessions to build resilience, emotional balance and connection.' },
+        { icon: BookOpen, title: 'Resource Library', desc: 'Yoga, meditation, mindfulness, blogs and podcasts – learn, anytime.' },
+      ],
+      tagline: 'Stronger minds. Happier teams. Better workplaces.'
     },
     {
       image: '/wh4.png',
@@ -77,24 +81,60 @@ const WorkFit = () => {
       iconColor: 'bg-[#22c55e]',
       badgeColor: 'text-[#22c55e]',
       IconComponent: Activity,
-      badge: '03',
-      badgeStyle: 'number',
       title: ['Stronger Together'],
       subtitle: 'Challenges & Team Programs',
-      description: 'Step challenges, virtual runs, sun salutations and more to build healthy competition.'
+      description: 'Fun, engaging and purpose-driven challenges that bring teams closer while building healthier habits.',
+      multiSection: [
+        {
+          title: 'Physical Challenges',
+          color: '#22c55e',
+          fullWidth: true,
+          items: [
+            { icon: Footprints, title: 'Step Challenges', desc: 'Move more together. Track steps, climb leaderboards, win together.' },
+            { icon: Activity, title: 'Virtual Runs', desc: 'Run anytime, anywhere. One goal, one team.' },
+            { icon: Flower2, title: 'Sun Salutations', desc: 'Build strength, flexibility and mindfulness together.' },
+          ]
+        },
+        {
+          title: 'Mental Wellbeing Challenges',
+          color: '#22c55e',
+          items: [
+            { icon: Flower2, title: 'Mindfulness Challenge', desc: 'Pause, breathe and stay present together.' },
+            { icon: Smile, title: 'Gratitude Challenge', desc: 'Spread positivity. Build a culture of appreciation.' },
+            { icon: Target, title: 'Focus Challenge', desc: 'Stay focused, reduce stress and achieve more.' },
+          ]
+        },
+        {
+          title: 'Team Programs',
+          color: '#22c55e',
+          items: [
+            { icon: Users2, title: 'Team Wellness Program', desc: 'Holistic wellbeing plans tailored for your team.' },
+            { icon: UserCircle2, title: 'Wellness Workshops', desc: 'Interactive sessions on fitness, nutrition, stress management & more.' },
+            { icon: Trophy, title: 'Rewards & Recognition', desc: 'Celebrate progress. Inspire lasting change.' },
+          ]
+        }
+      ],
+      tagline: 'Better habits. Stronger teams. Healthier workplaces.'
     },
     {
       image: '/wh5.png',
       theme: 'dark',
       iconBadge: true,
-      iconColor: 'bg-[#8b5cf6]',
-      badgeColor: 'text-[#8b5cf6]',
+      iconColor: 'bg-[#3b82f6]', // Clear blue as requested
+      badgeColor: 'text-[#3b82f6]',
       IconComponent: Apple,
-      badge: '04',
-      badgeStyle: 'number',
       title: ['Healthy Habits'],
-      subtitle: 'Nutrition & Lifestyle',
-      description: 'Personalized nutrition, intermittent fasting, better sleep and everyday habit coaching.'
+      subtitle: 'Lifestyle & Wellness Programs',
+      description: 'Build healthier routines through nutrition coaching, mindful living and sustainable wellbeing practices designed for modern teams.',
+      simpleListFeatures: [
+        { icon: Leaf, text: 'Personalized nutrition &\nhealthy eating guidance' },
+        { icon: Brain, text: 'Positive mindset &\nstress-management programs' },
+        { icon: Scale, text: 'Work-life balance &\nburnout prevention' },
+        { icon: Moon, text: 'Sleep, recovery &\nenergy optimization' },
+        { icon: Clock, text: 'Intermittent fasting &\nhabit-building challenges' },
+        { icon: BookOpen, text: 'Wellness resources including\nblogs, podcasts & guided sessions' }
+      ],
+      tagline: 'Healthy people. Positive culture. Better performance.'
     }
   ];
 
@@ -239,12 +279,101 @@ const WorkFit = () => {
                   </div>
                 )}
 
+                {/* List Features (icon + title + desc) */}
+                {(slides[currentSlide] as any).listFeatures && (
+                  <div className="space-y-4 mb-6">
+                    {(slides[currentSlide] as any).listFeatures.map((f: any, idx: number) => (
+                      <div key={idx} className="flex items-start gap-4">
+                        <div className="w-10 h-10 rounded-full bg-[#3b82f6]/20 border border-[#3b82f6]/30 flex items-center justify-center shrink-0 mt-0.5">
+                          <f.icon className="w-5 h-5 text-[#3b82f6]" />
+                        </div>
+                        <div>
+                          <div className="font-bold text-white text-sm">{f.title}</div>
+                          <div className="text-sm text-gray-400 leading-snug">{f.desc}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Multi-Section (full width then two-column) */}
+                {(slides[currentSlide] as any).multiSection && (() => {
+                  const sections = (slides[currentSlide] as any).multiSection;
+                  const fullSections = sections.filter((s: any) => s.fullWidth);
+                  const halfSections = sections.filter((s: any) => !s.fullWidth);
+                  const accentColor = (slides[currentSlide] as any).badgeColor?.match(/\[(.*?)\]/)?.[1] || (slides[currentSlide] as any).badgeColor?.replace('text-', '') || '#22c55e';
+                  const renderItem = (item: any, iIdx: number, small = false) => (
+                    <div key={iIdx} className="flex items-start gap-2.5">
+                      <div className={`${small ? 'w-7 h-7' : 'w-8 h-8'} rounded-full flex items-center justify-center shrink-0 mt-0.5`} style={{ background: 'transparent', border: `1px solid ${accentColor}` }}>
+                        <item.icon style={{ color: accentColor }} className={small ? 'w-3.5 h-3.5' : 'w-4 h-4'} />
+                      </div>
+                      <div>
+                        <div className="font-bold text-white text-xs">{item.title}</div>
+                        <div className="text-xs text-gray-400 leading-snug">{item.desc}</div>
+                      </div>
+                    </div>
+                  );
+                  return (
+                    <div className="mb-3 space-y-3">
+                      {fullSections.map((section: any, sIdx: number) => (
+                        <div key={sIdx}>
+                          <h4 className="text-white font-bold text-sm mb-2">{section.title}</h4>
+                          <div className="space-y-1.5">
+                            {section.items.map((item: any, iIdx: number) => renderItem(item, iIdx))}
+                          </div>
+                        </div>
+                      ))}
+                      {halfSections.length > 0 && (
+                        <div className="grid grid-cols-2 gap-3">
+                          {halfSections.map((section: any, sIdx: number) => (
+                            <div key={sIdx}>
+                              <h4 className="text-white font-bold text-xs mb-2">{section.title}</h4>
+                              <div className="space-y-1.5">
+                                {section.items.map((item: any, iIdx: number) => renderItem(item, iIdx, true))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+
+                {/* Simple List Features */}
+                {(slides[currentSlide] as any).simpleListFeatures && (() => {
+                  const accentColor = (slides[currentSlide] as any).badgeColor?.match(/\[(.*?)\]/)?.[1] || (slides[currentSlide] as any).badgeColor?.replace('text-', '') || '#6366f1';
+                  return (
+                    <div className="mb-8 flex flex-col">
+                      {(slides[currentSlide] as any).simpleListFeatures.map((f: any, idx: number, arr: any[]) => (
+                        <div key={idx} className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ border: `1px solid ${accentColor}` }}>
+                            <f.icon className="w-5 h-5" style={{ color: accentColor }} />
+                          </div>
+                          <div className={`flex-1 py-3 ${idx !== arr.length - 1 ? 'border-b border-gray-700/50' : ''}`}>
+                            <div className="text-white text-sm font-medium whitespace-pre-line leading-snug">
+                              {f.text}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  );
+                })()}
+
+                {/* Tagline */}
+                {(slides[currentSlide] as any).tagline && (
+                  <p className="text-sm font-semibold mb-6" style={{ color: (slides[currentSlide] as any).badgeColor?.match(/\[(.*?)\]/)?.[1] || (slides[currentSlide] as any).badgeColor?.replace('text-', '') || '#3b82f6' }}>
+                    {(slides[currentSlide] as any).tagline}
+                  </p>
+                )}
+
                 {/* Action Buttons */}
                 {(slides[currentSlide].primaryButtonText || slides[currentSlide].secondaryButtonText) && (
                   <div className="flex flex-col sm:flex-row items-center gap-5">
                   <motion.button 
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={() => navigate('/inquiry')}
                     className={`group relative overflow-hidden font-bold transition-all flex items-center justify-center gap-2 ${
                       slides[currentSlide].buttonStyle === 'screenshot' 
                       ? 'bg-[#f97316] text-white rounded-lg px-8 py-3.5 shadow-md w-full sm:w-auto text-[15px]'

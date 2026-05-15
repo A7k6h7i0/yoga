@@ -27,7 +27,7 @@ const GlobalSchedule = () => {
           <motion.h3 
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-7xl font-extrabold text-slate-900 font-serif leading-tight mb-10"
+            className="text-5xl md:text-8xl font-extrabold text-slate-900 font-serif leading-tight mb-10"
           >
             Our schedule runs Round-the-Clock
           </motion.h3>
@@ -39,7 +39,7 @@ const GlobalSchedule = () => {
           {/* SVG & Phone Wrapper */}
           <div className="relative w-[240px] md:w-[380px] aspect-[601/1204] z-10">
             
-            {/* The SVG from shvasa.com */}
+            
             <svg width="100%" height="100%" viewBox="0 0 601 1204" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative z-10">
               <g clipPath="url(#clip0_2078_272)">
                 
@@ -107,7 +107,7 @@ const GlobalSchedule = () => {
                transition={{ duration: 1 }}
                src="https://cdn.prod.website-files.com/67691f03eb5bfa3289b3daed/6769218dbe8c0679c8ea0e4f_schedule-section-lady-image.avif"
                alt="Yoga Lady"
-               className="w-[120%] max-w-[1400px] h-auto object-contain translate-x-[1%] -translate-y-24"
+               className="w-[100%] max-w-[1200px] h-auto object-contain translate-x-[1%] -translate-y-12 md:-translate-y-24"
              />
           </div>
         </div>

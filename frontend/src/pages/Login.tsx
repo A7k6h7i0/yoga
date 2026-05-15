@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Lock, ArrowRight, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:5000/api/auth/login', formData);
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+      navigate('/');
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Invalid email or password');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F5F5F3] flex items-center justify-center px-6 pt-20">
@@ -21,12 +36,17 @@ const Login = () => {
           <p className="text-sky-900/50 text-sm font-bold uppercase tracking-widest">Sign in to your LiveFit account</p>
         </div>
 
-        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+        {error && <p className="text-red-500 text-xs font-bold text-center mb-6">{error}</p>}
+
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label className="block text-[10px] font-black text-sky-950 uppercase tracking-[0.2em] mb-3">Email Address</label>
             <div className="relative">
               <input 
                 type="email" 
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-sky-950"
                 placeholder="name@example.com"
               />
@@ -38,6 +58,9 @@ const Login = () => {
             <div className="relative">
               <input 
                 type="password" 
+                required
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-sky-950"
                 placeholder="••••••••"
               />
@@ -46,10 +69,10 @@ const Login = () => {
           </div>
 
           <div className="flex justify-end">
-            <button className="text-[10px] font-black text-orange-500 uppercase tracking-widest hover:text-orange-600 transition-colors">Forgot Password?</button>
+            <button type="button" className="text-[10px] font-black text-orange-500 uppercase tracking-widest hover:text-orange-600 transition-colors">Forgot Password?</button>
           </div>
 
-          <button className="w-full py-5 bg-orange-500 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-orange-100 hover:bg-orange-600 transition-all flex items-center justify-center gap-2 group">
+          <button type="submit" className="w-full py-5 bg-orange-500 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-orange-100 hover:bg-orange-600 transition-all flex items-center justify-center gap-2 group">
             Sign In <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </form>
@@ -57,10 +80,10 @@ const Login = () => {
         <div className="mt-10 pt-8 border-t border-slate-50 text-center">
           <p className="text-sm text-sky-900/50 font-medium mb-4">Don't have an account yet?</p>
           <button 
-            onClick={() => navigate('/schedule')}
+            onClick={() => navigate('/signup')}
             className="text-sky-950 font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 mx-auto hover:text-orange-500 transition-colors"
           >
-            Claim Free Trial <Sparkles className="w-3 h-3 text-orange-500" />
+            Create Account <Sparkles className="w-3 h-3 text-orange-500" />
           </button>
         </div>
       </motion.div>

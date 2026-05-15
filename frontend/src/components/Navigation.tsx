@@ -55,13 +55,6 @@ const solutions = [
     color: 'text-orange-500 bg-orange-50'
   },
   { 
-    name: 'Wellness Rewards Program', 
-    slug: 'wellness-rewards', 
-    desc: 'Encourage healthy behaviours through rewards', 
-    icon: RewardsIcon,
-    color: 'text-orange-500 bg-orange-50'
-  },
-  { 
     name: 'Global Employee Engagement', 
     slug: 'global-engagement', 
     desc: 'Connect employees across diverse cultures', 
@@ -75,13 +68,6 @@ const solutions = [
     icon: HolisticIcon,
     color: 'text-orange-500 bg-orange-50'
   },
-  { 
-    name: 'Health & Fitness Analytics', 
-    slug: 'health-analytics', 
-    desc: 'Track and optimize wellness programs', 
-    icon: AnalyticsIcon,
-    color: 'text-orange-500 bg-orange-50'
-  }
 ];
 
 const Navigation = () => {
@@ -108,6 +94,14 @@ const Navigation = () => {
     { name: 'Home', path: '/' }
   ];
 
+  const user = JSON.parse(localStorage.getItem('user') || 'null');
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   return (
     <nav className="sticky top-0 w-full z-50 bg-[#F5F5F3] py-0.5 md:py-1 border-b border-orange-100/50">
       <div className="w-full px-4 md:px-8">
@@ -127,72 +121,103 @@ const Navigation = () => {
               </Link>
             ))}
 
-            {/* WorkFit Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setActiveDropdown('workfit')}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
-              <div className="flex items-center gap-2 text-sm font-black text-sky-950 hover:text-sky-600 transition-colors uppercase tracking-[0.25em]">
-                <Link to="/workfit" onClick={() => setIsOpen(false)}>WorkFit</Link>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === 'workfit' ? 'rotate-180' : ''}`} />
+            {user ? (
+              <div className="flex items-center gap-6">
+                <span className="text-[10px] font-black text-sky-900/50 uppercase tracking-widest">
+                  Welcome, {user.name}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="text-sm font-black text-orange-600 hover:text-orange-700 transition-colors uppercase tracking-[0.25em]"
+                >
+                  Logout
+                </button>
               </div>
+            ) : (
+              <Link
+                to="/login"
+                className="text-sm font-black text-sky-950 hover:text-orange-600 transition-colors uppercase tracking-[0.25em]"
+              >
+                Login
+              </Link>
+            )}
 
-              <AnimatePresence>
-                {activeDropdown === 'workfit' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 15, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 15, scale: 0.98 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full right-[-80px] w-[850px] mt-6 rounded-[24px] shadow-2xl overflow-hidden flex border border-slate-700/50"
-                  >
-                    {/* Left Column - Challenges */}
-                    <div className="w-[40%] bg-[#141920] p-8">
-                      <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Challenges</h3>
-                      <div className="flex flex-col gap-2">
-                        {solutions.slice(0,4).map((item) => (
-                          <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setActiveDropdown(null)} className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group">
-                            <div className="mt-0.5">
-                              <item.icon className="w-6 h-6 text-slate-300 group-hover:text-white transition-colors" />
-                            </div>
-                            <div>
-                              <div className="font-semibold text-slate-100 group-hover:text-white text-[15px] mb-1">{item.name}</div>
-                              <div className="text-[13px] text-slate-400 group-hover:text-slate-300 leading-relaxed">{item.desc}</div>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    {/* Right Column - Other Solutions */}
-                    <div className="w-[60%] bg-[#1d232a] p-8 flex flex-col border-l border-white/5">
-                      <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Other Solutions</h3>
-                      <div className="grid grid-cols-2 gap-x-6 gap-y-4 mb-auto">
-                        {solutions.slice(4,10).map((item) => (
-                          <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setActiveDropdown(null)} className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group">
-                            <div className="mt-0.5">
-                              <item.icon className="w-5 h-5 text-slate-300 group-hover:text-white transition-colors" />
-                            </div>
-                            <div>
-                              <div className="font-semibold text-slate-100 group-hover:text-white text-[14px] mb-1">{item.name}</div>
-                              <div className="text-[12px] text-slate-400 group-hover:text-slate-300 leading-relaxed">{item.desc}</div>
-                            </div>
-                          </Link>
-                        ))}
+            {/* WorkFit Link */}
+            <Link
+              to="/workfit"
+              className="text-sm font-black text-sky-950 hover:text-orange-600 transition-colors uppercase tracking-[0.25em]"
+            >
+              WorkFit
+            </Link>
+
+            {/* Solutions Dropdown (Only on /workfit) */}
+            {location.pathname === '/workfit' && (
+              <div 
+                className="relative"
+                onMouseEnter={() => setActiveDropdown('solutions')}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <div className="flex items-center gap-2 text-sm font-black text-sky-950 hover:text-sky-600 transition-colors uppercase tracking-[0.25em] cursor-pointer">
+                  <span>Solutions</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === 'solutions' ? 'rotate-180' : ''}`} />
+                </div>
+
+                <AnimatePresence>
+                  {activeDropdown === 'solutions' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 15, scale: 0.98 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full right-[-80px] w-[850px] mt-6 rounded-[24px] shadow-2xl overflow-hidden flex border border-slate-700/50"
+                    >
+                      {/* Left Column - Challenges */}
+                      <div className="w-[40%] bg-[#141920] p-8">
+                        <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Challenges</h3>
+                        <div className="flex flex-col gap-2">
+                          {solutions.slice(0,4).map((item) => (
+                            <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setActiveDropdown(null)} className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group">
+                              <div className="mt-0.5">
+                                <item.icon className="w-6 h-6 text-slate-300 group-hover:text-white transition-colors" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-100 group-hover:text-white text-[15px] mb-1">{item.name}</div>
+                                <div className="text-[13px] text-slate-400 group-hover:text-slate-300 leading-relaxed">{item.desc}</div>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                       
-                      <Link to="/workfit" onClick={() => setActiveDropdown(null)} className="mt-8 block">
-                        <div className="p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors flex items-center justify-between group">
-                          <span className="text-[13px] font-medium text-slate-300 group-hover:text-white">See how Vantage Fit works as your all-in-one employee wellness software</span>
-                          <span className="text-slate-500 group-hover:text-white transition-colors">→</span>
+                      {/* Right Column - Other Solutions */}
+                      <div className="w-[60%] bg-[#1d232a] p-8 flex flex-col border-l border-white/5">
+                        <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Other Solutions</h3>
+                        <div className="grid grid-cols-2 gap-x-6 gap-y-4 mb-auto">
+                          {solutions.slice(4,10).map((item) => (
+                            <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setActiveDropdown(null)} className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group">
+                              <div className="mt-0.5">
+                                <item.icon className="w-5 h-5 text-slate-300 group-hover:text-white transition-colors" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-100 group-hover:text-white text-[14px] mb-1">{item.name}</div>
+                                <div className="text-[12px] text-slate-400 group-hover:text-slate-300 leading-relaxed">{item.desc}</div>
+                              </div>
+                            </Link>
+                          ))}
                         </div>
-                      </Link>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                        
+                        <Link to="/workfit" onClick={() => setActiveDropdown(null)} className="mt-8 block">
+                          <div className="p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors flex items-center justify-between group">
+                            <span className="text-[13px] font-medium text-slate-300 group-hover:text-white">See how Vantage Fit works as your all-in-one employee wellness software</span>
+                            <span className="text-slate-500 group-hover:text-white transition-colors">→</span>
+                          </div>
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
 
             <motion.button 
               whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
