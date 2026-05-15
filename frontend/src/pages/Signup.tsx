@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Lock, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { AxiosError } from 'axios';
+import { apiClient } from '../lib/api';
+
+type AuthResponse = {
+  token: string;
+  user: Record<string, unknown>;
+};
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -12,12 +18,17 @@ const Signup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/signup', formData);
+      const res = await apiClient.post<AuthResponse>('/api/auth/signup', formData);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
       navigate('/');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Something went wrong');
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        setError(error.response?.data?.message || 'Something went wrong');
+        return;
+      }
+
+      setError('Something went wrong');
     }
   };
 

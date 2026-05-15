@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Lock, ArrowRight, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { AxiosError } from 'axios';
+import { apiClient } from '../lib/api';
+
+type AuthResponse = {
+  token: string;
+  user: Record<string, unknown>;
+};
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,12 +18,17 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const res = await apiClient.post<AuthResponse>('/api/auth/login', formData);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
       navigate('/');
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Invalid email or password');
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        setError(error.response?.data?.message || 'Invalid email or password');
+        return;
+      }
+
+      setError('Invalid email or password');
     }
   };
 

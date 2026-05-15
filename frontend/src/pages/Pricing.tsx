@@ -1,10 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check, ArrowRight, Zap, Crown, Star } from 'lucide-react';
-import { loadStripe } from '@stripe/stripe-js';
-import axios from 'axios';
-
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+import { apiClient } from '../lib/api';
 
 const plans = [
   {
@@ -36,11 +33,14 @@ const plans = [
   }
 ];
 
+type CheckoutResponse = {
+  url?: string;
+};
+
 const Pricing = () => {
-  const handleCheckout = async (plan: any) => {
+  const handleCheckout = async (plan: (typeof plans)[number]) => {
     try {
-      const stripe = await stripePromise;
-      const res = await axios.post('http://localhost:5000/api/payment/create-checkout-session', {
+      const res = await apiClient.post<CheckoutResponse>('/api/payment/create-checkout-session', {
         items: [{
           name: `${plan.name} Plan`,
           amount: parseInt(plan.price),
@@ -51,7 +51,7 @@ const Pricing = () => {
       });
 
       if (res.data.url) {
-        window.location.href = res.data.url;
+        window.location.assign(res.data.url);
       }
     } catch (err) {
       console.error('Payment Error:', err);
