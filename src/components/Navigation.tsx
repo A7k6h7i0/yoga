@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Menu, X, ChevronDown, Sparkles
+  Menu, X, ChevronDown, Sparkles, ChevronRight
 } from 'lucide-react';
 import Logo from './Logo';
 import {
@@ -198,9 +198,14 @@ const Navigation = () => {
               whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate('/schedule')}
-              className="px-12 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-100 transition-all flex items-center gap-2"
+              className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-100 transition-all flex items-center"
             >
-              Book Demo <Sparkles className="w-3 h-3" />
+              <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                <ChevronRight className="w-5 h-5 text-orange-600" />
+              </div>
+              <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                Book a Demo
+              </span>
             </motion.button>
           </div>
 
