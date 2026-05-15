@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { 
+  Menu, X, Sparkles, ChevronRight
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight, Flower2, Activity, Apple, 
@@ -1488,9 +1491,18 @@ const WorkFit = () => {
                 <p className="text-xs text-gray-400">WorkFit empowers your teams with the tools, support, and motivation to thrive.</p>
               </div>
             </div>
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl text-sm transition-colors flex items-center gap-2 shrink-0 relative z-10 whitespace-nowrap shadow-lg shadow-orange-500/20 w-full md:w-auto justify-center">
-              Request a Demo <ArrowRight className="w-4 h-4" />
-            </button>
+            <motion.button 
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] transition-all flex items-center"
+            >
+              <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                <ChevronRight className="w-5 h-5 text-orange-600" />
+              </div>
+              <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                Request a Demo
+              </span>
+            </motion.button>
           </div>
 
         </div>
