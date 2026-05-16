@@ -56,50 +56,51 @@ const solutionData: any = {
     features: ['Drag-and-drop challenge builder', 'Customizable reward tiers', 'Flexible activity tracking', 'Branded interface options']
   },
   'team-challenge': {
-    title: 'Collective Flow',
+    title: 'Team Challenge',
     subtitle: 'Synchronized Team Wellness',
-    desc: 'Break down silos and build team unity through synchronized yoga sessions. Experience the power of collective movement and shared energy.',
-    science: 'Group synchronization activities release high levels of oxytocin, which directly impacts team cohesion and psychological safety.',
+    desc: 'Break down silos and build team unity through engaging, interactive challenges. Experience the power of collaborative movement and shared energy to hit common wellness goals.',
+    science: 'Group synchronization and collaborative activities release high levels of oxytocin, which directly impacts team cohesion and psychological safety at work.',
     userStory: {
-      quote: "We've never felt more connected. Even our remote teams feel like they're in the same shala.",
+      quote: "Our cross-departmental challenge brought teams together who had never spoken before. The competitive spirit was incredible!",
       author: "Anita Patel",
       role: "HR Director @ CreativeFlow"
     },
     uniqueSection: {
       layout: 'mosaic',
       title: "Interpersonal Resonance",
-      desc: "Experience the science of 'Co-Regulation' where team members align their physiological states for peak collaborative output.",
-      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80",
+      desc: "Experience the science of 'Co-Regulation' where team members align their physiological states and goals for peak collaborative output.",
+      image: "https://images.pexels.com/photos/31196609/pexels-photo-31196609.jpeg",
+      image2: "https://images.pexels.com/photos/15495236/pexels-photo-15495236.jpeg",
       accent: "bg-sky-400",
       icon: Users2
     },
     icon: Users2,
     color: 'text-sky-600 bg-sky-50',
-    image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80',
-    features: ['Live group sessions', 'Team leaderboard', 'Collaborative goals', 'Shared relaxation space']
+    image: 'https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    features: ['Live group tracking', 'Team leaderboards', 'Collaborative goals', 'Shared achievement space']
   },
   'virtual-marathon': {
-    title: 'Global Sprint',
-    subtitle: 'Virtual Endurance Race',
-    desc: 'Unite your global workforce with a high-impact virtual marathon. Participants can run, walk, or cycle to complete a shared distance across iconic global landmarks.',
-    science: 'Long-distance endurance activities strengthen the prefrontal cortex, enhancing resilience and long-term goal orientation in professional settings.',
+    title: 'Virtual Marathon',
+    subtitle: 'Unite Your Global Workforce',
+    desc: 'A seamless, scalable virtual marathon platform designed to bring remote and global teams together. Participants can run, walk, or wheelchair their way to the finish line from anywhere in the world, fostering a deep sense of shared achievement.',
+    science: 'Company-wide physical challenges have been shown to reduce absenteeism by 25% and create shared experiences that break down geographical and hierarchical barriers.',
     userStory: {
-      quote: "Crossing the virtual finish line with 500 colleagues across 12 countries was an unforgettable bonding experience.",
-      author: "Sarah Jenkins",
-      role: "Operations Lead @ GlobalLogistics"
+      quote: "Our Virtual Marathon saw 80% participation across 15 timezones. It was the most engaging health initiative we've ever run.",
+      author: "James Peterson",
+      role: "VP of Global HR @ Apex Solutions"
     },
     uniqueSection: {
       layout: 'atmospheric',
-      title: "Landmark Achievement",
-      desc: "Our platform visualizes your progress against world-famous routes, providing historical facts and cultural insights at every milestone.",
-      image: "https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?auto=format&fit=crop&q=80",
+      title: "Run The World Together",
+      desc: "Track collective progress on a live global map. Watch as your team's combined distance unlocks charitable donations, company perks, and digital badges.",
+      image: "https://images.pexels.com/photos/1632035/pexels-photo-1632035.jpeg",
       accent: "bg-sky-700",
       icon: Trophy
     },
     icon: Trophy,
     color: 'text-sky-600 bg-sky-50',
-    image: 'https://images.unsplash.com/photo-1530549387074-d56a99e1bf81?auto=format&fit=crop&q=80',
-    features: ['Global route tracking', 'Interval training tools', 'Team relays', 'Interactive map stats']
+    image: 'https://images.pexels.com/photos/1555351/pexels-photo-1555351.jpeg',
+    features: ['Live global leaderboards', 'Charity integrations', 'Custom milestone badges', 'Wearable sync & manual entry']
   },
   'remote-team-wellness': {
     title: 'Remote Yoga Studio',
@@ -291,7 +292,7 @@ const SolutionDetail = () => {
           <div className="flex flex-col lg:flex-row gap-16 items-center">
             <div className="lg:w-1/2 grid grid-cols-2 gap-4">
               <motion.img whileInView={{ y: [-20, 0] }} src={uniqueSection.image} className="w-full h-64 object-cover rounded-3xl" />
-              <motion.img whileInView={{ y: [20, 0] }} src="https://images.unsplash.com/photo-1543269664-7eef42226a21?auto=format&fit=crop&q=80" className="w-full h-64 object-cover rounded-3xl mt-12" />
+              <motion.img whileInView={{ y: [20, 0] }} src={uniqueSection.image2 || "https://images.unsplash.com/photo-1543269664-7eef42226a21?auto=format&fit=crop&q=80"} className="w-full h-64 object-cover rounded-3xl mt-12" />
             </div>
             <div className="lg:w-1/2">
               <h2 className="text-4xl md:text-7xl font-serif italic text-sky-950 mb-8">{uniqueSection.title}</h2>

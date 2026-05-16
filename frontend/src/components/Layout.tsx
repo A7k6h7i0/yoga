@@ -87,8 +87,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               © 2024 LiveFit. Designed for the Conscious Professional.
             </p>
             <div className="flex gap-8">
-              <a href="#" className="text-sky-400 hover:text-sky-600 text-[10px] font-bold uppercase tracking-widest transition-colors">Privacy Policy</a>
-              <a href="#" className="text-sky-400 hover:text-sky-600 text-[10px] font-bold uppercase tracking-widest transition-colors">Terms of Service</a>
+              <Link to="/privacy-policy" className="text-sky-400 hover:text-sky-600 text-[10px] font-bold uppercase tracking-widest transition-colors">Privacy Policy</Link>
+              <Link to="/termsofservice" className="text-sky-400 hover:text-sky-600 text-[10px] font-bold uppercase tracking-widest transition-colors">Terms of Service</Link>
             </div>
           </div>
         </div>

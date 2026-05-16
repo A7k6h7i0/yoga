@@ -20,7 +20,7 @@ const GlobalSchedule = () => {
   return (
     <section ref={containerRef} className="relative h-[400vh] bg-white">
       {/* Sticky Container */}
-      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-start py-8 overflow-hidden">
+      <div className="sticky top-0 h-[120vh] md:h-[140vh] w-full flex flex-col items-center justify-start py-8">
         
         {/* Heading Section */}
         <div className="text-center w-full z-[100] px-4 pt-10 mb-8">
@@ -105,9 +105,9 @@ const GlobalSchedule = () => {
                initial={{ opacity: 0, x: 100 }}
                whileInView={{ opacity: 1, x: 0 }}
                transition={{ duration: 1 }}
-               src="https://cdn.prod.website-files.com/67691f03eb5bfa3289b3daed/6769218dbe8c0679c8ea0e4f_schedule-section-lady-image.avif"
+               src="/round.avif"
                alt="Yoga Lady"
-               className="w-[100%] max-w-[1200px] h-auto object-contain translate-x-[1%] -translate-y-12 md:-translate-y-24"
+               className="w-full max-w-[1000px] md:max-w-[1200px] h-auto object-contain mx-auto"
              />
           </div>
         </div>

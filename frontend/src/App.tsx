@@ -11,6 +11,8 @@ import Inquiry from './pages/Inquiry';
 import HowToBook from './pages/HowToBook';
 import Pricing from './pages/Pricing';
 import ScrollToTop from './components/ScrollToTop';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 
 const Success = () => (
   <div className="min-h-screen flex items-center justify-center bg-[#F5F5F3]">
@@ -43,6 +45,8 @@ function App() {
           <Route path="/success" element={<Success />} />
           <Route path="/inquiry" element={<Inquiry />} />
           <Route path="/how-it-works" element={<HowToBook />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/termsofservice" element={<TermsOfService />} />
         </Routes>
       </Layout>
     </Router>

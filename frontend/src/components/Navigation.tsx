@@ -151,8 +151,8 @@ const Navigation = () => {
               WorkFit
             </Link>
 
-            {/* Solutions Dropdown (Only on /workfit) */}
-            {location.pathname === '/workfit' && (
+            {/* Solutions Dropdown */}
+            {(location.pathname === '/workfit' || location.pathname.startsWith('/solutions')) && (
               <div 
                 className="relative"
                 onMouseEnter={() => setActiveDropdown('solutions')}
