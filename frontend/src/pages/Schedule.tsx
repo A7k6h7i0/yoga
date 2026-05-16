@@ -41,9 +41,25 @@ const Schedule = () => {
     "Other"
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({ inquiryFor: '', timezone: '', time: '', email: '', phone: '', message: '' });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      await fetch(`${apiUrl}/api/contact/schedule`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      setSubmitted(true);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -127,7 +143,7 @@ const Schedule = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 gap-6 mb-6">
               {/* Inquiry Type */}
               <div>
                 <label className="block text-sky-950 font-black uppercase tracking-[0.2em] text-[10px] mb-3">
@@ -136,7 +152,8 @@ const Schedule = () => {
                 <div className="relative">
                   <select 
                     required
-                    defaultValue=""
+                    value={formData.inquiryFor}
+                    onChange={(e) => setFormData({...formData, inquiryFor: e.target.value})}
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 outline-none focus:border-orange-500 transition-all text-sky-950 font-medium appearance-none text-sm"
                   >
                     <option value="" disabled>Select option</option>
@@ -158,7 +175,8 @@ const Schedule = () => {
                 <div className="relative">
                   <select 
                     required
-                    defaultValue=""
+                    value={formData.timezone}
+                    onChange={(e) => setFormData({...formData, timezone: e.target.value})}
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 outline-none focus:border-orange-500 transition-all text-sky-950 font-medium appearance-none text-sm"
                   >
                     <option value="" disabled>Select timezone</option>
@@ -173,16 +191,17 @@ const Schedule = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div className="grid grid-cols-1 gap-6 mb-6">
               {/* Preferred Timings */}
               <div>
                 <label className="block text-sky-950 font-black uppercase tracking-[0.2em] text-[10px] mb-3">
-                  Preferred Time
+                  Preferred Call Time
                 </label>
                 <div className="relative">
                   <select 
                     required
-                    defaultValue=""
+                    value={formData.time}
+                    onChange={(e) => setFormData({...formData, time: e.target.value})}
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 outline-none focus:border-orange-500 transition-all text-sky-950 font-medium appearance-none text-sm"
                   >
                     <option value="" disabled>Select time</option>
@@ -205,6 +224,8 @@ const Schedule = () => {
                   <input 
                     type="email" 
                     required
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
                     placeholder="name@example.com"
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 outline-none focus:border-orange-500 transition-all text-sky-950 font-medium text-sm"
                   />
@@ -222,6 +243,8 @@ const Schedule = () => {
                 <div className="relative">
                   <input 
                     type="tel" 
+                    value={formData.phone}
+                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
                     placeholder="+1 (555) 000-0000"
                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 outline-none focus:border-orange-500 transition-all text-sky-950 font-medium text-sm"
                   />
@@ -240,6 +263,8 @@ const Schedule = () => {
               <div className="relative">
                 <textarea 
                   rows={3} 
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
                   className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 pl-12 outline-none focus:border-orange-500 transition-all text-sky-950 font-medium resize-none text-sm"
                   placeholder="Tell us more about your requirements or any specific questions you have..."
                 />
@@ -251,9 +276,10 @@ const Schedule = () => {
 
             <button 
               type="submit"
-              className="w-full py-5 bg-orange-500 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-orange-200 hover:bg-orange-600 transition-all flex items-center justify-center gap-3 group"
+              disabled={loading}
+              className="w-full py-5 bg-orange-500 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-orange-200 hover:bg-orange-600 transition-all flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Submit Request <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              {loading ? 'Sending...' : 'Submit Request'} <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
 
             <p className="mt-6 text-center text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">

@@ -107,7 +107,7 @@ const GlobalSchedule = () => {
                transition={{ duration: 1 }}
                src="/round.avif"
                alt="Yoga Lady"
-               className="w-full max-w-[1000px] md:max-w-[1200px] h-auto object-contain mx-auto"
+               className="w-full max-w-[1000px] md:max-w-[1200px] h-auto object-contain mx-auto -mt-16 md:-mt-44"
              />
           </div>
         </div>

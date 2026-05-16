@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Flower2, ArrowRight, CheckCircle2, Users, Video, Clock, Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Flower2, ArrowRight, CheckCircle2, Users, Video, Clock, Play, Pause, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 
 const slides = [
   {
@@ -15,7 +15,8 @@ const slides = [
       { icon: Video, text: 'Live on Zoom' },
       { icon: Clock, text: 'Classes 24x7' }
     ],
-    primaryButtonText: 'Claim Free Trial Class'
+    primaryButtonText: 'Claim Free Trial Class',
+    link: '/inquiry'
   },
   {
     image: '/hero.png',
@@ -173,8 +174,8 @@ const Hero = () => {
                 <div className="space-y-4 mb-12">
                   {slides[currentSlide].bullets.map((bullet, idx) => (
                     <div key={idx} className="flex items-center gap-4">
-                      <div className="flex-shrink-0 w-6 h-6 rounded-full border-2 border-orange-500 flex items-center justify-center">
-                        <div className="w-2 h-2 bg-orange-500 rounded-full" />
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full border-2 border-orange-500 flex items-center justify-center bg-orange-50">
+                        <Check className="w-3.5 h-3.5 text-orange-500" strokeWidth={4} />
                       </div>
                       <span className="text-sky-950/90 font-bold md:text-xl tracking-tight">{bullet}</span>
                     </div>

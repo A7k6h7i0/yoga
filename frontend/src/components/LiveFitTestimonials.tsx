@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Star, Quote, Globe2, Users2, Building, Activity } from 'lucide-react';
+import { Star, Quote, Globe2, Users2, Building, Activity, X } from 'lucide-react';
 
 const testimonialsData = [
   {
@@ -113,6 +113,7 @@ const testimonialsData = [
 
 const LiveFitTestimonials = () => {
   const navigate = useNavigate();
+  const [selectedTestimonial, setSelectedTestimonial] = useState<any>(null);
   return (
     <section className="py-24 bg-[#FAFAFA] text-sky-950 overflow-hidden relative">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-[120px] pointer-events-none" />
@@ -143,7 +144,13 @@ const LiveFitTestimonials = () => {
           {[...testimonialsData, ...testimonialsData].map((t, idx) => (
             <div 
               key={idx}
-              className="w-[350px] flex-shrink-0 rounded-[2rem] bg-white border border-gray-100 p-8 flex flex-col hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 group/card relative"
+              onPointerDown={() => {
+                (window as any).pressTimer = setTimeout(() => setSelectedTestimonial(t), 400);
+              }}
+              onPointerUp={() => clearTimeout((window as any).pressTimer)}
+              onPointerLeave={() => clearTimeout((window as any).pressTimer)}
+              onClick={() => setSelectedTestimonial(t)}
+              className="w-[350px] cursor-pointer flex-shrink-0 rounded-[2rem] bg-white border border-gray-100 p-8 flex flex-col hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 group/card relative"
             >
               <Quote className="absolute top-6 right-8 w-12 h-12 text-gray-50 group-hover/card:text-orange-500/10 transition-colors" />
               
@@ -163,7 +170,7 @@ const LiveFitTestimonials = () => {
                 {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-orange-500 text-orange-500" />)}
               </div>
               
-              <p className="text-sm text-gray-700 leading-relaxed mb-8 whitespace-normal flex-1 font-medium">
+              <p className="text-sm text-gray-700 leading-relaxed mb-8 whitespace-normal flex-1 font-medium line-clamp-3">
                 {t.text}
               </p>
               
@@ -178,6 +185,46 @@ const LiveFitTestimonials = () => {
         <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#FAFAFA] to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#FAFAFA] to-transparent z-10 pointer-events-none" />
       </div>
+
+      {/* Modal for reading full testimonial */}
+      <AnimatePresence>
+        {selectedTestimonial && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-sky-950/60 backdrop-blur-sm p-4"
+            onClick={() => setSelectedTestimonial(null)}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="bg-white border border-orange-100 shadow-[0_0_40px_rgba(249,115,22,0.15)] p-8 md:p-10 rounded-3xl max-w-lg w-full relative"
+              onClick={e => e.stopPropagation()}
+            >
+              <button onClick={() => setSelectedTestimonial(null)} className="absolute top-6 right-6 text-gray-400 hover:text-sky-950 transition-colors">
+                <X className="w-6 h-6" />
+              </button>
+              <Quote className="w-8 h-8 text-orange-500 mb-6 fill-orange-500 opacity-20" />
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-orange-100">
+                  <img src={selectedTestimonial.image} alt={selectedTestimonial.name} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-sky-950 text-2xl mb-1">{selectedTestimonial.name}</h4>
+                  <div className="text-xs text-orange-500 uppercase tracking-wider font-bold">
+                    {selectedTestimonial.date} | {selectedTestimonial.location}
+                  </div>
+                </div>
+              </div>
+              <p className="text-lg text-sky-900 leading-relaxed font-medium italic">
+                "{selectedTestimonial.text}"
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Stats Footer */}
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 mt-20 relative z-10">

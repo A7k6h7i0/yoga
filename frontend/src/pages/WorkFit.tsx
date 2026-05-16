@@ -12,9 +12,9 @@ import {
   Brain, HeartPulse, TrendingDown, Armchair,
   TrendingUp, ShieldCheck, CheckCircle2,
   CalendarDays, Zap, Scale, DollarSign,
-  Wind, Shield, Droplets, Check,
-  Quote, Building, Globe2, PlusCircle, MinusCircle, ChevronDown, ChevronUp, Mail, Phone,
-  Footprints, Smile, Target, Trophy, Leaf, Moon
+  Wind, Shield, Droplets, Check, Quote, Building, Globe2, PlusCircle,
+  MinusCircle, ChevronDown, ChevronUp, Mail, Phone,
+  Footprints, Smile, Target, Trophy, Leaf, Moon, Dumbbell
 } from 'lucide-react';
 
 const WorkFit = () => {
@@ -31,6 +31,19 @@ const WorkFit = () => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [openFaq, setOpenFaq] = useState<number>(0);
+  const [selectedTestimonial, setSelectedTestimonial] = useState<any>(null);
+  
+  const workfitTestimonials = [
+    { name: "Mahesh", title: "Founder & CEO", company: "Onsite Solutions", country: "🇺🇸 USA", text: "WorkFit has transformed the way our team feels and performs. The sessions are practical, engaging, and easy to integrate into our busy workday.", tags: ["Energy", "Focus", "Team Wellness"] },
+    { name: "Shrikant", title: "Founder & CTO", company: "Excelfore", country: "🇺🇸 USA", text: "The blend of yoga, mobility, and mindfulness is exceptional. We've seen more energy, better concentration, and stronger teamwork.", tags: ["Performance", "Mindfulness", "Teamwork"] },
+    { name: "Amita", title: "Project Coordinator", company: "Total Security Protection", country: "🇬🇧 UK", text: "We just had one class with WorkFit and the experience was outstanding! Our team loved it and felt an immediate sense of relaxation and positivity. We're excited to continue this journey.", tags: ["First Class Experience", "Relaxation", "Excited"] },
+    { name: "Prasad", title: "Founder & MD", company: "Akshar School Solutions", country: "🇮🇳 India", text: "WorkFit's approach is holistic and very impactful. Our employees are more consistent, less stressed, and more productive.", tags: ["Holistic Wellness", "Stress Relief", "Productivity"] },
+    { name: "Madhu", title: "Co-founder", company: "Onsite Solutions", country: "🇺🇸 USA", text: "The flexibility and variety of programs make it easy for everyone to participate. Our team looks forward to every session!", tags: ["Engagement", "Flexibility", "Well-being"] },
+    { name: "Emma", title: "Professor", company: "", country: "🇬🇧 UK", text: "Just one session with WorkFit and I felt refreshed and re-energized. Practical, well-guided, and perfect for busy professional life!", tags: ["Refreshment", "Energy", "Wellness"] },
+    { name: "Bekir Orahan", title: "Professor", company: "", country: "🇹🇷 Turkey", text: "The session was practical, refreshing, and eye-opening. It gave us simple tools for better health, focus, and mental clarity.", tags: ["Mental Clarity", "Focus", "Practical Tools"] },
+    { name: "Michael Johnson", title: "Director - People & Culture", company: "VisionCore Systems", country: "🇺🇸 USA", text: "WorkFit is a game-changer for our workplace. We've noticed less stress, better focus, and a happier team.", tags: ["Stress Reduction", "Focus", "Happiness"] }
+  ];
+
   const slides = [
     {
       image: '/wh1.png',
@@ -52,10 +65,21 @@ const WorkFit = () => {
       iconBadge: true,
       iconColor: 'bg-[#f97316]',
       badgeColor: 'text-[#f97316]',
+      badgeStyle: 'number',
+      badge: '01',
       IconComponent: Flower2,
-      title: ['Move Together'],
-      subtitle: 'Yoga & Stretch at Work',
-      description: 'Boost energy and reduce sedentary stress with desk and mat-based yoga sessions.'
+      titleChunks: [
+        { text: 'Move Together.' },
+        { text: 'Work ', orange: 'Better.' }
+      ],
+      description: 'Yoga, Stretch at Desk & Workouts\nfor a Stronger You.',
+      listAccent: '#f97316',
+      listFeatures: [
+        { icon: Flower2, title: 'Yoga for Balance', desc: 'Relieve stress, improve flexibility\nand focus.' },
+        { icon: Armchair, title: 'Stretch at Desk', desc: 'Quick stretches to ease tension\nand improve posture.' },
+        { icon: Dumbbell, title: 'Workouts for Strength', desc: 'Build strength, boost energy\nand stay healthy.' },
+      ],
+      tagline: 'Small moves. Big impact. Every day.'
     },
     {
       image: '/wh3.png',
@@ -214,11 +238,12 @@ const WorkFit = () => {
 
                 {/* Title */}
                 {slides[currentSlide].titleChunks ? (
-                  <h1 className="text-5xl sm:text-6xl md:text-7xl font-sans text-[#1c2438] mb-6 leading-[1.15] font-black tracking-tight">
+                  <h1 className={`text-5xl sm:text-6xl md:text-7xl font-sans ${slides[currentSlide].theme === 'dark' ? 'text-white' : 'text-[#1c2438]'} mb-6 leading-[1.15] font-black tracking-tight`}>
                     {slides[currentSlide].titleChunks.map((chunk: any, idx: number) => (
                       <span key={idx} className="block">
-                        <span className="text-[#f97316]">{chunk.orange}</span>
-                        <span>{chunk.dark}</span>
+                        {chunk.text && <span>{chunk.text}</span>}
+                        {chunk.orange && <span className="text-[#f97316]">{chunk.orange}</span>}
+                        {chunk.dark && <span>{chunk.dark}</span>}
                       </span>
                     ))}
                   </h1>
@@ -280,21 +305,24 @@ const WorkFit = () => {
                 )}
 
                 {/* List Features (icon + title + desc) */}
-                {(slides[currentSlide] as any).listFeatures && (
-                  <div className="space-y-4 mb-6">
-                    {(slides[currentSlide] as any).listFeatures.map((f: any, idx: number) => (
-                      <div key={idx} className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-full bg-[#3b82f6]/20 border border-[#3b82f6]/30 flex items-center justify-center shrink-0 mt-0.5">
-                          <f.icon className="w-5 h-5 text-[#3b82f6]" />
+                {(slides[currentSlide] as any).listFeatures && (() => {
+                  const accent = (slides[currentSlide] as any).listAccent || '#3b82f6';
+                  return (
+                    <div className="space-y-4 mb-6">
+                      {(slides[currentSlide] as any).listFeatures.map((f: any, idx: number) => (
+                        <div key={idx} className="flex items-start gap-4">
+                          <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: 'transparent', border: `1px solid ${accent}` }}>
+                            <f.icon className="w-5 h-5" style={{ color: accent }} />
+                          </div>
+                          <div>
+                            <div className="font-bold text-white text-sm md:text-base">{f.title}</div>
+                            <div className="text-sm text-gray-400 leading-snug whitespace-pre-line">{f.desc}</div>
+                          </div>
                         </div>
-                        <div>
-                          <div className="font-bold text-white text-sm">{f.title}</div>
-                          <div className="text-sm text-gray-400 leading-snug">{f.desc}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                      ))}
+                    </div>
+                  );
+                })()}
 
                 {/* Multi-Section (full width then two-column) */}
                 {(slides[currentSlide] as any).multiSection && (() => {
@@ -386,8 +414,13 @@ const WorkFit = () => {
                     {slides[currentSlide].buttonStyle !== 'screenshot' && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                   </motion.button>
                   
-                  {slides[currentSlide].secondaryButtonText && (
+                   {slides[currentSlide].secondaryButtonText && (
                     <motion.button 
+                      onClick={() => {
+                        if (slides[currentSlide].secondaryButtonText === 'Explore Solutions') {
+                          navigate('/solutions');
+                        }
+                      }}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className={`font-bold transition-all flex items-center justify-center gap-2 ${
@@ -1216,250 +1249,93 @@ const WorkFit = () => {
             </p>
           </div>
 
-          {/* Testimonials Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            
-            {/* Card 1 */}
-            <div className="rounded-2xl bg-[#0d1530] border border-white/5 p-6 md:p-8 flex flex-col h-full hover:border-white/10 transition-colors">
-              <Quote className="w-6 h-6 text-orange-500 mb-6 fill-orange-500" />
-              
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gray-600 shrink-0 overflow-hidden border-2 border-white/10">
-                   <img src="https://i.pravatar.cc/150?img=11" alt="Mahesh" className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white text-base">Mahesh</h4>
-                  <div className="text-[10px] text-gray-400 mb-1 flex items-center gap-1.5">
-                    Founder & CEO <br className="hidden" /> Onsite Solutions <span className="text-[10px]">🇺🇸</span> USA
+          {/* Testimonials Marquee */}
+          <div className="relative flex overflow-hidden py-10 select-none group">
+            <motion.div 
+              animate={{ x: [0, -3500] }}
+              transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+              className="flex gap-6 whitespace-nowrap min-w-full"
+            >
+              {[...workfitTestimonials, ...workfitTestimonials].map((t, idx) => (
+                <div 
+                  key={idx}
+                  onPointerDown={() => {
+                    (window as any).pressTimer = setTimeout(() => setSelectedTestimonial(t), 400);
+                  }}
+                  onPointerUp={() => clearTimeout((window as any).pressTimer)}
+                  onPointerLeave={() => clearTimeout((window as any).pressTimer)}
+                  onClick={() => setSelectedTestimonial(t)}
+                  className="w-[350px] cursor-pointer flex-shrink-0 rounded-[2rem] bg-[#0d1530] border border-white/5 p-8 flex flex-col hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 group/card relative"
+                >
+                  <Quote className="absolute top-6 right-8 w-12 h-12 text-white/5 group-hover/card:text-orange-500/10 transition-colors" />
+                  
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="whitespace-normal">
+                      <h4 className="font-bold text-white text-lg leading-tight">{t.name}</h4>
+                      <div className="text-[10px] text-gray-400 mt-1 flex items-center gap-1.5 uppercase tracking-wider font-semibold">
+                        {t.title} {t.company && `| ${t.company}`} <span className="text-[10px] ml-1">{t.country}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-orange-500 text-orange-500" />)}
-                  </div>
-                </div>
-              </div>
-              
-              <p className="text-sm text-gray-300 leading-relaxed mb-8 flex-1">
-                WorkFit has <span className="text-orange-500 font-medium">transformed</span> the way our team feels and performs. The sessions are practical, engaging, and easy to integrate into our busy workday.
-              </p>
-              
-              <div className="flex flex-wrap gap-2 mt-auto">
-                <span className="px-3 py-1 bg-teal-500/20 text-teal-400 rounded text-[10px] font-bold">Energy</span>
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-[10px] font-bold">Focus</span>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-[10px] font-bold">Team Wellness</span>
-              </div>
-            </div>
 
-            {/* Card 2 */}
-            <div className="rounded-2xl bg-[#0d1530] border border-white/5 p-6 md:p-8 flex flex-col h-full hover:border-white/10 transition-colors">
-              <Quote className="w-6 h-6 text-orange-500 mb-6 fill-orange-500" />
-              
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gray-600 shrink-0 overflow-hidden border-2 border-white/10">
-                   <img src="https://i.pravatar.cc/150?img=14" alt="Shrikant" className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white text-base">Shrikant</h4>
-                  <div className="text-[10px] text-gray-400 mb-1 flex items-center gap-1.5">
-                    Founder & CTO <br className="hidden" /> Excelfore <span className="text-[10px]">🇺🇸</span> USA
+                  <div className="flex gap-0.5 mb-4">
+                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-orange-500 text-orange-500" />)}
                   </div>
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-orange-500 text-orange-500" />)}
+                  
+                  <p className="text-sm text-gray-300 leading-relaxed mb-8 whitespace-normal flex-1 font-medium line-clamp-3">
+                    {t.text}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mt-auto border-t border-white/10 pt-6">
+                    {t.tags.map((tag: string, tagIdx: number) => (
+                       <span key={tagIdx} className="px-3 py-1 bg-white/5 text-gray-300 rounded text-[10px] font-bold uppercase tracking-wider">{tag}</span>
+                    ))}
                   </div>
                 </div>
-              </div>
-              
-              <p className="text-sm text-gray-300 leading-relaxed mb-8 flex-1">
-                The blend of yoga, mobility, and mindfulness is exceptional. We've seen <span className="text-orange-500 font-medium">more energy, better concentration</span>, and <span className="text-orange-500 font-medium">stronger teamwork</span>.
-              </p>
-              
-              <div className="flex flex-wrap gap-2 mt-auto">
-                <span className="px-3 py-1 bg-teal-500/20 text-teal-400 rounded text-[10px] font-bold">Performance</span>
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-[10px] font-bold">Mindfulness</span>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-[10px] font-bold">Teamwork</span>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="rounded-2xl bg-[#0d1530] border border-white/5 p-6 md:p-8 flex flex-col h-full hover:border-white/10 transition-colors">
-              <Quote className="w-6 h-6 text-orange-500 mb-6 fill-orange-500" />
-              
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gray-600 shrink-0 overflow-hidden border-2 border-white/10">
-                   <img src="https://i.pravatar.cc/150?img=5" alt="Amita" className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white text-base">Amita</h4>
-                  <div className="text-[10px] text-gray-400 mb-1 flex items-center gap-1.5">
-                    Project Coordinator <br className="hidden" /> Total Security Protection <span className="text-[10px]">🇬🇧</span> UK
-                  </div>
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-orange-500 text-orange-500" />)}
-                  </div>
-                </div>
-              </div>
-              
-              <p className="text-sm text-gray-300 leading-relaxed mb-8 flex-1">
-                We just had <span className="text-orange-500 font-medium">one class</span> with WorkFit and the experience was <span className="text-orange-500 font-medium">outstanding!</span> Our team loved it and felt an <span className="text-orange-500 font-medium">immediate sense of relaxation and positivity</span>. We're excited to continue this journey.
-              </p>
-              
-              <div className="flex flex-wrap gap-2 mt-auto">
-                <span className="px-3 py-1 bg-teal-500/20 text-teal-400 rounded text-[10px] font-bold">First Class Experience</span>
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-[10px] font-bold">Relaxation</span>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-[10px] font-bold">Excited</span>
-              </div>
-            </div>
-
-            {/* Card 4 */}
-            <div className="rounded-2xl bg-[#0d1530] border border-white/5 p-6 md:p-8 flex flex-col h-full hover:border-white/10 transition-colors">
-              <Quote className="w-6 h-6 text-orange-500 mb-6 fill-orange-500" />
-              
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gray-600 shrink-0 overflow-hidden border-2 border-white/10">
-                   <img src="https://i.pravatar.cc/150?img=33" alt="Prasad" className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white text-base">Prasad</h4>
-                  <div className="text-[10px] text-gray-400 mb-1 flex items-center gap-1.5">
-                    Founder & MD <br className="hidden" /> Akshar School Solutions <span className="text-[10px]">🇮🇳</span> India
-                  </div>
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-orange-500 text-orange-500" />)}
-                  </div>
-                </div>
-              </div>
-              
-              <p className="text-sm text-gray-300 leading-relaxed mb-8 flex-1">
-                WorkFit's approach is <span className="text-orange-500 font-medium">holistic and very impactful</span>. Our employees are more consistent, less stressed, and more productive.
-              </p>
-              
-              <div className="flex flex-wrap gap-2 mt-auto">
-                <span className="px-3 py-1 bg-teal-500/20 text-teal-400 rounded text-[10px] font-bold">Holistic Wellness</span>
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-[10px] font-bold">Stress Relief</span>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-[10px] font-bold">Productivity</span>
-              </div>
-            </div>
-
-            {/* Card 5 */}
-            <div className="rounded-2xl bg-[#0d1530] border border-white/5 p-6 md:p-8 flex flex-col h-full hover:border-white/10 transition-colors">
-              <Quote className="w-6 h-6 text-orange-500 mb-6 fill-orange-500" />
-              
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gray-600 shrink-0 overflow-hidden border-2 border-white/10">
-                   <img src="https://i.pravatar.cc/150?img=47" alt="Madhu" className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white text-base">Madhu</h4>
-                  <div className="text-[10px] text-gray-400 mb-1 flex items-center gap-1.5">
-                    Co-founder <br className="hidden" /> Onsite Solutions <span className="text-[10px]">🇺🇸</span> USA
-                  </div>
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-orange-500 text-orange-500" />)}
-                  </div>
-                </div>
-              </div>
-              
-              <p className="text-sm text-gray-300 leading-relaxed mb-8 flex-1">
-                The flexibility and variety of programs make it <span className="text-orange-500 font-medium">easy for everyone to participate</span>. Our team looks forward to every session!
-              </p>
-              
-              <div className="flex flex-wrap gap-2 mt-auto">
-                <span className="px-3 py-1 bg-teal-500/20 text-teal-400 rounded text-[10px] font-bold">Engagement</span>
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-[10px] font-bold">Flexibility</span>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-[10px] font-bold">Well-being</span>
-              </div>
-            </div>
-
-            {/* Card 6 */}
-            <div className="rounded-2xl bg-[#0d1530] border border-white/5 p-6 md:p-8 flex flex-col h-full hover:border-white/10 transition-colors">
-              <Quote className="w-6 h-6 text-orange-500 mb-6 fill-orange-500" />
-              
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gray-600 shrink-0 overflow-hidden border-2 border-white/10">
-                   <img src="https://i.pravatar.cc/150?img=20" alt="Emma" className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white text-base">Emma</h4>
-                  <div className="text-[10px] text-gray-400 mb-1 flex items-center gap-1.5">
-                    Professor <br className="hidden" /> <span className="text-[10px]">🇬🇧</span> UK
-                  </div>
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-orange-500 text-orange-500" />)}
-                  </div>
-                </div>
-              </div>
-              
-              <p className="text-sm text-gray-300 leading-relaxed mb-8 flex-1">
-                Just one session with WorkFit and I felt <span className="text-orange-500 font-medium">refreshed and re-energized</span>. Practical, well-guided, and perfect for busy professional life!
-              </p>
-              
-              <div className="flex flex-wrap gap-2 mt-auto">
-                <span className="px-3 py-1 bg-teal-500/20 text-teal-400 rounded text-[10px] font-bold">Refreshment</span>
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-[10px] font-bold">Energy</span>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-[10px] font-bold">Wellness</span>
-              </div>
-            </div>
-
-            {/* Card 7 */}
-            <div className="rounded-2xl bg-[#0d1530] border border-white/5 p-6 md:p-8 flex flex-col h-full hover:border-white/10 transition-colors">
-              <Quote className="w-6 h-6 text-orange-500 mb-6 fill-orange-500" />
-              
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gray-600 shrink-0 overflow-hidden border-2 border-white/10">
-                   <img src="https://i.pravatar.cc/150?img=60" alt="Bekir Orahan" className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white text-base">Bekir Orahan</h4>
-                  <div className="text-[10px] text-gray-400 mb-1 flex items-center gap-1.5">
-                    Professor <br className="hidden" /> <span className="text-[10px]">🇹🇷</span> Turkey
-                  </div>
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-orange-500 text-orange-500" />)}
-                  </div>
-                </div>
-              </div>
-              
-              <p className="text-sm text-gray-300 leading-relaxed mb-8 flex-1">
-                The session was <span className="text-orange-500 font-medium">practical, refreshing, and eye-opening</span>. It gave us simple tools for better health, focus, and mental clarity.
-              </p>
-              
-              <div className="flex flex-wrap gap-2 mt-auto">
-                <span className="px-3 py-1 bg-teal-500/20 text-teal-400 rounded text-[10px] font-bold">Mental Clarity</span>
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-[10px] font-bold">Focus</span>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-[10px] font-bold">Practical Tools</span>
-              </div>
-            </div>
-
-            {/* Card 8 */}
-            <div className="rounded-2xl bg-[#0d1530] border border-white/5 p-6 md:p-8 flex flex-col h-full hover:border-white/10 transition-colors">
-              <Quote className="w-6 h-6 text-orange-500 mb-6 fill-orange-500" />
-              
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-gray-600 shrink-0 overflow-hidden border-2 border-white/10">
-                   <img src="https://i.pravatar.cc/150?img=59" alt="Michael Johnson" className="w-full h-full object-cover" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-white text-base">Michael Johnson</h4>
-                  <div className="text-[10px] text-gray-400 mb-1 flex items-center gap-1.5">
-                    Director - People & Culture <br className="hidden" /> VisionCore Systems <span className="text-[10px]">🇺🇸</span> USA
-                  </div>
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 fill-orange-500 text-orange-500" />)}
-                  </div>
-                </div>
-              </div>
-              
-              <p className="text-sm text-gray-300 leading-relaxed mb-8 flex-1">
-                WorkFit is a game-changer for our workplace. We've noticed <span className="text-orange-500 font-medium">less stress, better focus</span>, and <span className="text-orange-500 font-medium">a happier team</span>.
-              </p>
-              
-              <div className="flex flex-wrap gap-2 mt-auto">
-                <span className="px-3 py-1 bg-teal-500/20 text-teal-400 rounded text-[10px] font-bold">Stress Reduction</span>
-                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-[10px] font-bold">Focus</span>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-[10px] font-bold">Happiness</span>
-              </div>
-            </div>
-
+              ))}
+            </motion.div>
+            {/* Side Fades */}
+            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#0a1128] to-transparent z-10 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#0a1128] to-transparent z-10 pointer-events-none" />
           </div>
+
+          {/* Modal for reading full testimonial */}
+          <AnimatePresence>
+            {selectedTestimonial && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+                onClick={() => setSelectedTestimonial(null)}
+              >
+                <motion.div 
+                  initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                  className="bg-[#0d1530] border border-orange-500/30 shadow-[0_0_40px_rgba(249,115,22,0.15)] p-8 md:p-10 rounded-3xl max-w-lg w-full relative"
+                  onClick={e => e.stopPropagation()}
+                >
+                  <button onClick={() => setSelectedTestimonial(null)} className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors">
+                    <X className="w-6 h-6" />
+                  </button>
+                  <Quote className="w-8 h-8 text-orange-500 mb-6 fill-orange-500 opacity-50" />
+                  <h4 className="font-bold text-white text-2xl mb-1">{selectedTestimonial.name}</h4>
+                  <div className="text-xs text-orange-400 mb-6 uppercase tracking-wider font-bold">
+                    {selectedTestimonial.title} {selectedTestimonial.company && `| ${selectedTestimonial.company}`} | {selectedTestimonial.country}
+                  </div>
+                  <p className="text-lg text-gray-200 leading-relaxed font-medium mb-8 italic">
+                    "{selectedTestimonial.text}"
+                  </p>
+                  <div className="flex gap-2 flex-wrap">
+                    {selectedTestimonial.tags.map((tag: string, tagIdx: number) => (
+                       <span key={tagIdx} className="px-3 py-1.5 bg-orange-500/10 text-orange-400 rounded-lg text-[10px] font-bold uppercase tracking-wider">{tag}</span>
+                    ))}
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Bottom Trust Banner */}
           <div className="rounded-2xl border border-white/10 bg-[#111836]/50 p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-8 mb-8">

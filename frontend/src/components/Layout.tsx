@@ -39,7 +39,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <h4 className="font-bold text-sky-950 mb-8 uppercase tracking-widest text-[10px]">Ecosystem</h4>
               <ul className="space-y-4">
                 <li><Link to="/workfit" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">WorkFit</Link></li>
-                <li><Link to="/" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Our Story</Link></li>
+                <li><Link to="/solutions" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Solutions Ecosystem</Link></li>
                 <li><Link to="/blog" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Wellness Journal</Link></li>
                 <li><Link to="/" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Voices</Link></li>
               </ul>

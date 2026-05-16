@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Menu, X, ChevronDown, Sparkles, ChevronRight
+  Menu, X, ChevronDown, Sparkles, ChevronRight, User, LogOut
 } from 'lucide-react';
 import Logo from './Logo';
 import {
@@ -91,8 +91,7 @@ const Navigation = () => {
   }, [location]);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Pricing', path: '/pricing' }
+    { name: 'Home', path: '/' }
   ];
 
   const user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -122,27 +121,6 @@ const Navigation = () => {
               </Link>
             ))}
 
-            {user ? (
-              <div className="flex items-center gap-6">
-                <span className="text-[10px] font-black text-sky-900/50 uppercase tracking-widest">
-                  Welcome, {user.name}
-                </span>
-                <button
-                  onClick={handleLogout}
-                  className="text-sm font-black text-orange-600 hover:text-orange-700 transition-colors uppercase tracking-[0.25em]"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <Link
-                to="/login"
-                className="text-sm font-black text-sky-950 hover:text-orange-600 transition-colors uppercase tracking-[0.25em]"
-              >
-                Login
-              </Link>
-            )}
-
             {/* WorkFit Link */}
             <Link
               to="/workfit"
@@ -151,8 +129,8 @@ const Navigation = () => {
               WorkFit
             </Link>
 
-            {/* Solutions Dropdown */}
-            {(location.pathname === '/workfit' || location.pathname.startsWith('/solutions')) && (
+            {/* Solutions Dropdown - Only visible on WorkFit-related pages */}
+            {(location.pathname.includes('workfit') || location.pathname.includes('solutions')) && (
               <div 
                 className="relative"
                 onMouseEnter={() => setActiveDropdown('solutions')}
@@ -207,12 +185,10 @@ const Navigation = () => {
                           ))}
                         </div>
                         
-                        <Link to="/workfit" onClick={() => setActiveDropdown(null)} className="mt-8 block">
-                          <div className="p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors flex items-center justify-between group">
-                            <span className="text-[13px] font-medium text-slate-300 group-hover:text-white">See how Vantage Fit works as your all-in-one employee wellness software</span>
-                            <span className="text-slate-500 group-hover:text-white transition-colors">→</span>
-                          </div>
-                        </Link>
+                        <div className="mt-8 p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors flex items-center justify-between group">
+                          <span className="text-[13px] font-medium text-slate-300 group-hover:text-white">Explore our complete wellness ecosystem</span>
+                          <Link to="/solutions" onClick={() => setActiveDropdown(null)} className="text-orange-500 hover:text-orange-400 font-bold ml-2 text-xs uppercase tracking-widest">View All Solutions</Link>
+                        </div>
                       </div>
                     </motion.div>
                   )}
@@ -233,6 +209,65 @@ const Navigation = () => {
                 Book a Demo
               </span>
             </motion.button>
+
+            {/* Auth Section */}
+            <div className="flex items-center">
+              {user ? (
+                <div 
+                  className="relative ml-6"
+                  onMouseEnter={() => setActiveDropdown('user')}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <motion.div 
+                    whileHover={{ scale: 1.05 }}
+                    className="w-12 h-12 rounded-full bg-white flex items-center justify-center cursor-pointer border-2 border-orange-500/20 hover:border-orange-500 transition-all shadow-md overflow-hidden p-0.5"
+                  >
+                    <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-inner">
+                       <span className="text-white font-black text-sm tracking-tighter">{user.name.slice(0, 2).toUpperCase()}</span>
+                    </div>
+                  </motion.div>
+                  
+                  <AnimatePresence>
+                    {activeDropdown === 'user' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="absolute top-full right-0 mt-4 w-64 bg-white rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-orange-100/50 overflow-hidden z-[100]"
+                      >
+                        <div className="p-6 bg-gradient-to-br from-orange-50/50 to-white border-b border-orange-100/30">
+                          <p className="text-[10px] font-black text-orange-400 uppercase tracking-[0.2em] mb-1.5">Account</p>
+                          <h4 className="text-lg font-black text-sky-950 leading-tight">Hi, {user.name} 👋</h4>
+                          <p className="text-[11px] text-sky-900/40 font-bold mt-1 lowercase tracking-widest truncate">{user.email || 'Welcome Back'}</p>
+                        </div>
+                        <div className="p-3">
+                          <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center gap-4 px-4 py-4 text-sm font-black text-sky-950 hover:text-orange-600 hover:bg-orange-50/50 rounded-2xl transition-all group/logout"
+                          >
+                            <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center group-hover/logout:bg-orange-100/50 transition-colors">
+                              <LogOut className="w-5 h-5 text-slate-400 group-hover/logout:text-orange-600" />
+                            </div>
+                            <div className="flex flex-col items-start">
+                              <span className="text-sm font-black uppercase tracking-widest">Logout</span>
+                              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-tight">Sign out of session</span>
+                            </div>
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className="ml-8 text-sm font-black text-sky-950 hover:text-orange-600 transition-colors uppercase tracking-[0.25em]"
+                >
+                  Login
+                </Link>
+              )}
+            </div>
           </div>
 
           <button 
@@ -272,25 +307,55 @@ const Navigation = () => {
                   </Link>
                 ))}
                 
-                <div className="mt-8">
-                   <Link to="/workfit" onClick={() => setIsOpen(false)} className="text-[10px] font-black text-sky-300 hover:text-sky-500 transition-colors uppercase tracking-[0.4em] mb-6 block">WorkFit Solutions</Link>
-                   <div className="grid grid-cols-1 gap-4">
-                     {solutions.map((item) => (
-                       <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setIsOpen(false)} className="flex items-center gap-4 group">
-                          <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
-                             <item.icon className="w-5 h-5 md:w-6 md:h-6" />
-                          </div>
-                          <div className="flex flex-col">
-                             <span className="text-lg md:text-xl font-serif italic font-bold text-sky-950 leading-none mb-1">{item.name}</span>
-                             <span className="text-[10px] md:text-xs text-sky-400 font-bold leading-tight">{item.desc}</span>
-                          </div>
-                       </Link>
-                     ))}
-                   </div>
-                </div>
+                {(location.pathname.includes('workfit') || location.pathname.includes('solutions')) && (
+                  <div className="mt-8">
+                    <Link to="/workfit" onClick={() => setIsOpen(false)} className="text-[10px] font-black text-sky-300 hover:text-sky-500 transition-colors uppercase tracking-[0.4em] mb-6 block">WorkFit Solutions</Link>
+                    <div className="grid grid-cols-1 gap-4">
+                      {solutions.map((item) => (
+                        <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setIsOpen(false)} className="flex items-center gap-4 group">
+                           <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
+                              <item.icon className="w-5 h-5 md:w-6 md:h-6" />
+                           </div>
+
+                           <div className="flex flex-col">
+                              <span className="text-lg md:text-xl font-serif italic font-bold text-sky-950 leading-none mb-1">{item.name}</span>
+                              <span className="text-[10px] md:text-xs text-sky-400 font-bold leading-tight">{item.desc}</span>
+                           </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="mt-auto pt-12">
+                {user ? (
+                  <div className="mb-6 p-6 bg-orange-50/50 rounded-[2rem] border border-orange-100/50 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center">
+                        <span className="text-white font-black text-sm">{user.name.slice(0, 2).toUpperCase()}</span>
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest leading-none mb-1">Signed in</p>
+                        <p className="text-lg font-black text-sky-950 leading-none">Hi, {user.name}</p>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={handleLogout}
+                      className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-orange-600 hover:bg-orange-600 hover:text-white transition-all"
+                    >
+                      <LogOut className="w-5 h-5" />
+                    </button>
+                  </div>
+                ) : (
+                  <Link 
+                    to="/login" 
+                    onClick={() => setIsOpen(false)}
+                    className="mb-6 w-full py-5 border-2 border-sky-100 rounded-[2rem] flex items-center justify-center text-sm font-black text-sky-950 uppercase tracking-[0.3em]"
+                  >
+                    Login to Account
+                  </Link>
+                )}
                 <button className="w-full py-6 bg-orange-600 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.3em] shadow-2xl shadow-orange-100">
                   Request a Free Consultation
                 </button>

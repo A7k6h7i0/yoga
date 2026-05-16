@@ -13,6 +13,7 @@ import Pricing from './pages/Pricing';
 import ScrollToTop from './components/ScrollToTop';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
+import Solutions from './pages/Solutions';
 
 const Success = () => (
   <div className="min-h-screen flex items-center justify-center bg-[#F5F5F3]">
@@ -37,6 +38,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/workfit" element={<WorkFit />} />
+          <Route path="/solutions" element={<Solutions />} />
           <Route path="/solutions/:slug" element={<SolutionDetail />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/login" element={<Login />} />
