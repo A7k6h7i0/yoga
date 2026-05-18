@@ -65,7 +65,7 @@ const ZoomSessions = () => {
               </div>
               
               <button 
-                onClick={() => navigate('/schedule')}
+                onClick={() => navigate('/livefitinquiry')}
                 className="px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30 uppercase tracking-wide text-sm hover:-translate-y-0.5"
               >
                 Join a Live Session

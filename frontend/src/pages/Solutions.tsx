@@ -182,13 +182,13 @@ const Solutions = () => {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <button 
-                onClick={() => navigate('/inquiry')}
+                onClick={() => navigate('/workfitinquiry')}
                 className="px-10 py-5 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-black uppercase tracking-widest text-xs transition-all shadow-xl shadow-orange-500/20"
               >
                 Book a Demo
               </button>
               <button 
-                onClick={() => navigate('/schedule')}
+                onClick={() => navigate('/livefitinquiry')}
                 className="px-10 py-5 bg-white text-sky-950 hover:bg-gray-50 rounded-full font-black uppercase tracking-widest text-xs transition-all"
               >
                 View Live Classes

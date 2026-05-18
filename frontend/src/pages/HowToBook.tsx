@@ -144,7 +144,7 @@ const HowToBook = () => {
             Book your personalized 1-on-1 session today and experience the future of wellness.
           </p>
           <button 
-            onClick={() => navigate('/schedule')}
+            onClick={() => navigate('/livefitinquiry')}
             className="px-12 py-6 bg-orange-500 text-white rounded-full font-black uppercase tracking-[0.2em] text-sm hover:bg-orange-600 transition-all flex items-center gap-3 mx-auto group shadow-2xl shadow-orange-500/20"
           >
             Book Now <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />

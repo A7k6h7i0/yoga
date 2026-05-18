@@ -73,7 +73,7 @@ const OneOnOne = () => {
               
               <div className="flex flex-wrap items-center gap-6">
                 <button 
-                  onClick={() => navigate('/schedule')}
+                  onClick={() => navigate('/livefitinquiry')}
                   className="px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30 flex items-center gap-2 hover:-translate-y-0.5"
                 >
                   Book Your Personalized Session <ArrowRight className="w-5 h-5" />

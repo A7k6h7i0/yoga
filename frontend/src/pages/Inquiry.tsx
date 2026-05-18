@@ -3,6 +3,45 @@ import { motion } from 'framer-motion';
 import { CheckCircle2, RefreshCw } from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+const countries = [
+  "United States", "United Kingdom", "Canada", "Australia", "India", "Germany", "France", "Japan", "Singapore", "United Arab Emirates", 
+  "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Austria", "Azerbaijan", 
+  "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", 
+  "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", "Cameroon", 
+  "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", 
+  "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", 
+  "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "Gabon", "Gambia", "Georgia", "Ghana", 
+  "Greece", "Grenada", "Guatemala", "Guinea", "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "Indonesia", 
+  "Iran", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Jordan", "Kazakhstan", "Kenya", "Kiribati", 
+  "Korea, North", "Korea, South", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", 
+  "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", 
+  "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", 
+  "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", 
+  "North Macedonia", "Norway", "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", 
+  "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Samoa", 
+  "San Marino", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", 
+  "South Africa", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan", 
+  "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", 
+  "Tuvalu", "Uganda", "Ukraine", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Yemen", 
+  "Zambia", "Zimbabwe"
+];
+
+const timezones = [
+  "UTC-12:00 Baker Island", "UTC-11:00 Niue, Samoa", "UTC-10:00 Hawaii-Aleutian Time",
+  "UTC-09:00 Alaska Standard Time", "UTC-08:00 Pacific Time (US & Canada)",
+  "UTC-07:00 Mountain Time (US & Canada)", "UTC-06:00 Central Time (US & Canada)",
+  "UTC-05:00 Eastern Time (US & Canada)", "UTC-04:00 Atlantic Time (Canada)",
+  "UTC-03:00 Argentina, Brazil", "UTC-02:00 South Georgia", "UTC-01:00 Azores, Cape Verde",
+  "UTC+00:00 Greenwich Mean Time", "UTC+01:00 Central European Time",
+  "UTC+02:00 Eastern European Time", "UTC+03:00 Moscow Time", "UTC+03:30 Iran Standard Time",
+  "UTC+04:00 Gulf Standard Time", "UTC+04:30 Afghanistan Time", "UTC+05:00 Pakistan Standard Time",
+  "UTC+05:30 Indian Standard Time", "UTC+05:45 Nepal Time", "UTC+06:00 Bangladesh Standard Time",
+  "UTC+06:30 Myanmar", "UTC+07:00 Indochina Time", "UTC+08:00 China Standard Time",
+  "UTC+08:45 Southeastern Western Australia", "UTC+09:00 Japan Standard Time",
+  "UTC+09:30 Australian Central Standard Time", "UTC+10:00 Australian Eastern Standard Time",
+  "UTC+11:00 Solomon Islands", "UTC+12:00 New Zealand Standard Time", "UTC+13:00 Tonga", "UTC+14:00 Line Islands"
+];
+
 const Inquiry = () => {
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -13,9 +52,11 @@ const Inquiry = () => {
     industry: '',
     designation: '',
     companyName: '',
+    country: '',
     city: '',
+    preference: '',
+    timezone: '',
     employeeStrength: '',
-    enquiryType: '',
     jobFunction: '',
     requirement: ''
   });
@@ -40,7 +81,7 @@ const Inquiry = () => {
           name: `${formData.firstName} ${formData.lastName}`,
           email: formData.workEmail,
           phone: formData.mobileNumber,
-          message: `Company: ${formData.companyName}\nIndustry: ${formData.industry}\nDesignation: ${formData.designation}\nCity: ${formData.city}\nEmployees: ${formData.employeeStrength}\nEnquiry Type: ${formData.enquiryType}\nJob Function: ${formData.jobFunction}\nRequirement: ${formData.requirement}`
+          message: `Company: ${formData.companyName}\nIndustry: ${formData.industry}\nDesignation: ${formData.designation}\nCountry: ${formData.country}\nCity: ${formData.city}\nPreference: ${formData.preference}\nPreferred Time Zone: ${formData.timezone}\nEmployees: ${formData.employeeStrength}\nJob Function: ${formData.jobFunction}\nRequirement: ${formData.requirement}`
         })
       });
       setSubmitted(true);
@@ -142,16 +183,38 @@ const Inquiry = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <label className={labelClass}>City</label>
-                <select name="city" required value={formData.city} onChange={handleChange} className={`${inputClass} appearance-none bg-[#0a0510]`}>
-                  <option className="bg-[#0a0510] text-white" value="" disabled>Select City</option>
-                  <option className="bg-[#0a0510] text-white" value="New York">New York</option>
-                  <option className="bg-[#0a0510] text-white" value="London">London</option>
-                  <option className="bg-[#0a0510] text-white" value="Dubai">Dubai</option>
-                  <option className="bg-[#0a0510] text-white" value="Mumbai">Mumbai</option>
-                  <option className="bg-[#0a0510] text-white" value="Remote/Other">Remote / Other</option>
+                <label className={labelClass}>Country</label>
+                <select name="country" required value={formData.country} onChange={handleChange} className={`${inputClass} appearance-none bg-[#0a0510]`}>
+                  <option className="bg-[#0a0510] text-white" value="" disabled>Select Country</option>
+                  {countries.map((country, idx) => (
+                    <option key={idx} className="bg-[#0a0510] text-white" value={country}>{country}</option>
+                  ))}
                 </select>
               </div>
+              <div>
+                <label className={labelClass}>City</label>
+                <input type="text" name="city" required value={formData.city} onChange={handleChange} placeholder="Ex. New York" className={inputClass} />
+              </div>
+
+              <div>
+                <label className={labelClass}>Preference</label>
+                <select name="preference" required value={formData.preference} onChange={handleChange} className={`${inputClass} appearance-none bg-[#0a0510]`}>
+                  <option className="bg-[#0a0510] text-white" value="" disabled>Select Preference</option>
+                  <option className="bg-[#0a0510] text-white" value="Onsite">Onsite</option>
+                  <option className="bg-[#0a0510] text-white" value="Remote">Remote</option>
+                  <option className="bg-[#0a0510] text-white" value="Hybrid">Hybrid</option>
+                </select>
+              </div>
+              <div>
+                <label className={labelClass}>Preferred Time Zone</label>
+                <select name="timezone" required value={formData.timezone} onChange={handleChange} className={`${inputClass} appearance-none bg-[#0a0510]`}>
+                  <option className="bg-[#0a0510] text-white" value="" disabled>Select Time Zone</option>
+                  {timezones.map((tz, idx) => (
+                    <option key={idx} className="bg-[#0a0510] text-white" value={tz}>{tz}</option>
+                  ))}
+                </select>
+              </div>
+
               <div>
                 <label className={labelClass}>Employee Strength</label>
                 <select name="employeeStrength" required value={formData.employeeStrength} onChange={handleChange} className={`${inputClass} appearance-none bg-[#0a0510]`}>
@@ -160,17 +223,6 @@ const Inquiry = () => {
                   <option className="bg-[#0a0510] text-white" value="51-200">51 - 200</option>
                   <option className="bg-[#0a0510] text-white" value="201-500">201 - 500</option>
                   <option className="bg-[#0a0510] text-white" value="500+">500+</option>
-                </select>
-              </div>
-
-              <div>
-                <label className={labelClass}>What is your enquiry for?</label>
-                <select name="enquiryType" required value={formData.enquiryType} onChange={handleChange} className={`${inputClass} appearance-none bg-[#0a0510]`}>
-                  <option className="bg-[#0a0510] text-white" value="" disabled>Select Enquiry Type</option>
-                  <option className="bg-[#0a0510] text-white" value="WorkFit Corporate">WorkFit Corporate Wellness</option>
-                  <option className="bg-[#0a0510] text-white" value="LiveFit Platform">LiveFit Platform Access</option>
-                  <option className="bg-[#0a0510] text-white" value="Team Challenge">Team Building Challenges</option>
-                  <option className="bg-[#0a0510] text-white" value="Other">Other</option>
                 </select>
               </div>
               <div>
@@ -184,6 +236,8 @@ const Inquiry = () => {
                 </select>
               </div>
             </div>
+
+
 
             <div>
               <label className={labelClass}>Briefly describe your corporate requirement</label>

@@ -5,7 +5,7 @@ import { Star, Quote, Globe2, Users2, Building, Activity, X } from 'lucide-react
 
 const testimonialsData = [
   {
-    name: 'Remya AnnAlex',
+    name: 'Remya',
     date: '18 Apr 2026',
     location: 'New York, USA',
     text: 'Sujit at LiveFit is very considerate of students who recently joined his class. Being a beginner, I cannot get to the fullest of some poses. He will make sure to give the starting poses instructions given to me so that I can still do. He is very accommodating, having a lot of patience. And give instructions slowly so that beginners can also understand.',
@@ -26,7 +26,7 @@ const testimonialsData = [
     image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
-    name: 'Alex Seidel',
+    name: 'Alex',
     date: '04 Mar 2022',
     location: 'Florida, USA',
     text: "I was quite happy to realise through today's practice that I have obtained considerably more flexibility in my arms and shoulders through the work I have been doing with SUJIT at LiveFit in that area.",
@@ -82,7 +82,7 @@ const testimonialsData = [
     image: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=150&h=150'
   },
   {
-    name: 'Taina Pereenniemi',
+    name: 'Taina',
     date: '05 May 2023',
     location: 'Helsinki, Finland',
     text: "Thank you so much for innovating a special chair yoga session today, as I did not have my yoga mat with me at the hotel. Very much appreciated!",
@@ -103,7 +103,7 @@ const testimonialsData = [
     image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d29tYW58ZW58MHx8MHx8fDA%3D'
   },
   {
-    name: 'James Walker',
+    name: 'James',
     date: '02 May 2023',
     location: 'Seattle, USA',
     text: "As someone with a desk job and constant neck pain, Sujit at LiveFit's sessions changed my life. Pain reduced, focus improved, and energy levels are much higher now.",
@@ -174,9 +174,9 @@ const LiveFitTestimonials = () => {
                 {t.text}
               </p>
               
-              <div className="flex items-center gap-2 text-xs text-orange-500 font-bold uppercase tracking-widest mt-auto border-t border-gray-50 pt-6">
+              {/* <div className="flex items-center gap-2 text-xs text-orange-500 font-bold uppercase tracking-widest mt-auto border-t border-gray-50 pt-6">
                  <Globe2 className="w-3 h-3" /> {t.location}
-              </div>
+              </div> */}
             </div>
           ))}
         </motion.div>
@@ -214,7 +214,7 @@ const LiveFitTestimonials = () => {
                 <div>
                   <h4 className="font-bold text-sky-950 text-2xl mb-1">{selectedTestimonial.name}</h4>
                   <div className="text-xs text-orange-500 uppercase tracking-wider font-bold">
-                    {selectedTestimonial.date} | {selectedTestimonial.location}
+                    {selectedTestimonial.date} 
                   </div>
                 </div>
               </div>
@@ -281,13 +281,13 @@ const LiveFitTestimonials = () => {
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-3 relative z-10 w-full lg:w-auto">
             <button 
-              onClick={() => navigate('/schedule')}
+              onClick={() => navigate('/livefitinquiry')}
               className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-lg shadow-orange-500/20 hover:-translate-y-1 w-full sm:w-auto text-[12px] uppercase tracking-wider whitespace-nowrap"
             >
               Join Live Classes
             </button>
             <button 
-              onClick={() => navigate('/inquiry')}
+              onClick={() => navigate('/livefitinquiry')}
               className="bg-white border-2 border-sky-950 text-sky-950 hover:bg-gray-50 font-bold py-3.5 px-8 rounded-xl transition-all w-full sm:w-auto text-[12px] uppercase tracking-wider whitespace-nowrap"
             >
               Book Free Consultation

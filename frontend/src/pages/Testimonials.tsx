@@ -5,28 +5,28 @@ import { Quote, Star, Flower2 } from 'lucide-react';
 const TestimonialsPage = () => {
   const testimonials = [
     {
-      name: 'Rachel Arthur',
+      name: 'Rachel',
       role: 'Director of Wellness',
       company: 'Zenith Global',
       text: 'LiveFit has transformed our office culture. The daily asana streaks and guided meditations have become a sacred part of our team\'s routine.',
       image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80'
     },
     {
-      name: 'Shyam Surendran',
+      name: 'Shyam',
       role: 'Head of People',
       company: 'Nova Interactive',
       text: "The collective flow sessions have brought a level of harmony to our distributed teams that we never thought possible through a digital platform.",
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80'
     },
     {
-      name: 'Matt Whitmore',
+      name: 'Matt',
       role: 'Operations Director',
       company: 'Flow Systems',
       text: 'In just a few months, we\'ve seen a measurable decrease in stress levels and a significant increase in team focus. The ROI on inner peace is undeniable.',
       image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80'
     },
     {
-      name: 'Elsa Robertson',
+      name: 'Elsa',
       role: 'Chief Culture Officer',
       company: 'Aura Logistics',
       text: 'The most elegant and effective mindfulness tool we\'ve ever implemented. It\'s not just a platform; it\'s a path to a more conscious workplace.',

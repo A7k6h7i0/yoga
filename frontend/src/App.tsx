@@ -40,12 +40,12 @@ function App() {
           <Route path="/workfit" element={<WorkFit />} />
           <Route path="/solutions" element={<Solutions />} />
           <Route path="/solutions/:slug" element={<SolutionDetail />} />
-          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/livefitinquiry" element={<Schedule />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/success" element={<Success />} />
-          <Route path="/inquiry" element={<Inquiry />} />
+          <Route path="/workfitinquiry" element={<Inquiry />} />
           <Route path="/how-it-works" element={<HowToBook />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/termsofservice" element={<TermsOfService />} />

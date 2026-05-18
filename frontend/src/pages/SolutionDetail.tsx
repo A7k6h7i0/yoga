@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { 
   Wind, Brain, Users2, Trophy, MapPin, Sparkles, Star, 
@@ -244,7 +244,16 @@ const solutionData: any = {
 
 const SolutionDetail = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const solution = solutionData[slug as string] || solutionData['steps-challenge'];
+
+  const isSpecialChallenge = slug === 'steps-challenge' || slug === 'custom-challenges';
+
+  const handleButtonClick = () => {
+    if (isSpecialChallenge) {
+      navigate('/workfitinquiry');
+    }
+  };
 
   const renderUniqueSection = () => {
     const { uniqueSection } = solution;
@@ -511,6 +520,7 @@ const SolutionDetail = () => {
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={handleButtonClick}
                 className="px-10 md:px-12 py-5 bg-orange-600 text-white rounded-full font-bold shadow-2xl shadow-orange-100 flex items-center justify-center gap-3 text-sm md:text-base"
               >
                 Request a Quote <ArrowRight className="w-5 h-5" />
@@ -518,6 +528,7 @@ const SolutionDetail = () => {
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={handleButtonClick}
                 className="px-10 md:px-12 py-5 bg-white text-sky-950 border border-sky-100 rounded-full font-bold transition-all text-sm md:text-base"
               >
                 Case Study
@@ -599,15 +610,10 @@ const SolutionDetail = () => {
                <div className="flex flex-col sm:flex-row justify-center gap-6">
                  <motion.button 
                    whileHover={{ scale: 1.05 }}
+                   onClick={handleButtonClick}
                    className="px-10 md:px-12 py-4 bg-white text-sky-600 rounded-full font-bold text-base shadow-xl"
                  >
                    Request a Demo
-                 </motion.button>
-                 <motion.button 
-                   whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
-                   className="px-10 md:px-12 py-4 bg-transparent text-white border border-white/20 rounded-full font-bold text-base"
-                 >
-                   View ROI Report
                  </motion.button>
                </div>
              </div>

@@ -90,8 +90,9 @@ const Navigation = () => {
     setActiveDropdown(null);
   }, [location]);
 
+  const isWorkFitPage = location.pathname.includes('workfit') || location.pathname.includes('solutions');
   const navLinks = [
-    { name: 'Home', path: '/' }
+    { name: isWorkFitPage ? 'LiveFit Home' : 'Home', path: '/' }
   ];
 
   const user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -199,7 +200,7 @@ const Navigation = () => {
             <motion.button 
               whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/schedule')}
+              onClick={() => navigate('/livefitinquiry')}
               className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-100 transition-all flex items-center"
             >
               <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">

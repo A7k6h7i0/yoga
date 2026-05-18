@@ -401,7 +401,7 @@ const WorkFit = () => {
                   <motion.button 
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate('/inquiry')}
+                    onClick={() => navigate('/workfitinquiry')}
                     className={`group relative overflow-hidden font-bold transition-all flex items-center justify-center gap-2 ${
                       slides[currentSlide].buttonStyle === 'screenshot' 
                       ? 'bg-[#f97316] text-white rounded-lg px-8 py-3.5 shadow-md w-full sm:w-auto text-[15px]'
@@ -1007,10 +1007,12 @@ const WorkFit = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors w-full sm:w-auto">
+            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors w-full sm:w-auto"
+            onClick={() =>navigate("/workfitinquiry")}>
               Book a Demo
             </button>
-            <button className="bg-white text-[#0a1128] border border-gray-200 hover:bg-gray-50 font-bold py-3 px-8 rounded-full transition-colors flex items-center justify-center gap-2 w-full sm:w-auto">
+            <button className="bg-white text-[#0a1128] border border-gray-200 hover:bg-gray-50 font-bold py-3 px-8 rounded-full transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
+            onClick={() =>navigate("/solutions")}>
               Explore All Solutions <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -1226,8 +1228,9 @@ const WorkFit = () => {
                 <p className="text-gray-400 text-[10px] leading-tight mb-2.5">
                   Empower employees with wellness support that continues beyond the session.
                 </p>
-                <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-1.5 px-5 rounded-full text-xs transition-colors flex items-center gap-2">
-                  Browse Resources <ArrowRight className="w-3 h-3" />
+                <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-1.5 px-5 rounded-full text-xs transition-colors flex items-center gap-2"
+                onClick={() =>navigate("/workfitinquiry")}>
+                  Book Demo <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
             </div>
@@ -1500,6 +1503,7 @@ const WorkFit = () => {
               whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
               whileTap={{ scale: 0.95 }}
               className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] transition-all flex items-center"
+              onClick={() => navigate("/workfitinquiry")}
             >
               <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
                 <ChevronRight className="w-5 h-5 text-orange-600" />

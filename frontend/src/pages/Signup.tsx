@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Lock, ArrowRight } from 'lucide-react';
+import { User, Lock, ArrowRight, Phone } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { apiClient } from '../lib/api';
@@ -12,7 +12,7 @@ type AuthResponse = {
 
 const Signup = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '', password: '' });
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,6 +61,21 @@ const Signup = () => {
                 className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-sky-950"
                 placeholder="John Doe"
               />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-[10px] font-black text-sky-950 uppercase tracking-[0.2em] mb-3">Phone Number</label>
+            <div className="relative">
+              <input 
+                type="tel" 
+                required
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-sky-950"
+                placeholder="+1 (555) 000-0000"
+              />
+              <Phone className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
             </div>
           </div>
 

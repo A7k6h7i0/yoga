@@ -31,6 +31,7 @@ mongoose.connect(MONGODB_URI)
 // User Model
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  phone: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
@@ -41,7 +42,7 @@ const User = mongoose.model('User', userSchema);
 // Auth Routes
 app.post('/api/auth/signup', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, phone, email, password } = req.body;
     
     // Check if user exists
     let user = await User.findOne({ email });
@@ -52,7 +53,7 @@ app.post('/api/auth/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user
-    user = new User({ name, email, password: hashedPassword });
+    user = new User({ name, phone, email, password: hashedPassword });
     await user.save();
 
     // Send confirmation emails asynchronously
@@ -68,7 +69,7 @@ app.post('/api/auth/signup', async (req, res) => {
         from: process.env.EMAIL_USER || 'work.fit.wellnesss@gmail.com',
         to: process.env.EMAIL_USER || 'work.fit.wellnesss@gmail.com',
         subject: 'New User Registration - LiveFit',
-        text: `A new user has registered on LiveFit.\n\nName: ${name}\nEmail: ${email}`
+        text: `A new user has registered on LiveFit.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}`
       };
 
       transporter.sendMail(mailOptions).catch(err => console.error('Error sending user email:', err));
@@ -79,7 +80,7 @@ app.post('/api/auth/signup', async (req, res) => {
 
     // Create JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
-    res.status(201).json({ token, user: { id: user._id, name, email } });
+    res.status(201).json({ token, user: { id: user._id, name, phone, email } });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
@@ -96,7 +97,7 @@ app.post('/api/auth/login', async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
-    res.json({ token, user: { id: user._id, name: user.name, email } });
+    res.json({ token, user: { id: user._id, name: user.name, phone: user.phone, email } });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
