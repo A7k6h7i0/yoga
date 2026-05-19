@@ -53,17 +53,48 @@ const transporter = nodemailer.createTransport({
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/yoga_db';
 mongoose
   .connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => {
+    console.log('Connected to MongoDB');
+    seedAdmin();
+  })
   .catch((err) => console.error('MongoDB connection error:', err));
+
+async function seedAdmin() {
+  try {
+    const adminEmail = 'admin@livefit.com';
+    const existingAdmin = await User.findOne({ email: adminEmail, role: 'admin' });
+    if (!existingAdmin) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash('adminpassword123', salt);
+      const newAdmin = new User({
+        name: 'LiveFit Admin',
+        phone: '9999999999',
+        email: adminEmail,
+        password: hashedPassword,
+        role: 'admin',
+        focusAreas: ['admin']
+      });
+      await newAdmin.save();
+      console.log('Successfully seeded default admin user (admin@livefit.com / adminpassword123)');
+    }
+  } catch (err) {
+    console.error('Error seeding admin user:', err);
+  }
+}
 
 // User Model
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   phone: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true },
   password: { type: String, required: true },
+  role: { type: String, enum: ['livefit', 'workfit', 'admin'], default: 'livefit' },
+  focusAreas: { type: [String], default: [] },
   createdAt: { type: Date, default: Date.now },
 });
+
+// Enforce unique combinations of email and role
+userSchema.index({ email: 1, role: 1 }, { unique: true });
 
 const User = mongoose.model('User', userSchema);
 
@@ -87,6 +118,14 @@ const paymentSchema = new mongoose.Schema({
 });
 
 const Payment = mongoose.model('Payment', paymentSchema);
+
+const contentSchema = new mongoose.Schema({
+  page: { type: String, required: true, unique: true },
+  data: { type: mongoose.Schema.Types.Mixed, required: true },
+  updatedAt: { type: Date, default: Date.now }
+});
+
+const Content = mongoose.model('Content', contentSchema);
 
 function formatCurrency(amount, currency = 'INR') {
   return new Intl.NumberFormat('en-IN', {
@@ -239,18 +278,25 @@ async function sendPaymentNotifications(payment) {
 // Auth Routes
 app.post('/api/auth/signup', async (req, res) => {
   try {
-    const { name, phone, email, password } = req.body;
+    const { name, phone, email, password, role, focusAreas } = req.body;
 
-    // Check if user exists
-    let user = await User.findOne({ email });
-    if (user) return res.status(400).json({ message: 'User already exists' });
+    // Check if user exists for this specific role
+    let user = await User.findOne({ email, role: role || 'livefit' });
+    if (user) return res.status(400).json({ message: 'A user with this email and login type already exists' });
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create user
-    user = new User({ name, phone, email, password: hashedPassword });
+    user = new User({ 
+      name, 
+      phone, 
+      email, 
+      password: hashedPassword,
+      role: role || 'livefit',
+      focusAreas: focusAreas || []
+    });
     await user.save();
 
     // Send confirmation emails asynchronously
@@ -266,7 +312,7 @@ app.post('/api/auth/signup', async (req, res) => {
         from: EMAIL_FROM,
         to: ADMIN_EMAIL,
         subject: 'New User Registration - LiveFit',
-        text: `A new user has registered on LiveFit.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}`,
+        text: `A new user has registered on LiveFit.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nRole: ${role || 'livefit'}`,
       };
 
       transporter.sendMail(mailOptions).catch((err) => console.error('Error sending user email:', err));
@@ -277,7 +323,17 @@ app.post('/api/auth/signup', async (req, res) => {
 
     // Create JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
-    res.status(201).json({ token, user: { id: user._id, name, phone, email } });
+    res.status(201).json({ 
+      token, 
+      user: { 
+        id: user._id, 
+        name, 
+        phone, 
+        email,
+        role: user.role,
+        focusAreas: user.focusAreas
+      } 
+    });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
@@ -285,16 +341,27 @@ app.post('/api/auth/signup', async (req, res) => {
 
 app.post('/api/auth/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
+    const normalizedEmail = email ? email.trim().toLowerCase() : '';
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: normalizedEmail, role: role || 'livefit' });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
-    res.json({ token, user: { id: user._id, name: user.name, phone: user.phone, email } });
+    res.json({ 
+      token, 
+      user: { 
+        id: user._id, 
+        name: user.name, 
+        phone: user.phone, 
+        email,
+        role: user.role,
+        focusAreas: user.focusAreas
+      } 
+    });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
@@ -310,13 +377,23 @@ app.post('/api/payment/create-order', async (req, res) => {
       return res.status(400).json({ message: 'Invalid plan selected' });
     }
 
+    let planAmount = plan.amount;
+    try {
+      const plansContent = await Content.findOne({ page: 'plans' });
+      if (plansContent && plansContent.data && plansContent.data[planId]) {
+        planAmount = plansContent.data[planId].price || plan.amount;
+      }
+    } catch (dbErr) {
+      console.error('Error reading dynamic plans for payment:', dbErr);
+    }
+
     if (!customer?.name || !customer?.email || !customer?.phone) {
       return res.status(400).json({ message: 'Customer name, email, and phone are required' });
     }
 
     const receipt = `livefit_${planId}_${Date.now()}`;
     const order = await createRazorpayOrder({
-      amount: plan.amount * 100,
+      amount: planAmount * 100,
       currency: 'INR',
       receipt,
       payment_capture: 1,
@@ -340,7 +417,7 @@ app.post('/api/payment/create-order', async (req, res) => {
       plan: {
         id: plan.id,
         name: plan.name,
-        amount: plan.amount,
+        amount: planAmount,
         currency: 'INR',
       },
     });
@@ -487,6 +564,148 @@ app.post('/api/contact/schedule', async (req, res) => {
     res.status(500).json({ message: 'Failed to send schedule request' });
   }
 });
+// Content Management API Routes
+app.get('/api/content/:page', async (req, res) => {
+  try {
+    const { page } = req.params;
+    let content = await Content.findOne({ page });
+    
+    // If not found in database, seed default values and return them
+    if (!content) {
+      let defaultData = {};
+      if (page === 'home') {
+        defaultData = {
+          heroTitle: 'Yoga For Corporate Wellness & Personal Health',
+          heroSubtitle: 'Elevate Mind, Body & Focus',
+          heroDescription: 'Transforming corporate productivity and personal lifestyle with evidence-based yoga practices, habit coaching, and active restoration.',
+          heroImage: '/globall.png',
+          whyUsTitle: 'Why Choose LiveFit',
+          whyUsText: 'We bridge the gap between traditional yoga wisdom and modern lifestyle needs, focusing on ergonomic alignment, stress mitigation, and sustainable habits.',
+          ourStoryTitle: 'Our Story & Philosophy',
+          ourStoryText: 'Founded with a single mission: to make wellness accessible, engaging, and transformational. We integrate clinical insights, expert guidance, and custom challenges to support teams globally.',
+          ourStoryImage: '/flowerlogo2.png'
+        };
+      } else if (page === 'solutions') {
+        defaultData = {
+          'low-employee-engagement': {
+            title: 'Low Employee Engagement',
+            problem: 'Disconnected teams lead to low morale, low participation, and weak culture.',
+            image: '/Wc4.png'
+          },
+          'hybrid-work-challenges': {
+            title: 'Hybrid Work Challenges',
+            problem: 'Remote & hybrid teams struggle with wellness, connection and routines.',
+            image: '/Wc6.png'
+          },
+          'high-healthcare-costs': {
+            title: 'High Healthcare Costs',
+            problem: 'Lifestyle issues lead to rising healthcare costs and sick leaves.',
+            image: '/Wc7.png'
+          },
+          'boring-wellness-programs': {
+            title: 'Boring Wellness Programs',
+            problem: 'Generic wellness programs fail to engage employees and deliver results.',
+            image: '/Wc8.png'
+          }
+        };
+      } else if (page === 'testimonials') {
+        defaultData = [
+          {
+            id: '1',
+            author: 'Sarah Jenkins',
+            role: 'VP of HR',
+            company: 'TechCorp',
+            text: 'LiveFit completely transformed our team dynamic. Burnout dropped by 40% and our remote employees feel connected again.',
+            rating: 5,
+            avatar: '/office2.png'
+          },
+          {
+            id: '2',
+            author: 'David Chen',
+            role: 'Operations Director',
+            company: 'Innovate Solutions',
+            text: 'The hybrid challenges got everyone moving! Simple, engaging, and incredibly positive for company culture.',
+            rating: 5,
+            avatar: '/office3.png'
+          },
+          {
+            id: '3',
+            author: 'Amara Okafor',
+            role: 'People Lead',
+            company: 'Global Design',
+            text: 'Highly professional instructors, seamless scheduling, and beautiful sessions that everyone looks forward to weekly.',
+            rating: 5,
+            avatar: '/office4.png'
+          }
+        ];
+      } else if (page === 'plans') {
+        defaultData = {
+          starter: {
+            price: 29,
+            description: '3 Live Sessions/week, Access to Video Library, Community Support, Mobile App Access'
+          },
+          premium: {
+            price: 59,
+            description: 'Unlimited Live Sessions, One-on-One Consultation, Personalized Diet Plan, Priority Support'
+          },
+          enterprise: {
+            price: 199,
+            description: 'Corporate Wellness Program, Unlimited User Accounts, Dedicated Account Manager, Custom Analytics'
+          }
+        };
+      } else {
+        defaultData = {
+          title: 'Dynamic Page',
+          description: 'Initial seeded description for page content.'
+        };
+      }
+      
+      content = new Content({ page, data: defaultData });
+      await content.save();
+    }
+    
+    res.json(content.data);
+  } catch (err) {
+    console.error('Error fetching content:', err);
+    res.status(500).json({ message: 'Failed to fetch content' });
+  }
+});
 
+app.put('/api/content/:page', async (req, res) => {
+  try {
+    const { page } = req.params;
+    const { data } = req.body;
+    
+    // Auth Check
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: 'No authorization token provided' });
+    }
+    
+    const token = authHeader.split(' ')[1];
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+    } catch (tokenErr) {
+      return res.status(401).json({ message: 'Invalid or expired token' });
+    }
+    
+    const user = await User.findById(decoded.id);
+    if (!user || user.role !== 'admin') {
+      return res.status(403).json({ message: 'Access denied: Admin permissions required' });
+    }
+    
+    const updatedContent = await Content.findOneAndUpdate(
+      { page },
+      { data, updatedAt: new Date() },
+      { new: true, upsert: true }
+    );
+    
+    res.json({ message: 'Content updated successfully', data: updatedContent.data });
+  } catch (err) {
+    console.error('Error updating content:', err);
+    res.status(500).json({ message: 'Failed to update content' });
+  }
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

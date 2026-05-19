@@ -7,21 +7,37 @@ import { apiClient } from '../lib/api';
 
 type AuthResponse = {
   token: string;
-  user: Record<string, unknown>;
+  user: {
+    id: string;
+    name: string;
+    phone: string;
+    email: string;
+    role: 'livefit' | 'workfit';
+    focusAreas: string[];
+  };
 };
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [activeRole, setActiveRole] = useState<'livefit' | 'workfit'>('livefit');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await apiClient.post<AuthResponse>('/api/auth/login', formData);
+      const res = await apiClient.post<AuthResponse>('/api/auth/login', {
+        ...formData,
+        role: activeRole
+      });
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      navigate('/');
+      
+      if (res.data.user.role === 'workfit') {
+        navigate('/workfit');
+      } else {
+        navigate('/');
+      }
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         setError(error.response?.data?.message || 'Invalid email or password');
@@ -50,6 +66,32 @@ const Login = () => {
         {error && <p className="text-red-500 text-xs font-bold text-center mb-6">{error}</p>}
 
         <form className="space-y-6" onSubmit={handleSubmit}>
+          {/* Role selection tab switcher */}
+          <div className="bg-slate-50 p-1.5 rounded-2xl flex relative border border-slate-100 mb-6">
+            <button
+              type="button"
+              onClick={() => setActiveRole('livefit')}
+              className={`flex-1 py-3 text-center rounded-xl text-[10px] font-black uppercase tracking-wider z-10 transition-all ${
+                activeRole === 'livefit'
+                  ? 'bg-orange-500 text-white shadow-md'
+                  : 'text-sky-950/60 hover:text-sky-950'
+              }`}
+            >
+              Personnel Wellness
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveRole('workfit')}
+              className={`flex-1 py-3 text-center rounded-xl text-[10px] font-black uppercase tracking-wider z-10 transition-all ${
+                activeRole === 'workfit'
+                  ? 'bg-orange-500 text-white shadow-md'
+                  : 'text-sky-950/60 hover:text-sky-950'
+              }`}
+            >
+              Corporate Wellness
+            </button>
+          </div>
+
           <div>
             <label className="block text-[10px] font-black text-sky-950 uppercase tracking-[0.2em] mb-3">Email Address</label>
             <div className="relative">
@@ -88,14 +130,24 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="mt-10 pt-8 border-t border-slate-50 text-center">
-          <p className="text-sm text-sky-900/50 font-medium mb-4">Don't have an account yet?</p>
-          <button 
-            onClick={() => navigate('/signup')}
-            className="text-sky-950 font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 mx-auto hover:text-orange-500 transition-colors"
-          >
-            Create Account <Sparkles className="w-3 h-3 text-orange-500" />
-          </button>
+        <div className="mt-10 pt-8 border-t border-slate-100 text-center space-y-4">
+          <p className="text-sm text-sky-900/50 font-semibold mb-2">Don't have an account yet?</p>
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => navigate('/signup?role=livefit')}
+              className="w-full py-4 px-4 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl font-black uppercase tracking-wider text-[9px] sm:text-[10px] shadow-lg shadow-orange-100 transition-all flex items-center justify-center gap-2 group"
+            >
+              Create Livefit Login for personnel wellness
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+            <button
+              onClick={() => navigate('/signup?role=workfit')}
+              className="w-full py-4 px-4 bg-orange-500 hover:bg-orange-600 text-white rounded-2xl font-black uppercase tracking-wider text-[9px] sm:text-[10px] shadow-lg shadow-orange-100 transition-all flex items-center justify-center gap-2 group"
+            >
+              Create Workfit Login for corporate wellness
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
         </div>
       </motion.div>
     </div>

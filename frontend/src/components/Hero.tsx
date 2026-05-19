@@ -60,6 +60,18 @@ const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [dynamicContent, setDynamicContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/content/home')
+      .then(res => res.json())
+      .then(data => {
+        if (data && Object.keys(data).length > 0) {
+          setDynamicContent(data);
+        }
+      })
+      .catch(err => console.error("Error loading dynamic content:", err));
+  }, []);
 
   const handleNext = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -136,17 +148,30 @@ const Hero = () => {
               )}
 
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif text-sky-950 mb-6 leading-[1.1] font-bold tracking-tight">
-                {slides[currentSlide].title.map((line, idx) => (
-                  <span key={idx} className={`block ${slides[currentSlide].orangeTitleIndex === idx ? 'text-orange-500' : ''}`}>
-                    {line}
-                  </span>
-                ))}
+                {currentSlide === 0 && dynamicContent?.heroTitle ? (
+                  <>
+                    <span className="block">{dynamicContent.heroTitle.split(' ').slice(0, Math.ceil(dynamicContent.heroTitle.split(' ').length / 2)).join(' ')}</span>
+                    <span className="block text-orange-500">{dynamicContent.heroTitle.split(' ').slice(Math.ceil(dynamicContent.heroTitle.split(' ').length / 2)).join(' ')}</span>
+                  </>
+                ) : (
+                  slides[currentSlide].title.map((line, idx) => (
+                    <span key={idx} className={`block ${slides[currentSlide].orangeTitleIndex === idx ? 'text-orange-500' : ''}`}>
+                      {line}
+                    </span>
+                  ))
+                )}
               </h1>
 
-              {slides[currentSlide].subtitle && (
+              {currentSlide === 0 && dynamicContent?.heroSubtitle ? (
                 <p className="text-xl md:text-2xl font-serif italic text-orange-500 mb-8 leading-relaxed font-bold">
-                  {slides[currentSlide].subtitle}
+                  {dynamicContent.heroSubtitle}
                 </p>
+              ) : (
+                slides[currentSlide].subtitle && (
+                  <p className="text-xl md:text-2xl font-serif italic text-orange-500 mb-8 leading-relaxed font-bold">
+                    {slides[currentSlide].subtitle}
+                  </p>
+                )
               )}
 
               {slides[currentSlide].features && (
@@ -164,10 +189,16 @@ const Hero = () => {
                 </div>
               )}
 
-              {slides[currentSlide].description && (
+              {currentSlide === 0 && dynamicContent?.heroDescription ? (
                 <p className="text-base md:text-lg text-sky-900/80 mb-8 max-w-xl leading-relaxed">
-                  {slides[currentSlide].description}
+                  {dynamicContent.heroDescription}
                 </p>
+              ) : (
+                slides[currentSlide].description && (
+                  <p className="text-base md:text-lg text-sky-900/80 mb-8 max-w-xl leading-relaxed">
+                    {slides[currentSlide].description}
+                  </p>
+                )
               )}
 
               {slides[currentSlide].bullets && (

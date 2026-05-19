@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Menu, X, ChevronDown, Sparkles, ChevronRight, User, LogOut
+  Menu, X, ChevronDown, Sparkles, ChevronRight, User, LogOut,
+  Target, BookOpen, HeartPulse, Clock, Users, Video, Image as ImageIcon
 } from 'lucide-react';
 import Logo from './Logo';
 import {
@@ -70,6 +71,18 @@ const solutions = [
   },
 ];
 
+const liveFitSections = [
+  { name: 'Hero Section', id: 'hero', desc: 'Welcome & dynamic introduction', icon: Sparkles },
+  { name: 'Wellness Programs', id: 'unique-needs', desc: 'Personalized wellness offerings', icon: Target },
+  { name: 'Our Story', id: 'our-story', desc: 'Our background and philosophy', icon: BookOpen },
+  { name: 'One-on-One Coaching', id: 'one-on-one', desc: 'Private personal training sessions', icon: User },
+  { name: 'Live Group Zoom Sessions', id: 'zoom-sessions', desc: 'Interactive remote video classes', icon: Video },
+  { name: 'Transform Habits', id: 'wellness-programs', desc: 'Holistic courses and capsules', icon: HeartPulse },
+  { name: 'Global Schedule', id: 'schedule', desc: 'Class times and easy booking calendar', icon: Clock },
+  { name: 'Yoga Gallery', id: 'gallery', desc: 'Visual showcase of styles and poses', icon: ImageIcon },
+  { name: 'Testimonials', id: 'testimonials', desc: 'Reviews from our global community', icon: Users }
+];
+
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -101,6 +114,23 @@ const Navigation = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate('/login');
+  };
+
+  const scrollToSection = (id: string) => {
+    setActiveDropdown(null);
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
   };
 
   return (
@@ -189,6 +219,76 @@ const Navigation = () => {
                         <div className="mt-8 p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors flex items-center justify-between group">
                           <span className="text-[13px] font-medium text-slate-300 group-hover:text-white">Explore our complete wellness ecosystem</span>
                           <Link to="/solutions" onClick={() => setActiveDropdown(null)} className="text-orange-500 hover:text-orange-400 font-bold ml-2 text-xs uppercase tracking-widest">View All Solutions</Link>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
+            {/* Solutions Dropdown - Only visible on LiveFit page */}
+            {location.pathname === '/' && (
+              <div 
+                className="relative"
+                onMouseEnter={() => setActiveDropdown('livefit-sections')}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <div className="flex items-center gap-2 text-sm font-black text-sky-950 hover:text-orange-600 transition-colors uppercase tracking-[0.25em] cursor-pointer">
+                  <span>Solutions</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === 'livefit-sections' ? 'rotate-180' : ''}`} />
+                </div>
+
+                <AnimatePresence>
+                  {activeDropdown === 'livefit-sections' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 15, scale: 0.98 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full right-[-80px] w-[800px] mt-6 rounded-[24px] shadow-2xl overflow-hidden flex border border-slate-700/50"
+                    >
+                      {/* Left Column - Core Sections */}
+                      <div className="w-[45%] bg-[#141920] p-8">
+                        <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Core Sections</h3>
+                        <div className="flex flex-col gap-2">
+                          {liveFitSections.slice(0, 4).map((item) => (
+                            <button 
+                              key={item.id} 
+                              onClick={() => scrollToSection(item.id)} 
+                              className="w-full flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group text-left"
+                            >
+                              <div className="mt-0.5">
+                                <item.icon className="w-6 h-6 text-slate-300 group-hover:text-white transition-colors" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-100 group-hover:text-white text-[15px] mb-1">{item.name}</div>
+                                <div className="text-[13px] text-slate-400 group-hover:text-slate-300 leading-relaxed">{item.desc}</div>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* Right Column - Other Sections */}
+                      <div className="w-[55%] bg-[#1d232a] p-8 flex flex-col border-l border-white/5">
+                        <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Explore Page</h3>
+                        <div className="grid grid-cols-1 gap-y-4 mb-auto">
+                          {liveFitSections.slice(4).map((item) => (
+                            <button 
+                              key={item.id} 
+                              onClick={() => scrollToSection(item.id)} 
+                              className="w-full flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group text-left"
+                            >
+                              <div className="mt-0.5">
+                                <item.icon className="w-5 h-5 text-slate-300 group-hover:text-white transition-colors" />
+                              </div>
+                              <div>
+                                <div className="font-semibold text-slate-100 group-hover:text-white text-[14px] mb-1">{item.name}</div>
+                                <div className="text-[12px] text-slate-400 group-hover:text-slate-300 leading-relaxed">{item.desc}</div>
+                              </div>
+                            </button>
+                          ))}
                         </div>
                       </div>
                     </motion.div>
@@ -323,6 +423,33 @@ const Navigation = () => {
                               <span className="text-[10px] md:text-xs text-sky-400 font-bold leading-tight">{item.desc}</span>
                            </div>
                         </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {location.pathname === '/' && (
+                  <div className="mt-8">
+                    <span className="text-[10px] font-black text-orange-400 uppercase tracking-[0.4em] mb-6 block">LiveFit Sections</span>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {liveFitSections.map((item) => (
+                        <button 
+                          key={item.id} 
+                          onClick={() => {
+                            setIsOpen(false);
+                            scrollToSection(item.id);
+                          }} 
+                          className="flex items-center gap-4 group text-left w-full"
+                        >
+                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shrink-0 bg-slate-100 text-slate-500">
+                            <item.icon className="w-5 h-5 md:w-6 md:h-6" />
+                          </div>
+
+                          <div className="flex flex-col">
+                            <span className="text-lg md:text-xl font-serif italic font-bold text-sky-950 leading-none mb-1">{item.name}</span>
+                            <span className="text-[10px] md:text-xs text-sky-400 font-bold leading-tight">{item.desc}</span>
+                          </div>
+                        </button>
                       ))}
                     </div>
                   </div>

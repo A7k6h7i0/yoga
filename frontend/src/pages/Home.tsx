@@ -15,17 +15,35 @@ import LiveFitTestimonials from '../components/LiveFitTestimonials';
 const Home = () => {
   return (
     <>
-      <Hero />
-      <UniqueNeeds />
-      <AboutUsSection />
-      <OneOnOne />
-      <ZoomSessions />
-      <Programs />
-      <GlobalSchedule />
+      <div id="hero">
+        <Hero />
+      </div>
+      <div id="unique-needs">
+        <UniqueNeeds />
+      </div>
+      <div id="our-story">
+        <AboutUsSection />
+      </div>
+      <div id="one-on-one">
+        <OneOnOne />
+      </div>
+      <div id="zoom-sessions">
+        <ZoomSessions />
+      </div>
+      <div id="wellness-programs">
+        <Programs />
+      </div>
+      <div id="schedule">
+        <GlobalSchedule />
+      </div>
       <ScheduleCTA />
       <WorkoutStats />
-      <GalleryLibrary />
-      <LiveFitTestimonials />
+      <div id="gallery">
+        <GalleryLibrary />
+      </div>
+      <div id="testimonials">
+        <LiveFitTestimonials />
+      </div>
     </>
   );
 };

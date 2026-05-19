@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Building2, Users, Video, Trophy, 
@@ -7,6 +7,19 @@ import {
 } from 'lucide-react';
 
 const AboutUsSection = () => {
+  const [dynamicContent, setDynamicContent] = useState<any>(null);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/content/home')
+      .then(res => res.json())
+      .then(data => {
+        if (data && Object.keys(data).length > 0) {
+          setDynamicContent(data);
+        }
+      })
+      .catch(err => console.error("Error loading dynamic content:", err));
+  }, []);
+
   const gridItems = [
     {
       title: 'Corporate Wellness',
@@ -60,6 +73,7 @@ const AboutUsSection = () => {
       desc: 'Building healthier habits, better well-being and happier life',
       icon: TrendingUp
     }
+
   ];
 
   return (
@@ -76,20 +90,35 @@ const AboutUsSection = () => {
             >
               <div className="text-orange-500 font-bold tracking-widest text-[10px] mb-4 uppercase">OUR STORY</div>
               <h2 className="text-2xl md:text-2xl lg:text-5xl font-bold mb-8 font-serif leading-tight">
-                Wellness Rooted in <br />
-                <span className="text-orange-500">Balance & Growth</span>
+                {dynamicContent?.ourStoryTitle ? (
+                  <>
+                    <span>{dynamicContent.ourStoryTitle.split(' ').slice(0, Math.ceil(dynamicContent.ourStoryTitle.split(' ').length / 2)).join(' ')} </span>
+                    <span className="text-orange-500">{dynamicContent.ourStoryTitle.split(' ').slice(Math.ceil(dynamicContent.ourStoryTitle.split(' ').length / 2)).join(' ')}</span>
+                  </>
+                ) : (
+                  <>
+                    Wellness Rooted in <br />
+                    <span className="text-orange-500">Balance & Growth</span>
+                  </>
+                )}
               </h2>
               
               <div className="space-y-6 text-slate-600 leading-relaxed text-base md:text-lg">
-                <p>
-                  LiveFit was created with a simple vision — to make authentic wellness accessible for everyone. In today's fast-moving world, people often struggle with stress, poor health, lack of balance, and disconnection from themselves. We wanted to create a space where wellness becomes part of everyday life for individuals, families, children, seniors, and modern workplaces.
-                </p>
-                <p>
-                  Through yoga, mindful movement, breathwork, meditation, fitness, and personalized wellness programs, LiveFit focuses on nurturing not just the body, but also the mind, energy, and emotional well-being. Our goal is to help people feel stronger, calmer, healthier, and more connected in their daily lives.
-                </p>
-                <p>
-                  WorkFit, our corporate wellness initiative, extends this mission into workplaces by helping teams reduce stress, improve focus, build healthier habits, and create happier work environments — both online and onsite.
-                </p>
+                {dynamicContent?.ourStoryText ? (
+                  <p>{dynamicContent.ourStoryText}</p>
+                ) : (
+                  <>
+                    <p>
+                      LiveFit was created with a simple vision — to make authentic wellness accessible for everyone. In today's fast-moving world, people often struggle with stress, poor health, lack of balance, and disconnection from themselves. We wanted to create a space where wellness becomes part of everyday life for individuals, families, children, seniors, and modern workplaces.
+                    </p>
+                    <p>
+                      Through yoga, mindful movement, breathwork, meditation, fitness, and personalized wellness programs, LiveFit focuses on nurturing not just the body, but also the mind, energy, and emotional well-being. Our goal is to help people feel stronger, calmer, healthier, and more connected in their daily lives.
+                    </p>
+                    <p>
+                      WorkFit, our corporate wellness initiative, extends this mission into workplaces by helping teams reduce stress, improve focus, build healthier habits, and create happier work environments — both online and onsite.
+                    </p>
+                  </>
+                )}
               </div>
 
               {/* Branding Highlight */}

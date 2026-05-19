@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { 
+import {
   Menu, X, Sparkles, ChevronRight
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { 
-  ArrowRight, Flower2, Activity, Apple, 
-  Play, Users, Headphones, FileText, Monitor, 
-  Smartphone, Wifi, Users2, Clock, Video, 
+import { API_BASE_URL } from '../lib/env';
+
+const BASE_URL = API_BASE_URL || 'http://localhost:5000';
+import {
+  ArrowRight, Flower2, Activity, Apple,
+  Play, Users, Headphones, FileText, Monitor,
+  Smartphone, Wifi, Users2, Clock, Video,
   UserCircle2, BookOpen, Star, PlayCircle,
   Brain, HeartPulse, TrendingDown, Armchair,
   TrendingUp, ShieldCheck, CheckCircle2,
@@ -16,6 +19,105 @@ import {
   MinusCircle, ChevronDown, ChevronUp, Mail, Phone,
   Footprints, Smile, Target, Trophy, Leaf, Moon, Dumbbell
 } from 'lucide-react';
+
+const workplaceSolutionsData = [
+  {
+    id: "01",
+    title: "Employee Burnout",
+    problem: "Chronic stress and long work hours lead to burnout and mental fatigue.",
+    image: "/Wc1.png",
+    solutions: [
+      { name: "Mindfulness & Meditation", icon: Brain },
+      { name: "Stress Relief Workshops", icon: HeartPulse },
+      { name: "Breathwork Sessions", icon: Wind },
+      { name: "Recovery Yoga & Relaxation", icon: Flower2 }
+    ]
+  },
+  {
+    id: "02",
+    title: "Posture & Back Pain",
+    problem: "Sedentary work and poor posture cause pain and discomfort.",
+    image: "/Wc2.png",
+    solutions: [
+      { name: "Desk Yoga & Stretch Breaks", icon: Armchair },
+      { name: "Posture Correction", icon: Scale },
+      { name: "Ergonomic Workshops", icon: Building },
+      { name: "Mobility & Spine Health Programs", icon: Activity }
+    ]
+  },
+  {
+    id: "03",
+    title: "Stress & Mental Health",
+    problem: "Stress, anxiety and poor well-being impact focus, creativity and performance.",
+    image: "/Wc3.png",
+    solutions: [
+      { name: "Mental Wellness Workshops", icon: Brain },
+      { name: "Guided Meditation", icon: PlayCircle },
+      { name: "Sleep & Recovery Programs", icon: Moon },
+      { name: "Emotional Well-being Support", icon: Smile }
+    ]
+  },
+  {
+    id: "04",
+    title: "Low Employee Engagement",
+    problem: "Disconnected teams lead to low morale, low participation, and weak culture.",
+    image: "/Wc4.png",
+    solutions: [
+      { name: "Wellness Challenges & Competitions", icon: Trophy },
+      { name: "Team Building Activities", icon: Users2 },
+      { name: "Group Yoga Sessions", icon: Users },
+      { name: "Wellness Events & Campaigns", icon: Sparkles }
+    ]
+  },
+  {
+    id: "05",
+    title: "Low Productivity & Energy",
+    problem: "Fatigue, low energy and distractions reduce focus and productivity.",
+    image: "/Wc5.png",
+    solutions: [
+      { name: "Energy Boosting Sessions", icon: Zap },
+      { name: "Focus & Breathwork Programs", icon: Wind },
+      { name: "Midday Recharge Breaks", icon: Clock },
+      { name: "Healthy Habit Coaching", icon: Target }
+    ]
+  },
+  {
+    id: "06",
+    title: "Hybrid Work Challenges",
+    problem: "Remote & hybrid teams struggle with wellness, connection and routines.",
+    image: "/Wc6.png",
+    solutions: [
+      { name: "Virtual Wellness Programs", icon: Monitor },
+      { name: "Online Yoga & Fitness", icon: Video },
+      { name: "Hybrid Wellness Challenges", icon: Globe2 },
+      { name: "Wellness Habit Tracking", icon: Footprints }
+    ]
+  },
+  {
+    id: "07",
+    title: "High Healthcare Costs",
+    problem: "Lifestyle issues lead to rising healthcare costs and sick leaves.",
+    image: "/Wc7.png",
+    solutions: [
+      { name: "Preventive Wellness Programs", icon: ShieldCheck },
+      { name: "Lifestyle & Nutrition Guidance", icon: Apple },
+      { name: "Chronic Pain Management", icon: Activity },
+      { name: "Health Risk Assessments", icon: FileText }
+    ]
+  },
+  {
+    id: "08",
+    title: "Boring Wellness Programs",
+    problem: "Generic programs have low participation and don't create real impact.",
+    image: "/Wc8.png",
+    solutions: [
+      { name: "Fun & Interactive Programs", icon: PlayCircle },
+      { name: "Gamified Wellness Challenges", icon: Trophy },
+      { name: "Personalized Wellness Plans", icon: UserCircle2 },
+      { name: "Engaging Wellness Experiences", icon: Sparkles }
+    ]
+  }
+];
 
 const WorkFit = () => {
   const navigate = useNavigate();
@@ -32,7 +134,60 @@ const WorkFit = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [openFaq, setOpenFaq] = useState<number>(0);
   const [selectedTestimonial, setSelectedTestimonial] = useState<any>(null);
-  
+  const [activeSolutionCard, setActiveSolutionCard] = useState<any>(null);
+
+  const [dbSolutions, setDbSolutions] = useState<any>(null);
+  const [dbTestimonials, setDbTestimonials] = useState<any[]>([]);
+
+  useEffect(() => {
+    // 1. Fetch dynamic solutions
+    fetch(`${BASE_URL}/api/content/solutions`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && Object.keys(data).length > 0) setDbSolutions(data);
+      })
+      .catch(err => console.error("Error loading solutions:", err));
+
+    // 2. Fetch dynamic testimonials
+    fetch(`${BASE_URL}/api/content/testimonials`)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) setDbTestimonials(data);
+      })
+      .catch(err => console.error("Error loading testimonials:", err));
+  }, []);
+
+  const getDynamicCardTitle = (slug: string, defaultTitle: string) => {
+    if (dbSolutions && dbSolutions[slug]?.title) return dbSolutions[slug].title;
+    return defaultTitle;
+  };
+
+  const getDynamicCardDesc = (slug: string, defaultDesc: string) => {
+    if (dbSolutions && dbSolutions[slug]?.problem) return dbSolutions[slug].problem;
+    return defaultDesc;
+  };
+
+  const getDynamicCardImage = (slug: string, defaultImage: string) => {
+    if (dbSolutions && dbSolutions[slug]?.image) return dbSolutions[slug].image;
+    return defaultImage;
+  };
+
+  const getDynamicTestimonial = (index: number, defaultTestimonial: any) => {
+    if (dbTestimonials && dbTestimonials[index]) {
+      const dbT = dbTestimonials[index];
+      return {
+        img: dbT.avatar || defaultTestimonial.img,
+        quote: `"${dbT.text}"`,
+        body: `Employee wellness index grew, and general workplace participation reached an all-time high of ${dbT.rating * 20}%!`,
+        name: dbT.author,
+        avatar: dbT.avatar || defaultTestimonial.avatar,
+        role: dbT.role,
+        company: dbT.company
+      };
+    }
+    return defaultTestimonial;
+  };
+
   const workfitTestimonials = [
     { name: "Mahesh", title: "Founder & CEO", company: "Onsite Solutions", country: "🇺🇸 USA", text: "WorkFit has transformed the way our team feels and performs. The sessions are practical, engaging, and easy to integrate into our busy workday.", tags: ["Energy", "Focus", "Team Wellness"] },
     { name: "Shrikant", title: "Founder & CTO", company: "Excelfore", country: "🇺🇸 USA", text: "The blend of yoga, mobility, and mindfulness is exceptional. We've seen more energy, better concentration, and stronger teamwork.", tags: ["Performance", "Mindfulness", "Teamwork"] },
@@ -187,15 +342,13 @@ const WorkFit = () => {
               alt="WorkFit Background"
             />
           </AnimatePresence>
-          
+
           {/* Desktop Gradient */}
-          <div className={`absolute inset-y-0 left-0 w-full lg:w-[60%] bg-gradient-to-r hidden lg:block z-10 transition-colors duration-1000 ${
-            slides[currentSlide].theme === 'dark' ? 'from-[#1c2438] via-[#1c2438]/95' : 'from-[#F5F5F3] via-[#F5F5F3]/90'
-          } to-transparent`} />
+          <div className={`absolute inset-y-0 left-0 w-full lg:w-[60%] bg-gradient-to-r hidden lg:block z-10 transition-colors duration-1000 ${slides[currentSlide].theme === 'dark' ? 'from-[#1c2438] via-[#1c2438]/95' : 'from-[#F5F5F3] via-[#F5F5F3]/90'
+            } to-transparent`} />
           {/* Mobile Gradient */}
-          <div className={`absolute inset-0 bg-gradient-to-t lg:hidden z-10 transition-colors duration-1000 ${
-            slides[currentSlide].theme === 'dark' ? 'from-[#1c2438] via-[#1c2438]/95' : 'from-[#F5F5F3] via-[#F5F5F3]/50'
-          } to-transparent`} />
+          <div className={`absolute inset-0 bg-gradient-to-t lg:hidden z-10 transition-colors duration-1000 ${slides[currentSlide].theme === 'dark' ? 'from-[#1c2438] via-[#1c2438]/95' : 'from-[#F5F5F3] via-[#F5F5F3]/50'
+            } to-transparent`} />
         </div>
 
         <div className="w-full px-6 md:px-12 lg:px-24 relative z-20 pt-32 pb-20 lg:pt-0 lg:pb-0">
@@ -265,11 +418,10 @@ const WorkFit = () => {
                 )}
 
                 {slides[currentSlide].description && (
-                  <p className={`text-base md:text-lg mb-8 max-w-xl leading-relaxed font-medium ${
-                    slides[currentSlide].theme === 'dark' ? 'text-gray-300' 
-                    : slides[currentSlide].badgeStyle === 'text' ? 'text-gray-700' 
-                    : 'text-sky-900/80'
-                  }`}>
+                  <p className={`text-base md:text-lg mb-8 max-w-xl leading-relaxed font-medium ${slides[currentSlide].theme === 'dark' ? 'text-gray-300'
+                      : slides[currentSlide].badgeStyle === 'text' ? 'text-gray-700'
+                        : 'text-sky-900/80'
+                    }`}>
                     {slides[currentSlide].description}
                   </p>
                 )}
@@ -398,41 +550,39 @@ const WorkFit = () => {
                 {/* Action Buttons */}
                 {(slides[currentSlide].primaryButtonText || slides[currentSlide].secondaryButtonText) && (
                   <div className="flex flex-col sm:flex-row items-center gap-5">
-                  <motion.button 
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate('/workfitinquiry')}
-                    className={`group relative overflow-hidden font-bold transition-all flex items-center justify-center gap-2 ${
-                      slides[currentSlide].buttonStyle === 'screenshot' 
-                      ? 'bg-[#f97316] text-white rounded-lg px-8 py-3.5 shadow-md w-full sm:w-auto text-[15px]'
-                      : slides[currentSlide].buttonStyle === 'outline' 
-                      ? 'border-2 border-orange-500 text-orange-600 bg-white hover:bg-orange-50 rounded-full px-8 py-4'
-                      : 'bg-orange-500 text-white shadow-xl shadow-orange-200 rounded-full px-8 py-4'
-                    }`}
-                  >
-                    {slides[currentSlide].primaryButtonText}
-                    {slides[currentSlide].buttonStyle !== 'screenshot' && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
-                  </motion.button>
-                  
-                   {slides[currentSlide].secondaryButtonText && (
-                    <motion.button 
-                      onClick={() => {
-                        if (slides[currentSlide].secondaryButtonText === 'Explore Solutions') {
-                          navigate('/solutions');
-                        }
-                      }}
+                    <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className={`font-bold transition-all flex items-center justify-center gap-2 ${
-                        slides[currentSlide].buttonStyle === 'screenshot'
-                        ? 'bg-white text-[#1c2438] border border-gray-300 rounded-lg px-8 py-3.5 hover:border-gray-400 w-full sm:w-auto text-[15px]'
-                        : 'bg-white text-sky-950 border-2 border-sky-100 rounded-full px-8 py-4'
-                      }`}
+                      onClick={() => navigate('/workfitinquiry')}
+                      className={`group relative overflow-hidden font-bold transition-all flex items-center justify-center gap-2 ${slides[currentSlide].buttonStyle === 'screenshot'
+                          ? 'bg-[#f97316] text-white rounded-lg px-8 py-3.5 shadow-md w-full sm:w-auto text-[15px]'
+                          : slides[currentSlide].buttonStyle === 'outline'
+                            ? 'border-2 border-orange-500 text-orange-600 bg-white hover:bg-orange-50 rounded-full px-8 py-4'
+                            : 'bg-orange-500 text-white shadow-xl shadow-orange-200 rounded-full px-8 py-4'
+                        }`}
                     >
-                      {slides[currentSlide].secondaryButtonText}
-                      {slides[currentSlide].buttonStyle === 'screenshot' && <ArrowRight className="w-4 h-4" />}
+                      {slides[currentSlide].primaryButtonText}
+                      {slides[currentSlide].buttonStyle !== 'screenshot' && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                     </motion.button>
-                  )}
+
+                    {slides[currentSlide].secondaryButtonText && (
+                      <motion.button
+                        onClick={() => {
+                          if (slides[currentSlide].secondaryButtonText === 'Explore Solutions') {
+                            navigate('/solutions');
+                          }
+                        }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className={`font-bold transition-all flex items-center justify-center gap-2 ${slides[currentSlide].buttonStyle === 'screenshot'
+                            ? 'bg-white text-[#1c2438] border border-gray-300 rounded-lg px-8 py-3.5 hover:border-gray-400 w-full sm:w-auto text-[15px]'
+                            : 'bg-white text-sky-950 border-2 border-sky-100 rounded-full px-8 py-4'
+                          }`}
+                      >
+                        {slides[currentSlide].secondaryButtonText}
+                        {slides[currentSlide].buttonStyle === 'screenshot' && <ArrowRight className="w-4 h-4" />}
+                      </motion.button>
+                    )}
                   </div>
                 )}
               </motion.div>
@@ -442,7 +592,7 @@ const WorkFit = () => {
 
         {/* Pagination Control */}
         <div className="absolute bottom-6 md:bottom-12 right-6 md:right-12 z-30 flex items-center gap-6 bg-[#2B2D42] text-white/90 px-6 py-3 rounded-full shadow-2xl backdrop-blur-md">
-          <button 
+          <button
             onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
             className="hover:text-white transition-colors p-1"
           >
@@ -451,7 +601,7 @@ const WorkFit = () => {
           <span className="text-sm font-medium tracking-[0.2em]">
             0{currentSlide + 1} / 0{slides.length}
           </span>
-          <button 
+          <button
             onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
             className="hover:text-white transition-colors p-1"
           >
@@ -462,84 +612,11 @@ const WorkFit = () => {
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-orange-100/10 rounded-full blur-[120px] -z-10" />
       </section>
 
-      {/* The Challenge Section */}
-      <section className="py-24 bg-[#0a1128] text-white overflow-hidden relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-500/5 via-[#0a1128] to-[#0a1128] pointer-events-none" />
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            
-            {/* Left Column: Text & Icons */}
-            <div className="lg:col-span-4 pr-0 lg:pr-8">
-              <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">The Challenge</div>
-              <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
-                Today's Workplace<br />Is Under <span className="text-orange-500">Pressure</span>
-              </h2>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-10 max-w-lg">
-                Rising stress, unhealthy habits, and disengagement are impacting employee well-being and business performance.
-              </p>
-              
-              <div className="grid grid-cols-4 gap-4">
-                <div className="text-center group">
-                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
-                    <Brain className="w-5 h-5 text-orange-500" />
-                  </div>
-                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">High Stress &<br/>Burnout</div>
-                </div>
-                <div className="text-center group">
-                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
-                    <Armchair className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">Sedentary<br/>Lifestyles</div>
-                </div>
-                <div className="text-center group">
-                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
-                    <HeartPulse className="w-5 h-5 text-red-400" />
-                  </div>
-                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">Chronic Health<br/>Risks</div>
-                </div>
-                <div className="text-center group">
-                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
-                    <TrendingDown className="w-5 h-5 text-green-400" />
-                  </div>
-                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">Low Engagement<br/>& Productivity</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Stat Cards */}
-            <div className="lg:col-span-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                {[
-                  { stat: '77%', desc: 'of employees experience work-related stress', source: 'Gallup', img: '/tc1.png' },
-                  { stat: '60%', desc: 'of employees feel exhausted at work', source: 'McKinsey', img: '/tc2.png' },
-                  { stat: '40%', desc: 'drop in productivity due to poor well-being', source: 'WHO', img: '/tc3.png' },
-                  { stat: '$1.8T', desc: 'lost annually by businesses due to poor employee health', source: 'Harvard Business Review', img: '/tc4.png' },
-                ].map((item, idx) => (
-                  <div key={idx} className="rounded-2xl overflow-hidden bg-[#0d1530] border border-white/5 flex flex-col group cursor-pointer hover:border-white/10 transition-colors h-full">
-                    <div className="h-40 overflow-hidden relative">
-                      <img src={item.img} alt="Stat Context" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" />
-                      <div className="absolute inset-0 bg-[#0a1128]/20 group-hover:bg-transparent transition-colors" />
-                    </div>
-                    <div className="p-5 md:p-6 flex-1 flex flex-col justify-between">
-                      <div>
-                        <div className="text-3xl md:text-4xl font-bold text-orange-500 mb-3">{item.stat}</div>
-                        <p className="text-gray-300 text-xs leading-relaxed mb-6">{item.desc}</p>
-                      </div>
-                      <div className="text-[10px] text-gray-500 font-medium">Source: {item.source}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
 
       {/* How WorkFit Helps Section */}
       <section className="py-24 bg-[#0a1128] text-white border-y border-white/5 relative overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
+
           <div className="text-center mb-16">
             <div className="text-orange-500 font-bold text-lg tracking-[0.2em] uppercase mb-4">How WorkFit Helps</div>
             <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
@@ -559,7 +636,7 @@ const WorkFit = () => {
                   <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" />
                   <div className="absolute inset-0 bg-[#0a1128]/20 group-hover:bg-transparent transition-colors" />
                 </div>
-                
+
                 {/* Floating Icon */}
                 <div className={`absolute top-[168px] left-6 w-12 h-12 rounded-full ${item.iconBg} flex items-center justify-center border-4 border-[#0d1530] shadow-lg z-10 group-hover:-translate-y-1 transition-transform`}>
                   <item.icon className="w-5 h-5 text-white" />
@@ -570,12 +647,348 @@ const WorkFit = () => {
                     <h3 className="text-xl font-bold mb-3">{item.title}</h3>
                     <p className="text-gray-400 text-sm leading-relaxed mb-6">{item.desc}</p>
                   </div>
-                  <div className="flex items-center text-orange-500 font-bold text-sm group-hover:text-orange-400 transition-colors">
-                    Learn more <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </div>
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Highlights Bar at the Bottom of Section */}
+          <div className="pt-10 border-t border-white/10 mt-16">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-0">
+              {[
+                {
+                  title: "Holistic Approach",
+                  desc: "Mind, body & workplace wellness in one place.",
+                  icon: Leaf
+                },
+                {
+                  title: "Expert Guidance",
+                  desc: "Certified coaches & wellness experts.",
+                  icon: Users2
+                },
+                {
+                  title: "Measurable Impact",
+                  desc: "Track progress and see real results.",
+                  icon: TrendingUp
+                },
+                {
+                  title: "Trusted by Companies",
+                  desc: "Corporate wellness partners you can rely on.",
+                  icon: ShieldCheck
+                }
+              ].map((item, idx) => (
+                <div
+                  key={idx}
+                  className={`flex gap-4 items-start px-6 ${idx !== 3 ? 'md:border-r border-white/10' : ''
+                    }`}
+                >
+                  <item.icon className="w-8 h-8 text-[#f97316] shrink-0" />
+                  <div>
+                    <h4 className="font-extrabold text-white text-sm mb-1 tracking-wide">{item.title}</h4>
+                    <p className="text-slate-300/80 text-[11px] leading-relaxed max-w-[190px] font-semibold">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Workplace Challenges Grid Section */}
+      <section className="py-24 bg-white text-[#0a1128] overflow-hidden relative">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+
+          <div className="text-center mb-20">
+            <div className="text-[#f97316] font-bold text-sm tracking-[0.25em] uppercase mb-4">THE PROBLEMS WE SOLVE</div>
+            <h2 className="text-4xl md:text-5xl font-sans font-extrabold mb-6 leading-tight text-[#0a1128] tracking-tight">
+              Workplace Challenges. Real Solutions.
+            </h2>
+            <div className="w-20 h-1 bg-[#f97316] mx-auto rounded-full" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                id: "01",
+                title: "Employee Burnout",
+                desc: "High stress, long hours, and constant pressure lead to mental & physical exhaustion.",
+                image: "/tc2.png",
+                stat: "55%",
+                statDesc: "of employees experience burnout in 2023*",
+                icon: Brain,
+                iconColor: "text-orange-500",
+                iconBg: "bg-orange-50/70 border-orange-100"
+              },
+              {
+                id: "02",
+                title: "Posture & Back Pain",
+                desc: "Sedentary work and poor posture cause chronic pain and discomfort.",
+                image: "/Wc2.png",
+                stat: "80%+",
+                statDesc: "of jobs are predominantly sedentary*",
+                icon: Armchair,
+                iconColor: "text-blue-500",
+                iconBg: "bg-blue-50/70 border-blue-100"
+              },
+              {
+                id: "03",
+                title: "Stress & Mental Health",
+                desc: "Stress, anxiety & poor well-being impact focus, creativity, and overall performance.",
+                image: "/Wc3.png",
+                stat: "72%",
+                statDesc: "of employees report high workplace stress*",
+                icon: HeartPulse,
+                iconColor: "text-purple-500",
+                iconBg: "bg-purple-50/70 border-purple-100"
+              },
+              {
+                id: "04",
+                title: getDynamicCardTitle('low-employee-engagement', "Low Employee Engagement"),
+                desc: getDynamicCardDesc('low-employee-engagement', "Disconnected teams lead to low morale, low participation, and weak culture."),
+                image: getDynamicCardImage('low-employee-engagement', "/wp2.avif"),
+                stat: "23%",
+                statDesc: "actively engaged at work globally*",
+                icon: Users2,
+                iconColor: "text-emerald-500",
+                iconBg: "bg-emerald-50/70 border-emerald-100"
+              },
+              {
+                id: "05",
+                title: "Low Productivity & Energy",
+                desc: "Fatigue, low energy and distractions reduce productivity and increase errors.",
+                image: "/tc3.avif",
+                stat: "2.5 hrs",
+                statDesc: "lost productivity per employee each day due to stress*",
+                icon: Clock,
+                iconColor: "text-amber-500",
+                iconBg: "bg-amber-50/70 border-amber-100"
+              },
+              {
+                id: "06",
+                title: getDynamicCardTitle('hybrid-work-challenges', "Hybrid Work Challenges"),
+                desc: getDynamicCardDesc('hybrid-work-challenges', "Remote & hybrid teams struggle with wellness, connection and healthy routines."),
+                image: getDynamicCardImage('hybrid-work-challenges', "/Wc6.png"),
+                stat: "63%",
+                statDesc: "of companies struggle to support hybrid employee wellness*",
+                icon: Globe2,
+                iconColor: "text-cyan-500",
+                iconBg: "bg-cyan-50/70 border-cyan-100"
+              },
+              {
+                id: "07",
+                title: getDynamicCardTitle('high-healthcare-costs', "High Healthcare Costs"),
+                desc: getDynamicCardDesc('high-healthcare-costs', "Lifestyle issues lead to rising healthcare costs and more sick leaves."),
+                image: getDynamicCardImage('high-healthcare-costs', "/wp4.avif"),
+                stat: "$2,000",
+                statDesc: "higher annual healthcare cost per unhealthy employee*",
+                icon: DollarSign,
+                iconColor: "text-rose-500",
+                iconBg: "bg-rose-50/70 border-rose-100"
+              },
+              {
+                id: "08",
+                title: getDynamicCardTitle('boring-wellness-programs', "Boring Wellness Programs"),
+                desc: getDynamicCardDesc('boring-wellness-programs', "Generic programs have low participation and don't create real impact."),
+                image: getDynamicCardImage('boring-wellness-programs', "/Wc8.png"),
+                stat: "70%",
+                statDesc: "wellness programs fail due to low engagement*",
+                icon: Sparkles,
+                iconColor: "text-indigo-500",
+                iconBg: "bg-indigo-50/70 border-indigo-100"
+              }
+            ].map((card, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.05 }}
+                viewport={{ once: true }}
+                onMouseEnter={() => setActiveSolutionCard(workplaceSolutionsData[idx])}
+                onClick={() => {
+                  const paths = [
+                    '/solutions/employee-burnout',
+                    '/solutions/posture-back-pain',
+                    '/solutions/stress-mental-health',
+                    '/solutions/low-employee-engagement',
+                    '/solutions/low-productivity-energy',
+                    '/solutions/hybrid-work-challenges',
+                    '/solutions/high-healthcare-costs',
+                    '/solutions/boring-wellness-programs'
+                  ];
+                  navigate(paths[idx]);
+                }}
+                className="bg-white rounded-[2rem] overflow-hidden border border-slate-100/80 shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-500 flex flex-col h-full group relative cursor-pointer"
+              >
+                {/* Image Section */}
+                <div className="relative h-56 overflow-hidden shrink-0">
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = `https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80`;
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-[#0a1128]/5 group-hover:bg-transparent transition-colors duration-500" />
+                </div>
+
+                {/* Floating Round Number Badge */}
+                <div className="absolute top-[204px] left-6 w-10 h-10 rounded-full bg-[#f97316] text-white flex items-center justify-center font-black text-sm z-10 border-2 border-white shadow-md">
+                  {card.id}
+                </div>
+
+                {/* Card Body */}
+                <div className="p-6 pt-9 flex-grow flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-xl font-extrabold text-sky-950 mb-3 group-hover:text-[#f97316] transition-colors leading-tight">
+                      {card.title}
+                    </h3>
+                    <p className="text-sky-900/60 text-xs md:text-sm leading-relaxed mb-6 font-medium">
+                      {card.desc}
+                    </p>
+                  </div>
+
+                  {/* Stat Area */}
+                  <div className="pt-4 border-t border-slate-100 flex flex-col justify-end">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-12 h-12 rounded-2xl ${card.iconBg} border flex items-center justify-center shrink-0`}>
+                        <card.icon className={`w-5 h-5 ${card.iconColor}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-baseline flex-wrap">
+                          <span className={`font-black text-lg md:text-xl ${card.iconColor} mr-1`}>{card.stat}</span>
+                          <span className="text-[10px] text-sky-900/50 font-bold leading-tight block truncate md:whitespace-normal">
+                            {card.statDesc}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const paths = [
+                          '/solutions/employee-burnout',
+                          '/solutions/posture-back-pain',
+                          '/solutions/stress-mental-health',
+                          '/solutions/low-employee-engagement',
+                          '/solutions/low-productivity-energy',
+                          '/solutions/hybrid-work-challenges',
+                          '/solutions/high-healthcare-costs',
+                          '/solutions/boring-wellness-programs'
+                        ];
+                        navigate(paths[idx]);
+                      }}
+                      className="flex items-center text-[#f97316] font-extrabold text-xs tracking-wider uppercase mt-4 hover:text-orange-600 transition-colors self-start group/link"
+                    >
+                      Learn more
+                      <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover/link:translate-x-1 transition-transform stroke-[2.5]" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-left text-[10px] md:text-xs text-sky-900/40 font-bold mt-10 pt-4 border-t border-slate-100">
+            *Sources: Gallup 2024, WHO 2023, Harvard Business Review, McKinsey, Global Wellness Institute
+          </div>
+        </div>
+      </section>
+
+      {/* The WorkFit Impact Section */}
+      <section className="py-24 bg-[#0a1128] text-white relative overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
+          <div className="text-center mb-16">
+            <div className="text-orange-500 font-bold text-sm tracking-[0.25em] uppercase mb-4">THE WORKFIT IMPACT</div>
+            <h2 className="text-4xl md:text-5xl font-sans font-extrabold mb-6 leading-tight text-white tracking-tight">
+              Healthier Employees. Stronger Organizations.
+            </h2>
+          </div>
+
+          {/* Stats Bar */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-0 py-6">
+            {[
+              {
+                value: "+21%",
+                label: "Increase in Productivity",
+                icon: HeartPulse
+              },
+              {
+                value: "+31%",
+                label: "Improvement in Employee Well-being",
+                icon: Smile
+              },
+              {
+                value: "+27%",
+                label: "Increase in Engagement",
+                icon: Users2
+              },
+              {
+                value: "-32%",
+                label: "Reduction in Sick Leave",
+                icon: ShieldCheck
+              },
+              {
+                value: "-18%",
+                label: "Lower Healthcare Costs",
+                icon: DollarSign
+              }
+            ].map((item, idx) => (
+              <div 
+                key={idx} 
+                className={`flex items-center gap-4 px-6 justify-center lg:justify-start ${
+                  idx !== 4 ? 'lg:border-r border-white/10' : ''
+                }`}
+              >
+                <div className="w-14 h-14 rounded-full border-2 border-[#f97316] flex items-center justify-center shrink-0">
+                  <item.icon className="w-6 h-6 text-[#f97316]" />
+                </div>
+                <div>
+                  <div className="font-extrabold text-white text-2xl md:text-3xl tracking-tight mb-1">{item.value}</div>
+                  <div className="text-slate-300/80 text-[11px] leading-snug font-semibold max-w-[130px]">{item.label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Transform Banner Card */}
+          <div className="max-w-[1200px] mx-auto rounded-[2rem] overflow-hidden border border-white/5 shadow-2xl mt-20 bg-gradient-to-r from-[#f97316] to-[#ea580c] grid grid-cols-1 md:grid-cols-12 min-h-[320px]">
+            {/* Left Image Side */}
+            <div className="md:col-span-5 relative min-h-[240px] md:min-h-full">
+              <img 
+                src="/ws1.png" 
+                alt="Let's Build a Healthier, Happier & More Productive Team" 
+                className="absolute inset-0 w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80";
+                }}
+              />
+            </div>
+            
+            {/* Right Text & CTA Side */}
+            <div className="md:col-span-7 p-8 md:p-12 lg:p-16 flex flex-col justify-center text-left">
+              <div className="text-white/80 font-extrabold text-[10px] md:text-xs tracking-[0.25em] uppercase mb-3">
+                READY TO TRANSFORM YOUR WORKPLACE?
+              </div>
+              <h3 className="text-2xl md:text-4xl font-extrabold text-white leading-tight mb-8 tracking-tight max-w-xl">
+                Let's Build a Healthier, Happier & More Productive Team.
+              </h3>
+              
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/workfitinquiry')}
+                className="py-3.5 pl-8 pr-4 bg-[#0a1128] hover:bg-[#121c3b] text-white font-extrabold text-xs tracking-[0.2em] rounded-full transition-all flex items-center gap-4 w-fit shadow-lg group"
+              >
+                BOOK A DEMO
+                <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0">
+                  <ChevronRight className="w-4 h-4 text-[#0a1128] group-hover:translate-x-0.5 transition-transform stroke-[3]" />
+                </div>
+              </motion.button>
+            </div>
           </div>
 
         </div>
@@ -586,7 +999,7 @@ const WorkFit = () => {
       <section className="py-24 bg-slate-50 text-[#0a1128] overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-            
+
             {/* Left Column: Intro */}
             <div className="lg:col-span-4 flex flex-col justify-center">
               <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">WorkFit Solutions</div>
@@ -597,7 +1010,7 @@ const WorkFit = () => {
               <p className="text-gray-600 text-base leading-relaxed mb-10 max-w-sm">
                 From personalized coaching and wellness challenges to mindfulness, movement, and hybrid workforce wellness — WorkFit helps employees feel healthier, happier, and more productive.
               </p>
-              
+
               <div className="bg-white rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex items-center gap-6 border border-gray-100 max-w-md">
                 <div className="flex items-center gap-4">
                   <Users className="w-10 h-10 text-orange-500 shrink-0" />
@@ -609,7 +1022,7 @@ const WorkFit = () => {
                 <div className="w-px h-12 bg-gray-200 shrink-0" />
                 <div>
                   <div className="flex items-center gap-1 mb-1">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />)}
+                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />)}
                   </div>
                   <div className="font-bold text-xl text-[#0a1128]">4.8/5</div>
                   <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Average Rating</div>
@@ -629,12 +1042,12 @@ const WorkFit = () => {
                     Personalized wellness coaching designed around individual goals, lifestyles, and workplace challenges.
                   </p>
                 </div>
-                
+
                 <div className="relative px-6 mb-6">
                   <div className="rounded-2xl overflow-hidden aspect-[4/3] relative">
                     <img src="/ws1.png" alt="1-on-1 Coaching" className="w-full h-full object-cover" />
                   </div>
-                  
+
                   {/* Floating Dashboard Card */}
                   <div className="absolute -bottom-8 right-8 bg-white rounded-xl p-4 shadow-xl border border-gray-100 w-44 z-10">
                     <div className="text-[10px] font-bold text-[#0a1128] mb-3 text-center">Wellness Dashboard</div>
@@ -643,18 +1056,18 @@ const WorkFit = () => {
                     </div>
                     <div className="text-[9px] font-bold text-gray-500 mb-2">Wellness Score</div>
                     <div className="space-y-2">
-                      {[{l:'Activity', w:'80%', c:'bg-green-500'}, {l:'Nutrition', w:'60%', c:'bg-green-500'}, {l:'Sleep', w:'70%', c:'bg-orange-500'}, {l:'Stress', w:'85%', c:'bg-orange-500'}].map((s,i) => (
+                      {[{ l: 'Activity', w: '80%', c: 'bg-green-500' }, { l: 'Nutrition', w: '60%', c: 'bg-green-500' }, { l: 'Sleep', w: '70%', c: 'bg-orange-500' }, { l: 'Stress', w: '85%', c: 'bg-orange-500' }].map((s, i) => (
                         <div key={i} className="flex items-center justify-between gap-2">
                           <span className="text-[8px] text-gray-600 font-medium w-10">{s.l}</span>
                           <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden">
-                            <div className={`h-full ${s.c} rounded-full`} style={{width: s.w}} />
+                            <div className={`h-full ${s.c} rounded-full`} style={{ width: s.w }} />
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="px-8 pt-8 pb-10 flex-1">
                   <ul className="space-y-3">
                     {['Fitness & workout guidance', 'Healthy habit coaching', 'Weight management support', 'Stress & energy management', 'Lifestyle optimization', 'Personalized wellness journeys'].map((li, i) => (
@@ -664,10 +1077,10 @@ const WorkFit = () => {
                     ))}
                   </ul>
                 </div>
-                
+
                 <div className="bg-orange-500 text-white p-6 flex items-center gap-4 mt-auto">
                   <ShieldCheck className="w-8 h-8 shrink-0" />
-                  <span className="font-bold leading-tight text-sm">Personalized Wellness<br/>That Creates Lasting Change</span>
+                  <span className="font-bold leading-tight text-sm">Personalized Wellness<br />That Creates Lasting Change</span>
                 </div>
               </div>
             </div>
@@ -675,23 +1088,23 @@ const WorkFit = () => {
             {/* Right Column: Diverse Wellness Programs */}
             <div className="lg:col-span-4 flex">
               <div className="rounded-[2rem] bg-gradient-to-b from-blue-50/50 to-white flex flex-col overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-blue-100/50 w-full relative group">
-                
+
                 {/* Top Badge */}
                 <div className="absolute top-6 right-6 bg-[#0a1128] text-white rounded-xl px-3 py-2 flex items-center gap-2 shadow-lg">
                   <Users className="w-4 h-4 text-blue-400" />
-                  <span className="text-[9px] font-bold leading-tight uppercase tracking-wider">Built For<br/>All Fitness<br/>Levels</span>
+                  <span className="text-[9px] font-bold leading-tight uppercase tracking-wider">Built For<br />All Fitness<br />Levels</span>
                 </div>
 
                 <div className="p-8 pb-4 pr-32">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-8 h-8 rounded-full bg-orange-500 text-white font-bold flex items-center justify-center text-sm">02</div>
-                    <h3 className="text-2xl font-bold text-[#0a1128] leading-tight">Diverse Wellness<br/>Programs</h3>
+                    <h3 className="text-2xl font-bold text-[#0a1128] leading-tight">Diverse Wellness<br />Programs</h3>
                   </div>
                   <p className="text-gray-600 text-sm leading-relaxed mb-6">
                     Engaging wellness programs and challenges that inspire participation, consistency, and healthy habits across teams.
                   </p>
                 </div>
-                
+
                 <div className="px-8 pb-6 relative z-10">
                   <ul className="space-y-3">
                     {['Step competitions', 'Yoga & fitness challenges', 'Meditation journeys', 'Sleep better programs', 'Healthy eating challenges', 'Fat burn & movement programs', 'Intermittent fasting challenges', 'Running & jogging initiatives'].map((li, i) => (
@@ -700,13 +1113,13 @@ const WorkFit = () => {
                       </li>
                     ))}
                   </ul>
-                  
+
                   {/* Floating Leaderboard */}
                   <div className="absolute top-10 -right-4 bg-white rounded-xl p-4 shadow-xl border border-gray-100 w-48 z-20">
                     <div className="text-[11px] font-bold text-[#0a1128]">Step Challenge</div>
                     <div className="text-[9px] font-medium text-gray-500 mb-3">Leaderboard</div>
                     <div className="space-y-2">
-                      {[{r:1, n:'Team Alpha', s:'842,421'}, {r:2, n:'Team Power', s:'735,290'}, {r:3, n:'Team Elevate', s:'607,612'}, {r:4, n:'Team Vitality', s:'512,309'}].map((t,i) => (
+                      {[{ r: 1, n: 'Team Alpha', s: '842,421' }, { r: 2, n: 'Team Power', s: '735,290' }, { r: 3, n: 'Team Elevate', s: '607,612' }, { r: 4, n: 'Team Vitality', s: '512,309' }].map((t, i) => (
                         <div key={i} className="flex items-center justify-between text-[9px]">
                           <div className="flex items-center gap-2">
                             <div className="w-4 h-4 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-[8px]">{t.r}</div>
@@ -727,10 +1140,10 @@ const WorkFit = () => {
                     <img src="/ws3.png" alt="Running" className="w-full h-full object-cover" />
                   </div>
                 </div>
-                
+
                 <div className="bg-blue-600 text-white p-6 flex items-center gap-4 mt-auto z-10 relative">
                   <Users2 className="w-8 h-8 shrink-0" />
-                  <span className="font-bold leading-tight text-sm">Turn Healthy Habits Into<br/>Team Culture</span>
+                  <span className="font-bold leading-tight text-sm">Turn Healthy Habits Into<br />Team Culture</span>
                 </div>
               </div>
             </div>
@@ -743,7 +1156,7 @@ const WorkFit = () => {
       <section className="py-24 bg-[#0a1128] text-white overflow-hidden relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-500/10 via-[#0a1128] to-[#0a1128] pointer-events-none" />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
+
           <div className="text-center mb-16">
             <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">Mindfulness, Movement & Modern Workforce Wellness</div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold leading-tight">
@@ -752,7 +1165,7 @@ const WorkFit = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-            
+
             {/* Card 03: Calm & Mindfulness */}
             <div className="rounded-[2rem] bg-gradient-to-b from-blue-900/20 to-[#0d1530] border border-blue-500/20 flex flex-col overflow-hidden shadow-2xl relative group h-full">
               <div className="p-8 pb-6">
@@ -764,7 +1177,7 @@ const WorkFit = () => {
                   Support employee mental well-being through guided mindfulness, meditation, stress reduction, and wellness resources.
                 </p>
               </div>
-              
+
               <div className="relative px-6 mb-8">
                 <div className="rounded-2xl overflow-hidden aspect-video relative">
                   <img src="/hw1.png" alt="Mindfulness" className="w-full h-full object-cover" />
@@ -775,14 +1188,14 @@ const WorkFit = () => {
                     <div className="text-[9px] text-gray-400">Active</div>
                   </div>
                   <div className="flex gap-0.5 items-center h-4">
-                    {[1,2,3,4,3,2,1].map((h, i) => (
-                      <motion.div key={i} animate={{ height: [4, h*4, 4] }} transition={{ repeat: Infinity, duration: 1.5, delay: i*0.1 }} className="w-0.5 bg-green-400 rounded-full" />
+                    {[1, 2, 3, 4, 3, 2, 1].map((h, i) => (
+                      <motion.div key={i} animate={{ height: [4, h * 4, 4] }} transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.1 }} className="w-0.5 bg-green-400 rounded-full" />
                     ))}
                   </div>
                   <PlayCircle className="w-4 h-4 text-white" />
                 </div>
               </div>
-              
+
               <div className="px-8 pb-8 flex-1 space-y-6">
                 <div className="flex gap-4">
                   <div className="w-12 h-12 rounded-full border border-blue-500/30 flex items-center justify-center shrink-0">
@@ -803,7 +1216,7 @@ const WorkFit = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-[#0a1128] border-t border-blue-500/20 text-blue-400 p-6 flex items-center justify-center gap-3 mt-auto">
                 <Shield className="w-5 h-5" />
                 <span className="font-bold text-sm">Calmer Minds. Stronger Performance.</span>
@@ -815,19 +1228,19 @@ const WorkFit = () => {
               <div className="p-8 pb-6">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-8 h-8 rounded-full bg-green-500 text-white font-bold flex items-center justify-center text-sm">04</div>
-                  <h3 className="text-2xl font-bold text-white">On-Site & Remote<br/>Team Wellness</h3>
+                  <h3 className="text-2xl font-bold text-white">On-Site & Remote<br />Team Wellness</h3>
                 </div>
                 <p className="text-gray-400 text-sm leading-relaxed">
                   Flexible wellness experiences designed for both in-office and remote teams across different schedules, work styles, and global time zones.
                 </p>
               </div>
-              
+
               <div className="relative px-6 mb-8">
                 <div className="rounded-2xl overflow-hidden aspect-video relative">
                   <img src="/hw2.png" alt="Team Wellness" className="w-full h-full object-cover" />
                 </div>
               </div>
-              
+
               <div className="px-8 pb-8 flex-1 space-y-6">
                 <div className="flex gap-4">
                   <div className="w-12 h-12 rounded-full border border-green-500/30 flex items-center justify-center shrink-0">
@@ -848,7 +1261,7 @@ const WorkFit = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-[#0a1128] border-t border-green-500/20 text-green-400 p-6 flex items-center justify-center gap-3 mt-auto">
                 <Shield className="w-5 h-5" />
                 <span className="font-bold text-sm">Wellness Anywhere Your Team Works.</span>
@@ -866,7 +1279,7 @@ const WorkFit = () => {
                   Transform short workplace breaks into moments of recovery, movement, and mental reset.
                 </p>
               </div>
-              
+
               <div className="relative px-6 mb-8">
                 <div className="rounded-2xl overflow-hidden aspect-video relative">
                   <img src="/hw3.png" alt="Neck Stretch" className="w-full h-full object-cover" />
@@ -876,19 +1289,19 @@ const WorkFit = () => {
                   <div className="space-y-2">
                     {['Neck Stretch', 'Shoulder Roll', 'Deep Breathing', 'Lower Back Release'].map((item, i) => (
                       <div key={i} className="flex items-center justify-between">
-                        <span className="text-[9px] text-gray-300 flex items-center gap-1.5"><span className="text-[7px] text-gray-500">{i+1}</span> {item}</span>
+                        <span className="text-[9px] text-gray-300 flex items-center gap-1.5"><span className="text-[7px] text-gray-500">{i + 1}</span> {item}</span>
                         <div className="w-3 h-3 rounded-full bg-green-500 flex items-center justify-center"><Check className="w-2 h-2 text-white" /></div>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
-              
+
               <div className="px-8 pb-8 flex-1">
                 <div className="grid grid-cols-4 gap-y-6 gap-x-2">
                   <div className="flex flex-col items-center text-center gap-2">
                     <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><Activity className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">5-min Mobility<br/>Sessions</span>
+                    <span className="text-[9px] text-gray-400 font-medium leading-tight">5-min Mobility<br />Sessions</span>
                   </div>
                   <div className="flex flex-col items-center text-center gap-2">
                     <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><Monitor className="w-4 h-4 text-purple-400" /></div>
@@ -896,27 +1309,27 @@ const WorkFit = () => {
                   </div>
                   <div className="flex flex-col items-center text-center gap-2">
                     <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><Flower2 className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Guided<br/>Breathing</span>
+                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Guided<br />Breathing</span>
                   </div>
                   <div className="flex flex-col items-center text-center gap-2">
                     <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><UserCircle2 className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Neck & Shoulder<br/>Relief</span>
+                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Neck & Shoulder<br />Relief</span>
                   </div>
                   <div className="flex flex-col items-center text-center gap-2">
                     <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><Users2 className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Lower Back<br/>Recovery</span>
+                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Lower Back<br />Recovery</span>
                   </div>
                   <div className="flex flex-col items-center text-center gap-2">
                     <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><Zap className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Midday Energy<br/>Reset</span>
+                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Midday Energy<br />Reset</span>
                   </div>
                   <div className="flex flex-col items-center text-center gap-2">
                     <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><UserCircle2 className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Quick<br/>Meditation</span>
+                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Quick<br />Meditation</span>
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-[#0a1128] border-t border-purple-500/20 text-purple-400 p-6 flex items-center justify-center gap-3 mt-auto">
                 <Shield className="w-5 h-5" />
                 <span className="font-bold text-sm">Small Breaks. Big Impact.</span>
@@ -930,7 +1343,7 @@ const WorkFit = () => {
       {/* Real Results Section (Light Theme) */}
       <section className="py-24 bg-white text-[#0a1128] border-t border-gray-100">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          
+
           <div className="mb-16">
             <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">Transforming Workspaces, One Step At A Time</div>
             <h2 className="text-4xl md:text-5xl font-sans font-bold leading-tight">
@@ -939,7 +1352,7 @@ const WorkFit = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            
+
             {/* Stat 1 */}
             <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-left flex flex-col items-center lg:items-start group hover:-translate-y-1 transition-transform">
               <div className="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center mb-6">
@@ -951,7 +1364,7 @@ const WorkFit = () => {
               </p>
               <div className="w-full h-8 opacity-50 flex items-end">
                 <svg viewBox="0 0 100 20" className="w-full h-full stroke-orange-400 fill-none" preserveAspectRatio="none">
-                  <polyline points="0,15 10,12 20,18 30,8 40,14 50,5 60,10 70,2 80,8 90,4 100,6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <polyline points="0,15 10,12 20,18 30,8 40,14 50,5 60,10 70,2 80,8 90,4 100,6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             </div>
@@ -967,7 +1380,7 @@ const WorkFit = () => {
               </p>
               <div className="w-full h-8 opacity-50 flex items-end">
                 <svg viewBox="0 0 100 20" className="w-full h-full stroke-green-400 fill-none" preserveAspectRatio="none">
-                  <polyline points="0,18 10,14 20,16 30,10 40,12 50,4 60,8 70,2 80,6 90,1 100,4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <polyline points="0,18 10,14 20,16 30,10 40,12 50,4 60,8 70,2 80,6 90,1 100,4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             </div>
@@ -983,7 +1396,7 @@ const WorkFit = () => {
               </p>
               <div className="w-full h-8 opacity-50 flex items-end">
                 <svg viewBox="0 0 100 20" className="w-full h-full stroke-blue-400 fill-none" preserveAspectRatio="none">
-                  <polyline points="0,10 10,15 20,8 30,12 40,5 50,14 60,6 70,10 80,2 90,8 100,3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <polyline points="0,10 10,15 20,8 30,12 40,5 50,14 60,6 70,10 80,2 90,8 100,3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             </div>
@@ -999,7 +1412,7 @@ const WorkFit = () => {
               </p>
               <div className="w-full h-8 opacity-50 flex items-end">
                 <svg viewBox="0 0 100 20" className="w-full h-full stroke-purple-400 fill-none" preserveAspectRatio="none">
-                  <polyline points="0,4 10,8 20,2 30,10 40,6 50,14 60,8 70,16 80,10 90,18 100,12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <polyline points="0,4 10,8 20,2 30,10 40,6 50,14 60,8 70,16 80,10 90,18 100,12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
             </div>
@@ -1008,11 +1421,11 @@ const WorkFit = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors w-full sm:w-auto"
-            onClick={() =>navigate("/workfitinquiry")}>
+              onClick={() => navigate("/workfitinquiry")}>
               Book a Demo
             </button>
             <button className="bg-white text-[#0a1128] border border-gray-200 hover:bg-gray-50 font-bold py-3 px-8 rounded-full transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
-            onClick={() =>navigate("/solutions")}>
+              onClick={() => navigate("/solutions")}>
               Explore All Solutions <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -1024,7 +1437,7 @@ const WorkFit = () => {
       {/* Resource & Library Section */}
       <section className="py-12 md:py-16 bg-[#0a1128] text-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          
+
           {/* Header */}
           <div className="text-center mb-10 md:mb-12">
             <div className="flex items-center justify-center gap-4 mb-6">
@@ -1080,7 +1493,7 @@ const WorkFit = () => {
 
             {/* Right Columns (2x2 Grid) */}
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              
+
               {/* Quick Relief Videos */}
               <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative">
                 <div className="absolute inset-0 right-0 w-[65%] ml-auto overflow-hidden">
@@ -1120,7 +1533,7 @@ const WorkFit = () => {
                   <div className="w-10 h-10 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center mb-4 text-green-500">
                     <Users2 className="w-5 h-5" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Recorded Wellness<br/>Programs</h3>
+                  <h3 className="text-xl font-bold mb-2">Recorded Wellness<br />Programs</h3>
                   <p className="text-gray-400 text-xs leading-relaxed mb-6 max-w-[200px]">
                     On-demand yoga, mobility, mindfulness, and fitness programs employees can access anytime.
                   </p>
@@ -1149,7 +1562,7 @@ const WorkFit = () => {
                   <div className="w-10 h-10 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center mb-4 text-purple-400">
                     <Headphones className="w-5 h-5" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Podcasts &<br/>Mindfulness Audio</h3>
+                  <h3 className="text-xl font-bold mb-2">Podcasts &<br />Mindfulness Audio</h3>
                   <p className="text-gray-400 text-xs leading-relaxed mb-6 max-w-[200px]">
                     Mindfulness sessions, sleep recovery audio, stress management guidance, and wellness conversations.
                   </p>
@@ -1178,7 +1591,7 @@ const WorkFit = () => {
                   <div className="w-10 h-10 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center mb-4 text-cyan-400">
                     <FileText className="w-5 h-5" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Success Stories &<br/>Wellness Insights</h3>
+                  <h3 className="text-xl font-bold mb-2">Success Stories &<br />Wellness Insights</h3>
                   <p className="text-gray-400 text-xs leading-relaxed mb-6 max-w-[200px]">
                     Real workplace wellness transformations, expert articles, and employee wellbeing strategies.
                   </p>
@@ -1229,7 +1642,7 @@ const WorkFit = () => {
                   Empower employees with wellness support that continues beyond the session.
                 </p>
                 <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-1.5 px-5 rounded-full text-xs transition-colors flex items-center gap-2"
-                onClick={() =>navigate("/workfitinquiry")}>
+                  onClick={() => navigate("/workfitinquiry")}>
                   Book Demo <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
@@ -1246,18 +1659,18 @@ const WorkFit = () => {
           {/* Dark Blue Hero Banner */}
           <div className="rounded-[2rem] bg-[#091535] relative overflow-hidden border border-white/5 shadow-xl mb-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[380px]">
-              
+
               {/* Left Column: Text & Stats */}
               <div className="lg:col-span-7 flex flex-col justify-center p-6 md:p-10 z-10 relative">
                 <div className="text-[#f97316] font-bold text-[10px] tracking-[0.25em] uppercase mb-3">WHY COMPANIES CHOOSE WORKFIT</div>
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-white mb-4 leading-tight tracking-tight">
-                  More Than Just Wellness Programs.<br/>
+                  More Than Just Wellness Programs.<br />
                   <span className="text-[#f97316]">A Partner in Your Team's Health & Performance.</span>
                 </h2>
                 <p className="text-gray-300 text-xs md:text-sm leading-relaxed mb-6 max-w-xl font-medium">
                   WorkFit delivers modern, engaging, and results-driven wellness experiences that fit the way your team works today.
                 </p>
-                
+
                 {/* Floating Stats Block */}
                 <div className="bg-black/35 backdrop-blur-md rounded-xl p-4 border border-white/10 max-w-lg">
                   <div className="grid grid-cols-3 gap-2 text-center sm:text-left divide-y sm:divide-y-0 sm:divide-x divide-white/10">
@@ -1265,21 +1678,21 @@ const WorkFit = () => {
                       <Users2 className="w-6 h-6 text-[#f97316] shrink-0" />
                       <div className="text-left">
                         <div className="text-base font-black text-white leading-tight">500+</div>
-                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Organizations<br/>Trust WorkFit</div>
+                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Organizations<br />Trust WorkFit</div>
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row items-center gap-2 pt-2 sm:pt-0 sm:pl-3">
                       <Building className="w-6 h-6 text-[#f97316] shrink-0" />
                       <div className="text-left">
                         <div className="text-base font-black text-white leading-tight">250K+</div>
-                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Employees<br/>Impacted</div>
+                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Employees<br />Impacted</div>
                       </div>
                     </div>
                     <div className="flex flex-col sm:flex-row items-center gap-2 pt-2 sm:pt-0 sm:pl-3">
                       <Star className="w-6 h-6 text-[#f97316] shrink-0" />
                       <div className="text-left">
                         <div className="text-base font-black text-white leading-tight">4.9/5</div>
-                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Average Client<br/>Satisfaction</div>
+                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Average Client<br />Satisfaction</div>
                       </div>
                     </div>
                   </div>
@@ -1364,7 +1777,7 @@ const WorkFit = () => {
           <div className="text-center mb-14">
             <h2 className="text-2xl md:text-3xl font-sans font-extrabold text-[#0B1530] mb-2 tracking-tight">What Makes Us Different</h2>
             <div className="w-10 h-1 bg-[#f97316] mx-auto mb-10 rounded-full" />
-            
+
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
               {[
                 { icon: HeartPulse, title: 'Modern Wellness For Modern Teams', desc: 'We go beyond traditional wellness and create experiences that fit the evolving workplace.' },
@@ -1393,7 +1806,7 @@ const WorkFit = () => {
           {/* Our Commitment To You Section */}
           <div className="rounded-[2rem] border border-gray-100 overflow-hidden mb-10 bg-white shadow-[0_15px_50px_rgba(0,0,0,0.02)]">
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[340px]">
-              
+
               {/* Left Side: Dark Commitment Block */}
               <div className="lg:col-span-6 bg-[#091535] p-6 md:p-8 lg:p-10 flex flex-col justify-center relative">
                 <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4">
@@ -1405,24 +1818,24 @@ const WorkFit = () => {
                 <p className="text-gray-400 text-xs md:text-sm leading-relaxed mb-6 font-medium max-w-md">
                   We're committed to creating a healthier, more energized workplace where employees thrive and organizations succeed.
                 </p>
-                
+
                 {/* 4 Pillars Stats Grid */}
                 <div className="grid grid-cols-4 gap-2 pt-4 border-t border-white/10">
                   <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
                     <HeartPulse className="w-4 h-4 text-[#f97316] mb-1.5" />
-                    <div className="text-[9px] text-white font-extrabold leading-tight">Healthier<br/>Employees</div>
+                    <div className="text-[9px] text-white font-extrabold leading-tight">Healthier<br />Employees</div>
                   </div>
                   <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
                     <Smile className="w-4 h-4 text-[#f97316] mb-1.5" />
-                    <div className="text-[9px] text-white font-extrabold leading-tight">Happier<br/>Teams</div>
+                    <div className="text-[9px] text-white font-extrabold leading-tight">Happier<br />Teams</div>
                   </div>
                   <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
                     <TrendingUp className="w-4 h-4 text-[#f97316] mb-1.5" />
-                    <div className="text-[9px] text-white font-extrabold leading-tight">Stronger<br/>Performance</div>
+                    <div className="text-[9px] text-white font-extrabold leading-tight">Stronger<br />Performance</div>
                   </div>
                   <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
                     <Building className="w-4 h-4 text-[#f97316] mb-1.5" />
-                    <div className="text-[9px] text-white font-extrabold leading-tight">Better<br/>Business Outcomes</div>
+                    <div className="text-[9px] text-white font-extrabold leading-tight">Better<br />Business Outcomes</div>
                   </div>
                 </div>
               </div>
@@ -1499,86 +1912,96 @@ const WorkFit = () => {
               What Teams Say About WorkFit
             </h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-sm md:text-base leading-relaxed font-medium">
-              Helping organizations create healthier, happier, and more engaged workplaces through movement, mindfulness, and modern wellness experiences.
+            Helping organizations create healthier, happier, and more engaged workplaces through movement, mindfulness, and modern wellness experiences.
             </p>
           </div>
 
           {/* Featured Testimonial */}
-          <div className="rounded-[2.5rem] border border-gray-100 overflow-hidden mb-16 bg-white shadow-[0_15px_50px_rgba(0,0,0,0.025)]">
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[480px]">
-              {/* Left: Photo */}
-              <div className="lg:col-span-5 min-h-[320px] lg:min-h-full relative overflow-hidden">
-                <img
-                  src="/Test1.png"
-                  alt="WorkFit Team Session"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              </div>
-              {/* Right: Quote Card */}
-              <div className="lg:col-span-7 bg-white p-8 md:p-12 lg:p-16 flex flex-col justify-center relative">
-                {/* Elegant Quote Icon */}
-                <div className="text-[#f97316] text-[5rem] font-serif leading-none absolute top-4 left-6 md:top-6 md:left-10 select-none opacity-15">“</div>
-                <div className="relative z-10">
-                  <h3 className="text-2xl md:text-3xl font-extrabold text-[#0B1530] mb-6 leading-snug tracking-tight">
-                    "WorkFit completely changed employee participation in wellness."
-                  </h3>
-                  <p className="text-gray-500 text-sm md:text-base leading-relaxed mb-8 font-medium">
-                    Employees actually looked forward to the sessions. The energy, engagement, and participation levels improved dramatically after introducing weekly wellness programs.
-                  </p>
-                  
-                  {/* Stats */}
-                  <div className="flex flex-col sm:flex-row gap-6 lg:gap-8 mb-8 pb-8 border-b border-gray-100">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-orange-50/50 flex items-center justify-center shrink-0">
-                        <TrendingUp className="w-5 h-5 text-[#f97316]" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-extrabold text-[#f97316]">+41%</div>
-                        <div className="text-[11px] font-bold text-gray-400 leading-tight">Participation Increase</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-orange-50/50 flex items-center justify-center shrink-0">
-                        <Smile className="w-5 h-5 text-[#f97316]" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-extrabold text-[#0B1530]">Higher</div>
-                        <div className="text-[11px] font-bold text-gray-400 leading-tight">Employee Morale</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-orange-50/50 flex items-center justify-center shrink-0">
-                        <Users2 className="w-5 h-5 text-[#f97316]" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-extrabold text-[#0B1530]">Better</div>
-                        <div className="text-[11px] font-bold text-gray-400 leading-tight">Team Connection</div>
-                      </div>
-                    </div>
+          {(() => {
+            const fT = getDynamicTestimonial(4, {
+              img: '/Test1.png',
+              quote: '"WorkFit completely changed employee participation in wellness."',
+              body: 'Employees actually looked forward to the sessions. The energy, engagement, and participation levels improved dramatically after introducing weekly wellness programs.',
+              name: 'Jessica L.',
+              avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=120&h=120',
+              role: 'HR Manager',
+              company: 'Tech Company'
+            });
+            return (
+              <div className="rounded-[2.5rem] border border-gray-100 overflow-hidden mb-16 bg-white shadow-[0_15px_50px_rgba(0,0,0,0.025)]">
+                <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[480px]">
+                  {/* Left: Photo */}
+                  <div className="lg:col-span-5 min-h-[320px] lg:min-h-full relative overflow-hidden">
+                    <img
+                      src={fT.img}
+                      alt="WorkFit Team Session"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
                   </div>
-                  
-                  {/* Author */}
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-[#0B1530] flex items-center justify-center text-white shrink-0 shadow-sm p-1">
-                      <div className="flex flex-col items-center justify-center">
-                        <span className="text-[7px] font-black tracking-widest text-[#f97316] leading-none mb-0.5">TECH</span>
-                        <span className="text-[8px] font-black tracking-widest text-white leading-none">NOVA</span>
+                  {/* Right: Quote Card */}
+                  <div className="lg:col-span-7 bg-white p-8 md:p-12 lg:p-16 flex flex-col justify-center relative">
+                    {/* Elegant Quote Icon */}
+                    <div className="text-[#f97316] text-[5rem] font-serif leading-none absolute top-4 left-6 md:top-6 md:left-10 select-none opacity-15">“</div>
+                    <div className="relative z-10">
+                      <h3 className="text-2xl md:text-3xl font-extrabold text-[#0B1530] mb-6 leading-snug tracking-tight">
+                        {fT.quote}
+                      </h3>
+                      <p className="text-gray-500 text-sm md:text-base leading-relaxed mb-8 font-medium">
+                        {fT.body}
+                      </p>
+
+                      {/* Stats */}
+                      <div className="flex flex-col sm:flex-row gap-6 lg:gap-8 mb-8 pb-8 border-b border-gray-100">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-orange-50/50 flex items-center justify-center shrink-0">
+                            <TrendingUp className="w-5 h-5 text-[#f97316]" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-extrabold text-[#f97316]">+41%</div>
+                            <div className="text-[11px] font-bold text-gray-400 leading-tight">Participation Increase</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-orange-50/50 flex items-center justify-center shrink-0">
+                            <Smile className="w-5 h-5 text-[#f97316]" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-extrabold text-[#0B1530]">Higher</div>
+                            <div className="text-[11px] font-bold text-gray-400 leading-tight">Employee Morale</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-orange-50/50 flex items-center justify-center shrink-0">
+                            <Users2 className="w-5 h-5 text-[#f97316]" />
+                          </div>
+                          <div>
+                            <div className="text-sm font-extrabold text-[#0B1530]">Better</div>
+                            <div className="text-[11px] font-bold text-gray-400 leading-tight">Team Connection</div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <div className="font-extrabold text-base text-[#0B1530] leading-tight">Jessica L.</div>
-                      <div className="text-xs font-semibold text-gray-400 mt-0.5">HR Manager, Tech Company</div>
+
+                      {/* Author */}
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 shadow-sm border border-slate-100">
+                          <img src={fT.avatar} alt={fT.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <div className="font-extrabold text-base text-[#0B1530] leading-tight">{fT.name}</div>
+                          <div className="text-xs font-semibold text-gray-400 mt-0.5">{fT.role}, {fT.company}</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            );
+          })()}
 
           {/* 4-Column Grid Testimonials */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {[
-              {
+              getDynamicTestimonial(0, {
                 img: '/Test2.png',
                 quote: '"The stretch breaks became our team\'s favorite part of the week."',
                 body: 'Employees felt more energized, relaxed, and productive after the sessions.',
@@ -1586,8 +2009,8 @@ const WorkFit = () => {
                 avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=120&h=120',
                 role: 'People Operations',
                 company: 'FinTech Company',
-              },
-              {
+              }),
+              getDynamicTestimonial(1, {
                 img: '/Test3.png',
                 quote: '"WorkFit made wellness engaging instead of feeling like another HR activity."',
                 body: 'The wellness challenges created excitement across teams and improved participation naturally.',
@@ -1595,8 +2018,8 @@ const WorkFit = () => {
                 avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=120&h=120',
                 role: 'Wellness Lead',
                 company: 'SaaS Company',
-              },
-              {
+              }),
+              getDynamicTestimonial(2, {
                 img: '/Test4.png',
                 quote: '"Our hybrid employees finally felt connected again."',
                 body: 'The virtual wellness activities improved communication, engagement, and team morale.',
@@ -1604,8 +2027,8 @@ const WorkFit = () => {
                 avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=120&h=120',
                 role: 'HR Director',
                 company: 'Global Consulting Firm',
-              },
-              {
+              }),
+              getDynamicTestimonial(3, {
                 img: '/Test5.png',
                 quote: '"The sessions helped reduce stress during high-pressure work periods."',
                 body: 'Employees appreciated having practical wellness tools during demanding project cycles.',
@@ -1613,7 +2036,7 @@ const WorkFit = () => {
                 avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=120&h=120',
                 role: 'Program Manager',
                 company: 'Marketing Agency',
-              },
+              }),
             ].map((t, idx) => (
               <div key={idx} className="rounded-3xl border border-gray-100 overflow-hidden bg-white shadow-[0_8px_30px_rgba(0,0,0,0.02)] flex flex-col hover:shadow-lg transition-all duration-300">
                 {/* Photo */}
@@ -1637,7 +2060,7 @@ const WorkFit = () => {
                       />
                       <div>
                         <div className="text-xs md:text-sm font-extrabold text-[#0B1530] leading-tight">{t.name}</div>
-                        <div className="text-[10px] md:text-xs font-semibold text-gray-400 mt-0.5 leading-tight">{t.role}<br/>{t.company}</div>
+                        <div className="text-[10px] md:text-xs font-semibold text-gray-400 mt-0.5 leading-tight">{t.role}<br />{t.company}</div>
                       </div>
                     </div>
                   </div>
@@ -1753,7 +2176,7 @@ const WorkFit = () => {
       <section className="py-24 bg-[#0a1128] text-white border-t border-white/5 relative overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 mb-16">
-            
+
             {/* Left Column: Info & Contact */}
             <div className="lg:w-1/3 flex flex-col">
               <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">FAQs</div>
@@ -1819,20 +2242,20 @@ const WorkFit = () => {
                   { q: "How do we get started with WorkFit?", a: "Simply reach out to us via email or phone. Our team will understand your requirements and create a customized wellness plan for your organization." }
                 ].map((faq, idx) => (
                   <div key={idx} className="group">
-                    <button 
+                    <button
                       onClick={() => setOpenFaq(openFaq === idx ? -1 : idx)}
                       className="w-full text-left px-6 py-5 flex items-start gap-4 hover:bg-white/5 transition-colors"
                     >
                       <div className="mt-0.5 shrink-0">
-                        {openFaq === idx ? 
-                          <MinusCircle className="w-5 h-5 text-orange-500 fill-orange-500/20" /> : 
+                        {openFaq === idx ?
+                          <MinusCircle className="w-5 h-5 text-orange-500 fill-orange-500/20" /> :
                           <PlusCircle className="w-5 h-5 text-orange-500 fill-orange-500/20" />
                         }
                       </div>
                       <div className="flex-1 font-bold text-[15px] pr-4">{faq.q}</div>
                       <div className="mt-0.5 shrink-0">
-                        {openFaq === idx ? 
-                          <ChevronUp className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors" /> : 
+                        {openFaq === idx ?
+                          <ChevronUp className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors" /> :
                           <ChevronDown className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors" />
                         }
                       </div>
@@ -1873,7 +2296,7 @@ const WorkFit = () => {
                 <p className="text-xs text-gray-400">WorkFit empowers your teams with the tools, support, and motivation to thrive.</p>
               </div>
             </div>
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
               whileTap={{ scale: 0.95 }}
               className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] transition-all flex items-center"
@@ -1890,6 +2313,103 @@ const WorkFit = () => {
 
         </div>
       </section>
+
+      {/* Solutions Popup Modal on Hover */}
+      <AnimatePresence>
+        {activeSolutionCard && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 md:p-10"
+          >
+            {/* Blurred Backdrop overlay */}
+            <div 
+              className="absolute inset-0 bg-[#0a1128]/70 backdrop-blur-md cursor-pointer"
+              onClick={() => setActiveSolutionCard(null)}
+            />
+            
+            {/* Modal Body Card Container */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              onMouseLeave={() => setActiveSolutionCard(null)}
+              className="bg-white text-[#0a1128] rounded-[2.5rem] overflow-hidden border border-slate-100/50 shadow-2xl max-w-4xl w-full relative z-10 flex flex-col md:flex-row min-h-[380px]"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setActiveSolutionCard(null)}
+                className="absolute top-6 right-6 w-8 h-8 rounded-full bg-[#0a1128]/5 hover:bg-[#0a1128]/10 flex items-center justify-center text-[#0a1128]/60 hover:text-[#0a1128] transition-colors z-20"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              {/* Left Column: Image */}
+              <div className="md:w-2/5 relative min-h-[220px] md:min-h-full">
+                <img 
+                  src={activeSolutionCard.image} 
+                  alt={activeSolutionCard.title} 
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#0a1128]/5 pointer-events-none" />
+              </div>
+
+              {/* Right Column: Title + Main Text + Solutions Panel */}
+              <div className="md:w-3/5 p-8 md:p-12 flex flex-col justify-between relative">
+                <div>
+                  {/* Title & Badge */}
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-9 h-9 rounded-full bg-[#f97316] text-white flex items-center justify-center font-black text-sm border-2 border-white shadow-md shrink-0">
+                      {activeSolutionCard.id}
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-extrabold text-sky-950 leading-tight tracking-tight">
+                      {activeSolutionCard.title}
+                    </h3>
+                  </div>
+
+                  {/* Problem Statement */}
+                  <p className="text-sky-900/60 text-sm md:text-base leading-relaxed mb-8 font-medium">
+                    {activeSolutionCard.problem}
+                  </p>
+                </div>
+
+                {/* Tailored Solutions Horizontal Section */}
+                <div className="border-t border-slate-100 pt-6">
+                  <div className="text-orange-500 font-extrabold text-[10px] md:text-xs tracking-[0.2em] uppercase mb-5">
+                    WorkFit Solutions
+                  </div>
+
+                  {/* 4 sub-solutions grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {activeSolutionCard.solutions.map((sol: any, sIdx: number) => (
+                      <div 
+                        key={sIdx} 
+                        className={`flex flex-col items-center text-center p-3 rounded-2xl bg-slate-50 border border-slate-100/50 hover:bg-orange-50/50 hover:border-orange-100 transition-colors ${
+                          sIdx !== 3 ? 'md:border-r border-slate-100/30' : ''
+                        }`}
+                      >
+                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-slate-100 shadow-sm mb-3">
+                          <sol.icon className="w-4 h-4 text-[#f97316]" />
+                        </div>
+                        <span className="text-[10px] text-sky-950 font-black leading-tight max-w-[90px] mx-auto block">
+                          {sol.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

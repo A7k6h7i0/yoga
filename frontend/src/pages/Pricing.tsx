@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, ArrowRight, Zap, Crown, Star, X } from 'lucide-react';
 import { apiClient } from '../lib/api';
+import { API_BASE_URL } from '../lib/env';
+
+const BASE_URL = API_BASE_URL || 'http://localhost:5000';
 
 type Plan = {
   id: 'starter' | 'premium' | 'enterprise';
@@ -110,6 +113,32 @@ const Pricing = () => {
   const [customer, setCustomer] = useState<CustomerDetails>({ name: '', email: '', phone: '' });
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
+  const [plansData, setPlansData] = useState<any>(null);
+
+  useEffect(() => {
+    fetch(`${BASE_URL || 'http://localhost:5000'}/api/content/plans`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && Object.keys(data).length > 0) {
+          setPlansData(data);
+        }
+      })
+      .catch(err => console.error("Error loading dynamic plans:", err));
+  }, []);
+
+  const getDynamicPlanPrice = (planId: string, originalPrice: string) => {
+    if (plansData && plansData[planId]?.price) {
+      return String(plansData[planId].price);
+    }
+    return originalPrice;
+  };
+
+  const getDynamicPlanFeatures = (planId: string, originalFeatures: string[]) => {
+    if (plansData && plansData[planId]?.description) {
+      return plansData[planId].description.split(',').map((f: string) => f.trim()).filter(Boolean);
+    }
+    return originalFeatures;
+  };
 
   const openCheckout = (plan: Plan) => {
     const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
@@ -249,12 +278,12 @@ const Pricing = () => {
 
             <h3 className="text-2xl font-serif font-bold text-sky-950 mb-2">{plan.name}</h3>
             <div className="flex items-baseline gap-1 mb-8">
-              <span className="text-4xl font-black text-sky-950">₹{plan.price}</span>
+              <span className="text-4xl font-black text-sky-950">₹{getDynamicPlanPrice(plan.id, plan.price)}</span>
               <span className="text-sky-900/40 font-bold uppercase tracking-widest text-xs">/ month</span>
             </div>
 
             <div className="space-y-4 mb-10">
-              {plan.features.map((feature) => (
+              {getDynamicPlanFeatures(plan.id, plan.features).map((feature) => (
                 <div key={feature} className="flex items-center gap-3">
                   <div className="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center shrink-0">
                     <Check className="w-3 h-3 text-green-500" />

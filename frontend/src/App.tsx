@@ -14,6 +14,7 @@ import ScrollToTop from './components/ScrollToTop';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import Solutions from './pages/Solutions';
+import WorkFitSolutionDetail from './pages/WorkFitSolutionDetail';
 
 const Success = () => {
   const location = useLocation();
@@ -83,6 +84,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/workfit" element={<WorkFit />} />
           <Route path="/solutions" element={<Solutions />} />
+          <Route path="/solutions/employee-burnout" element={<WorkFitSolutionDetail solutionId="employee-burnout" />} />
+          <Route path="/solutions/posture-back-pain" element={<WorkFitSolutionDetail solutionId="posture-back-pain" />} />
+          <Route path="/solutions/stress-mental-health" element={<WorkFitSolutionDetail solutionId="stress-mental-health" />} />
+          <Route path="/solutions/low-employee-engagement" element={<WorkFitSolutionDetail solutionId="low-employee-engagement" />} />
+          <Route path="/solutions/low-productivity-energy" element={<WorkFitSolutionDetail solutionId="low-productivity-energy" />} />
+          <Route path="/solutions/hybrid-work-challenges" element={<WorkFitSolutionDetail solutionId="hybrid-work-challenges" />} />
+          <Route path="/solutions/high-healthcare-costs" element={<WorkFitSolutionDetail solutionId="high-healthcare-costs" />} />
+          <Route path="/solutions/boring-wellness-programs" element={<WorkFitSolutionDetail solutionId="boring-wellness-programs" />} />
           <Route path="/solutions/:slug" element={<SolutionDetail />} />
           <Route path="/livefitinquiry" element={<Schedule />} />
           <Route path="/login" element={<Login />} />
