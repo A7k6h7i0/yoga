@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'fra
 import {
   Menu, X, Sparkles, ChevronRight
 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../lib/env';
 
 const BASE_URL = API_BASE_URL || 'http://localhost:5000';
@@ -129,6 +129,7 @@ const workplaceSolutionsData = [
 
 const WorkFit = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const containerRef = React.useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -331,6 +332,20 @@ const WorkFit = () => {
     }, 6000);
     return () => clearInterval(timer);
   }, [slides.length]);
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    const targetId = location.hash.slice(1);
+    const timer = window.setTimeout(() => {
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+      }
+    }, 100);
+
+    return () => window.clearTimeout(timer);
+  }, [location.hash]);
 
   return (
     <div ref={containerRef} className="pb-0 overflow-hidden bg-[#0a1128]">
@@ -637,7 +652,7 @@ const WorkFit = () => {
       </section>
 
       {/* The Challenge Section */}
-      <section className="py-24 bg-[#0a1128] text-white overflow-hidden relative">
+      <section id="one-on-one-coaching" className="py-24 bg-[#0a1128] text-white overflow-hidden relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-500/5 via-[#0a1128] to-[#0a1128] pointer-events-none" />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
@@ -717,7 +732,7 @@ const WorkFit = () => {
           <div className="text-center mb-16">
             <div className="text-orange-500 font-bold text-lg tracking-[0.2em] uppercase mb-4">How WorkFit Helps</div>
             <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
-              Wellness Programs That Drive Real Impact
+              Wellness programs that drive real impact
             </h2>
           </div>
 
@@ -793,7 +808,7 @@ const WorkFit = () => {
       </section>
 
       {/* Workplace Challenges Grid Section */}
-      <section className="py-24 bg-white text-[#0a1128] overflow-hidden relative">
+      <section id="wellness-challenges" className="py-24 bg-white text-[#0a1128] overflow-hidden relative">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
           <div className="text-center mb-20">
@@ -994,106 +1009,6 @@ const WorkFit = () => {
         </div>
       </section>
 
-      {/* The WorkFit Impact Section */}
-      <section className="py-24 bg-[#0a1128] text-white relative overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
-          <div className="text-center mb-16">
-            <div className="text-orange-500 font-bold text-sm tracking-[0.25em] uppercase mb-4">THE WORKFIT IMPACT</div>
-            <h2 className="text-4xl md:text-5xl font-sans font-extrabold mb-6 leading-tight text-white tracking-tight">
-              Healthier Employees. Stronger Organizations.
-            </h2>
-          </div>
-
-          {/* Stats Bar */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-0 py-6">
-            {[
-              {
-                value: "+21%",
-                label: "Increase in Productivity",
-                icon: HeartPulse
-              },
-              {
-                value: "+31%",
-                label: "Improvement in Employee Well-being",
-                icon: Smile
-              },
-              {
-                value: "+27%",
-                label: "Increase in Engagement",
-                icon: Users2
-              },
-              {
-                value: "-32%",
-                label: "Reduction in Sick Leave",
-                icon: ShieldCheck
-              },
-              {
-                value: "-18%",
-                label: "Lower Healthcare Costs",
-                icon: DollarSign
-              }
-            ].map((item, idx) => (
-              <div 
-                key={idx} 
-                className={`flex items-center gap-4 px-6 justify-center lg:justify-start ${
-                  idx !== 4 ? 'lg:border-r border-white/10' : ''
-                }`}
-              >
-                <div className="w-14 h-14 rounded-full border-2 border-[#f97316] flex items-center justify-center shrink-0">
-                  <item.icon className="w-6 h-6 text-[#f97316]" />
-                </div>
-                <div>
-                  <div className="font-extrabold text-white text-2xl md:text-3xl tracking-tight mb-1">{item.value}</div>
-                  <div className="text-slate-300/80 text-[11px] leading-snug font-semibold max-w-[130px]">{item.label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Transform Banner Card */}
-          <div className="max-w-[1200px] mx-auto rounded-[2rem] overflow-hidden border border-white/5 shadow-2xl mt-20 bg-gradient-to-r from-[#f97316] to-[#ea580c] grid grid-cols-1 md:grid-cols-12 min-h-[320px]">
-            {/* Left Image Side */}
-            <div className="md:col-span-5 relative min-h-[240px] md:min-h-full">
-              <img 
-                src="/ws1.png" 
-                alt="Let's Build a Healthier, Happier & More Productive Team" 
-                className="absolute inset-0 w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80";
-                }}
-              />
-            </div>
-            
-            {/* Right Text & CTA Side */}
-            <div className="md:col-span-7 p-8 md:p-12 lg:p-16 flex flex-col justify-center text-left">
-              <div className="text-white/80 font-extrabold text-[10px] md:text-xs tracking-[0.25em] uppercase mb-3">
-                READY TO TRANSFORM YOUR WORKPLACE?
-              </div>
-              <h3 className="text-2xl md:text-4xl font-extrabold text-white leading-tight mb-8 tracking-tight max-w-xl">
-                Let's Build a Healthier, Happier & More Productive Team.
-              </h3>
-              
-              <motion.button 
-                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(10, 17, 40, 0.25)" }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/workfitinquiry')}
-                className="group relative pl-16 pr-8 py-5 bg-[#0a1128] text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl transition-all flex items-center w-fit shrink-0"
-              >
-                <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
-                  <ChevronRight className="w-5 h-5 text-[#0a1128]" />
-                </div>
-                <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
-                  BOOK A DEMO
-                </span>
-              </motion.button>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
       {/* Wellness Solutions Designed for Modern Teams Section */}
       <section className="py-24 bg-[#0a1128] text-white overflow-hidden relative">
         {/* Ambient Glowing Background Radial Effects */}
@@ -1136,7 +1051,7 @@ const WorkFit = () => {
             <div className="flex pl-4 pr-16 md:pl-12 md:pr-32 py-4">
               
               {/* Card 01: 1-on-1 Coaching */}
-              <div className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#1a1412] to-[#0d1530] border border-orange-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 first:ml-0 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(249,115,22,0.25)] hover:border-orange-500/40 group h-[660px]">
+              <div id="one-on-one-coaching-card" className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#1a1412] to-[#0d1530] border border-orange-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 first:ml-0 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(249,115,22,0.25)] hover:border-orange-500/40 group h-[660px]">
                 <div className="p-8 pb-4">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-8 h-8 rounded-full bg-orange-500 text-white font-bold flex items-center justify-center text-sm shadow-[0_0_15px_rgba(249,115,22,0.5)]">01</div>
@@ -1189,7 +1104,7 @@ const WorkFit = () => {
               </div>
 
               {/* Card 02: Diverse Wellness Programs */}
-              <div className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#101b38] to-[#0d1530] border border-blue-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(59,130,246,0.25)] hover:border-blue-500/40 group h-[660px]">
+              <div id="diverse-holistic-wellness-programs-card" className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#101b38] to-[#0d1530] border border-blue-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(59,130,246,0.25)] hover:border-blue-500/40 group h-[660px]">
                 
                 {/* Top Badge */}
                 <div className="absolute top-6 right-6 bg-[#0a1128]/90 backdrop-blur-md text-white rounded-xl px-3 py-2 flex items-center gap-2 shadow-lg border border-white/10 z-20">
@@ -1250,7 +1165,7 @@ const WorkFit = () => {
               </div>
 
               {/* Card 03: Calm & Mindfulness */}
-              <div className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#0d2133] to-[#0d1530] border border-teal-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(20,184,166,0.25)] hover:border-teal-500/40 group h-[660px]">
+              <div id="mental-health-wellbeing-card" className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#0d2133] to-[#0d1530] border border-teal-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(20,184,166,0.25)] hover:border-teal-500/40 group h-[660px]">
                 <div className="p-8 pb-4">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-8 h-8 rounded-full bg-teal-500 text-white font-bold flex items-center justify-center text-sm shadow-[0_0_15px_rgba(20,184,166,0.5)]">03</div>
@@ -1307,7 +1222,7 @@ const WorkFit = () => {
               </div>
 
               {/* Card 04: On-Site & Remote Team Wellness */}
-              <div className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#0c1f28] to-[#0d1530] border border-green-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(34,197,94,0.25)] hover:border-green-500/40 group h-[660px]">
+              <div id="on-site-remote-wellness-card" className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#0c1f28] to-[#0d1530] border border-green-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(34,197,94,0.25)] hover:border-green-500/40 group h-[660px]">
                 <div className="p-8 pb-4">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-8 h-8 rounded-full bg-green-500 text-white font-bold flex items-center justify-center text-sm shadow-[0_0_15px_rgba(34,197,94,0.5)]">04</div>
@@ -1352,7 +1267,7 @@ const WorkFit = () => {
               </div>
 
               {/* Card 05: Make Breaks Effective */}
-              <div className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#181538] to-[#0d1530] border border-purple-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(168,85,247,0.25)] hover:border-purple-500/40 group h-[660px]">
+              <div id="make-breaks-effective-card" className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#181538] to-[#0d1530] border border-purple-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(168,85,247,0.25)] hover:border-purple-500/40 group h-[660px]">
                 <div className="p-8 pb-4">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-8 h-8 rounded-full bg-purple-500 text-white font-bold flex items-center justify-center text-sm shadow-[0_0_15px_rgba(168,85,247,0.5)]">05</div>
@@ -1410,123 +1325,20 @@ const WorkFit = () => {
         </div>
       </section>
 
-      {/* Real Results Section (Light Theme) */}
-      <section className="py-24 bg-white text-[#0a1128] border-t border-gray-100">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-
-          <div className="mb-16">
-            <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">Transforming Workspaces, One Step At A Time</div>
-            <h2 className="text-4xl md:text-5xl font-sans font-bold leading-tight">
-              Real Results. Healthier Teams. Stronger Businesses.
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-
-            {/* Stat 1 */}
-            <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-left flex flex-col items-center lg:items-start group hover:-translate-y-1 transition-transform">
-              <div className="w-16 h-16 rounded-full bg-orange-50 flex items-center justify-center mb-6">
-                <DollarSign className="w-8 h-8 text-orange-500" />
-              </div>
-              <div className="text-5xl font-bold text-orange-500 mb-4">17%</div>
-              <p className="text-gray-600 font-bold text-sm leading-relaxed mb-8 flex-1 text-center lg:text-left">
-                Reduction in overall medical expenses and cost
-              </p>
-              <div className="w-full h-8 opacity-50 flex items-end">
-                <svg viewBox="0 0 100 20" className="w-full h-full stroke-orange-400 fill-none" preserveAspectRatio="none">
-                  <polyline points="0,15 10,12 20,18 30,8 40,14 50,5 60,10 70,2 80,8 90,4 100,6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Stat 2 */}
-            <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-left flex flex-col items-center lg:items-start group hover:-translate-y-1 transition-transform">
-              <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mb-6">
-                <Users2 className="w-8 h-8 text-green-500" />
-              </div>
-              <div className="text-5xl font-bold text-green-500 mb-4">59%</div>
-              <p className="text-gray-600 font-bold text-sm leading-relaxed mb-8 flex-1 text-center lg:text-left">
-                Improvement in employee engagement in workplace
-              </p>
-              <div className="w-full h-8 opacity-50 flex items-end">
-                <svg viewBox="0 0 100 20" className="w-full h-full stroke-green-400 fill-none" preserveAspectRatio="none">
-                  <polyline points="0,18 10,14 20,16 30,10 40,12 50,4 60,8 70,2 80,6 90,1 100,4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Stat 3 */}
-            <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-left flex flex-col items-center lg:items-start group hover:-translate-y-1 transition-transform">
-              <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center mb-6">
-                <Activity className="w-8 h-8 text-blue-500" />
-              </div>
-              <div className="text-5xl font-bold text-blue-500 mb-4">50%</div>
-              <p className="text-gray-600 font-bold text-sm leading-relaxed mb-8 flex-1 text-center lg:text-left">
-                Improvement in physical activity level
-              </p>
-              <div className="w-full h-8 opacity-50 flex items-end">
-                <svg viewBox="0 0 100 20" className="w-full h-full stroke-blue-400 fill-none" preserveAspectRatio="none">
-                  <polyline points="0,10 10,15 20,8 30,12 40,5 50,14 60,6 70,10 80,2 90,8 100,3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Stat 4 */}
-            <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-left flex flex-col items-center lg:items-start group hover:-translate-y-1 transition-transform">
-              <div className="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-6">
-                <Scale className="w-8 h-8 text-purple-500" />
-              </div>
-              <div className="text-5xl font-bold text-purple-500 mb-4">4 <span className="text-2xl">KG</span></div>
-              <p className="text-gray-600 font-bold text-sm leading-relaxed mb-8 flex-1 text-center lg:text-left">
-                Average weight loss for employees
-              </p>
-              <div className="w-full h-8 opacity-50 flex items-end">
-                <svg viewBox="0 0 100 20" className="w-full h-full stroke-purple-400 fill-none" preserveAspectRatio="none">
-                  <polyline points="0,4 10,8 20,2 30,10 40,6 50,14 60,8 70,16 80,10 90,18 100,12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-            </div>
-
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <motion.button 
-              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/workfitinquiry')}
-              className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-100 transition-all flex items-center justify-center w-full sm:w-auto shrink-0"
-            >
-              <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
-                <ChevronRight className="w-5 h-5 text-orange-600" />
-              </div>
-              <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
-                Book a Demo
-              </span>
-            </motion.button>
-            <button className="bg-white text-[#0a1128] border border-gray-200 hover:bg-gray-50 font-bold py-3 px-8 rounded-full transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
-              onClick={() => navigate("/solutions")}>
-              Explore All Solutions <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-
-        </div>
-      </section>
-
-
       {/* Resource & Library Section */}
-      <section className="py-12 md:py-16 bg-[#0a1128] text-white">
+      <section id="wellness-library" className="py-12 md:py-16 bg-[#0a1128] text-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}
           <div className="text-center mb-10 md:mb-12">
             <div className="flex items-center justify-center gap-4 mb-6">
               <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-orange-500"></div>
-              <span className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase">Resource & Library</span>
+              <span className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase">Your Wellness Library</span>
               <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-orange-500"></div>
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold mb-6">
               Your Wellness Library <br className="hidden md:block" />
-              For <span className="text-orange-500">Everyday Work Life</span>
+              for <span className="text-orange-500">Everyday Work Life</span>
             </h2>
             <p className="text-gray-300 max-w-2xl mx-auto text-base md:text-lg">
               Expert-led wellness resources designed to help employees recharge, recover,
@@ -1731,266 +1543,15 @@ const WorkFit = () => {
         </div>
       </section>
 
-      {/* Why Companies Choose WorkFit Section */}
-      <section className="py-10 bg-slate-50/50 text-[#0B1530] border-t border-gray-100">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-
-          {/* Dark Blue Hero Banner */}
-          <div className="rounded-[2rem] bg-[#091535] relative overflow-hidden border border-white/5 shadow-xl mb-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[380px]">
-
-              {/* Left Column: Text & Stats */}
-              <div className="lg:col-span-7 flex flex-col justify-center p-6 md:p-10 z-10 relative">
-                <div className="text-[#f97316] font-bold text-[10px] tracking-[0.25em] uppercase mb-3">WHY COMPANIES CHOOSE WORKFIT</div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-white mb-4 leading-tight tracking-tight">
-                  More Than Just Wellness Programs.<br />
-                  <span className="text-[#f97316]">A Partner in Your Team's Health & Performance.</span>
-                </h2>
-                <p className="text-gray-300 text-xs md:text-sm leading-relaxed mb-6 max-w-xl font-medium">
-                  WorkFit delivers modern, engaging, and results-driven wellness experiences that fit the way your team works today.
-                </p>
-
-                {/* Floating Stats Block */}
-                <div className="bg-black/35 backdrop-blur-md rounded-xl p-4 border border-white/10 max-w-lg">
-                  <div className="grid grid-cols-3 gap-2 text-center sm:text-left divide-y sm:divide-y-0 sm:divide-x divide-white/10">
-                    <div className="flex flex-col sm:flex-row items-center gap-2 pb-2 sm:pb-0">
-                      <Users2 className="w-6 h-6 text-[#f97316] shrink-0" />
-                      <div className="text-left">
-                        <div className="text-base font-black text-white leading-tight">500+</div>
-                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Organizations<br />Trust WorkFit</div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row items-center gap-2 pt-2 sm:pt-0 sm:pl-3">
-                      <Building className="w-6 h-6 text-[#f97316] shrink-0" />
-                      <div className="text-left">
-                        <div className="text-base font-black text-white leading-tight">250K+</div>
-                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Employees<br />Impacted</div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row items-center gap-2 pt-2 sm:pt-0 sm:pl-3">
-                      <Star className="w-6 h-6 text-[#f97316] shrink-0" />
-                      <div className="text-left">
-                        <div className="text-base font-black text-white leading-tight">4.9/5</div>
-                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Average Client<br />Satisfaction</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Image */}
-              <div className="lg:col-span-5 relative min-h-[220px] lg:min-h-full overflow-hidden">
-                <img
-                  src="/Wc1.png"
-                  alt="Team High Fiving"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                {/* Smooth Gradient Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#091535] via-[#091535]/40 to-transparent z-10 hidden lg:block" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#091535] via-[#091535]/40 to-transparent z-10 lg:hidden" />
-              </div>
-
-            </div>
-          </div>
-
-          {/* 6-Card Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-14">
-            {[
-              {
-                icon: UserCircle2,
-                title: 'Employee-Centric Approach',
-                desc: 'Programs designed around employee needs, preferences, and workplace culture.',
-                img: '/Wc2.png'
-              },
-              {
-                icon: Target,
-                title: 'Engaging & Interactive Experiences',
-                desc: 'Fun, dynamic sessions that employees love to attend and look forward to.',
-                img: '/Wc3.png'
-              },
-              {
-                icon: Zap,
-                title: 'Customized For Your Organization',
-                desc: 'Tailored programs that align with your goals, challenges, and team dynamics.',
-                img: '/Wc4.png'
-              },
-              {
-                icon: Monitor,
-                title: 'Hybrid-Ready By Design',
-                desc: 'Seamless experiences for in-office, remote, and hybrid teams.',
-                img: '/Wc5.png'
-              },
-              {
-                icon: TrendingUp,
-                title: 'Results That Matter',
-                desc: 'Data-driven insights that show real improvements in wellbeing and productivity.',
-                img: '/Wc6.png'
-              },
-              {
-                icon: Users,
-                title: 'More Than a Vendor, A True Partner',
-                desc: 'Dedicated support, continuous innovation, and a partnership that grows with you.',
-                img: '/Wc7.png'
-              }
-            ].map((card, idx) => (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.015)] p-4 flex flex-col justify-between hover:shadow-md transition-shadow duration-300">
-                <div>
-                  <div className="w-8 h-8 rounded-lg bg-orange-50/50 flex items-center justify-center mb-3 shrink-0">
-                    <card.icon className="w-4 h-4 text-[#f97316]" />
-                  </div>
-                  <h3 className="font-extrabold text-xs text-[#0B1530] mb-1.5 leading-snug">{card.title}</h3>
-                  <p className="text-[11px] text-gray-400 font-medium leading-relaxed mb-3">{card.desc}</p>
-                </div>
-                <div className="h-32 rounded-xl overflow-hidden relative shadow-sm shrink-0">
-                  <img src={card.img} alt={card.title} className="w-full h-full object-cover" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* What Makes Us Different Section */}
-      <section className="py-14 bg-white text-[#0B1530] border-y border-gray-100">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-2xl md:text-3xl font-sans font-extrabold text-[#0B1530] mb-2 tracking-tight">What Makes Us Different</h2>
-            <div className="w-10 h-1 bg-[#f97316] mx-auto mb-10 rounded-full" />
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
-              {[
-                { icon: HeartPulse, title: 'Modern Wellness For Modern Teams', desc: 'We go beyond traditional wellness and create experiences that fit the evolving workplace.' },
-                { icon: UserCircle2, title: 'Expert Instructors & Coaches', desc: 'Certified professionals who bring energy, expertise, and a human connection.' },
-                { icon: Users2, title: 'High Participation By Design', desc: 'Built-in engagement strategies that drive participation across all levels.' },
-                { icon: Flower2, title: 'Holistic & Balanced Wellbeing', desc: 'Movement, mindfulness, nutrition, mental health and more—supporting the whole person.' },
-                { icon: ShieldCheck, title: 'Safe, Inclusive & Accessible', desc: 'Programs that are inclusive, adaptable, and accessible for everyone, everywhere.' },
-                { icon: Star, title: 'Flexible Programs That Scale', desc: 'From quick stretch breaks to multi-week challenges—we scale with your organization.' }
-              ].map((item, idx) => (
-                <div key={idx} className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-full bg-[#0B1530] flex items-center justify-center mb-3 shrink-0 shadow-md">
-                    <item.icon className="w-5.5 h-5.5 text-[#f97316]" />
-                  </div>
-                  <h3 className="font-extrabold text-xs text-[#0B1530] mb-2 leading-snug max-w-[150px]">{item.title}</h3>
-                  <p className="text-[10px] text-gray-400 font-medium leading-relaxed max-w-[170px]">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Our Commitment & Action Section */}
-      <section className="py-14 bg-slate-50/50 text-[#0B1530]">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Our Commitment To You Section */}
-          <div className="rounded-[2rem] border border-gray-100 overflow-hidden mb-10 bg-white shadow-[0_15px_50px_rgba(0,0,0,0.02)]">
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[340px]">
-
-              {/* Left Side: Dark Commitment Block */}
-              <div className="lg:col-span-6 bg-[#091535] p-6 md:p-8 lg:p-10 flex flex-col justify-center relative">
-                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4">
-                  <ShieldCheck className="w-5 h-5 text-[#f97316]" />
-                </div>
-                <h3 className="text-xl md:text-2xl font-extrabold text-white mb-3 leading-snug tracking-tight">
-                  Our Commitment To You
-                </h3>
-                <p className="text-gray-400 text-xs md:text-sm leading-relaxed mb-6 font-medium max-w-md">
-                  We're committed to creating a healthier, more energized workplace where employees thrive and organizations succeed.
-                </p>
-
-                {/* 4 Pillars Stats Grid */}
-                <div className="grid grid-cols-4 gap-2 pt-4 border-t border-white/10">
-                  <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
-                    <HeartPulse className="w-4 h-4 text-[#f97316] mb-1.5" />
-                    <div className="text-[9px] text-white font-extrabold leading-tight">Healthier<br />Employees</div>
-                  </div>
-                  <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
-                    <Smile className="w-4 h-4 text-[#f97316] mb-1.5" />
-                    <div className="text-[9px] text-white font-extrabold leading-tight">Happier<br />Teams</div>
-                  </div>
-                  <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
-                    <TrendingUp className="w-4 h-4 text-[#f97316] mb-1.5" />
-                    <div className="text-[9px] text-white font-extrabold leading-tight">Stronger<br />Performance</div>
-                  </div>
-                  <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
-                    <Building className="w-4 h-4 text-[#f97316] mb-1.5" />
-                    <div className="text-[9px] text-white font-extrabold leading-tight">Better<br />Business Outcomes</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Side: Commitment Photo */}
-              <div className="lg:col-span-6 min-h-[200px] lg:min-h-full relative overflow-hidden">
-                <img
-                  src="/Wc8.png"
-                  alt="Yoga Stretching in Office"
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              </div>
-
-            </div>
-          </div>
-
-          {/* Let's Build Together Action Banner */}
-          <div className="rounded-2xl border border-gray-100 bg-white p-5 md:py-6 md:px-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-[0_8px_30px_rgba(0,0,0,0.015)] mb-14">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-orange-50/50 flex items-center justify-center shrink-0">
-                <Flower2 className="w-6 h-6 text-[#f97316]" />
-              </div>
-              <div>
-                <h3 className="text-lg md:text-xl font-extrabold text-[#0B1530] mb-0.5 leading-tight tracking-tight">Let's Build A Healthier, Happier Workplace Together.</h3>
-                <p className="text-gray-500 font-bold text-[11px] md:text-xs">Partner with WorkFit and bring wellness experiences your employees will love—and your organization will see results from.</p>
-              </div>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-              <motion.button 
-                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/workfitinquiry')}
-                className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-100 transition-all flex items-center justify-center w-full sm:w-auto shrink-0"
-              >
-                <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
-                  <ChevronRight className="w-5 h-5 text-orange-600" />
-                </div>
-                <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
-                  BOOK A DEMO
-                </span>
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => navigate('/workfitinquiry')}
-                className="bg-transparent border-2 border-gray-200 hover:border-gray-300 text-[#0B1530] font-extrabold text-xs px-5 py-2.5 rounded-full flex items-center justify-center gap-1.5 transition-colors whitespace-nowrap"
-              >
-                TALK TO WORKFIT <ArrowRight className="w-3.5 h-3.5 text-gray-500" />
-              </motion.button>
-            </div>
-          </div>
-
-          {/* Recognized By Logo Bar */}
-          {/* <div className="text-center mb-6">
-            <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-4">Recognized By</div>
-            <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-              {['Forbes', 'Inc.', 'FAST COMPANY', 'CNBC', 'HR DIVE', 'SHRM'].map((brand, idx) => (
-                <div key={idx} className="font-sans font-black text-sm md:text-base text-gray-400/80 hover:text-gray-500 transition-colors select-none tracking-tight">
-                  {brand}
-                </div>
-              ))}
-            </div>
-          </div> */}
-
-        </div>
-      </section>
-
       {/* Testimonials Section — Light Theme */}
-      <section className="py-24 bg-white text-[#0B1530]">
+      <section id="global-employee-engagement" className="py-24 bg-white text-[#0B1530]">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}
           <div className="text-center mb-16">
             <div className="text-[#f97316] font-bold text-xs tracking-[0.25em] uppercase mb-4">TESTIMONIALS</div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-[#0B1530] mb-5 tracking-tight leading-[1.1]">
-              What Teams Say About WorkFit
+              What Teams say about Workfit
             </h2>
             <p className="text-gray-500 max-w-2xl mx-auto text-sm md:text-base leading-relaxed font-medium">
             Helping organizations create healthier, happier, and more engaged workplaces through movement, mindfulness, and modern wellness experiences.
@@ -2351,6 +1912,243 @@ const WorkFit = () => {
 
       </section>
 
+      {/* Why Companies Choose WorkFit Section */}
+      <section className="py-10 bg-slate-50/50 text-[#0B1530] border-t border-gray-100">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* Dark Blue Hero Banner */}
+          <div className="rounded-[2rem] bg-[#091535] relative overflow-hidden border border-white/5 shadow-xl mb-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[380px]">
+
+              {/* Left Column: Text & Stats */}
+              <div className="lg:col-span-7 flex flex-col justify-center p-6 md:p-10 z-10 relative">
+                <div className="text-[#f97316] font-bold text-[10px] tracking-[0.25em] uppercase mb-3">WHY COMPANIES CHOOSE WORKFIT</div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-sans font-extrabold text-white mb-4 leading-tight tracking-tight">
+                  More than just wellness programs.<br />
+                  <span className="text-[#f97316]">A partner in your teams....</span>
+                </h2>
+                <p className="text-gray-300 text-xs md:text-sm leading-relaxed mb-6 max-w-xl font-medium">
+                  WorkFit delivers modern, engaging, and results-driven wellness experiences that fit the way your team works today.
+                </p>
+
+                {/* Floating Stats Block */}
+                <div className="bg-black/35 backdrop-blur-md rounded-xl p-4 border border-white/10 max-w-lg">
+                  <div className="grid grid-cols-3 gap-2 text-center sm:text-left divide-y sm:divide-y-0 sm:divide-x divide-white/10">
+                    <div className="flex flex-col sm:flex-row items-center gap-2 pb-2 sm:pb-0">
+                      <Users2 className="w-6 h-6 text-[#f97316] shrink-0" />
+                      <div className="text-left">
+                        <div className="text-base font-black text-white leading-tight">500+</div>
+                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Organizations<br />Trust WorkFit</div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row items-center gap-2 pt-2 sm:pt-0 sm:pl-3">
+                      <Building className="w-6 h-6 text-[#f97316] shrink-0" />
+                      <div className="text-left">
+                        <div className="text-base font-black text-white leading-tight">250K+</div>
+                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Employees<br />Impacted</div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col sm:flex-row items-center gap-2 pt-2 sm:pt-0 sm:pl-3">
+                      <Star className="w-6 h-6 text-[#f97316] shrink-0" />
+                      <div className="text-left">
+                        <div className="text-base font-black text-white leading-tight">4.9/5</div>
+                        <div className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Average Client<br />Satisfaction</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Image */}
+              <div className="lg:col-span-5 relative min-h-[220px] lg:min-h-full overflow-hidden">
+                <img
+                  src="/Wc1.png"
+                  alt="Team High Fiving"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* Smooth Gradient Overlays */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#091535] via-[#091535]/40 to-transparent z-10 hidden lg:block" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#091535] via-[#091535]/40 to-transparent z-10 lg:hidden" />
+              </div>
+
+            </div>
+          </div>
+
+          {/* 6-Card Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-14">
+            {[
+              {
+                icon: UserCircle2,
+                title: 'Employee-Centric Approach',
+                desc: 'Programs designed around employee needs, preferences, and workplace culture.',
+                img: '/Wc2.png'
+              },
+              {
+                icon: Target,
+                title: 'Engaging & Interactive Experiences',
+                desc: 'Fun, dynamic sessions that employees love to attend and look forward to.',
+                img: '/Wc3.png'
+              },
+              {
+                icon: Zap,
+                title: 'Customized For Your Organization',
+                desc: 'Tailored programs that align with your goals, challenges, and team dynamics.',
+                img: '/Wc4.png'
+              },
+              {
+                icon: Monitor,
+                title: 'Hybrid-Ready By Design',
+                desc: 'Seamless experiences for in-office, remote, and hybrid teams.',
+                img: '/Wc5.png'
+              },
+              {
+                icon: TrendingUp,
+                title: 'Results That Matter',
+                desc: 'Data-driven insights that show real improvements in wellbeing and productivity.',
+                img: '/Wc6.png'
+              },
+              {
+                icon: Users,
+                title: 'More Than a Vendor, A True Partner',
+                desc: 'Dedicated support, continuous innovation, and a partnership that grows with you.',
+                img: '/Wc7.png'
+              }
+            ].map((card, idx) => (
+              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.015)] p-4 flex flex-col justify-between hover:shadow-md transition-shadow duration-300">
+                <div>
+                  <div className="w-8 h-8 rounded-lg bg-orange-50/50 flex items-center justify-center mb-3 shrink-0">
+                    <card.icon className="w-4 h-4 text-[#f97316]" />
+                  </div>
+                  <h3 className="font-extrabold text-xs text-[#0B1530] mb-1.5 leading-snug">{card.title}</h3>
+                  <p className="text-[11px] text-gray-400 font-medium leading-relaxed mb-3">{card.desc}</p>
+                </div>
+                <div className="h-32 rounded-xl overflow-hidden relative shadow-sm shrink-0">
+                  <img src={card.img} alt={card.title} className="w-full h-full object-cover" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+      {/* The WorkFit Impact Section */}
+      <section className="py-24 bg-[#0a1128] text-white relative overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <div className="text-orange-500 font-bold text-sm tracking-[0.25em] uppercase mb-4">THE WORKFIT IMPACT</div>
+            <h2 className="text-4xl md:text-5xl font-sans font-extrabold mb-6 leading-tight text-white tracking-tight">
+              Healthier Employees. Stronger Organisations.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-0 py-6">
+            {[
+              { value: '+21%', label: 'Increase in Productivity', icon: HeartPulse },
+              { value: '+31%', label: 'Improvement in Employee Well-being', icon: Smile },
+              { value: '+27%', label: 'Increase in Engagement', icon: Users2 },
+              { value: '-32%', label: 'Reduction in Sick Leave', icon: ShieldCheck },
+              { value: '-18%', label: 'Lower Healthcare Costs', icon: DollarSign }
+            ].map((item, idx) => (
+              <div key={idx} className={`flex items-center gap-4 px-6 justify-center lg:justify-start ${idx !== 4 ? 'lg:border-r border-white/10' : ''}`}>
+                <div className="w-14 h-14 rounded-full border-2 border-[#f97316] flex items-center justify-center shrink-0">
+                  <item.icon className="w-6 h-6 text-[#f97316]" />
+                </div>
+                <div>
+                  <div className="font-extrabold text-white text-2xl md:text-3xl tracking-tight mb-1">{item.value}</div>
+                  <div className="text-slate-300/80 text-[11px] leading-snug font-semibold max-w-[130px]">{item.label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="max-w-[1200px] mx-auto rounded-[2rem] overflow-hidden border border-white/5 shadow-2xl mt-20 bg-gradient-to-r from-[#f97316] to-[#ea580c] grid grid-cols-1 md:grid-cols-12 min-h-[320px]">
+            <div className="md:col-span-5 relative min-h-[240px] md:min-h-full">
+              <img
+                src="/ws1.png"
+                alt="Let's Build a Healthier, Happier & More Productive Team"
+                className="absolute inset-0 w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80';
+                }}
+              />
+            </div>
+            <div className="md:col-span-7 p-8 md:p-12 lg:p-16 flex flex-col justify-center text-left">
+              <div className="text-white/80 font-extrabold text-[10px] md:text-xs tracking-[0.25em] uppercase mb-3">
+                READY TO TRANSFORM YOUR WORKPLACE?
+              </div>
+              <h3 className="text-2xl md:text-4xl font-extrabold text-white leading-tight mb-8 tracking-tight max-w-xl">
+                Let's Build a Healthier, Happier & More Productive Team.
+              </h3>
+              <motion.button
+                whileHover={{ scale: 1.05, boxShadow: '0 20px 40px -10px rgba(10, 17, 40, 0.25)' }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/workfitinquiry')}
+                className="group relative pl-16 pr-8 py-5 bg-[#0a1128] text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl transition-all flex items-center w-fit shrink-0"
+              >
+                <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                  <ChevronRight className="w-5 h-5 text-[#0a1128]" />
+                </div>
+                <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                  BOOK A DEMO
+                </span>
+              </motion.button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Ready to Bring WorkFit Section */}
+      <section className="py-24 bg-[#091535] text-white border-t border-white/5 relative overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="rounded-[2.5rem] bg-[#091535] relative overflow-hidden border border-white/5 shadow-2xl">
+            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[360px]">
+              <div className="lg:col-span-7 flex flex-col justify-center p-8 md:p-12 lg:p-16 z-10 relative">
+                <div className="w-12 h-1 bg-[#f97316] mb-6 rounded-full" />
+                <h3 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 leading-tight tracking-tight">
+                  Ready to bring Workfit to your teams?
+                </h3>
+                <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-8 max-w-lg font-medium">
+                  Create a healthier, more energized, and more connected workplace with wellness experiences employees genuinely enjoy.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <motion.button
+                    whileHover={{ scale: 1.05, boxShadow: '0 20px 40px -10px rgba(249, 115, 22, 0.25)' }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => navigate('/workfitinquiry')}
+                    className="group relative pl-16 pr-8 py-5 bg-[#f97316] text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-500/20 transition-all flex items-center justify-center shrink-0 w-full sm:w-auto"
+                  >
+                    <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                      <ChevronRight className="w-5 h-5 text-orange-600" />
+                    </div>
+                    <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                      BOOK A DEMO
+                    </span>
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate('/workfitinquiry')}
+                    className="bg-transparent border-2 border-white/20 hover:border-white/40 text-white font-extrabold text-xs md:text-sm px-6 py-3.5 rounded-full flex items-center justify-center gap-2 transition-colors"
+                  >
+                    PLAN A WELLNESS WEEK <ArrowRight className="w-4 h-4" />
+                  </motion.button>
+                </div>
+              </div>
+              <div className="lg:col-span-5 relative min-h-[250px] lg:min-h-full overflow-hidden">
+                <img
+                  src="/wt_cta.png"
+                  alt="WorkFit Team"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#091535] via-[#091535]/40 to-transparent z-10 hidden lg:block" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#091535] via-[#091535]/40 to-transparent z-10 lg:hidden" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* FAQ Section */}
       <section className="py-24 bg-[#0a1128] text-white border-t border-white/5 relative overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -2358,7 +2156,7 @@ const WorkFit = () => {
 
             {/* Left Column: Info & Contact */}
             <div className="lg:w-1/3 flex flex-col">
-              <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">FAQs</div>
+              <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">F&Q</div>
               <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
                 Everything You Need to Know About <span className="text-orange-500">WorkFit</span>
               </h2>

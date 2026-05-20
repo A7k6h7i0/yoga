@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, X, ChevronDown, Sparkles, ChevronRight, User, LogOut,
-  Target, BookOpen, HeartPulse, Clock, Users, Video, Image as ImageIcon
+  Target, BookOpen, HeartPulse, Clock, Users, Video, Image as ImageIcon,
+  Brain, Leaf, Globe2, Monitor, Zap, ShieldCheck
 } from 'lucide-react';
 import Logo from './Logo';
 import {
@@ -62,6 +63,59 @@ const liveFitSections = [
   { name: 'Testimonials', id: 'testimonials', desc: 'Reviews from our global community', icon: Users }
 ];
 
+const workfitSections = [
+  {
+    name: '1-on-1 Coaching',
+    id: 'one-on-one-coaching-card',
+    desc: 'Personalized wellness coaching for individual needs',
+    icon: User
+  },
+  {
+    name: 'Diverse Holistic Wellness programs',
+    id: 'diverse-holistic-wellness-programs-card',
+    desc: 'Movement, nutrition, mindfulness, and recovery',
+    icon: Leaf
+  },
+  {
+    name: 'Mental Health & wellbeing',
+    id: 'mental-health-wellbeing-card',
+    desc: 'Mindfulness, stress relief, and emotional balance',
+    icon: Brain
+  },
+  {
+    name: 'On-site & Remote Wellness',
+    id: 'on-site-remote-wellness-card',
+    desc: 'Wellness that works for in-office and remote teams',
+    icon: Monitor
+  },
+  {
+    name: 'make breaks Effective',
+    id: 'make-breaks-effective-card',
+    desc: 'Quick resets for energy, posture, and recovery',
+    icon: Clock
+  },
+  {
+    name: 'Wellness Challenges',
+    id: 'wellness-challenges',
+    desc: 'Step challenges, team goals, and engagement campaigns',
+    icon: Target
+  },
+  {
+    name: 'Global Employee Engagement',
+    id: 'global-employee-engagement',
+    desc: 'Testimonials and outcomes from teams worldwide',
+    icon: Globe2
+  },
+  {
+    name: 'Wellness Library',
+    id: 'wellness-library',
+    desc: 'On-demand videos, audio, and practical resources',
+    icon: BookOpen
+  }
+];
+
+const workfitDropdownSections = workfitSections.filter((item) => item.id !== 'wellness-challenges');
+
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -112,8 +166,13 @@ const Navigation = () => {
     }
   };
 
+  const goToWorkFitSection = (id: string) => {
+    setActiveDropdown(null);
+    navigate(`/workfit#${id}`);
+  };
+
   return (
-    <nav className="sticky top-0 w-full z-50 bg-[#F5F5F3] py-0.5 md:py-1 border-b border-orange-100/50">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-[#F5F5F3] py-0.5 md:py-1 border-b border-orange-100/50">
       <div className="w-full px-4 md:px-8">
         <div className="flex items-center justify-between">
           <Link to="/">
@@ -182,8 +241,12 @@ const Navigation = () => {
                       <div className="w-[60%] bg-[#1d232a] p-8 flex flex-col border-l border-white/5">
                         <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Other Solutions</h3>
                         <div className="grid grid-cols-2 gap-x-6 gap-y-4 mb-auto">
-                          {solutions.slice(1, 5).map((item) => (
-                            <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setActiveDropdown(null)} className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group">
+                          {workfitDropdownSections.map((item) => (
+                            <button
+                              key={item.id}
+                              onClick={() => goToWorkFitSection(item.id)}
+                              className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group text-left"
+                            >
                               <div className="mt-0.5">
                                 <item.icon className="w-5 h-5 text-slate-300 group-hover:text-white transition-colors" />
                               </div>
@@ -191,7 +254,7 @@ const Navigation = () => {
                                 <div className="font-semibold text-slate-100 group-hover:text-white text-[14px] mb-1">{item.name}</div>
                                 <div className="text-[12px] text-slate-400 group-hover:text-slate-300 leading-relaxed">{item.desc}</div>
                               </div>
-                            </Link>
+                            </button>
                           ))}
                         </div>
                         
@@ -398,11 +461,18 @@ const Navigation = () => {
                 
                 {(location.pathname.includes('workfit') || location.pathname.includes('solutions')) && (
                   <div className="mt-8">
-                    <Link to="/workfit" onClick={() => setIsOpen(false)} className="text-[10px] font-black text-sky-300 hover:text-sky-500 transition-colors uppercase tracking-[0.4em] mb-6 block">WorkFit Solutions</Link>
+                    <span className="text-[10px] font-black text-orange-400 uppercase tracking-[0.4em] mb-6 block">WorkFit Sections</span>
                     <div className="grid grid-cols-1 gap-4">
-                      {solutions.map((item) => (
-                        <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setIsOpen(false)} className="flex items-center gap-4 group">
-                           <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shrink-0 ${item.color}`}>
+                      {workfitSections.map((item) => (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            setIsOpen(false);
+                            goToWorkFitSection(item.id);
+                          }}
+                          className="flex items-center gap-4 group text-left w-full"
+                        >
+                           <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center shrink-0 bg-slate-100 text-slate-500">
                               <item.icon className="w-5 h-5 md:w-6 md:h-6" />
                            </div>
 
@@ -410,7 +480,7 @@ const Navigation = () => {
                               <span className="text-lg md:text-xl font-serif italic font-bold text-sky-950 leading-none mb-1">{item.name}</span>
                               <span className="text-[10px] md:text-xs text-sky-400 font-bold leading-tight">{item.desc}</span>
                            </div>
-                        </Link>
+                        </button>
                       ))}
                     </div>
                   </div>
