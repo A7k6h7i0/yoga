@@ -9,6 +9,60 @@ import {
 } from 'lucide-react';
 
 const solutionData: any = {
+  'wellness-challenges': {
+    title: 'Wellness Challenges',
+    subtitle: 'Unified Active Culture',
+    desc: 'Ignite physical activity, team collaboration, and wellness habits across your organization. Our comprehensive challenge suite combines steps marathons, custom corporate goals, collaborative team challenges, and global virtual marathons into one unified experience.',
+    science: 'Daily movement and gamified group challenges trigger metabolic health improvements, lower cardiac risk, and release high levels of social oxytocin for team bonding.',
+    userStory: {
+      quote: "Combining all our steps, virtual runs, and team milestones in one wellness hub drove 85% participation across our global offices!",
+      author: "James Peterson",
+      role: "VP of Global HR @ Apex Solutions"
+    },
+    uniqueSection: {
+      layout: 'wellness-challenges-grid',
+      title: "Our Challenge Ecosystem",
+      desc: "Select, customize, or combine any of our high-engagement challenges to fit your organizational culture.",
+      challenges: [
+        {
+          name: "Steps Challenge",
+          title: "Step Marathon",
+          desc: "Ignite a culture of movement with daily walking goals, real-time leaderboards, and virtual global routes. Syncs seamlessly with any wearable.",
+          icon: Wind,
+          color: "text-orange-600 bg-orange-50",
+          features: ["Real-time leaderboard", "Wearable device sync", "Virtual global routes", "Team milestones"]
+        },
+        {
+          name: "Virtual Marathon",
+          title: "Global Virtual Marathon",
+          desc: "A scalable platform designed to bring remote and global teams together. Participants run, walk, or wheelchair their way to the finish line from anywhere.",
+          icon: Trophy,
+          color: "text-sky-600 bg-sky-50",
+          features: ["Live global leaderboards", "Charity integrations", "Custom milestone badges", "Wearable sync"]
+        },
+        {
+          name: "Custom Challenges",
+          title: "Custom Challenges",
+          desc: "Design bespoke wellness challenges aligned with your corporate goals. From hydration tracking to targeted fitness milestones, build rules that match.",
+          icon: Target,
+          color: "text-indigo-600 bg-indigo-50",
+          features: ["Challenge builder studio", "Custom reward tiers", "Flexible activity tracking", "Branded interface"]
+        },
+        {
+          name: "Team Challenge",
+          title: "Synchronized Team Challenge",
+          desc: "Break down silos and build team unity through interactive, collaborative movement and shared goals. Aligns department efforts for peak cohesion.",
+          icon: Users2,
+          color: "text-purple-600 bg-purple-50",
+          features: ["Live group tracking", "Collaborative goals", "Shared achievement space", "Department leaderboards"]
+        }
+      ]
+    },
+    icon: Trophy,
+    color: 'text-orange-600 bg-orange-50',
+    image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80',
+    features: ['Integrated Steps Marathon', 'Wearable & Device Sync', 'Collaborative Team Goals', 'Customizable Reward Tiers', 'Live Global Leaderboards', 'Virtual Marathon Routes']
+  },
   'steps-challenge': {
     title: 'Step Marathon',
     subtitle: 'Active Workforce',
@@ -245,9 +299,9 @@ const solutionData: any = {
 const SolutionDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const solution = solutionData[slug as string] || solutionData['steps-challenge'];
+  const solution = solutionData[slug as string] || solutionData['wellness-challenges'];
 
-  const isSpecialChallenge = slug === 'steps-challenge' || slug === 'custom-challenges';
+  const isSpecialChallenge = slug === 'wellness-challenges';
 
   const handleButtonClick = () => {
     if (isSpecialChallenge) {
@@ -259,6 +313,77 @@ const SolutionDetail = () => {
     const { uniqueSection } = solution;
     
     switch (uniqueSection.layout) {
+      case 'wellness-challenges-grid':
+        return (
+          <div className="max-w-[1400px] mx-auto px-4 md:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-20">
+              <h2 className="text-4xl md:text-7xl font-serif italic text-sky-950 mb-6 leading-none">
+                {uniqueSection.title}
+              </h2>
+              <p className="text-lg md:text-xl text-sky-800 leading-relaxed font-medium opacity-70">
+                {uniqueSection.desc}
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+              {uniqueSection.challenges.map((item: any, idx: number) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1, duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="bg-slate-50/50 hover:bg-white rounded-[2.5rem] p-8 md:p-12 border border-slate-100/50 hover:border-orange-100 hover:shadow-2xl transition-all duration-500 flex flex-col justify-between group text-left"
+                  >
+                    <div>
+                      {/* Top Header */}
+                      <div className="flex items-center gap-5 mb-8">
+                        <div className={`w-14 h-14 md:w-16 md:h-16 rounded-[1.25rem] flex items-center justify-center shadow-md transition-transform group-hover:scale-105 duration-500 ${item.color}`}>
+                          <Icon className="w-6 md:w-8 h-6 md:h-8 text-orange-600" />
+                        </div>
+                        <div>
+                          <span className="text-orange-500 font-bold text-xs uppercase tracking-widest block mb-1">
+                            {item.name}
+                          </span>
+                          <h3 className="text-2xl font-bold text-sky-950 leading-tight">
+                            {item.title}
+                          </h3>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-sky-900/60 text-base leading-relaxed mb-8 font-medium">
+                        {item.desc}
+                      </p>
+
+                      {/* Features List */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        {item.features.map((f: string) => (
+                          <div key={f} className="flex items-center gap-3 text-sky-950 font-bold text-xs md:text-sm">
+                            <div className="w-5 h-5 rounded-full bg-orange-500/10 text-orange-600 flex items-center justify-center shrink-0">
+                              <CheckCircle2 className="w-3.5 h-3.5" />
+                            </div>
+                            <span className="text-sky-900/65 font-medium">{f}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bottom Link Style */}
+                    <div className="pt-6 border-t border-slate-100 flex items-center justify-between">
+                      <span className="text-orange-600 font-bold text-xs uppercase tracking-[0.2em] flex items-center gap-2 group-hover:text-orange-700 transition-colors">
+                        Ready to launch <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
+                      </span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        );
+
       case 'split':
         return (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 items-stretch">

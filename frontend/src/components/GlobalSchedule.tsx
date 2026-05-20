@@ -10,54 +10,56 @@ const GlobalSchedule = () => {
     offset: ["start start", "end end"]
   });
 
-  // Animations derived from scroll progress
-  const sunY = useTransform(scrollYProgress, [0, 0.45], ["0%", "-200%"]);
+  // Animations derived from scroll progress using absolute SVG user space coordinates
+  const sunY = useTransform(scrollYProgress, [0, 0.45], [0, -800]);
   const sunOpacity = useTransform(scrollYProgress, [0, 0.4, 0.55], [1, 1, 0]);
 
-  const moonY = useTransform(scrollYProgress, [0.35, 0.8], ["80%", "-200%"]);
+  const moonY = useTransform(scrollYProgress, [0.35, 0.8], [600, -800]);
   const moonOpacity = useTransform(scrollYProgress, [0.35, 0.5, 0.9], [0, 1, 1]);
 
   return (
     <section ref={containerRef} className="relative h-[400vh] bg-white">
-      {/* Sticky Container */}
-      <div className="sticky top-0 h-[120vh] md:h-[140vh] w-full flex flex-col items-center justify-start py-8">
+      {/* Sticky Container - exactly 100vh height */}
+      <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-between pt-10 pb-0 overflow-hidden">
         
         {/* Heading Section */}
-        <div className="text-center w-full z-[100] px-4 pt-10 mb-8">
+        <div className="text-center w-full z-[100] px-4 pt-2 md:pt-4 mb-2 md:mb-4">
           <motion.h3 
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-8xl font-extrabold text-slate-900 font-serif leading-tight mb-10"
+            className="text-4xl md:text-7xl font-extrabold text-slate-900 font-serif leading-tight mb-2 md:mb-4"
           >
             Our schedule runs Round-the-Clock
           </motion.h3>
         </div>
 
         {/* Animation Visual Section */}
-        <div className="relative w-full max-w-6xl flex-1 flex items-center justify-center -mt-8 px-4">
+        <div className="relative w-full max-w-6xl flex-1 flex items-center justify-center px-4">
           
           {/* SVG & Phone Wrapper */}
-          <div className="relative w-[240px] md:w-[380px] aspect-[601/1204] z-10">
+          <div className="relative w-[200px] md:w-[300px] aspect-[601/1204] z-10">
             
             
             <svg width="100%" height="100%" viewBox="0 0 601 1204" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative z-10">
               <g clipPath="url(#clip0_2078_272)">
                 
-                {/* Sun Path */}
-                <motion.path 
-                  className="sun" 
-                  d="M413.453 748.429C476.103 748.616 527.042 697.98 527.228 635.33C527.415 572.68 476.779 521.741 414.129 521.555C351.479 521.368 300.54 572.005 300.354 634.655C300.167 697.304 350.803 748.243 413.453 748.429Z" 
-                  fill="#FFA000" 
-                  style={{ y: sunY, opacity: sunOpacity }}
-                />
+                {/* Sun Path Group */}
+                <motion.g style={{ y: sunY, opacity: sunOpacity }}>
+                  <path 
+                    className="sun" 
+                    d="M413.453 748.429C476.103 748.616 527.042 697.98 527.228 635.33C527.415 572.68 476.779 521.741 414.129 521.555C351.479 521.368 300.54 572.005 300.354 634.655C300.167 697.304 350.803 748.243 413.453 748.429Z" 
+                    fill="#FFA000" 
+                  />
+                </motion.g>
 
-                {/* Moon Path */}
-                <motion.path 
-                  className="moon" 
-                  d="M520.304 682.838C503.495 692.592 483.953 698.152 463.116 698.09C400.466 697.904 349.83 646.965 350.016 584.316C350.056 571.037 352.375 558.298 356.603 546.468C322.872 566.041 300.141 602.503 300.016 644.316C299.83 706.965 350.466 757.904 413.116 758.09C462.487 758.237 504.585 726.822 520.304 682.838Z" 
-                  fill="url(#paint0_linear_2078_272)" 
-                  style={{ y: moonY, opacity: moonOpacity }}
-                />
+                {/* Moon Path Group */}
+                <motion.g style={{ y: moonY, opacity: moonOpacity }}>
+                  <path 
+                    className="moon" 
+                    d="M520.304 682.838C503.495 692.592 483.953 698.152 463.116 698.09C400.466 697.904 349.83 646.965 350.016 584.316C350.056 571.037 352.375 558.298 356.603 546.468C322.872 566.041 300.141 602.503 300.016 644.316C299.83 706.965 350.466 757.904 413.116 758.09C462.487 758.237 504.585 726.822 520.304 682.838Z" 
+                    fill="url(#paint0_linear_2078_272)" 
+                  />
+                </motion.g>
 
                 <g filter="url(#filter0_b_2078_272)">
                   <rect className="blur-schedule" x="83.9844" y="96" width="393.617" height="665.885" rx="8.62855" fill="#EAE4DF" fillOpacity="0.3"></rect>
@@ -99,17 +101,18 @@ const GlobalSchedule = () => {
             </svg>
           </div>
 
-          {/* Yoga Lady Image - Moved OUTSIDE phone wrapper to allow FULL WIDTH and RIGHT position */}
-          <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
-             <motion.img 
-               initial={{ opacity: 0, x: 100 }}
-               whileInView={{ opacity: 1, x: 0 }}
-               transition={{ duration: 1 }}
-               src="/round.avif"
-               alt="Yoga Lady"
-               className="w-full max-w-[1000px] md:max-w-[1200px] h-auto object-contain mx-auto -mt-16 md:-mt-44"
-             />
-          </div>
+        </div>
+
+        {/* Yoga Lady Image - Fixed lower body to the bottom of the sticky section */}
+        <div className="absolute inset-x-0 bottom-0 z-20 flex items-end justify-center pointer-events-none">
+           <motion.img 
+             initial={{ opacity: 0, y: 100 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             transition={{ duration: 1 }}
+             src="/round.avif"
+             alt="Yoga Lady"
+             className="w-full max-w-[750px] md:max-w-[950px] h-auto max-h-[60vh] md:max-h-[68vh] object-contain object-bottom"
+           />
         </div>
 
       </div>

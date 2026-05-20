@@ -14,30 +14,9 @@ import {
 
 const solutions = [
   { 
-    name: 'Steps Challenge', 
-    slug: 'steps-challenge', 
-    desc: 'Promote physical activity through varied step challenges', 
-    icon: StepsIcon,
-    color: 'text-orange-500 bg-orange-50'
-  },
-  { 
-    name: 'Custom Challenges', 
-    slug: 'custom-challenges', 
-    desc: 'Design bespoke wellness challenges aligned with corporate goals', 
-    icon: CustomIcon,
-    color: 'text-orange-500 bg-orange-50'
-  },
-  { 
-    name: 'Team Challenge', 
-    slug: 'team-challenge', 
-    desc: 'Promote collaboration through team challenges', 
-    icon: TeamIcon,
-    color: 'text-orange-500 bg-orange-50'
-  },
-  { 
-    name: 'Virtual Marathon', 
-    slug: 'virtual-marathon', 
-    desc: 'Unite your global workforce with one day virtual marathon', 
+    name: 'Wellness Challenges', 
+    slug: 'wellness-challenges', 
+    desc: 'Step challenges, virtual marathons, team challenges, and custom wellness goals', 
     icon: MarathonIcon,
     color: 'text-orange-500 bg-orange-50'
   },
@@ -185,7 +164,7 @@ const Navigation = () => {
                       <div className="w-[40%] bg-[#141920] p-8">
                         <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Challenges</h3>
                         <div className="flex flex-col gap-2">
-                          {solutions.slice(0,4).map((item) => (
+                          {solutions.slice(0, 1).map((item) => (
                             <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setActiveDropdown(null)} className="flex items-start gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group">
                               <div className="mt-0.5">
                                 <item.icon className="w-6 h-6 text-slate-300 group-hover:text-white transition-colors" />
@@ -203,7 +182,7 @@ const Navigation = () => {
                       <div className="w-[60%] bg-[#1d232a] p-8 flex flex-col border-l border-white/5">
                         <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-6">Other Solutions</h3>
                         <div className="grid grid-cols-2 gap-x-6 gap-y-4 mb-auto">
-                          {solutions.slice(4,10).map((item) => (
+                          {solutions.slice(1, 5).map((item) => (
                             <Link key={item.slug} to={`/solutions/${item.slug}`} onClick={() => setActiveDropdown(null)} className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group">
                               <div className="mt-0.5">
                                 <item.icon className="w-5 h-5 text-slate-300 group-hover:text-white transition-colors" />

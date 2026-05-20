@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { API_BASE_URL } from '../lib/env';
 
 const BASE_URL = API_BASE_URL || 'http://localhost:5000';
@@ -556,12 +557,19 @@ const WorkFitSolutionDetail = ({ solutionId }: { solutionId: string }) => {
               <p className="text-slate-300/80 text-xs leading-relaxed font-semibold mb-8 relative z-10 max-w-xs">
                 Talk to our wellness experts and build a customized wellness program that's perfectly fit for your team.
               </p>
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/workfitinquiry')}
-                className="w-full py-4 bg-[#f97316] hover:bg-orange-600 text-white font-black text-xs uppercase tracking-widest rounded-full shadow-lg shadow-orange-500/20 transition-all z-10 relative"
+                className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-500/20 transition-all flex items-center justify-center shrink-0 w-full z-10"
               >
-                TALK TO EXPERT
-              </button>
+                <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                  <ChevronRight className="w-5 h-5 text-orange-600" />
+                </div>
+                <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                  TALK TO EXPERT
+                </span>
+              </motion.button>
             </div>
           </div>
 
@@ -760,12 +768,19 @@ const WorkFitSolutionDetail = ({ solutionId }: { solutionId: string }) => {
                   {activeSolution.ctaDesc}
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <button 
+                  <motion.button 
+                    whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => navigate('/workfitinquiry')}
-                    className="px-8 py-3.5 bg-[#f97316] hover:bg-orange-600 text-white font-black text-xs uppercase tracking-widest rounded-full shadow-lg transition-all"
+                    className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-500/20 transition-all flex items-center justify-center shrink-0"
                   >
-                    BOOK A DEMO
-                  </button>
+                    <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                      <ChevronRight className="w-5 h-5 text-orange-600" />
+                    </div>
+                    <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                      BOOK A DEMO
+                    </span>
+                  </motion.button>
                   <button 
                     onClick={() => navigate('/workfit')}
                     className="px-8 py-3.5 bg-transparent border border-white/20 hover:border-white text-white font-black text-xs uppercase tracking-widest rounded-full transition-all"

@@ -26,6 +26,7 @@ const workplaceSolutionsData = [
     title: "Employee Burnout",
     problem: "Chronic stress and long work hours lead to burnout and mental fatigue.",
     image: "/tc2.png",
+    path: "/solutions/employee-burnout",
     solutions: [
       { name: "Mindfulness & Meditation", icon: Brain },
       { name: "Stress Relief Workshops", icon: HeartPulse },
@@ -38,6 +39,7 @@ const workplaceSolutionsData = [
     title: "Posture & Back Pain",
     problem: "Sedentary work and poor posture cause pain and discomfort.",
     image: "/postureback pain.png",
+    path: "/solutions/posture-back-pain",
     solutions: [
       { name: "Desk Yoga & Stretch Breaks", icon: Armchair },
       { name: "Posture Correction", icon: Scale },
@@ -50,6 +52,7 @@ const workplaceSolutionsData = [
     title: "Stress & Mental Health",
     problem: "Stress, anxiety and poor well-being impact focus, creativity and performance.",
     image: "/stress.png",
+    path: "/solutions/stress-mental-health",
     solutions: [
       { name: "Mental Wellness Workshops", icon: Brain },
       { name: "Guided Meditation", icon: PlayCircle },
@@ -62,6 +65,7 @@ const workplaceSolutionsData = [
     title: "Low Employee Engagement",
     problem: "Disconnected teams lead to low morale, low participation, and weak culture.",
     image: "/wp2.png",
+    path: "/solutions/low-employee-engagement",
     solutions: [
       { name: "Wellness Challenges & Competitions", icon: Trophy },
       { name: "Team Building Activities", icon: Users2 },
@@ -74,6 +78,7 @@ const workplaceSolutionsData = [
     title: "Low Productivity & Energy",
     problem: "Fatigue, low energy and distractions reduce focus and productivity.",
     image: "/tc3.avif",
+    path: "/solutions/low-productivity-energy",
     solutions: [
       { name: "Energy Boosting Sessions", icon: Zap },
       { name: "Focus & Breathwork Programs", icon: Wind },
@@ -86,6 +91,7 @@ const workplaceSolutionsData = [
     title: "Hybrid Work Challenges",
     problem: "Remote & hybrid teams struggle with wellness, connection and routines.",
     image: "/Hybridworkchallenges.png",
+    path: "/solutions/hybrid-work-challenges",
     solutions: [
       { name: "Virtual Wellness Programs", icon: Monitor },
       { name: "Online Yoga & Fitness", icon: Video },
@@ -98,6 +104,7 @@ const workplaceSolutionsData = [
     title: "High Healthcare Costs",
     problem: "Lifestyle issues lead to rising healthcare costs and sick leaves.",
     image: "/wp4.png",
+    path: "/solutions/high-healthcare-costs",
     solutions: [
       { name: "Preventive Wellness Programs", icon: ShieldCheck },
       { name: "Lifestyle & Nutrition Guidance", icon: Apple },
@@ -110,6 +117,7 @@ const workplaceSolutionsData = [
     title: "Boring Wellness Programs",
     problem: "Generic programs have low participation and don't create real impact.",
     image: "/Wc8.png",
+    path: "/solutions/boring-wellness-programs",
     solutions: [
       { name: "Fun & Interactive Programs", icon: PlayCircle },
       { name: "Gamified Wellness Challenges", icon: Trophy },
@@ -222,8 +230,6 @@ const WorkFit = () => {
       iconBadge: true,
       iconColor: 'bg-[#f97316]',
       badgeColor: 'text-[#f97316]',
-      badgeStyle: 'number',
-      badge: '01',
       IconComponent: Flower2,
       titleChunks: [
         { text: 'Move Together.' },
@@ -552,20 +558,36 @@ const WorkFit = () => {
                 {/* Action Buttons */}
                 {(slides[currentSlide].primaryButtonText || slides[currentSlide].secondaryButtonText) && (
                   <div className="flex flex-col sm:flex-row items-center gap-5">
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => navigate('/workfitinquiry')}
-                      className={`group relative overflow-hidden font-bold transition-all flex items-center justify-center gap-2 ${slides[currentSlide].buttonStyle === 'screenshot'
-                          ? 'bg-[#f97316] text-white rounded-lg px-8 py-3.5 shadow-md w-full sm:w-auto text-[15px]'
-                          : slides[currentSlide].buttonStyle === 'outline'
-                            ? 'border-2 border-orange-500 text-orange-600 bg-white hover:bg-orange-50 rounded-full px-8 py-4'
-                            : 'bg-orange-500 text-white shadow-xl shadow-orange-200 rounded-full px-8 py-4'
-                        }`}
-                    >
-                      {slides[currentSlide].primaryButtonText}
-                      {slides[currentSlide].buttonStyle !== 'screenshot' && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
-                    </motion.button>
+                    {slides[currentSlide].primaryButtonText === 'Book a Demo' ? (
+                      <motion.button 
+                        whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => navigate('/workfitinquiry')}
+                        className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-100 transition-all flex items-center justify-center shrink-0 w-full sm:w-auto"
+                      >
+                        <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                          <ChevronRight className="w-5 h-5 text-orange-600" />
+                        </div>
+                        <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                          {slides[currentSlide].primaryButtonText}
+                        </span>
+                      </motion.button>
+                    ) : (
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => navigate('/workfitinquiry')}
+                        className={`group relative overflow-hidden font-bold transition-all flex items-center justify-center gap-2 ${slides[currentSlide].buttonStyle === 'screenshot'
+                            ? 'bg-[#f97316] text-white rounded-lg px-8 py-3.5 shadow-md w-full sm:w-auto text-[15px]'
+                            : slides[currentSlide].buttonStyle === 'outline'
+                              ? 'border-2 border-orange-500 text-orange-600 bg-white hover:bg-orange-50 rounded-full px-8 py-4'
+                              : 'bg-orange-500 text-white shadow-xl shadow-orange-200 rounded-full px-8 py-4'
+                          }`}
+                      >
+                        {slides[currentSlide].primaryButtonText}
+                        {slides[currentSlide].buttonStyle !== 'screenshot' && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                      </motion.button>
+                    )}
 
                     {slides[currentSlide].secondaryButtonText && (
                       <motion.button
@@ -614,6 +636,79 @@ const WorkFit = () => {
         <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-orange-100/10 rounded-full blur-[120px] -z-10" />
       </section>
 
+      {/* The Challenge Section */}
+      <section className="py-24 bg-[#0a1128] text-white overflow-hidden relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-500/5 via-[#0a1128] to-[#0a1128] pointer-events-none" />
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            
+            {/* Left Column: Text & Icons */}
+            <div className="lg:col-span-4 pr-0 lg:pr-8">
+              <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">The Challenge</div>
+              <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
+                Today's Workplace<br />Is Under <span className="text-orange-500">Pressure</span>
+              </h2>
+              <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-10 max-w-lg">
+                Rising stress, unhealthy habits, and disengagement are impacting employee well-being and business performance.
+              </p>
+              
+              <div className="grid grid-cols-4 gap-4">
+                <div className="text-center group">
+                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
+                    <Brain className="w-5 h-5 text-orange-500" />
+                  </div>
+                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">High Stress &<br/>Burnout</div>
+                </div>
+                <div className="text-center group">
+                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
+                    <Armchair className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">Sedentary<br/>Lifestyles</div>
+                </div>
+                <div className="text-center group">
+                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
+                    <HeartPulse className="w-5 h-5 text-red-400" />
+                  </div>
+                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">Chronic<br/>Health Risks</div>
+                </div>
+                <div className="text-center group">
+                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
+                    <TrendingDown className="w-5 h-5 text-green-400" />
+                  </div>
+                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">Low Engagement<br/>& Productivity</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Stat Cards */}
+            <div className="lg:col-span-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                {[
+                  { stat: '77%', desc: 'of employees experience work-related stress', source: 'Gallup', img: '/tc1.png' },
+                  { stat: '60%', desc: 'of employees feel exhausted at work', source: 'McKinsey', img: '/tc2.png' },
+                  { stat: '40%', desc: 'drop in productivity due to poor well-being', source: 'WHO', img: '/tc3.png' },
+                  { stat: '$1.8T', desc: 'lost annually by businesses due to poor employee health', source: 'Harvard Business Review', img: '/tc4.png' },
+                ].map((item, idx) => (
+                  <div key={idx} className="rounded-2xl overflow-hidden bg-[#0d1530] border border-white/5 flex flex-col group cursor-pointer hover:border-white/10 transition-colors h-full">
+                    <div className="h-40 overflow-hidden relative">
+                      <img src={item.img} alt="Stat Context" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" />
+                      <div className="absolute inset-0 bg-[#0a1128]/20 group-hover:bg-transparent transition-colors" />
+                    </div>
+                    <div className="p-5 md:p-6 flex-1 flex flex-col justify-between">
+                      <div>
+                        <div className="text-3xl md:text-4xl font-bold text-orange-500 mb-3">{item.stat}</div>
+                        <p className="text-gray-300 text-xs leading-relaxed mb-6">{item.desc}</p>
+                      </div>
+                      <div className="text-[10px] text-gray-500 font-medium">Source: {item.source}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
 
       {/* How WorkFit Helps Section */}
       <section className="py-24 bg-[#0a1128] text-white border-y border-white/5 relative overflow-hidden">
@@ -979,16 +1074,18 @@ const WorkFit = () => {
                 Let's Build a Healthier, Happier & More Productive Team.
               </h3>
               
-              <motion.button
-                whileHover={{ scale: 1.05 }}
+              <motion.button 
+                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(10, 17, 40, 0.25)" }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/workfitinquiry')}
-                className="py-3.5 pl-8 pr-4 bg-[#0a1128] hover:bg-[#121c3b] text-white font-extrabold text-xs tracking-[0.2em] rounded-full transition-all flex items-center gap-4 w-fit shadow-lg group"
+                className="group relative pl-16 pr-8 py-5 bg-[#0a1128] text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl transition-all flex items-center w-fit shrink-0"
               >
-                BOOK A DEMO
-                <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center shrink-0">
-                  <ChevronRight className="w-4 h-4 text-[#0a1128] group-hover:translate-x-0.5 transition-transform stroke-[3]" />
+                <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                  <ChevronRight className="w-5 h-5 text-[#0a1128]" />
                 </div>
+                <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                  BOOK A DEMO
+                </span>
               </motion.button>
             </div>
           </div>
@@ -1103,7 +1200,7 @@ const WorkFit = () => {
                 <div className="p-8 pb-4 pr-32">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-8 h-8 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">02</div>
-                    <h3 className="text-2xl font-bold text-white leading-tight">Diverse Wellness</h3>
+                    <h3 className="text-2xl font-bold text-white leading-tight">Diverse Wellness Programs</h3>
                   </div>
                   <p className="text-slate-400 text-sm leading-relaxed min-h-[40px]">
                     Engaging wellness programs and challenges that inspire consistency and healthy habits across teams.
@@ -1393,10 +1490,19 @@ const WorkFit = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors w-full sm:w-auto"
-              onClick={() => navigate("/workfitinquiry")}>
-              Book a Demo
-            </button>
+            <motion.button 
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/workfitinquiry')}
+              className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-100 transition-all flex items-center justify-center w-full sm:w-auto shrink-0"
+            >
+              <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                <ChevronRight className="w-5 h-5 text-orange-600" />
+              </div>
+              <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                Book a Demo
+              </span>
+            </motion.button>
             <button className="bg-white text-[#0a1128] border border-gray-200 hover:bg-gray-50 font-bold py-3 px-8 rounded-full transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
               onClick={() => navigate("/solutions")}>
               Explore All Solutions <ArrowRight className="w-4 h-4" />
@@ -1837,15 +1943,17 @@ const WorkFit = () => {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+              <motion.button 
+                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/workfitinquiry')}
-                className="bg-[#f97316] hover:bg-orange-600 text-white font-extrabold text-xs px-5 py-2.5 rounded-full flex items-center justify-center gap-2.5 transition-colors shadow-lg shadow-orange-500/25 whitespace-nowrap"
+                className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-100 transition-all flex items-center justify-center w-full sm:w-auto shrink-0"
               >
-                BOOK A DEMO
-                <span className="w-4 h-4 rounded-full bg-white flex items-center justify-center shrink-0">
-                  <ChevronRight className="w-2.5 h-2.5 text-[#f97316] stroke-[3]" />
+                <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                  <ChevronRight className="w-5 h-5 text-orange-600" />
+                </div>
+                <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                  BOOK A DEMO
                 </span>
               </motion.button>
               <motion.button
@@ -2012,7 +2120,7 @@ const WorkFit = () => {
               }),
               // Mahesh
               getDynamicTestimonial(5, {
-                img: '/1.png',
+                img: '/office1.png',
                 quote: '"WorkFit has transformed the way our team feels and performs."',
                 body: 'The sessions are practical, engaging, and easy to integrate into our busy workday.',
                 name: 'Mahesh',
@@ -2062,7 +2170,7 @@ const WorkFit = () => {
               }),
               // Emma
               getDynamicTestimonial(10, {
-                img: '/6.png',
+                img: '/office2.png',
                 quote: '"Just one session with WorkFit and I felt refreshed and re-energized."',
                 body: 'Practical, well-guided, and perfect for busy professional life!',
                 name: 'Emma',
@@ -2072,7 +2180,7 @@ const WorkFit = () => {
               }),
               // Bekir Orahan
               getDynamicTestimonial(11, {
-                img: '/7.png',
+                img: '/office3.png',
                 quote: '"The session was practical, refreshing, and eye-opening."',
                 body: 'It gave us simple tools for better health, focus, and mental clarity.',
                 name: 'Bekir Orahan',
@@ -2202,15 +2310,17 @@ const WorkFit = () => {
                   Create a healthier, more energized, and more connected workplace with wellness experiences employees genuinely enjoy.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
+                  <motion.button 
+                    whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => navigate('/workfitinquiry')}
-                    className="bg-[#f97316] hover:bg-orange-600 text-white font-extrabold text-xs md:text-sm px-6 py-3.5 rounded-full flex items-center justify-center gap-3 transition-colors shadow-lg shadow-orange-500/25"
+                    className="group relative pl-16 pr-8 py-5 bg-[#f97316] text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-500/20 transition-all flex items-center justify-center shrink-0 w-full sm:w-auto"
                   >
-                    BOOK A DEMO
-                    <span className="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0">
-                      <ChevronRight className="w-3 h-3 text-[#f97316] stroke-[3]" />
+                    <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                      <ChevronRight className="w-5 h-5 text-orange-600" />
+                    </div>
+                    <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                      BOOK A DEMO
                     </span>
                   </motion.button>
                   <motion.button
@@ -2470,6 +2580,20 @@ const WorkFit = () => {
                         </span>
                       </div>
                     ))}
+                  </div>
+
+                  {/* View Detailed Solution Button */}
+                  <div className="mt-6 flex justify-start">
+                    <button
+                      onClick={() => {
+                        setActiveSolutionCard(null);
+                        navigate(activeSolutionCard.path);
+                      }}
+                      className="group flex items-center gap-2 bg-[#0a1128] text-white hover:bg-[#f97316] px-6 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase transition-all shadow-[0_4px_12px_rgba(10,17,40,0.15)] hover:shadow-[0_6px_20px_rgba(249,115,22,0.3)] hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                    >
+                      <span>View Detailed Solution</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
+                    </button>
                   </div>
                 </div>
 

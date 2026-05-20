@@ -4,49 +4,19 @@ import { motion } from 'framer-motion';
 import { 
   Wind, Brain, Users2, Trophy, Target, Layers, 
   ArrowRight, CheckCircle2, Star, Sparkles,
-  Zap, Shield, Heart, Gem, Activity
+  Zap, Shield, Heart, Gem, Activity, ChevronRight
 } from 'lucide-react';
 
 const solutions = [
   {
-    id: 'steps-challenge',
-    title: 'Step Marathon',
-    subtitle: 'Active Workforce',
-    desc: 'Ignite a culture of movement with competitive step challenges and global leaderboards.',
-    icon: Wind,
-    color: 'text-orange-600 bg-orange-50',
-    image: 'https://plus.unsplash.com/premium_photo-1727444085897-35a0197a7ea6?q=80&w=1170&auto=format&fit=crop',
-    tags: ['Physical Health', 'Competition']
-  },
-  {
-    id: 'custom-challenges',
-    title: 'Custom Challenges',
-    subtitle: 'Tailored Wellness',
-    desc: 'Design bespoke wellness journeys aligned with your specific corporate goals.',
-    icon: Target,
-    color: 'text-indigo-600 bg-indigo-50',
-    image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80',
-    tags: ['Customizable', 'Engagement']
-  },
-  {
-    id: 'team-challenge',
-    title: 'Team Challenge',
-    subtitle: 'Unified Movement',
-    desc: 'Break down silos and build unity through collaborative movement and shared energy.',
-    icon: Users2,
-    color: 'text-sky-600 bg-sky-50',
-    image: 'https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?q=80&w=687&auto=format&fit=crop',
-    tags: ['Team Building', 'Collaboration']
-  },
-  {
-    id: 'virtual-marathon',
-    title: 'Virtual Marathon',
-    subtitle: 'Global Workforce',
-    desc: 'A scalable platform designed to bring remote and global teams together for a shared finish line.',
+    id: 'wellness-challenges',
+    title: 'Wellness Challenges',
+    subtitle: 'Active & Engaged Workforce',
+    desc: 'Ignite a culture of movement with daily walking steps, custom challenges, collaborative team milestones, and global virtual marathons in one unified experience.',
     icon: Trophy,
-    color: 'text-blue-600 bg-blue-50',
-    image: 'https://images.pexels.com/photos/1632035/pexels-photo-1632035.jpeg',
-    tags: ['Remote Teams', 'Scalable']
+    color: 'text-orange-600 bg-orange-50',
+    image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80',
+    tags: ['Active', 'Competition', 'Collaboration']
   },
   {
     id: 'wellbeing-assessment',
@@ -181,12 +151,19 @@ const Solutions = () => {
               Our experts are ready to help you design the perfect wellness program for your unique workforce needs.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(249, 115, 22, 0.25)" }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/workfitinquiry')}
-                className="px-10 py-5 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-black uppercase tracking-widest text-xs transition-all shadow-xl shadow-orange-500/20"
+                className="group relative pl-16 pr-8 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-xl shadow-orange-500/20 transition-all flex items-center justify-center shrink-0"
               >
-                Book a Demo
-              </button>
+                <div className="absolute left-2 top-2 bottom-2 aspect-square bg-white rounded-full flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:left-[calc(100%-3rem)] z-10">
+                  <ChevronRight className="w-5 h-5 text-orange-600" />
+                </div>
+                <span className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:-translate-x-6">
+                  Book a Demo
+                </span>
+              </motion.button>
               <button 
                 onClick={() => navigate('/livefitinquiry')}
                 className="px-10 py-5 bg-white text-sky-950 hover:bg-gray-50 rounded-full font-black uppercase tracking-widest text-xs transition-all"
