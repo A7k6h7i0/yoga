@@ -2091,32 +2091,6 @@ const WorkFit = () => {
             </div>
           </div>
 
-          {/* Trusted By */}
-          <div className="text-center mb-16">
-            <div className="text-base font-extrabold text-[#0B1530] tracking-wide mb-8">Trusted By Forward-Thinking Teams</div>
-            <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16">
-              {[
-                { name: 'TechNova', sub: 'SOLUTIONS' },
-                { name: 'DataPeak', icon: true },
-                { name: 'cloudyera', cloud: true },
-                { name: 'BrightPath', leaf: true },
-                { name: 'NEXORA', sub: 'SYSTEMS' },
-                { name: 'TRUE NORTH', sub: 'FINANCIAL', star: true },
-              ].map((brand, idx) => (
-                <div key={idx} className="flex items-center gap-2 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer select-none">
-                  {brand.icon && <TrendingUp className="w-4 h-4 text-gray-400/80" />}
-                  {brand.cloud && <Wind className="w-4 h-4 text-gray-400/80" />}
-                  {brand.leaf && <Leaf className="w-4 h-4 text-gray-400/80" />}
-                  {brand.star && <Star className="w-3.5 h-3.5 text-gray-400/80" />}
-                  <div className="text-left">
-                    <div className={`font-extrabold leading-none ${idx === 4 ? 'tracking-[0.15em] text-xs' : 'text-sm'} tracking-wide text-gray-500`}>{brand.name}</div>
-                    {brand.sub && <div className="text-[7px] tracking-widest text-gray-400 font-bold leading-none mt-0.5">{brand.sub}</div>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
         </div>
 
         {/* CTA Banner */}

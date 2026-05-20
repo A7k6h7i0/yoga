@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, RefreshCw } from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { API_BASE_URL } from '../lib/env';
+
 
 const countries = [
   "United States", "United Kingdom", "Canada", "Australia", "India", "Germany", "France", "Japan", "Singapore", "United Arab Emirates", 
@@ -73,7 +75,7 @@ const Inquiry = () => {
 
     setLoading(true);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const apiUrl = API_BASE_URL || 'http://localhost:5000';
       await fetch(`${apiUrl}/api/contact/inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

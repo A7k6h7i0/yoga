@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, Mail, CheckCircle2, ArrowRight, Globe2, MessageSquare, Target, Phone } from 'lucide-react';
+import { API_BASE_URL } from '../lib/env';
+
 
 const Schedule = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -48,7 +50,7 @@ const Schedule = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const apiUrl = API_BASE_URL || 'http://localhost:5000';
       await fetch(`${apiUrl}/api/contact/schedule`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
