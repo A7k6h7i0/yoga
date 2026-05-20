@@ -94,7 +94,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // Enforce unique combinations of email and role
-userSchema.index({ email: 1, role: 1 }, { unique: true });
+// userSchema.index({ email: 1, role: 1 }, { unique: true });
 
 const User = mongoose.model('User', userSchema);
 
@@ -279,10 +279,15 @@ async function sendPaymentNotifications(payment) {
 app.post('/api/auth/signup', async (req, res) => {
   try {
     const { name, phone, email, password, role, focusAreas } = req.body;
+    const normalizedEmail = email ? email.trim().toLowerCase() : '';
 
-    // Check if user exists for this specific role
-    let user = await User.findOne({ email, role: role || 'livefit' });
-    if (user) return res.status(400).json({ message: 'A user with this email and login type already exists' });
+    // Check if user exists globally across all roles
+    let user = await User.findOne({ email: normalizedEmail });
+    if (user) {
+      return res.status(400).json({ 
+        message: 'Email already exists. You can login in both LiveFit and WorkFit' 
+      });
+    }
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
@@ -292,7 +297,7 @@ app.post('/api/auth/signup', async (req, res) => {
     user = new User({ 
       name, 
       phone, 
-      email, 
+      email: normalizedEmail, 
       password: hashedPassword,
       role: role || 'livefit',
       focusAreas: focusAreas || []
@@ -303,7 +308,7 @@ app.post('/api/auth/signup', async (req, res) => {
     try {
       const mailOptions = {
         from: EMAIL_FROM,
-        to: email,
+        to: normalizedEmail,
         subject: 'Registration Confirmation - LiveFit',
         text: `Hi ${name},\n\nThank you for registering with LiveFit! Your account has been successfully created.\n\nWelcome to our wellness community!`,
       };
@@ -312,7 +317,7 @@ app.post('/api/auth/signup', async (req, res) => {
         from: EMAIL_FROM,
         to: ADMIN_EMAIL,
         subject: 'New User Registration - LiveFit',
-        text: `A new user has registered on LiveFit.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nRole: ${role || 'livefit'}`,
+        text: `A new user has registered on LiveFit.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${normalizedEmail}\nRole: ${role || 'livefit'}`,
       };
 
       transporter.sendMail(mailOptions).catch((err) => console.error('Error sending user email:', err));
@@ -329,7 +334,7 @@ app.post('/api/auth/signup', async (req, res) => {
         id: user._id, 
         name, 
         phone, 
-        email,
+        email: normalizedEmail,
         role: user.role,
         focusAreas: user.focusAreas
       } 
@@ -344,7 +349,8 @@ app.post('/api/auth/login', async (req, res) => {
     const { email, password, role } = req.body;
     const normalizedEmail = email ? email.trim().toLowerCase() : '';
 
-    const user = await User.findOne({ email: normalizedEmail, role: role || 'livefit' });
+    // Find user globally by email regardless of role
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -357,8 +363,8 @@ app.post('/api/auth/login', async (req, res) => {
         id: user._id, 
         name: user.name, 
         phone: user.phone, 
-        email,
-        role: user.role,
+        email: normalizedEmail,
+        role: role || user.role,
         focusAreas: user.focusAreas
       } 
     });

@@ -102,7 +102,7 @@ const Signup = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="bg-white p-10 md:p-12 rounded-[2.5rem] shadow-2xl border border-orange-100"
+              className="bg-white p-6 sm:p-10 md:p-12 rounded-[2.5rem] shadow-2xl border border-orange-100"
             >
               <div className="text-center mb-10">
                 <div className="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -200,7 +200,7 @@ const Signup = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="bg-white p-10 md:p-12 rounded-[2.5rem] shadow-2xl border border-orange-100"
+              className="bg-white p-6 sm:p-10 md:p-12 rounded-[2.5rem] shadow-2xl border border-orange-100"
             >
               {/* Back Button */}
               <button

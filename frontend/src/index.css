@@ -24,7 +24,10 @@
 @layer base {
   body {
     @apply bg-sky-50 text-sky-950 antialiased selection:bg-sky-500 selection:text-white;
+    overflow-x: hidden;
+    max-width: 100%;
   }
+
 
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
@@ -70,4 +73,6 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
 }

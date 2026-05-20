@@ -25,7 +25,7 @@ const workplaceSolutionsData = [
     id: "01",
     title: "Employee Burnout",
     problem: "Chronic stress and long work hours lead to burnout and mental fatigue.",
-    image: "/Wc1.png",
+    image: "/tc2.png",
     solutions: [
       { name: "Mindfulness & Meditation", icon: Brain },
       { name: "Stress Relief Workshops", icon: HeartPulse },
@@ -37,7 +37,7 @@ const workplaceSolutionsData = [
     id: "02",
     title: "Posture & Back Pain",
     problem: "Sedentary work and poor posture cause pain and discomfort.",
-    image: "/Wc2.png",
+    image: "/postureback pain.png",
     solutions: [
       { name: "Desk Yoga & Stretch Breaks", icon: Armchair },
       { name: "Posture Correction", icon: Scale },
@@ -49,7 +49,7 @@ const workplaceSolutionsData = [
     id: "03",
     title: "Stress & Mental Health",
     problem: "Stress, anxiety and poor well-being impact focus, creativity and performance.",
-    image: "/Wc3.png",
+    image: "/stress.png",
     solutions: [
       { name: "Mental Wellness Workshops", icon: Brain },
       { name: "Guided Meditation", icon: PlayCircle },
@@ -61,7 +61,7 @@ const workplaceSolutionsData = [
     id: "04",
     title: "Low Employee Engagement",
     problem: "Disconnected teams lead to low morale, low participation, and weak culture.",
-    image: "/Wc4.png",
+    image: "/wp2.png",
     solutions: [
       { name: "Wellness Challenges & Competitions", icon: Trophy },
       { name: "Team Building Activities", icon: Users2 },
@@ -73,7 +73,7 @@ const workplaceSolutionsData = [
     id: "05",
     title: "Low Productivity & Energy",
     problem: "Fatigue, low energy and distractions reduce focus and productivity.",
-    image: "/Wc5.png",
+    image: "/tc3.avif",
     solutions: [
       { name: "Energy Boosting Sessions", icon: Zap },
       { name: "Focus & Breathwork Programs", icon: Wind },
@@ -85,7 +85,7 @@ const workplaceSolutionsData = [
     id: "06",
     title: "Hybrid Work Challenges",
     problem: "Remote & hybrid teams struggle with wellness, connection and routines.",
-    image: "/Wc6.png",
+    image: "/Hybridworkchallenges.png",
     solutions: [
       { name: "Virtual Wellness Programs", icon: Monitor },
       { name: "Online Yoga & Fitness", icon: Video },
@@ -97,7 +97,7 @@ const workplaceSolutionsData = [
     id: "07",
     title: "High Healthcare Costs",
     problem: "Lifestyle issues lead to rising healthcare costs and sick leaves.",
-    image: "/Wc7.png",
+    image: "/wp4.png",
     solutions: [
       { name: "Preventive Wellness Programs", icon: ShieldCheck },
       { name: "Lifestyle & Nutrition Guidance", icon: Apple },
@@ -176,27 +176,29 @@ const WorkFit = () => {
     if (dbTestimonials && dbTestimonials[index]) {
       const dbT = dbTestimonials[index];
       return {
-        img: dbT.avatar || defaultTestimonial.img,
+        ...defaultTestimonial,
         quote: `"${dbT.text}"`,
         body: `Employee wellness index grew, and general workplace participation reached an all-time high of ${dbT.rating * 20}%!`,
         name: dbT.author,
-        avatar: dbT.avatar || defaultTestimonial.avatar,
         role: dbT.role,
-        company: dbT.company
+        company: ""
       };
     }
-    return defaultTestimonial;
+    return {
+      ...defaultTestimonial,
+      company: ""
+    };
   };
 
   const workfitTestimonials = [
-    { name: "Mahesh", title: "Founder & CEO", company: "Onsite Solutions", country: "🇺🇸 USA", text: "WorkFit has transformed the way our team feels and performs. The sessions are practical, engaging, and easy to integrate into our busy workday.", tags: ["Energy", "Focus", "Team Wellness"] },
-    { name: "Shrikant", title: "Founder & CTO", company: "Excelfore", country: "🇺🇸 USA", text: "The blend of yoga, mobility, and mindfulness is exceptional. We've seen more energy, better concentration, and stronger teamwork.", tags: ["Performance", "Mindfulness", "Teamwork"] },
-    { name: "Amita", title: "Project Coordinator", company: "Total Security Protection", country: "🇬🇧 UK", text: "We just had one class with WorkFit and the experience was outstanding! Our team loved it and felt an immediate sense of relaxation and positivity. We're excited to continue this journey.", tags: ["First Class Experience", "Relaxation", "Excited"] },
-    { name: "Prasad", title: "Founder & MD", company: "Akshar School Solutions", country: "🇮🇳 India", text: "WorkFit's approach is holistic and very impactful. Our employees are more consistent, less stressed, and more productive.", tags: ["Holistic Wellness", "Stress Relief", "Productivity"] },
-    { name: "Madhu", title: "Co-founder", company: "Onsite Solutions", country: "🇺🇸 USA", text: "The flexibility and variety of programs make it easy for everyone to participate. Our team looks forward to every session!", tags: ["Engagement", "Flexibility", "Well-being"] },
+    { name: "Mahesh", title: "Founder & CEO", company: "", country: "🇺🇸 USA", text: "WorkFit has transformed the way our team feels and performs. The sessions are practical, engaging, and easy to integrate into our busy workday.", tags: ["Energy", "Focus", "Team Wellness"] },
+    { name: "Shrikant", title: "Founder & CTO", company: "", country: "🇺🇸 USA", text: "The blend of yoga, mobility, and mindfulness is exceptional. We've seen more energy, better concentration, and stronger teamwork.", tags: ["Performance", "Mindfulness", "Teamwork"] },
+    { name: "Amita", title: "Project Coordinator", company: "", country: "🇬🇧 UK", text: "We just had one class with WorkFit and the experience was outstanding! Our team loved it and felt an immediate sense of relaxation and positivity. We're excited to continue this journey.", tags: ["First Class Experience", "Relaxation", "Excited"] },
+    { name: "Prasad", title: "Founder & MD", company: "", country: "🇮🇳 India", text: "WorkFit's approach is holistic and very impactful. Our employees are more consistent, less stressed, and more productive.", tags: ["Holistic Wellness", "Stress Relief", "Productivity"] },
+    { name: "Madhu", title: "Co-founder", company: "", country: "🇺🇸 USA", text: "The flexibility and variety of programs make it easy for everyone to participate. Our team looks forward to every session!", tags: ["Engagement", "Flexibility", "Well-being"] },
     { name: "Emma", title: "Professor", company: "", country: "🇬🇧 UK", text: "Just one session with WorkFit and I felt refreshed and re-energized. Practical, well-guided, and perfect for busy professional life!", tags: ["Refreshment", "Energy", "Wellness"] },
     { name: "Bekir Orahan", title: "Professor", company: "", country: "🇹🇷 Turkey", text: "The session was practical, refreshing, and eye-opening. It gave us simple tools for better health, focus, and mental clarity.", tags: ["Mental Clarity", "Focus", "Practical Tools"] },
-    { name: "Michael Johnson", title: "Director - People & Culture", company: "VisionCore Systems", country: "🇺🇸 USA", text: "WorkFit is a game-changer for our workplace. We've noticed less stress, better focus, and a happier team.", tags: ["Stress Reduction", "Focus", "Happiness"] }
+    { name: "Michael Johnson", title: "Director - People & Culture", company: "", country: "🇺🇸 USA", text: "WorkFit is a game-changer for our workplace. We've noticed less stress, better focus, and a happier team.", tags: ["Stress Reduction", "Focus", "Happiness"] }
   ];
 
   const slides = [
@@ -724,7 +726,7 @@ const WorkFit = () => {
                 id: "02",
                 title: "Posture & Back Pain",
                 desc: "Sedentary work and poor posture cause chronic pain and discomfort.",
-                image: "/Wc2.png",
+                image: "/postureback pain.png",
                 stat: "80%+",
                 statDesc: "of jobs are predominantly sedentary*",
                 icon: Armchair,
@@ -735,7 +737,7 @@ const WorkFit = () => {
                 id: "03",
                 title: "Stress & Mental Health",
                 desc: "Stress, anxiety & poor well-being impact focus, creativity, and overall performance.",
-                image: "/Wc3.png",
+                image: "/stress.png",
                 stat: "72%",
                 statDesc: "of employees report high workplace stress*",
                 icon: HeartPulse,
@@ -768,7 +770,7 @@ const WorkFit = () => {
                 id: "06",
                 title: getDynamicCardTitle('hybrid-work-challenges', "Hybrid Work Challenges"),
                 desc: getDynamicCardDesc('hybrid-work-challenges', "Remote & hybrid teams struggle with wellness, connection and healthy routines."),
-                image: getDynamicCardImage('hybrid-work-challenges', "/Wc6.png"),
+                image: getDynamicCardImage('hybrid-work-challenges', "/Hybridworkchallenges.png"),
                 stat: "63%",
                 statDesc: "of companies struggle to support hybrid employee wellness*",
                 icon: Globe2,
@@ -995,71 +997,76 @@ const WorkFit = () => {
       </section>
 
 
-      {/* WorkFit Solutions Section (White Background) */}
-      <section className="py-24 bg-slate-50 text-[#0a1128] overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+      {/* Wellness Solutions Designed for Modern Teams Section */}
+      <section className="py-24 bg-[#0a1128] text-white overflow-hidden relative">
+        {/* Ambient Glowing Background Radial Effects */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-500/10 via-[#0a1128] to-[#0a1128] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-            {/* Left Column: Intro */}
-            <div className="lg:col-span-4 flex flex-col justify-center">
-              <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">WorkFit Solutions</div>
-              <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight text-[#0a1128]">
-                Wellness Solutions<br />Designed For<br />
-                <span className="text-orange-500">Modern Teams</span>
-              </h2>
-              <p className="text-gray-600 text-base leading-relaxed mb-10 max-w-sm">
-                From personalized coaching and wellness challenges to mindfulness, movement, and hybrid workforce wellness — WorkFit helps employees feel healthier, happier, and more productive.
-              </p>
-
-              <div className="bg-white rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex items-center gap-6 border border-gray-100 max-w-md">
-                <div className="flex items-center gap-4">
-                  <Users className="w-10 h-10 text-orange-500 shrink-0" />
-                  <div>
-                    <div className="font-bold text-xl text-[#0a1128]">500+</div>
-                    <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Companies Trust Us</div>
-                  </div>
-                </div>
-                <div className="w-px h-12 bg-gray-200 shrink-0" />
-                <div>
-                  <div className="flex items-center gap-1 mb-1">
-                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />)}
-                  </div>
-                  <div className="font-bold text-xl text-[#0a1128]">4.8/5</div>
-                  <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">Average Rating</div>
-                </div>
-              </div>
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
+          {/* Header */}
+          <div className="text-center mb-16 max-w-4xl mx-auto">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-orange-500 font-bold text-sm tracking-[0.25em] uppercase mb-4"
+            >
+              Wellness Solutions Designed for Modern Teams
+            </motion.div>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold leading-tight"
+            >
+              Holistic wellness for every part of your team
+            </motion.h2>
+            <p className="text-slate-400 mt-6 text-base md:text-lg max-w-2xl mx-auto">
+              Empower your people with personalized support, interactive challenges, and effective daily practices designed for healthy habits and high productivity.
+            </p>
+            <div className="flex items-center justify-center gap-2 mt-8 text-xs text-orange-500/80 font-bold tracking-wider uppercase bg-orange-500/5 border border-orange-500/10 px-4 py-2 rounded-full w-fit mx-auto">
+              <span>Swipe or scroll to explore our 5 key pillars</span>
+              <motion.span animate={{ x: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 1.5 }} className="font-extrabold">→</motion.span>
             </div>
+          </div>
 
-            {/* Middle Column: 1-on-1 Coaching */}
-            <div className="lg:col-span-4 flex">
-              <div className="rounded-[2rem] bg-gradient-to-b from-orange-50/50 to-white flex flex-col overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-orange-100/50 w-full relative group">
+          {/* Overlapping Cards Container Row */}
+          <div className="flex overflow-x-auto pb-24 pt-10 px-4 md:px-12 hide-scrollbar snap-x snap-mandatory relative z-10 max-w-full -mx-4 md:-mx-12">
+            <div className="flex pl-4 pr-16 md:pl-12 md:pr-32 py-4">
+              
+              {/* Card 01: 1-on-1 Coaching */}
+              <div className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#1a1412] to-[#0d1530] border border-orange-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 first:ml-0 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(249,115,22,0.25)] hover:border-orange-500/40 group h-[660px]">
                 <div className="p-8 pb-4">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-orange-500 text-white font-bold flex items-center justify-center text-sm">01</div>
-                    <h3 className="text-2xl font-bold text-[#0a1128]">1-on-1 Coaching</h3>
+                    <div className="w-8 h-8 rounded-full bg-orange-500 text-white font-bold flex items-center justify-center text-sm shadow-[0_0_15px_rgba(249,115,22,0.5)]">01</div>
+                    <h3 className="text-2xl font-bold text-white">1-on-1 Coaching</h3>
                   </div>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                  <p className="text-slate-400 text-sm leading-relaxed min-h-[40px]">
                     Personalized wellness coaching designed around individual goals, lifestyles, and workplace challenges.
                   </p>
                 </div>
 
-                <div className="relative px-6 mb-6">
-                  <div className="rounded-2xl overflow-hidden aspect-[4/3] relative">
+                <div className="relative px-6 mb-4">
+                  <div className="rounded-2xl overflow-hidden aspect-[4/3] relative border border-white/5">
                     <img src="/ws1.png" alt="1-on-1 Coaching" className="w-full h-full object-cover" />
                   </div>
 
                   {/* Floating Dashboard Card */}
-                  <div className="absolute -bottom-8 right-8 bg-white rounded-xl p-4 shadow-xl border border-gray-100 w-44 z-10">
-                    <div className="text-[10px] font-bold text-[#0a1128] mb-3 text-center">Wellness Dashboard</div>
+                  <div className="absolute -bottom-6 right-8 bg-[#0a1128]/95 backdrop-blur-md rounded-xl p-4 shadow-2xl border border-white/10 w-44 z-10 transition-transform duration-500 group-hover:scale-105">
+                    <div className="text-[10px] font-bold text-white mb-3 text-center">Wellness Dashboard</div>
                     <div className="flex justify-center mb-4">
-                      <div className="w-12 h-12 rounded-full border-4 border-green-500 border-r-green-100 flex items-center justify-center font-bold text-green-600 text-sm">87</div>
+                      <div className="w-12 h-12 rounded-full border-4 border-orange-500 border-r-orange-100/20 flex items-center justify-center font-bold text-orange-400 text-sm shadow-[0_0_15px_rgba(249,115,22,0.2)]">87</div>
                     </div>
-                    <div className="text-[9px] font-bold text-gray-500 mb-2">Wellness Score</div>
+                    <div className="text-[9px] font-bold text-slate-400 mb-2">Wellness Score</div>
                     <div className="space-y-2">
-                      {[{ l: 'Activity', w: '80%', c: 'bg-green-500' }, { l: 'Nutrition', w: '60%', c: 'bg-green-500' }, { l: 'Sleep', w: '70%', c: 'bg-orange-500' }, { l: 'Stress', w: '85%', c: 'bg-orange-500' }].map((s, i) => (
+                      {[{ l: 'Activity', w: '80%', c: 'bg-orange-500' }, { l: 'Nutrition', w: '60%', c: 'bg-orange-500' }, { l: 'Sleep', w: '70%', c: 'bg-orange-400' }, { l: 'Stress', w: '85%', c: 'bg-orange-400' }].map((s, i) => (
                         <div key={i} className="flex items-center justify-between gap-2">
-                          <span className="text-[8px] text-gray-600 font-medium w-10">{s.l}</span>
-                          <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden">
+                          <span className="text-[8px] text-slate-300 font-medium w-10">{s.l}</span>
+                          <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
                             <div className={`h-full ${s.c} rounded-full`} style={{ width: s.w }} />
                           </div>
                         </div>
@@ -1068,64 +1075,62 @@ const WorkFit = () => {
                   </div>
                 </div>
 
-                <div className="px-8 pt-8 pb-10 flex-1">
+                <div className="px-8 pt-6 pb-6 flex-1">
                   <ul className="space-y-3">
                     {['Fitness & workout guidance', 'Healthy habit coaching', 'Weight management support', 'Stress & energy management', 'Lifestyle optimization', 'Personalized wellness journeys'].map((li, i) => (
-                      <li key={i} className="flex items-center gap-3 text-sm text-[#0a1128] font-medium">
+                      <li key={i} className="flex items-center gap-3 text-sm text-slate-200 font-medium">
                         <CheckCircle2 className="w-4 h-4 text-orange-500 shrink-0 fill-orange-500/20" /> {li}
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="bg-orange-500 text-white p-6 flex items-center gap-4 mt-auto">
-                  <ShieldCheck className="w-8 h-8 shrink-0" />
-                  <span className="font-bold leading-tight text-sm">Personalized Wellness<br />That Creates Lasting Change</span>
+                <div className="bg-[#0a1128]/80 border-t border-orange-500/20 text-orange-400 p-6 flex items-center gap-4 mt-auto">
+                  <ShieldCheck className="w-8 h-8 shrink-0 text-orange-500" />
+                  <span className="font-bold leading-tight text-sm text-white">Personalized Wellness<br /><span className="text-orange-400 font-medium">That Creates Lasting Change</span></span>
                 </div>
               </div>
-            </div>
 
-            {/* Right Column: Diverse Wellness Programs */}
-            <div className="lg:col-span-4 flex">
-              <div className="rounded-[2rem] bg-gradient-to-b from-blue-50/50 to-white flex flex-col overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-blue-100/50 w-full relative group">
-
+              {/* Card 02: Diverse Wellness Programs */}
+              <div className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#101b38] to-[#0d1530] border border-blue-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(59,130,246,0.25)] hover:border-blue-500/40 group h-[660px]">
+                
                 {/* Top Badge */}
-                <div className="absolute top-6 right-6 bg-[#0a1128] text-white rounded-xl px-3 py-2 flex items-center gap-2 shadow-lg">
+                <div className="absolute top-6 right-6 bg-[#0a1128]/90 backdrop-blur-md text-white rounded-xl px-3 py-2 flex items-center gap-2 shadow-lg border border-white/10 z-20">
                   <Users className="w-4 h-4 text-blue-400" />
                   <span className="text-[9px] font-bold leading-tight uppercase tracking-wider">Built For<br />All Fitness<br />Levels</span>
                 </div>
 
                 <div className="p-8 pb-4 pr-32">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-8 h-8 rounded-full bg-orange-500 text-white font-bold flex items-center justify-center text-sm">02</div>
-                    <h3 className="text-2xl font-bold text-[#0a1128] leading-tight">Diverse Wellness<br />Programs</h3>
+                    <div className="w-8 h-8 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center text-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">02</div>
+                    <h3 className="text-2xl font-bold text-white leading-tight">Diverse Wellness</h3>
                   </div>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                    Engaging wellness programs and challenges that inspire participation, consistency, and healthy habits across teams.
+                  <p className="text-slate-400 text-sm leading-relaxed min-h-[40px]">
+                    Engaging wellness programs and challenges that inspire consistency and healthy habits across teams.
                   </p>
                 </div>
 
-                <div className="px-8 pb-6 relative z-10">
+                <div className="px-8 pb-4 relative z-10 flex-1">
                   <ul className="space-y-3">
-                    {['Step competitions', 'Yoga & fitness challenges', 'Meditation journeys', 'Sleep better programs', 'Healthy eating challenges', 'Fat burn & movement programs', 'Intermittent fasting challenges', 'Running & jogging initiatives'].map((li, i) => (
-                      <li key={i} className="flex items-center gap-3 text-sm text-[#0a1128] font-medium">
+                    {['Step competitions', 'Yoga & fitness challenges', 'Meditation journeys', 'Sleep better programs', 'Healthy eating challenges', 'Fat burn & movement programs', 'Running & jogging initiatives'].map((li, i) => (
+                      <li key={i} className="flex items-center gap-3 text-sm text-slate-200 font-medium">
                         <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0 fill-blue-500/20" /> {li}
                       </li>
                     ))}
                   </ul>
 
                   {/* Floating Leaderboard */}
-                  <div className="absolute top-10 -right-4 bg-white rounded-xl p-4 shadow-xl border border-gray-100 w-48 z-20">
-                    <div className="text-[11px] font-bold text-[#0a1128]">Step Challenge</div>
-                    <div className="text-[9px] font-medium text-gray-500 mb-3">Leaderboard</div>
+                  <div className="absolute bottom-2 -right-4 bg-[#0a1128]/95 backdrop-blur-md rounded-xl p-4 shadow-2xl border border-white/10 w-48 z-20 transition-transform duration-500 group-hover:scale-105">
+                    <div className="text-[11px] font-bold text-white mb-1">Step Challenge</div>
+                    <div className="text-[9px] font-medium text-slate-400 mb-3">Leaderboard</div>
                     <div className="space-y-2">
                       {[{ r: 1, n: 'Team Alpha', s: '842,421' }, { r: 2, n: 'Team Power', s: '735,290' }, { r: 3, n: 'Team Elevate', s: '607,612' }, { r: 4, n: 'Team Vitality', s: '512,309' }].map((t, i) => (
                         <div key={i} className="flex items-center justify-between text-[9px]">
                           <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-[8px]">{t.r}</div>
-                            <span className="font-semibold text-gray-700">{t.n}</span>
+                            <div className="w-4 h-4 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-[8px]">{t.r}</div>
+                            <span className="font-semibold text-slate-300">{t.n}</span>
                           </div>
-                          <span className="text-gray-500">{t.s}</span>
+                          <span className="text-slate-400">{t.s}</span>
                         </div>
                       ))}
                     </div>
@@ -1133,210 +1138,178 @@ const WorkFit = () => {
                 </div>
 
                 <div className="px-6 pb-6 pt-2 grid grid-cols-2 gap-3 mt-auto relative z-0">
-                  <div className="rounded-xl overflow-hidden h-64">
+                  <div className="rounded-xl overflow-hidden h-28 border border-white/5">
                     <img src="/ws2.png" alt="Yoga" className="w-full h-full object-cover" />
                   </div>
-                  <div className="rounded-xl overflow-hidden h-64">
+                  <div className="rounded-xl overflow-hidden h-28 border border-white/5">
                     <img src="/ws3.png" alt="Running" className="w-full h-full object-cover" />
                   </div>
                 </div>
 
-                <div className="bg-blue-600 text-white p-6 flex items-center gap-4 mt-auto z-10 relative">
-                  <Users2 className="w-8 h-8 shrink-0" />
-                  <span className="font-bold leading-tight text-sm">Turn Healthy Habits Into<br />Team Culture</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Holistic Wellness Section (Dark Theme) */}
-      <section className="py-24 bg-[#0a1128] text-white overflow-hidden relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-500/10 via-[#0a1128] to-[#0a1128] pointer-events-none" />
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
-          <div className="text-center mb-16">
-            <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">Mindfulness, Movement & Modern Workforce Wellness</div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold leading-tight">
-              Holistic Wellness For Every Part Of Your Team
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-
-            {/* Card 03: Calm & Mindfulness */}
-            <div className="rounded-[2rem] bg-gradient-to-b from-blue-900/20 to-[#0d1530] border border-blue-500/20 flex flex-col overflow-hidden shadow-2xl relative group h-full">
-              <div className="p-8 pb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center text-sm">03</div>
-                  <h3 className="text-2xl font-bold text-white">Calm & Mindfulness</h3>
-                </div>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  Support employee mental well-being through guided mindfulness, meditation, stress reduction, and wellness resources.
-                </p>
-              </div>
-
-              <div className="relative px-6 mb-8">
-                <div className="rounded-2xl overflow-hidden aspect-video relative">
-                  <img src="/hw1.png" alt="Mindfulness" className="w-full h-full object-cover" />
-                </div>
-                <div className="absolute bottom-4 right-8 bg-[#0a1128]/90 backdrop-blur-md rounded-xl p-4 border border-white/10 shadow-2xl w-48 flex items-center justify-between">
-                  <div>
-                    <div className="text-[10px] font-bold text-white mb-0.5">Breathing Session</div>
-                    <div className="text-[9px] text-gray-400">Active</div>
-                  </div>
-                  <div className="flex gap-0.5 items-center h-4">
-                    {[1, 2, 3, 4, 3, 2, 1].map((h, i) => (
-                      <motion.div key={i} animate={{ height: [4, h * 4, 4] }} transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.1 }} className="w-0.5 bg-green-400 rounded-full" />
-                    ))}
-                  </div>
-                  <PlayCircle className="w-4 h-4 text-white" />
+                <div className="bg-[#0a1128]/80 border-t border-blue-500/20 text-blue-400 p-6 flex items-center gap-4 mt-auto">
+                  <Users2 className="w-8 h-8 shrink-0 text-blue-500" />
+                  <span className="font-bold leading-tight text-sm text-white">Turn Healthy Habits<br /><span className="text-blue-400 font-medium">Into Team Culture</span></span>
                 </div>
               </div>
 
-              <div className="px-8 pb-8 flex-1 space-y-6">
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 rounded-full border border-blue-500/30 flex items-center justify-center shrink-0">
-                    <Flower2 className="w-5 h-5 text-blue-400" />
+              {/* Card 03: Calm & Mindfulness */}
+              <div className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#0d2133] to-[#0d1530] border border-teal-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(20,184,166,0.25)] hover:border-teal-500/40 group h-[660px]">
+                <div className="p-8 pb-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-teal-500 text-white font-bold flex items-center justify-center text-sm shadow-[0_0_15px_rgba(20,184,166,0.5)]">03</div>
+                    <h3 className="text-2xl font-bold text-white">Calm & Mindfulness</h3>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-sm text-white mb-1">Guided Mindfulness Sessions</h4>
-                    <p className="text-xs text-gray-400 leading-relaxed">Structured mindfulness and meditation that reduce stress, improve focus, and build emotional balance every day.</p>
+                  <p className="text-slate-400 text-sm leading-relaxed min-h-[40px]">
+                    Support employee mental well-being through guided mindfulness, meditation, stress reduction, and wellness resources.
+                  </p>
+                </div>
+
+                <div className="relative px-6 mb-4">
+                  <div className="rounded-2xl overflow-hidden aspect-video relative border border-white/5">
+                    <img src="/hw1.png" alt="Mindfulness" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute bottom-4 right-8 bg-[#0a1128]/95 backdrop-blur-md rounded-xl p-4 border border-white/10 shadow-2xl w-48 flex items-center justify-between transition-transform duration-500 group-hover:scale-105 z-10">
+                    <div>
+                      <div className="text-[10px] font-bold text-white mb-0.5">Breathing Session</div>
+                      <div className="text-[9px] text-slate-400">Active</div>
+                    </div>
+                    <div className="flex gap-0.5 items-center h-4">
+                      {[1, 2, 3, 4, 3, 2, 1].map((h, i) => (
+                        <motion.div key={i} animate={{ height: [4, h * 4, 4] }} transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.1 }} className="w-0.5 bg-teal-400 rounded-full" />
+                      ))}
+                    </div>
+                    <PlayCircle className="w-4 h-4 text-white hover:text-teal-400 cursor-pointer" />
                   </div>
                 </div>
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 rounded-full border border-blue-500/30 flex items-center justify-center shrink-0">
-                    <BookOpen className="w-5 h-5 text-blue-400" />
+
+                <div className="px-8 pb-6 flex-1 space-y-4">
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 rounded-full border border-teal-500/30 flex items-center justify-center shrink-0">
+                      <Flower2 className="w-5 h-5 text-teal-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-white mb-1">Guided Mindfulness Sessions</h4>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Structured mindfulness and meditation that reduce stress, improve focus, and build emotional balance.</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-sm text-white mb-1">Mental Wellness Resources</h4>
-                    <p className="text-xs text-gray-400 leading-relaxed">Expert webinars, articles, stress tools, sleep audio, recovery guidance, and wellness libraries at your fingertips.</p>
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 rounded-full border border-teal-500/30 flex items-center justify-center shrink-0">
+                      <BookOpen className="w-5 h-5 text-teal-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-white mb-1">Mental Wellness Resources</h4>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Expert webinars, recovery guidance, sleep audio, and dynamic wellness libraries at your fingertips.</p>
+                    </div>
                   </div>
+                </div>
+
+                <div className="bg-[#0a1128]/80 border-t border-teal-500/20 text-teal-400 p-6 flex items-center gap-4 mt-auto">
+                  <Shield className="w-8 h-8 shrink-0 text-teal-500" />
+                  <span className="font-bold leading-tight text-sm text-white">Calmer Minds.<br /><span className="text-teal-400 font-medium">Stronger Performance.</span></span>
                 </div>
               </div>
 
-              <div className="bg-[#0a1128] border-t border-blue-500/20 text-blue-400 p-6 flex items-center justify-center gap-3 mt-auto">
-                <Shield className="w-5 h-5" />
-                <span className="font-bold text-sm">Calmer Minds. Stronger Performance.</span>
-              </div>
-            </div>
-
-            {/* Card 04: On-Site & Remote */}
-            <div className="rounded-[2rem] bg-gradient-to-b from-green-900/20 to-[#0d1530] border border-green-500/20 flex flex-col overflow-hidden shadow-2xl relative group h-full">
-              <div className="p-8 pb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-green-500 text-white font-bold flex items-center justify-center text-sm">04</div>
-                  <h3 className="text-2xl font-bold text-white">On-Site & Remote<br />Team Wellness</h3>
-                </div>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  Flexible wellness experiences designed for both in-office and remote teams across different schedules, work styles, and global time zones.
-                </p>
-              </div>
-
-              <div className="relative px-6 mb-8">
-                <div className="rounded-2xl overflow-hidden aspect-video relative">
-                  <img src="/hw2.png" alt="Team Wellness" className="w-full h-full object-cover" />
-                </div>
-              </div>
-
-              <div className="px-8 pb-8 flex-1 space-y-6">
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 rounded-full border border-green-500/30 flex items-center justify-center shrink-0">
-                    <CalendarDays className="w-5 h-5 text-green-400" />
+              {/* Card 04: On-Site & Remote Team Wellness */}
+              <div className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#0c1f28] to-[#0d1530] border border-green-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(34,197,94,0.25)] hover:border-green-500/40 group h-[660px]">
+                <div className="p-8 pb-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-green-500 text-white font-bold flex items-center justify-center text-sm shadow-[0_0_15px_rgba(34,197,94,0.5)]">04</div>
+                    <h3 className="text-2xl font-bold text-white leading-none">On-Site & Remote</h3>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-sm text-white mb-1">Flexible Scheduling</h4>
-                    <p className="text-xs text-gray-400 leading-relaxed">Wellness that fits every schedule, time zone and work style without disrupting productivity.</p>
+                  <p className="text-slate-400 text-sm leading-relaxed min-h-[40px]">
+                    Flexible wellness experiences designed for both in-office and remote teams across all schedules.
+                  </p>
+                </div>
+
+                <div className="relative px-6 mb-4">
+                  <div className="rounded-2xl overflow-hidden aspect-video relative border border-white/5">
+                    <img src="/hw2.png" alt="Team Wellness" className="w-full h-full object-cover" />
                   </div>
                 </div>
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 rounded-full border border-green-500/30 flex items-center justify-center shrink-0">
-                    <Users2 className="w-5 h-5 text-green-400" />
+
+                <div className="px-8 pb-6 flex-1 space-y-4">
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 rounded-full border border-green-500/30 flex items-center justify-center shrink-0">
+                      <CalendarDays className="w-5 h-5 text-green-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-white mb-1">Flexible Scheduling</h4>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Wellness that fits every schedule, time zone and work style without disrupting core company productivity.</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-bold text-sm text-white mb-1">Virtual Group Activities</h4>
-                    <p className="text-xs text-gray-400 leading-relaxed">Live yoga, meditation, movement breaks, fitness sessions, breathwork workshops and hybrid wellness events.</p>
+                  <div className="flex gap-4">
+                    <div className="w-10 h-10 rounded-full border border-green-500/30 flex items-center justify-center shrink-0">
+                      <Users2 className="w-5 h-5 text-green-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-white mb-1">Virtual Group Activities</h4>
+                      <p className="text-[11px] text-slate-400 leading-relaxed">Live yoga, movement breaks, fitness sessions, breathwork workshops and interactive hybrid events.</p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="bg-[#0a1128] border-t border-green-500/20 text-green-400 p-6 flex items-center justify-center gap-3 mt-auto">
-                <Shield className="w-5 h-5" />
-                <span className="font-bold text-sm">Wellness Anywhere Your Team Works.</span>
-              </div>
-            </div>
-
-            {/* Card 05: Make Breaks Effective */}
-            <div className="rounded-[2rem] bg-gradient-to-b from-purple-900/20 to-[#0d1530] border border-purple-500/20 flex flex-col overflow-hidden shadow-2xl relative group h-full">
-              <div className="p-8 pb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-purple-500 text-white font-bold flex items-center justify-center text-sm">05</div>
-                  <h3 className="text-2xl font-bold text-white">Make Breaks Effective</h3>
+                <div className="bg-[#0a1128]/80 border-t border-green-500/20 text-green-400 p-6 flex items-center gap-4 mt-auto">
+                  <Shield className="w-8 h-8 shrink-0 text-green-500" />
+                  <span className="font-bold leading-tight text-sm text-white">Wellness Anywhere<br /><span className="text-green-400 font-medium">Your Team Works.</span></span>
                 </div>
-                <p className="text-gray-400 text-sm leading-relaxed">
-                  Transform short workplace breaks into moments of recovery, movement, and mental reset.
-                </p>
               </div>
 
-              <div className="relative px-6 mb-8">
-                <div className="rounded-2xl overflow-hidden aspect-video relative">
-                  <img src="/hw3.png" alt="Neck Stretch" className="w-full h-full object-cover" />
+              {/* Card 05: Make Breaks Effective */}
+              <div className="snap-center shrink-0 w-[300px] sm:w-[340px] md:w-[380px] rounded-[2rem] bg-gradient-to-b from-[#181538] to-[#0d1530] border border-purple-500/20 flex flex-col overflow-hidden shadow-2xl relative transition-all duration-500 ease-out z-10 hover:z-30 -ml-16 sm:-ml-24 md:-ml-28 lg:-ml-32 hover:scale-[1.06] hover:-translate-y-6 hover:mx-6 sm:hover:mx-8 md:hover:mx-10 hover:shadow-[0_20px_50px_rgba(168,85,247,0.25)] hover:border-purple-500/40 group h-[660px]">
+                <div className="p-8 pb-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-purple-500 text-white font-bold flex items-center justify-center text-sm shadow-[0_0_15px_rgba(168,85,247,0.5)]">05</div>
+                    <h3 className="text-2xl font-bold text-white">Make Breaks Effective</h3>
+                  </div>
+                  <p className="text-slate-400 text-sm leading-relaxed min-h-[40px]">
+                    Transform short workplace breaks into powerful moments of recovery and mental reset.
+                  </p>
                 </div>
-                <div className="absolute top-4 right-4 bg-[#0a1128]/90 backdrop-blur-md rounded-xl p-4 border border-white/10 shadow-2xl w-40">
-                  <div className="text-[11px] font-bold text-white mb-3">5 Min Reset</div>
-                  <div className="space-y-2">
-                    {['Neck Stretch', 'Shoulder Roll', 'Deep Breathing', 'Lower Back Release'].map((item, i) => (
-                      <div key={i} className="flex items-center justify-between">
-                        <span className="text-[9px] text-gray-300 flex items-center gap-1.5"><span className="text-[7px] text-gray-500">{i + 1}</span> {item}</span>
-                        <div className="w-3 h-3 rounded-full bg-green-500 flex items-center justify-center"><Check className="w-2 h-2 text-white" /></div>
+
+                <div className="relative px-6 mb-4">
+                  <div className="rounded-2xl overflow-hidden aspect-video relative border border-white/5">
+                    <img src="/hw3.png" alt="Neck Stretch" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute top-4 right-8 bg-[#0a1128]/95 backdrop-blur-md rounded-xl p-3 border border-white/10 shadow-2xl w-40 transition-transform duration-500 group-hover:scale-105 z-10">
+                    <div className="text-[10px] font-bold text-white mb-2">5 Min Reset</div>
+                    <div className="space-y-1">
+                      {['Neck Stretch', 'Shoulder Roll', 'Deep Breathing', 'Back Release'].map((item, i) => (
+                        <div key={i} className="flex items-center justify-between">
+                          <span className="text-[8px] text-slate-300 flex items-center gap-1"><span className="text-[7px] text-slate-500">{i + 1}</span> {item}</span>
+                          <div className="w-3 h-3 rounded-full bg-green-500 flex items-center justify-center shrink-0"><Check className="w-2 h-2 text-white" /></div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="px-8 pb-4 flex-1">
+                  <div className="grid grid-cols-3 gap-y-4 gap-x-2">
+                    {[
+                      { i: Activity, t: 'Mobility Breaks' },
+                      { i: Monitor, t: 'Desk Yoga' },
+                      { i: Flower2, t: 'Deep Breathing' },
+                      { i: UserCircle2, t: 'Shoulder Relief' },
+                      { i: Users2, t: 'Lower Back Recovery' },
+                      { i: Zap, t: 'Midday Energy' }
+                    ].map((item, i) => (
+                      <div key={i} className="flex flex-col items-center text-center gap-1 bg-purple-500/5 hover:bg-purple-500/10 rounded-xl p-2 border border-purple-500/10 transition-colors">
+                        <item.i className="w-4 h-4 text-purple-400" />
+                        <span className="text-[8px] text-slate-300 font-medium leading-tight">{item.t}</span>
                       </div>
                     ))}
                   </div>
                 </div>
-              </div>
 
-              <div className="px-8 pb-8 flex-1">
-                <div className="grid grid-cols-4 gap-y-6 gap-x-2">
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><Activity className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">5-min Mobility<br />Sessions</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><Monitor className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Desk Yoga</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><Flower2 className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Guided<br />Breathing</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><UserCircle2 className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Neck & Shoulder<br />Relief</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><Users2 className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Lower Back<br />Recovery</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><Zap className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Midday Energy<br />Reset</span>
-                  </div>
-                  <div className="flex flex-col items-center text-center gap-2">
-                    <div className="w-10 h-10 rounded-full border border-purple-500/30 flex items-center justify-center"><UserCircle2 className="w-4 h-4 text-purple-400" /></div>
-                    <span className="text-[9px] text-gray-400 font-medium leading-tight">Quick<br />Meditation</span>
-                  </div>
+                <div className="bg-[#0a1128]/80 border-t border-purple-500/20 text-purple-400 p-6 flex items-center gap-4 mt-auto">
+                  <Shield className="w-8 h-8 shrink-0 text-purple-500" />
+                  <span className="font-bold leading-tight text-sm text-white">Small Breaks.<br /><span className="text-purple-400 font-medium">Big Impact.</span></span>
                 </div>
               </div>
 
-              <div className="bg-[#0a1128] border-t border-purple-500/20 text-purple-400 p-6 flex items-center justify-center gap-3 mt-auto">
-                <Shield className="w-5 h-5" />
-                <span className="font-bold text-sm">Small Breaks. Big Impact.</span>
-              </div>
             </div>
-
           </div>
+
         </div>
       </section>
 
@@ -1458,7 +1431,7 @@ const WorkFit = () => {
           {/* Grid Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             {/* Left Column (Featured) */}
-            <div className="lg:col-span-1 rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors">
+            <div className="lg:col-span-1 rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}>
               <div className="relative aspect-[4/3] md:aspect-auto md:h-64 lg:h-72 w-full overflow-hidden">
                 <img src="/yw1.png" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
@@ -1495,7 +1468,7 @@ const WorkFit = () => {
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
 
               {/* Quick Relief Videos */}
-              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative">
+              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}>
                 <div className="absolute inset-0 right-0 w-[65%] ml-auto overflow-hidden">
                   <img src="/yw2.png" alt="Quick Relief" className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-700 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-r from-[#111836] via-[#111836]/80 to-transparent" />
@@ -1524,7 +1497,7 @@ const WorkFit = () => {
               </div>
 
               {/* Recorded Wellness Programs */}
-              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative">
+              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}>
                 <div className="absolute inset-0 right-0 w-[65%] ml-auto overflow-hidden">
                   <img src="/yw3.png" alt="Recorded Programs" className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-700 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-r from-[#111836] via-[#111836]/80 to-transparent" />
@@ -1553,7 +1526,7 @@ const WorkFit = () => {
               </div>
 
               {/* Podcasts & Mindfulness Audio */}
-              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative">
+              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}>
                 <div className="absolute inset-0 right-0 w-[65%] ml-auto overflow-hidden">
                   <img src="/yw4.png" alt="Audio" className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-700 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-r from-[#111836] via-[#111836]/80 to-transparent" />
@@ -1582,7 +1555,7 @@ const WorkFit = () => {
               </div>
 
               {/* Success Stories */}
-              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative">
+              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}>
                 <div className="absolute inset-0 right-0 w-[65%] ml-auto overflow-hidden">
                   <img src="/yw5.png" alt="Success Stories" className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-700 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-r from-[#111836] via-[#111836]/80 to-transparent" />
@@ -1982,14 +1955,14 @@ const WorkFit = () => {
                       </div>
 
                       {/* Author */}
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 shadow-sm border border-slate-100">
-                          <img src={fT.avatar} alt={fT.name} className="w-full h-full object-cover" />
-                        </div>
+                      <div className="flex items-center justify-between w-full pt-6 border-t border-gray-100">
                         <div>
                           <div className="font-extrabold text-base text-[#0B1530] leading-tight">{fT.name}</div>
-                          <div className="text-xs font-semibold text-gray-400 mt-0.5">{fT.role}, {fT.company}</div>
+                          <div className="text-xs font-semibold text-gray-400 mt-0.5">{fT.role}</div>
                         </div>
+                        <span className="text-[10px] font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-md flex items-center gap-1">
+                          🇺🇸 USA
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -1998,76 +1971,198 @@ const WorkFit = () => {
             );
           })()}
 
-          {/* 4-Column Grid Testimonials */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {[
+          {/* Scrolling Testimonials Marquee (Floating) */}
+          {(() => {
+            const allWorkfitTestimonials = [
               getDynamicTestimonial(0, {
                 img: '/Test2.png',
                 quote: '"The stretch breaks became our team\'s favorite part of the week."',
                 body: 'Employees felt more energized, relaxed, and productive after the sessions.',
                 name: 'Mary D.',
-                avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=120&h=120',
                 role: 'People Operations',
-                company: 'FinTech Company',
+                country: '🇺🇸 USA',
+                tags: ['Stretch Breaks', 'Energy', 'Productivity']
               }),
               getDynamicTestimonial(1, {
                 img: '/Test3.png',
-                quote: '"WorkFit made wellness engaging instead of feeling like another HR activity."',
+                quote: '"WorkFit made wellness engaging instead of another HR activity."',
                 body: 'The wellness challenges created excitement across teams and improved participation naturally.',
                 name: 'Priya S.',
-                avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=120&h=120',
                 role: 'Wellness Lead',
-                company: 'SaaS Company',
+                country: '🇮🇳 India',
+                tags: ['Wellness Challenges', 'Engagement', 'Teamwork']
               }),
               getDynamicTestimonial(2, {
                 img: '/Test4.png',
                 quote: '"Our hybrid employees finally felt connected again."',
                 body: 'The virtual wellness activities improved communication, engagement, and team morale.',
                 name: 'Kevin R.',
-                avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=120&h=120',
                 role: 'HR Director',
-                company: 'Global Consulting Firm',
+                country: '🇺🇸 USA',
+                tags: ['Hybrid Wellness', 'Communication', 'Morale']
               }),
               getDynamicTestimonial(3, {
                 img: '/Test5.png',
                 quote: '"The sessions helped reduce stress during high-pressure work periods."',
                 body: 'Employees appreciated having practical wellness tools during demanding project cycles.',
                 name: 'Sarah M.',
-                avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=120&h=120',
                 role: 'Program Manager',
-                company: 'Marketing Agency',
+                country: '🇬🇧 UK',
+                tags: ['Stress Reduction', 'Mindfulness', 'Well-being']
               }),
-            ].map((t, idx) => (
-              <div key={idx} className="rounded-3xl border border-gray-100 overflow-hidden bg-white shadow-[0_8px_30px_rgba(0,0,0,0.02)] flex flex-col hover:shadow-lg transition-all duration-300">
-                {/* Photo */}
-                <div className="h-48 overflow-hidden relative">
-                  <img src={t.img} alt={t.name} className="w-full h-full object-cover" />
-                </div>
-                {/* Content */}
-                <div className="p-6 flex flex-col flex-1 relative">
-                  <div className="text-[#f97316] text-4xl font-serif leading-none mb-1 opacity-20 select-none">“</div>
-                  <div className="flex-1 flex flex-col justify-between">
-                    <div>
-                      <p className="text-sm md:text-base font-extrabold text-[#0B1530] leading-snug mb-3">{t.quote}</p>
-                      <p className="text-xs md:text-sm text-gray-500 leading-relaxed mb-6 font-medium">{t.body}</p>
-                    </div>
-                    {/* Author */}
-                    <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                      <img
-                        src={t.avatar}
-                        alt={t.name}
-                        className="w-10 h-10 rounded-full object-cover border border-gray-50 shrink-0 shadow-sm"
-                      />
-                      <div>
-                        <div className="text-xs md:text-sm font-extrabold text-[#0B1530] leading-tight">{t.name}</div>
-                        <div className="text-[10px] md:text-xs font-semibold text-gray-400 mt-0.5 leading-tight">{t.role}<br />{t.company}</div>
+              // Mahesh
+              getDynamicTestimonial(5, {
+                img: '/1.png',
+                quote: '"WorkFit has transformed the way our team feels and performs."',
+                body: 'The sessions are practical, engaging, and easy to integrate into our busy workday.',
+                name: 'Mahesh',
+                role: 'Founder & CEO',
+                country: '🇺🇸 USA',
+                tags: ['Energy', 'Focus', 'Team Wellness']
+              }),
+              // Shrikant
+              getDynamicTestimonial(6, {
+                img: '/2.png',
+                quote: '"The blend of yoga, mobility, and mindfulness is exceptional."',
+                body: 'We\'ve seen more energy, better concentration, and stronger teamwork.',
+                name: 'Shrikant',
+                role: 'Founder & CTO',
+                country: '🇺🇸 USA',
+                tags: ['Performance', 'Mindfulness', 'Teamwork']
+              }),
+              // Amita
+              getDynamicTestimonial(7, {
+                img: '/3.png',
+                quote: '"We just had one class with WorkFit and the experience was outstanding!"',
+                body: 'I loved it and felt an immediate sense of relaxation and positivity. I\'m excited to continue this journey with more sessions ahead.',
+                name: 'Amita',
+                role: 'Project Coordinator',
+                country: '🇬🇧 UK',
+                tags: ['First Class Experience', 'Relaxation', 'Excited']
+              }),
+              // Prasad
+              getDynamicTestimonial(8, {
+                img: '/4.png',
+                quote: '"WorkFit\'s approach is holistic and very impactful."',
+                body: 'Our employees are more consistent, less stressed, and more productive.',
+                name: 'Prasad',
+                role: 'Founder & MD',
+                country: '🇮🇳 India',
+                tags: ['Holistic Wellness', 'Stress Relief', 'Productivity']
+              }),
+              // Madhu
+              getDynamicTestimonial(9, {
+                img: '/5.png',
+                quote: '"The flexibility and variety of programs make it easy for everyone to participate."',
+                body: 'Our team looks forward to every session!',
+                name: 'Madhu',
+                role: 'Co-founder',
+                country: '🇺🇸 USA',
+                tags: ['Engagement', 'Flexibility', 'Well-being']
+              }),
+              // Emma
+              getDynamicTestimonial(10, {
+                img: '/6.png',
+                quote: '"Just one session with WorkFit and I felt refreshed and re-energized."',
+                body: 'Practical, well-guided, and perfect for busy professional life!',
+                name: 'Emma',
+                role: 'Professor',
+                country: '🇬🇧 UK',
+                tags: ['Refreshment', 'Energy', 'Wellness']
+              }),
+              // Bekir Orahan
+              getDynamicTestimonial(11, {
+                img: '/7.png',
+                quote: '"The session was practical, refreshing, and eye-opening."',
+                body: 'It gave us simple tools for better health, focus, and mental clarity.',
+                name: 'Bekir Orahan',
+                role: 'Professor',
+                country: '🇹🇷 Turkey',
+                tags: ['Mental Clarity', 'Focus', 'Practical Tools']
+              }),
+              // Michael Johnson
+              getDynamicTestimonial(12, {
+                img: '/8.png',
+                quote: '"WorkFit is a game-changer for our workplace."',
+                body: 'We\'ve noticed less stress, better focus, and a happier team.',
+                name: 'Michael Johnson',
+                role: 'Director - People & Culture',
+                country: '🇺🇸 USA',
+                tags: ['Stress Reduction', 'Focus', 'Happiness']
+              })
+            ];
+
+            return (
+              <div className="relative flex overflow-hidden py-10 select-none group -mx-4 sm:-mx-6 lg:-mx-8 mb-16">
+                <motion.div 
+                  animate={{ x: [0, -4608] }}
+                  transition={{ 
+                    duration: 65, 
+                    repeat: Infinity, 
+                    ease: "linear"
+                  }}
+                  className="flex gap-6 whitespace-nowrap min-w-full"
+                >
+                  {[...allWorkfitTestimonials, ...allWorkfitTestimonials].map((t, idx) => (
+                    <div 
+                      key={idx} 
+                      onClick={() => setSelectedTestimonial(t)}
+                      className="w-[360px] cursor-pointer flex-shrink-0 rounded-[2rem] border border-gray-100 overflow-hidden bg-white shadow-[0_8px_30px_rgba(0,0,0,0.02)] flex flex-col hover:border-[#f97316]/50 hover:shadow-2xl hover:shadow-[#f97316]/10 transition-all duration-500 hover:-translate-y-2 group/card relative whitespace-normal"
+                    >
+                      {/* Photo */}
+                      <div className="h-44 overflow-hidden relative">
+                        <img src={t.img} alt={t.name} className="w-full h-full object-cover" />
+                      </div>
+                      {/* Content */}
+                      <div className="p-6 flex flex-col flex-1 relative h-full justify-between">
+                        <div>
+                          {/* Star Rating */}
+                          <div className="flex gap-0.5 mb-3">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className="w-3.5 h-3.5 fill-orange-500 text-orange-500" />
+                            ))}
+                          </div>
+                          
+                          <p className="text-sm font-extrabold text-[#0B1530] leading-snug mb-3 line-clamp-2">{t.quote}</p>
+                          <p className="text-xs text-gray-500 leading-relaxed font-medium mb-4 line-clamp-3">{t.body}</p>
+                        </div>
+                        
+                        <div>
+                          {/* Tag Badges */}
+                          {t.tags && (
+                            <div className="flex flex-wrap gap-1.5 mb-4">
+                              {t.tags.map((tag: string) => (
+                                <span key={tag} className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 bg-orange-50 text-[#f97316] rounded-md border border-orange-100/30">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          
+                          {/* Author Details without Profile Avatar and without Company */}
+                          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div>
+                              <div className="text-xs font-extrabold text-[#0B1530] leading-tight">{t.name}</div>
+                              <div className="text-[10px] font-semibold text-gray-400 mt-0.5 leading-tight">{t.role}</div>
+                            </div>
+                            {t.country && (
+                              <span className="text-[10px] font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-md flex items-center gap-1">
+                                {t.country}
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  ))}
+                </motion.div>
+
+                {/* Side Fades */}
+                <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
+                <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
               </div>
-            ))}
-          </div>
+            );
+          })()}
 
           {/* Stats Row */}
           <div className="rounded-[2.5rem] bg-gray-50/50 border border-gray-100 p-8 md:py-12 md:px-8 mb-16">
@@ -2380,6 +2475,97 @@ const WorkFit = () => {
 
               </div>
 
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Testimonials Popup Modal */}
+      <AnimatePresence>
+        {selectedTestimonial && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+          >
+            {/* Blurred Backdrop overlay */}
+            <div 
+              className="absolute inset-0 bg-[#0a1128]/70 backdrop-blur-md cursor-pointer"
+              onClick={() => setSelectedTestimonial(null)}
+            />
+            
+            {/* Modal Body Card Container */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="bg-white text-[#0a1128] rounded-[2.5rem] overflow-hidden border border-slate-100/50 shadow-2xl max-w-2xl w-full relative z-10 flex flex-col md:flex-row min-h-[380px]"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedTestimonial(null)}
+                className="absolute top-6 right-6 w-8 h-8 rounded-full bg-[#0a1128]/5 hover:bg-[#0a1128]/10 flex items-center justify-center text-[#0a1128]/60 hover:text-[#0a1128] transition-colors z-20"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              {/* Left Column: Image */}
+              <div className="md:w-2/5 relative min-h-[200px] md:min-h-full">
+                <img 
+                  src={selectedTestimonial.img} 
+                  alt={selectedTestimonial.name} 
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Right Column: Content */}
+              <div className="md:w-3/5 p-8 md:p-10 flex flex-col justify-between relative">
+                <div>
+                  {/* Star Rating */}
+                  <div className="flex gap-0.5 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-orange-500 text-orange-500" />
+                    ))}
+                  </div>
+
+                  {/* Quote & Body */}
+                  <h3 className="text-lg md:text-xl font-extrabold text-[#0B1530] leading-snug mb-4 tracking-tight">
+                    {selectedTestimonial.quote}
+                  </h3>
+                  <p className="text-gray-500 text-xs md:text-sm leading-relaxed mb-6 font-medium">
+                    {selectedTestimonial.body}
+                  </p>
+                </div>
+
+                <div>
+                  {/* Tag Badges */}
+                  {selectedTestimonial.tags && (
+                    <div className="flex flex-wrap gap-1.5 mb-6">
+                      {selectedTestimonial.tags.map((tag: string) => (
+                        <span key={tag} className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 bg-orange-50 text-[#f97316] rounded-md border border-orange-100/30">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Author Footer */}
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-100 w-full">
+                    <div>
+                      <div className="text-sm font-extrabold text-[#0B1530] leading-tight">{selectedTestimonial.name}</div>
+                      <div className="text-xs font-semibold text-gray-400 mt-0.5 leading-tight">{selectedTestimonial.role}</div>
+                    </div>
+                    {selectedTestimonial.country && (
+                      <span className="text-[10px] font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-md">
+                        {selectedTestimonial.country}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+              </div>
             </motion.div>
           </motion.div>
         )}

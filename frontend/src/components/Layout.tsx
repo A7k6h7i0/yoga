@@ -1,10 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Globe, Link as LinkIcon, Share2, Mail, MapPin, Phone } from 'lucide-react';
 import Navigation from './Navigation';
 import Logo from './Logo';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation();
+  const isWorkFitPage = location.pathname.startsWith('/workfit') || location.pathname.startsWith('/solutions');
+  const helpCenterPath = isWorkFitPage ? '/workfitinquiry' : '/livefitinquiry';
+
   return (
     <div className="min-h-screen bg-brand-white flex flex-col w-full">
       <Navigation />
@@ -48,7 +51,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <div className="lg:col-span-2 text-center md:text-left">
               <h4 className="font-bold text-sky-950 mb-8 uppercase tracking-widest text-[10px]">Resources</h4>
               <ul className="space-y-4">
-                <li><a href="#" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Help Center</a></li>
+                <li><Link to={helpCenterPath} className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Help Center</Link></li>
                 <li><a href="#" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Careers</a></li>
                 <li><a href="#" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Partnerships</a></li>
                 <li><a href="#" className="text-sky-600 hover:text-sky-950 transition-colors text-sm font-bold">Press Kit</a></li>

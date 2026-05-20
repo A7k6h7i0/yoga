@@ -402,11 +402,20 @@ const Navigation = () => {
                   <Link
                     key={link.name}
                     to={link.path}
+                    onClick={() => setIsOpen(false)}
                     className="text-2xl md:text-3xl font-serif italic font-bold text-sky-950"
                   >
                     {link.name}
                   </Link>
                 ))}
+
+                <Link
+                  to="/workfit"
+                  onClick={() => setIsOpen(false)}
+                  className="text-2xl md:text-3xl font-serif italic font-bold text-sky-950"
+                >
+                  WorkFit
+                </Link>
                 
                 {(location.pathname.includes('workfit') || location.pathname.includes('solutions')) && (
                   <div className="mt-8">
