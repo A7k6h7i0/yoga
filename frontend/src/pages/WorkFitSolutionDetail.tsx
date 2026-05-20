@@ -4,6 +4,20 @@ import { motion } from 'framer-motion';
 import { API_BASE_URL } from '../lib/env';
 
 const BASE_URL = API_BASE_URL || 'http://localhost:5000';
+const WORKFIT_CARD_IMAGES = [
+  '/tc2.png',
+  '/postureback pain.png',
+  '/stress.png',
+  '/wp2.png',
+  '/tc3.avif',
+  '/Hybridworkchallenges.png',
+  '/wp4.png',
+  '/Wc8.png'
+];
+
+const getWorkFitImageSet = (startIndex: number) =>
+  WORKFIT_CARD_IMAGES.map((_, idx) => WORKFIT_CARD_IMAGES[(startIndex + idx) % WORKFIT_CARD_IMAGES.length]);
+
 import {
   Brain, HeartPulse, Wind, Flower2, Scale, Building, Activity,
   PlayCircle, Moon, Smile, Trophy, Users2, Users, Sparkles, Zap,
@@ -64,8 +78,8 @@ const solutionsData: Record<string, any> = {
     subtitle: "SOLUTION 01",
     desc: "Chronic stress, long hours, and constant pressure lead to burnout and mental fatigue.",
     descSecondary: "WorkFit's burnout recovery programs help employees recharge, restore balance, and perform at their best.",
-    image: "/Wc1.png",
-    fallbackImage: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80",
+    image: "/tc2.png",
+    fallbackImage: "/tc2.png",
     stats: [
       { value: "55%", desc: "of employees report burnout in 2025*", icon: Brain, bg: "bg-orange-50", border: "border-orange-100", color: "text-orange-500" },
       { value: "66%", desc: "say burnout is at record highs*", icon: Smile, bg: "bg-blue-50", border: "border-blue-100", color: "text-blue-500" },
@@ -74,7 +88,7 @@ const solutionsData: Record<string, any> = {
     ],
     whatIsTitle: "WHAT IS IT?",
     whatIsDesc: "Burnout is a state of physical, emotional, and mental exhaustion caused by prolonged stress. It affects productivity, motivation, focus, and overall well-being.",
-    whatIsImage: "/Wc5.png",
+    whatIsImage: "/tc2.png",
     howItHelps: [
       { title: "Reduces Stress & Anxiety", icon: Brain },
       { title: "Improves Focus & Clarity", icon: Sparkles },
@@ -84,12 +98,12 @@ const solutionsData: Record<string, any> = {
       { title: "Increases Productivity & Performance", icon: Activity }
     ],
     whatWeDo: [
-      { title: "Mindfulness & Meditation Sessions", desc: "Guided mindfulness practices to quiet the mind, reduce overwhelm, and improve emotional balance.", img: "/wp1.png" },
-      { title: "Stress Relief Workshops", desc: "Evidence-based techniques to manage stress, calm the nervous system, and build resilience.", img: "/wp2.png" },
-      { title: "Breathwork Sessions", desc: "Powerful breathing techniques to reduce stress, improve oxygen flow, and boost mental clarity.", img: "/wp3.png" },
-      { title: "Recovery Yoga & Relaxation", desc: "Gentle yoga and relaxation practices to release tension, reduce fatigue, and restore energy.", img: "/wp4.png" },
-      { title: "Mental Wellness Education", desc: "Expert-led sessions on burnout prevention, self-care, healthy habits, and mindset.", img: "/Wc3.png" },
-      { title: "Lifestyle & Habit Coaching", desc: "Personalized guidance to build sustainable routines for long-term well-being and balance.", img: "/ws1.png" }
+      { title: "Mindfulness & Meditation Sessions", desc: "Guided mindfulness practices to quiet the mind, reduce overwhelm, and improve emotional balance.", img: "/tc2.png" },
+      { title: "Stress Relief Workshops", desc: "Evidence-based techniques to manage stress, calm the nervous system, and build resilience.", img: "/tc2.png" },
+      { title: "Breathwork Sessions", desc: "Powerful breathing techniques to reduce stress, improve oxygen flow, and boost mental clarity.", img: "/tc2.png" },
+      { title: "Recovery Yoga & Relaxation", desc: "Gentle yoga and relaxation practices to release tension, reduce fatigue, and restore energy.", img: "/tc2.png" },
+      { title: "Mental Wellness Education", desc: "Expert-led sessions on burnout prevention, self-care, healthy habits, and mindset.", img: "/tc2.png" },
+      { title: "Lifestyle & Habit Coaching", desc: "Personalized guidance to build sustainable routines for long-term well-being and balance.", img: "/tc2.png" }
     ],
     provenImpact: [
       { value: "48%", desc: "Reduction in stress levels*", icon: ShieldCheck },
@@ -100,7 +114,7 @@ const solutionsData: Record<string, any> = {
     ],
     ctaTitle: "Ready To Help Your Team Beat Burnout?",
     ctaDesc: "Let's build a customized wellness program that helps your employees recharge, reset, and thrive.",
-    ctaImage: "/ws1.png",
+    ctaImage: "/tc2.png",
     sources: "*Sources: Gallup 2024, WHO 2023, Harvard Business Review, McKinsey, Global Wellness Institute"
   },
   'posture-back-pain': {
@@ -110,8 +124,8 @@ const solutionsData: Record<string, any> = {
     subtitle: "SOLUTION 02",
     desc: "Sedentary work and poor posture cause chronic pain, stiffness, and discomfort.",
     descSecondary: "Posture & Back Pain programs focus on improving ergonomics, strengthening core muscles, and building better movement habits to prevent and relieve pain.",
-    image: "/Wc2.png",
-    fallbackImage: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80",
+    image: "/postureback pain.png",
+    fallbackImage: "/postureback pain.png",
     stats: [
       { value: "80%+", desc: "of office workers experience back pain yearly*", icon: Activity, bg: "bg-orange-50", border: "border-orange-100", color: "text-orange-500" },
       { value: "80%", desc: "of pain cases are preventable with better posture*", icon: ShieldCheck, bg: "bg-blue-50", border: "border-blue-100", color: "text-blue-500" },
@@ -120,7 +134,7 @@ const solutionsData: Record<string, any> = {
     ],
     whatIsTitle: "WHAT IS IT?",
     whatIsDesc: "Posture & Back Pain programs focus on improving ergonomics, strengthening core muscles, and building better movement habits to prevent and relieve pain in the back, neck, shoulders, and wrists.",
-    whatIsImage: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=80",
+    whatIsImage: "/postureback pain.png",
     howItHelps: [
       { title: "Reduces Pain & Muscle Tension", icon: HeartPulse },
       { title: "Improves Posture & Alignment", icon: Scale },
@@ -130,12 +144,12 @@ const solutionsData: Record<string, any> = {
       { title: "Enhances Work Performance", icon: Trophy }
     ],
     whatWeDo: [
-      { title: "Desk Yoga & Stretch Breaks", desc: "Simple stretches to release tension and improve mobility during the workday.", img: "/wp3.png" },
-      { title: "Posture Correction Programs", desc: "Techniques to improve posture and reduce strain on the spine and joints.", img: "/Wc2.png" },
-      { title: "Ergonomic Workshops", desc: "Guidance on workstation setup, chair adjustment, and healthy sitting habits.", img: "/ws1.png" },
-      { title: "Mobility & Spine Health Programs", desc: "Improve flexibility and spine health with targeted mobility drills and routines.", img: "/wp4.png" },
-      { title: "Strength & Core Activation", desc: "Exercises to strengthen core muscles and support better posture.", img: "/wp1.png" },
-      { title: "Pain Relief & Recovery Sessions", desc: "Guided sessions to reduce muscle tension and promote faster recovery.", img: "/wp2.png" }
+      { title: "Desk Yoga & Stretch Breaks", desc: "Simple stretches to release tension and improve mobility during the workday.", img: "/postureback pain.png" },
+      { title: "Posture Correction Programs", desc: "Techniques to improve posture and reduce strain on the spine and joints.", img: "/postureback pain.png" },
+      { title: "Ergonomic Workshops", desc: "Guidance on workstation setup, chair adjustment, and healthy sitting habits.", img: "/postureback pain.png" },
+      { title: "Mobility & Spine Health Programs", desc: "Improve flexibility and spine health with targeted mobility drills and routines.", img: "/postureback pain.png" },
+      { title: "Strength & Core Activation", desc: "Exercises to strengthen core muscles and support better posture.", img: "/postureback pain.png" },
+      { title: "Pain Relief & Recovery Sessions", desc: "Guided sessions to reduce muscle tension and promote faster recovery.", img: "/postureback pain.png" }
     ],
     provenImpact: [
       { value: "74%", desc: "Reduction in back pain complaints*", icon: ShieldCheck },
@@ -146,7 +160,7 @@ const solutionsData: Record<string, any> = {
     ],
     ctaTitle: "Let's build a pain-free, productive workplace.",
     ctaDesc: "Let's build a customized wellness program that helps your employees recharge, reset, and thrive.",
-    ctaImage: "/ws3.png",
+    ctaImage: "/postureback pain.png",
     sources: "*Sources: Spine Health, WHO, OSHA, Harvard Business Review, Ergonomics Journal"
   },
   'stress-mental-health': {
@@ -156,8 +170,8 @@ const solutionsData: Record<string, any> = {
     subtitle: "SOLUTION 03",
     desc: "Stress, anxiety & poor well-being impact focus, creativity, and overall performance.",
     descSecondary: "Our Stress & Mental Health programs provide employees with tools, practices, and support to manage stress, build resilience, and improve emotional well-being.",
-    image: "/Wc3.png",
-    fallbackImage: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80",
+    image: "/stress.png",
+    fallbackImage: "/stress.png",
     stats: [
       { value: "72%", desc: "of employees report moderate to high stress*", icon: Brain, bg: "bg-orange-50", border: "border-orange-100", color: "text-orange-500" },
       { value: "49%", desc: "of workers experience stress daily*", icon: Smile, bg: "bg-blue-50", border: "border-blue-100", color: "text-blue-500" },
@@ -166,7 +180,7 @@ const solutionsData: Record<string, any> = {
     ],
     whatIsTitle: "WHAT IS IT?",
     whatIsDesc: "Our Stress & Mental Health programs provide employees with tools, practices, and support to manage stress, build resilience, and improve emotional well-being—creating a healthier, happier, and more engaged workforce.",
-    whatIsImage: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80",
+    whatIsImage: "/stress.png",
     howItHelps: [
       { title: "Reduces Stress & Anxiety", icon: Brain },
       { title: "Improves Mood & Emotional Balance", icon: Smile },
@@ -176,12 +190,12 @@ const solutionsData: Record<string, any> = {
       { title: "Boosts Overall Well-being", icon: Activity }
     ],
     whatWeDo: [
-      { title: "Mindfulness & Meditation Sessions", desc: "Guided practices to calm the mind, reduce stress, and improve emotional balance.", img: "/wp1.png" },
-      { title: "Stress Relief Workshops", desc: "Evidence-based techniques to manage stress triggers and build everyday resilience.", img: "/wp2.png" },
-      { title: "Breathwork Sessions", desc: "Powerful breathing methods to regulate the nervous system and reduce anxiety.", img: "/wp3.png" },
-      { title: "Sleep & Recovery Programs", desc: "Strategies and routines to improve sleep quality and support recovery.", img: "/wp4.png" },
-      { title: "Mental Wellness Education", desc: "Expert-led sessions to build awareness and reduce stigma around mental health.", img: "/Wc3.png" },
-      { title: "Lifestyle & Habit Coaching", desc: "Personalized coaching to build healthy habits for long-term mental well-being.", img: "/ws1.png" }
+      { title: "Mindfulness & Meditation Sessions", desc: "Guided practices to calm the mind, reduce stress, and improve emotional balance.", img: "/stress.png" },
+      { title: "Stress Relief Workshops", desc: "Evidence-based techniques to manage stress triggers and build everyday resilience.", img: "/stress.png" },
+      { title: "Breathwork Sessions", desc: "Powerful breathing methods to regulate the nervous system and reduce anxiety.", img: "/stress.png" },
+      { title: "Sleep & Recovery Programs", desc: "Strategies and routines to improve sleep quality and support recovery.", img: "/stress.png" },
+      { title: "Mental Wellness Education", desc: "Expert-led sessions to build awareness and reduce stigma around mental health.", img: "/stress.png" },
+      { title: "Lifestyle & Habit Coaching", desc: "Personalized coaching to build healthy habits for long-term mental well-being.", img: "/stress.png" }
     ],
     provenImpact: [
       { value: "31%", desc: "Reduction in stress levels*", icon: ShieldCheck },
@@ -192,7 +206,7 @@ const solutionsData: Record<string, any> = {
     ],
     ctaTitle: "Support your team's mental well-being.",
     ctaDesc: "Let's build a customized wellness program that helps your employees recharge, reset, and thrive.",
-    ctaImage: "/ws2.png",
+    ctaImage: "/stress.png",
     sources: "*Sources: Gallup 2024, WHO 2023, Mind Share Partners, APA, Harvard Business Review"
   },
   'low-employee-engagement': {
@@ -202,12 +216,12 @@ const solutionsData: Record<string, any> = {
     subtitle: "SOLUTION 04",
     desc: "Low engagement happens when employees feel disconnected, tired, stressed, or uninspired at work.",
     descSecondary: "WorkFit uses wellness experiences and movement-based activities to improve morale, energy, participation, and workplace connection.",
-    image: "/wp1.png",
-    fallbackImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
+    image: "/wp2.png",
+    fallbackImage: "/wp2.png",
     stats: [],
     whatIsTitle: "WHAT IS IT?",
     whatIsDesc: "Low engagement happens when employees feel disconnected, tired, stressed, or uninspired at work. WorkFit uses wellness experiences and movement-based activities to improve morale, energy, participation, and workplace connection.",
-    whatIsImage: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80",
+    whatIsImage: "/wp2.png",
     howItHelps: [
       { title: "Boosts Team Connection", icon: Users2 },
       { title: "Improves Workplace Energy", icon: Zap },
@@ -218,11 +232,11 @@ const solutionsData: Record<string, any> = {
     ],
     whatWeDo: [
       { title: "Team Yoga Sessions", desc: "Interactive yoga experiences designed for team bonding, stress relief, and workplace wellness.", img: "/wp2.png" },
-      { title: "Group Fitness Workouts", desc: "Fun and energizing office-friendly workouts that improve energy and engagement.", img: "/wp4.png" },
-      { title: "Wellness Challenges", desc: "Step challenges, hydration challenges, mindfulness streaks, and activity competitions.", img: "/ws3.png" },
-      { title: "Mindfulness & Meditation Breaks", desc: "Short guided mindfulness sessions to refresh focus, reduce stress, and boost mental clarity.", img: "/Wc3.png" },
-      { title: "Wellness Talks & Workshops", desc: "Expert-led talks on stress management, posture, healthy habits, and work-life balance.", img: "/ws1.png" },
-      { title: "Team Wellness Events", desc: "Monthly wellness days, yoga mornings, fitness campaigns, and wellness week activities.", img: "/ws2.png" }
+      { title: "Group Fitness Workouts", desc: "Fun and energizing office-friendly workouts that improve energy and engagement.", img: "/wp2.png" },
+      { title: "Wellness Challenges", desc: "Step challenges, hydration challenges, mindfulness streaks, and activity competitions.", img: "/wp2.png" },
+      { title: "Mindfulness & Meditation Breaks", desc: "Short guided mindfulness sessions to refresh focus, reduce stress, and boost mental clarity.", img: "/wp2.png" },
+      { title: "Wellness Talks & Workshops", desc: "Expert-led talks on stress management, posture, healthy habits, and work-life balance.", img: "/wp2.png" },
+      { title: "Team Wellness Events", desc: "Monthly wellness days, yoga mornings, fitness campaigns, and wellness week activities.", img: "/wp2.png" }
     ],
     provenImpact: [
       { value: "36%", desc: "Increase in employee engagement*", icon: Smile },
@@ -234,7 +248,7 @@ const solutionsData: Record<string, any> = {
     ],
     ctaTitle: "Healthy Teams Perform Better Together",
     ctaDesc: "Create a more connected, energized, and engaged workplace through wellness-driven experiences.",
-    ctaImage: "/ws3.png",
+    ctaImage: "/wp2.png",
     sources: "*Sources: Gallup 2024, WHO 2023, Harvard Business Review, McKinsey Health Institute"
   },
   'low-productivity-energy': {
@@ -244,8 +258,8 @@ const solutionsData: Record<string, any> = {
     subtitle: "SOLUTION 05",
     desc: "Low energy and fatigue reduce focus, creativity, and overall productivity at work.",
     descSecondary: "WorkFit's energy-boosting wellness programs help employees move more, feel energized, and perform at their best—every single day.",
-    image: "/ws1.png",
-    fallbackImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
+    image: "/tc3.avif",
+    fallbackImage: "/tc3.avif",
     stats: [
       { value: "65%", desc: "of employees face low energy at work*", icon: Brain, bg: "bg-orange-50", border: "border-orange-100", color: "text-orange-500" },
       { value: "3X", desc: "more productive with better energy**", icon: Zap, bg: "bg-blue-50", border: "border-blue-100", color: "text-blue-500" },
@@ -254,7 +268,7 @@ const solutionsData: Record<string, any> = {
     ],
     whatIsTitle: "WHAT IS IT?",
     whatIsDesc: "Low energy throughout the day leads to mental fatigue, slow performance, and poor decision-making. Our programs use movement, breathwork, and mindful breaks to naturally boost energy, enhance focus, and keep your team at their best.",
-    whatIsImage: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80",
+    whatIsImage: "/tc3.avif",
     howItHelps: [
       { title: "Boosts Daily Energy Levels", icon: Zap },
       { title: "Improves Focus & Concentration", icon: Target },
@@ -264,13 +278,13 @@ const solutionsData: Record<string, any> = {
       { title: "Supports Overall Well-being", icon: HeartPulse }
     ],
     whatWeDo: [
-      { title: "Energy Yoga Sessions", desc: "Dynamic yoga flows to wake up the body, improve flexibility, and boost natural energy.", img: "/wp2.png" },
-      { title: "Office Workouts", desc: "Fun and effective workouts to build strength, stamina, and long-lasting energy.", img: "/wp4.png" },
-      { title: "Midday Recharge Sessions", desc: "Short energizing sessions to refresh the mind, release tension, and recharge your team.", img: "/ws3.png" },
-      { title: "Breathwork for Focus", desc: "Powerful breathing techniques to increase oxygen, calm the mind, and improve focus.", img: "/wp3.png" },
-      { title: "Stretch Breaks & Movement Snacks", desc: "Simple stretches and movement breaks to reduce strain and keep energy levels high.", img: "/wp1.png" },
-      { title: "Wellness Challenges & Step Goals", desc: "Fun challenges that encourage movement, healthy habits, and friendly competition.", img: "/ws2.png" },
-      { title: "Mindfulness Breaks", desc: "Short mindfulness practices to reduce stress, reset the mind, and restore clarity.", img: "/Wc3.png" }
+      { title: "Energy Yoga Sessions", desc: "Dynamic yoga flows to wake up the body, improve flexibility, and boost natural energy.", img: "/tc3.avif" },
+      { title: "Office Workouts", desc: "Fun and effective workouts to build strength, stamina, and long-lasting energy.", img: "/tc3.avif" },
+      { title: "Midday Recharge Sessions", desc: "Short energizing sessions to refresh the mind, release tension, and recharge your team.", img: "/tc3.avif" },
+      { title: "Breathwork for Focus", desc: "Powerful breathing techniques to increase oxygen, calm the mind, and improve focus.", img: "/tc3.avif" },
+      { title: "Stretch Breaks & Movement Snacks", desc: "Simple stretches and movement breaks to reduce strain and keep energy levels high.", img: "/tc3.avif" },
+      { title: "Wellness Challenges & Step Goals", desc: "Fun challenges that encourage movement, healthy habits, and friendly competition.", img: "/tc3.avif" },
+      { title: "Mindfulness Breaks", desc: "Short mindfulness practices to reduce stress, reset the mind, and restore clarity.", img: "/tc3.avif" }
     ],
     provenImpact: [
       { value: "68%", desc: "increase in energy levels*", icon: Smile },
@@ -282,7 +296,7 @@ const solutionsData: Record<string, any> = {
     ],
     ctaTitle: "More energy. Better focus. Stronger performance.",
     ctaDesc: "Let's build a customized wellness program that helps your employees recharge, reset, and thrive.",
-    ctaImage: "/ws1.png",
+    ctaImage: "/tc3.avif",
     sources: "*Sources: Gallup 2024, WHO 2023, Harvard Business Review, Mayo Clinic, Statista"
   },
   'hybrid-work-challenges': {
@@ -292,8 +306,8 @@ const solutionsData: Record<string, any> = {
     subtitle: "SOLUTION 06",
     desc: "Remote work brings flexibility, but also isolation, poor boundaries, and wellness gaps.",
     descSecondary: "WorkFit helps hybrid teams stay connected, active, and balanced—wherever they work.",
-    image: "/Wc6.png",
-    fallbackImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
+    image: "/Hybridworkchallenges.png",
+    fallbackImage: "/Hybridworkchallenges.png",
     stats: [
       { value: "64%", desc: "of hybrid workers report feeling isolated*", icon: Users2, bg: "bg-orange-50", border: "border-orange-100", color: "text-orange-500" },
       { value: "60%", desc: "struggle to maintain work-life balance*", icon: Scale, bg: "bg-blue-50", border: "border-blue-100", color: "text-blue-500" },
@@ -302,7 +316,7 @@ const solutionsData: Record<string, any> = {
     ],
     whatIsTitle: "WHAT IS IT?",
     whatIsDesc: "Hybrid work can blur boundaries, reduce movement, and limit team connection. Our programs bring structure, movement, mindfulness, and social connection into the remote workday.",
-    whatIsImage: "https://images.unsplash.com/photo-150174706859c-a110214aa2ef?auto=format&fit=crop&w=600&q=80",
+    whatIsImage: "/Hybridworkchallenges.png",
     howItHelps: [
       { title: "Improves Routine & Work-Life Balance", icon: Scale },
       { title: "Boosts Energy & Focus", icon: Zap },
@@ -312,13 +326,13 @@ const solutionsData: Record<string, any> = {
       { title: "Enhances Productivity & Well-being", icon: Trophy }
     ],
     whatWeDo: [
-      { title: "Virtual Yoga Sessions", desc: "Live and on-demand yoga classes to improve flexibility, reduce stress, and boost energy.", img: "/wp3.png" },
-      { title: "Home Workouts", desc: "Equipment-free workouts designed for small spaces to build strength, stamina, and daily energy.", img: "/wp4.png" },
-      { title: "Desk Stretch Breaks", desc: "Quick stretch routines to release tension, improve posture, and prevent stiffness.", img: "/wp1.png" },
-      { title: "Mindfulness & Breathing Sessions", desc: "Guided sessions to calm the mind, improve clarity, and manage stress.", img: "/Wc3.png" },
-      { title: "Wellness Challenges for Hybrid Teams", desc: "Step challenges, hydration goals, movement streaks, and healthy habit competitions.", img: "/ws3.png" },
-      { title: "Team Connection Activities", desc: "Fun virtual activities, wellness games, and interactive sessions to strengthen bonds.", img: "/ws1.png" },
-      { title: "Evening Wind-Down Sessions", desc: "Relaxation and stretching sessions to help teams unwind and sleep better.", img: "/ws2.png" }
+      { title: "Virtual Yoga Sessions", desc: "Live and on-demand yoga classes to improve flexibility, reduce stress, and boost energy.", img: "/Hybridworkchallenges.png" },
+      { title: "Home Workouts", desc: "Equipment-free workouts designed for small spaces to build strength, stamina, and daily energy.", img: "/Hybridworkchallenges.png" },
+      { title: "Desk Stretch Breaks", desc: "Quick stretch routines to release tension, improve posture, and prevent stiffness.", img: "/Hybridworkchallenges.png" },
+      { title: "Mindfulness & Breathing Sessions", desc: "Guided sessions to calm the mind, improve clarity, and manage stress.", img: "/Hybridworkchallenges.png" },
+      { title: "Wellness Challenges for Hybrid Teams", desc: "Step challenges, hydration goals, movement streaks, and healthy habit competitions.", img: "/Hybridworkchallenges.png" },
+      { title: "Team Connection Activities", desc: "Fun virtual activities, wellness games, and interactive sessions to strengthen bonds.", img: "/Hybridworkchallenges.png" },
+      { title: "Evening Wind-Down Sessions", desc: "Relaxation and stretching sessions to help teams unwind and sleep better.", img: "/Hybridworkchallenges.png" }
     ],
     provenImpact: [
       { value: "62%", desc: "reduction in stress & anxiety*", icon: Smile },
@@ -330,7 +344,7 @@ const solutionsData: Record<string, any> = {
     ],
     ctaTitle: "Healthy habits. Stronger connections. Better results.",
     ctaDesc: "Empower your hybrid workforce with wellness that fits everywhere.",
-    ctaImage: "/ws2.png",
+    ctaImage: "/Hybridworkchallenges.png",
     sources: "*Sources: Gallup 2024, Buffer 2023, Forbes 2023, Harvard Business Review, Stanford Research"
   },
   'high-healthcare-costs': {
@@ -340,8 +354,8 @@ const solutionsData: Record<string, any> = {
     subtitle: "SOLUTION 07",
     desc: "Rising healthcare costs impact your bottom line and employee well-being.",
     descSecondary: "WorkFit's preventive wellness programs reduce health risks, improve lifestyle habits, and lower long-term healthcare costs.",
-    image: "/ws3.png",
-    fallbackImage: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80",
+    image: "/wp4.png",
+    fallbackImage: "/wp4.png",
     stats: [
       { value: "70%", desc: "of chronic diseases are lifestyle-related*", icon: HeartPulse, bg: "bg-orange-50", border: "border-orange-100", color: "text-orange-500" },
       { value: "$3.3K", desc: "average annual healthcare savings per employee*", icon: DollarSignIcon, bg: "bg-blue-50", border: "border-blue-100", color: "text-blue-500" },
@@ -350,7 +364,7 @@ const solutionsData: Record<string, any> = {
     ],
     whatIsTitle: "WHAT IS IT?",
     whatIsDesc: "High healthcare costs are driven by preventable conditions like stress, poor posture, inactivity, and unhealthy habits. Our programs focus on prevention, education, movement, and habit change to improve employee health and reduce future costs.",
-    whatIsImage: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80",
+    whatIsImage: "/wp4.png",
     howItHelps: [
       { title: "Reduces Risk of Chronic Diseases", icon: ShieldCheck },
       { title: "Lowers Healthcare Costs", icon: DollarSignIcon },
@@ -360,14 +374,14 @@ const solutionsData: Record<string, any> = {
       { title: "Strengthens Long-term Cost Savings", icon: Trophy }
     ],
     whatWeDo: [
-      { title: "Preventive Wellness Programs", desc: "Proactive programs that focus on early prevention and long-term health.", img: "/wp2.png" },
+      { title: "Preventive Wellness Programs", desc: "Proactive programs that focus on early prevention and long-term health.", img: "/wp4.png" },
       { title: "Fitness & Activity Initiatives", desc: "Structured workouts, step challenges, and movement programs to improve fitness and reduce risk.", img: "/wp4.png" },
-      { title: "Desk Mobility & Stretch Breaks", desc: "Simple daily mobility routines to reduce pain, improve posture, and prevent injuries.", img: "/wp1.png" },
-      { title: "Stress Management & Resilience", desc: "Mindfulness, breathwork, and stress management to reduce the impact of chronic stress.", img: "/Wc3.png" },
-      { title: "Lifestyle & Nutrition Education", desc: "Expert-led sessions to build healthy eating habits and support better lifestyle choices.", img: "/ws3.png" },
-      { title: "Health Risk Reduction Programs", desc: "Assessments, education, and personalized guidance to reduce health risks and improve outcomes.", img: "/ws1.png" },
-      { title: "Wellness Challenges for Healthy Habits", desc: "Fun challenges that encourage healthy habits and create lasting behavior change.", img: "/ws2.png" },
-      { title: "Recovery & Well-being Sessions", desc: "Sessions to improve recovery, sleep, and overall well-being.", img: "/wp3.png" }
+      { title: "Desk Mobility & Stretch Breaks", desc: "Simple daily mobility routines to reduce pain, improve posture, and prevent injuries.", img: "/wp4.png" },
+      { title: "Stress Management & Resilience", desc: "Mindfulness, breathwork, and stress management to reduce the impact of chronic stress.", img: "/wp4.png" },
+      { title: "Lifestyle & Nutrition Education", desc: "Expert-led sessions to build healthy eating habits and support better lifestyle choices.", img: "/wp4.png" },
+      { title: "Health Risk Reduction Programs", desc: "Assessments, education, and personalized guidance to reduce health risks and improve outcomes.", img: "/wp4.png" },
+      { title: "Wellness Challenges for Healthy Habits", desc: "Fun challenges that encourage healthy habits and create lasting behavior change.", img: "/wp4.png" },
+      { title: "Recovery & Well-being Sessions", desc: "Sessions to improve recovery, sleep, and overall well-being.", img: "/wp4.png" }
     ],
     provenImpact: [
       { value: "$3.3K", desc: "average savings in healthcare costs per employee*", icon: DollarSignIcon },
@@ -379,7 +393,7 @@ const solutionsData: Record<string, any> = {
     ],
     ctaTitle: "Healthy employees today. Lower costs tomorrow. Stronger organization always.",
     ctaDesc: "Let's build a customized wellness program that helps your employees recharge, reset, and thrive.",
-    ctaImage: "/ws3.png",
+    ctaImage: "/wp4.png",
     sources: "*Sources: Gallup 2024, Harvard Business Review, PwC, Wellness Council of America"
   },
   'boring-wellness-programs': {
@@ -389,8 +403,8 @@ const solutionsData: Record<string, any> = {
     subtitle: "SOLUTION 08",
     desc: "Generic programs don't inspire anyone or create lasting impact.",
     descSecondary: "WorkFit makes wellness engaging, interactive, and fun—so employees actually participate, stay motivated, and build healthier habits.",
-    image: "/ws1.png",
-    fallbackImage: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80",
+    image: "/Wc8.png",
+    fallbackImage: "/Wc8.png",
     stats: [
       { value: "78%", desc: "of employees get bored with wellness programs*", icon: Users, bg: "bg-orange-50", border: "border-orange-100", color: "text-orange-500" },
       { value: "61%", desc: "say wellness programs lack engagement & excitement*", icon: Smile, bg: "bg-blue-50", border: "border-blue-100", color: "text-blue-500" },
@@ -399,7 +413,7 @@ const solutionsData: Record<string, any> = {
     ],
     whatIsTitle: "WHAT IS IT?",
     whatIsDesc: "Boring, one-size-fits-all programs lead to low participation and no real behavior change. We create exciting, relevant, and interactive wellness experiences that employees love and look forward to.",
-    whatIsImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
+    whatIsImage: "/Wc8.png",
     howItHelps: [
       { title: "Increases Engagement & Participation", icon: Smile },
       { title: "Builds Healthy Habits", icon: Trophy },
@@ -409,12 +423,12 @@ const solutionsData: Record<string, any> = {
       { title: "Supports Overall Well-being", icon: HeartPulse }
     ],
     whatWeDo: [
-      { title: "Engaging Wellness Experiences", desc: "Fun and interactive programs that employees enjoy and remember.", img: "/wp2.png" },
-      { title: "Fun Fitness & Activity Sessions", desc: "Variety of workouts and activities to keep things exciting and fresh.", img: "/wp4.png" },
-      { title: "Interactive Challenges & Competitions", desc: "Team challenges, step contests, and friendly competitions that drive participation.", img: "/ws3.png" },
-      { title: "Mindfulness & Mental Well-being", desc: "Mindfulness sessions and mental wellness activities to support a balanced mind.", img: "/Wc3.png" },
-      { title: "Personalized Wellness Journeys", desc: "Customized plans and resources that meet individual needs and goals.", img: "/ws1.png" },
-      { title: "Creative Wellness Campaigns", desc: "Themed weeks, wellness events, and campaigns that create buzz and excitement.", img: "/ws2.png" }
+      { title: "Engaging Wellness Experiences", desc: "Fun and interactive programs that employees enjoy and remember.", img: "/Wc8.png" },
+      { title: "Fun Fitness & Activity Sessions", desc: "Variety of workouts and activities to keep things exciting and fresh.", img: "/Wc8.png" },
+      { title: "Interactive Challenges & Competitions", desc: "Team challenges, step contests, and friendly competitions that drive participation.", img: "/Wc8.png" },
+      { title: "Mindfulness & Mental Well-being", desc: "Mindfulness sessions and mental wellness activities to support a balanced mind.", img: "/Wc8.png" },
+      { title: "Personalized Wellness Journeys", desc: "Customized plans and resources that meet individual needs and goals.", img: "/Wc8.png" },
+      { title: "Creative Wellness Campaigns", desc: "Themed weeks, wellness events, and campaigns that create buzz and excitement.", img: "/Wc8.png" }
     ],
     provenImpact: [
       { value: "78%", desc: "employees find wellness programs boring*", icon: Users },
@@ -426,7 +440,7 @@ const solutionsData: Record<string, any> = {
     ],
     ctaTitle: "Make wellness exciting. Make it stick. Make it WorkFit.",
     ctaDesc: "Let's build a customized wellness program that helps your employees recharge, reset, and thrive.",
-    ctaImage: "/ws1.png",
+    ctaImage: "/Wc8.png",
     sources: "*Sources: Gallup 2024, Wellable 2023, Virgin Pulse 2023, Harvard Business Review"
   }
 };
@@ -453,6 +467,24 @@ const WorkFitSolutionDetail = ({ solutionId }: { solutionId: string }) => {
 
   const localSolution = solutionsData[solutionId] || solutionsData['employee-burnout'];
   const activeSolution = React.useMemo(() => {
+    const imageStartMap: Record<string, number> = {
+      'employee-burnout': 0,
+      'posture-back-pain': 1,
+      'stress-mental-health': 2,
+      'low-employee-engagement': 3,
+      'low-productivity-energy': 4,
+      'hybrid-work-challenges': 5,
+      'high-healthcare-costs': 6,
+      'boring-wellness-programs': 7
+    };
+
+    const imageSet = getWorkFitImageSet(imageStartMap[solutionId] ?? 0);
+
+    const rotatedWhatWeDo = (localSolution.whatWeDo || []).map((item: any, idx: number) => ({
+      ...item,
+      img: imageSet[(idx + 2) % imageSet.length]
+    }));
+
     if (dbSolutions && dbSolutions[solutionId]) {
       const dbVal = dbSolutions[solutionId];
       return {
@@ -460,10 +492,21 @@ const WorkFitSolutionDetail = ({ solutionId }: { solutionId: string }) => {
         name: dbVal.title || localSolution.name,
         title: dbVal.title || localSolution.title,
         desc: dbVal.problem || localSolution.desc,
-        image: dbVal.image || localSolution.image,
+        image: imageSet[0],
+        fallbackImage: imageSet[0],
+        whatIsImage: imageSet[1],
+        whatWeDo: rotatedWhatWeDo,
+        ctaImage: imageSet[(rotatedWhatWeDo.length + 2) % imageSet.length],
       };
     }
-    return localSolution;
+    return {
+      ...localSolution,
+      image: imageSet[0],
+      fallbackImage: imageSet[0],
+      whatIsImage: imageSet[1],
+      whatWeDo: rotatedWhatWeDo,
+      ctaImage: imageSet[(rotatedWhatWeDo.length + 2) % imageSet.length],
+    };
   }, [dbSolutions, solutionId, localSolution]);
 
   const solutionsList = [

@@ -260,7 +260,7 @@ const Navigation = () => {
                         
                         <div className="mt-8 p-4 rounded-xl border border-white/10 hover:border-white/20 transition-colors flex items-center justify-between group">
                           <span className="text-[13px] font-medium text-slate-300 group-hover:text-white">Explore our complete wellness ecosystem</span>
-                          <Link to="/solutions" onClick={() => setActiveDropdown(null)} className="text-orange-500 hover:text-orange-400 font-bold ml-2 text-xs uppercase tracking-widest">View All Solutions</Link>
+                           <Link to="/solutions/employee-burnout" onClick={() => setActiveDropdown(null)} className="text-orange-500 hover:text-orange-400 font-bold ml-2 text-xs uppercase tracking-widest">View All Solutions</Link>
                         </div>
                       </div>
                     </motion.div>
