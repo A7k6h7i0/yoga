@@ -348,9 +348,9 @@ const WorkFit = () => {
   }, [location.hash]);
 
   return (
-    <div ref={containerRef} className="pb-0 overflow-hidden bg-[#0a1128]">
+    <div ref={containerRef} className="pb-0 overflow-hidden bg-[#0a1128] pt-24 md:pt-27">
       {/* Hero */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-[#F5F5F3]">
+      <section className="relative min-h-[calc(85vh-4rem)] md:min-h-[calc(85vh-5rem)] flex items-center overflow-hidden bg-[#F5F5F3]">
         {/* Background Image Layer */}
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="popLayout">
@@ -374,7 +374,7 @@ const WorkFit = () => {
             } to-transparent`} />
         </div>
 
-        <div className="w-full px-6 md:px-12 lg:px-24 relative z-20 pt-32 pb-20 lg:pt-0 lg:pb-0">
+        <div className="w-full px-6 md:px-12 lg:px-24 relative z-20 pt-10 pb-20 lg:pt-0 lg:pb-0">
           <div className="max-w-2xl text-left">
             <AnimatePresence mode="wait">
               <motion.div

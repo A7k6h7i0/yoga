@@ -3,23 +3,20 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 
 const GlobalSchedule = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Track scroll progress
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ['start end', 'end start']
   });
 
-  // Animations derived from scroll progress using absolute SVG user space coordinates
-  const sunY = useTransform(scrollYProgress, [0, 0.45], [0, -800]);
-  const sunOpacity = useTransform(scrollYProgress, [0, 0.4, 0.55], [1, 1, 0]);
+  // Sun rises first, then moon rises after it. The reverse happens naturally on scroll up.
+  const sunY = useTransform(scrollYProgress, [0, 0.22, 0.38, 0.52, 1], [240, 0, 0, -120, -260]);
+  const sunOpacity = useTransform(scrollYProgress, [0, 0.12, 0.32, 0.48, 0.62, 1], [0, 1, 1, 1, 0.5, 0]);
 
-  const moonY = useTransform(scrollYProgress, [0.35, 0.8], [600, -800]);
-  const moonOpacity = useTransform(scrollYProgress, [0.35, 0.5, 0.9], [0, 1, 1]);
+  const moonY = useTransform(scrollYProgress, [0, 0.36, 0.54, 0.7, 1], [260, 260, 0, -120, -260]);
+  const moonOpacity = useTransform(scrollYProgress, [0, 0.3, 0.42, 0.68, 1], [0, 0, 1, 1, 0]);
 
   return (
-    <section ref={containerRef} className="relative h-[100vh] bg-white">
-      {/* Sticky Container - exactly 100vh height */}
+    <section ref={containerRef} className="relative h-[190vh] md:h-[220vh] bg-white">
       <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-between pt-10 pb-0 overflow-hidden">
         
         {/* Heading Section */}
