@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import {
-  Menu, X, Sparkles, ChevronRight
+  Menu, X, Sparkles, ChevronRight, ArrowRight, Flower2, Activity, Apple,
+  Play, Users, Headphones, FileText, Monitor, Smartphone, Wifi, Users2, Clock,
+  Video, UserCircle2, BookOpen, Star, PlayCircle, Brain, HeartPulse, TrendingDown,
+  Armchair, TrendingUp, ShieldCheck, CheckCircle2, CalendarDays, Zap, Scale, DollarSign,
+  Wind, Shield, Droplets, Check, Quote, Building, Globe2, PlusCircle, MinusCircle,
+  ChevronDown, ChevronUp, Mail, Phone, Footprints, Smile, Target, Trophy, Leaf, Moon,
+  Dumbbell
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../lib/env';
 
 const BASE_URL = API_BASE_URL || 'http://localhost:5000';
-import {
-  ArrowRight, Flower2, Activity, Apple,
-  Play, Users, Headphones, FileText, Monitor,
-  Smartphone, Wifi, Users2, Clock, Video,
-  UserCircle2, BookOpen, Star, PlayCircle,
-  Brain, HeartPulse, TrendingDown, Armchair,
-  TrendingUp, ShieldCheck, CheckCircle2,
-  CalendarDays, Zap, Scale, DollarSign,
-  Wind, Shield, Droplets, Check, Quote, Building, Globe2, PlusCircle,
-  MinusCircle, ChevronDown, ChevronUp, Mail, Phone,
-  Footprints, Smile, Target, Trophy, Leaf, Moon, Dumbbell
-} from 'lucide-react';
 
 const workplaceSolutionsData = [
   {
@@ -147,6 +141,7 @@ const WorkFit = () => {
 
   const [dbSolutions, setDbSolutions] = useState<any>(null);
   const [dbTestimonials, setDbTestimonials] = useState<any[]>([]);
+  const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
 
   useEffect(() => {
     // 1. Fetch dynamic solutions

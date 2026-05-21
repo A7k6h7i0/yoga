@@ -1,54 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, ArrowRight, Zap, Star, X } from 'lucide-react';
+import { ArrowRight, Check, Crown, Sparkles, Users2, X, ShieldCheck, LogIn, UserPlus } from 'lucide-react';
 import { apiClient } from '../lib/api';
-import { API_BASE_URL } from '../lib/env';
+import { useNavigate } from 'react-router-dom';
 
-const BASE_URL = API_BASE_URL || 'http://localhost:5000';
-
-type Plan = {
-  id: 'monthly' | 'yearly';
+type WorkFitPlan = {
+  id: 'essential' | 'team' | 'enterprise';
   name: string;
   price: string;
-  period: '/ month' | '/ year';
   features: string[];
   icon: React.ComponentType<{ className?: string }>;
-  color: string;
+  accent: string;
   buttonColor: string;
-  popular: boolean;
+  popular?: boolean;
 };
 
-type PricingProps = {
-  onAccessGranted?: () => void;
+type CustomerDetails = {
+  name: string;
+  email: string;
+  phone: string;
 };
-
-const plans: Plan[] = [
-  {
-    id: 'monthly',
-    name: 'Monthly',
-    price: '2,794.77',
-    period: '/ month',
-    features: ['Live online sessions', 'Video library access', 'Community support', 'Mobile app access'],
-    icon: Zap,
-    color: 'border-blue-100',
-    buttonColor: 'bg-sky-950',
-    popular: false,
-  },
-  {
-    id: 'yearly',
-    name: 'Yearly',
-    price: '28,900',
-    period: '/ year',
-    features: ['Everything in Monthly', 'Best yearly value', 'Continuity support', 'Full LiveFit access'],
-    icon: Star,
-    color: 'border-orange-200',
-    buttonColor: 'bg-orange-500',
-    popular: true,
-  },
-];
 
 type CreateOrderResponse = {
   keyId: string;
+  product: 'workfit';
   order: {
     id: string;
     amount: number;
@@ -65,20 +40,17 @@ type CreateOrderResponse = {
 
 type VerifyResponse = {
   payment: {
+    product: 'workfit';
     planId: string;
     planName: string;
     amount: number;
     currency: string;
+    receipt: string;
     razorpayOrderId: string;
     razorpayPaymentId: string;
-    receipt: string;
+    customer: CustomerDetails;
+    paidAt: string;
   };
-};
-
-type CustomerDetails = {
-  name: string;
-  email: string;
-  phone: string;
 };
 
 declare global {
@@ -89,6 +61,37 @@ declare global {
     };
   }
 }
+
+const plans: WorkFitPlan[] = [
+  {
+    id: 'essential',
+    name: 'Essential',
+    price: '49',
+    features: ['Core WorkFit resources', 'Monthly group sessions', 'Wellness tips and guidance'],
+    icon: Sparkles,
+    accent: 'border-sky-100',
+    buttonColor: 'bg-sky-950',
+  },
+  {
+    id: 'team',
+    name: 'Team',
+    price: '99',
+    features: ['Everything in Essential', 'Team challenges', 'Priority live support'],
+    icon: Users2,
+    accent: 'border-orange-200',
+    buttonColor: 'bg-orange-500',
+    popular: true,
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    price: '199',
+    features: ['Full WorkFit access', 'Custom workshops', 'Corporate wellness planning'],
+    icon: Crown,
+    accent: 'border-purple-100',
+    buttonColor: 'bg-purple-600',
+  },
+];
 
 const loadRazorpayScript = () =>
   new Promise<boolean>((resolve) => {
@@ -105,40 +108,27 @@ const loadRazorpayScript = () =>
     document.body.appendChild(script);
   });
 
-const Pricing = ({ onAccessGranted }: PricingProps) => {
-  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-  const [customer, setCustomer] = useState<CustomerDetails>({ name: '', email: '', phone: '' });
+const EMPTY_CUSTOMER: CustomerDetails = { name: '', email: '', phone: '' };
+
+const WorkFitMembershipGate = ({
+  onUnlock,
+}: {
+  onUnlock: (payment: VerifyResponse['payment']) => void;
+}) => {
+  const navigate = useNavigate();
+  const [selectedPlan, setSelectedPlan] = useState<WorkFitPlan | null>(null);
+  const [customer, setCustomer] = useState<CustomerDetails>(EMPTY_CUSTOMER);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
-  const [plansData, setPlansData] = useState<any>(null);
+  const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+  const isWorkfitUser = storedUser?.role === 'workfit';
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/api/content/plans`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && Object.keys(data).length > 0) {
-          setPlansData(data);
-        }
-      })
-      .catch((err) => console.error('Error loading dynamic plans:', err));
-  }, []);
-
-  const getDynamicPlanPrice = (planId: string, originalPrice: string) => {
-    if (plansData && plansData[planId]?.price) {
-      return String(plansData[planId].price);
+  const openCheckout = (plan: WorkFitPlan) => {
+    if (!isWorkfitUser) {
+      setError('Please login with a WorkFit account first.');
+      return;
     }
-    return originalPrice;
-  };
 
-  const getDynamicPlanFeatures = (planId: string, originalFeatures: string[]) => {
-    if (plansData && plansData[planId]?.description) {
-      return plansData[planId].description.split(',').map((f: string) => f.trim()).filter(Boolean);
-    }
-    return originalFeatures;
-  };
-
-  const openCheckout = (plan: Plan) => {
-    const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
     setCustomer({
       name: storedUser?.name || '',
       email: storedUser?.email || '',
@@ -173,6 +163,7 @@ const Pricing = ({ onAccessGranted }: PricingProps) => {
       }
 
       const orderResponse = await apiClient.post<CreateOrderResponse>('/api/payment/create-order', {
+        product: 'workfit',
         planId: selectedPlan.id,
         customer,
       });
@@ -183,7 +174,7 @@ const Pricing = ({ onAccessGranted }: PricingProps) => {
         key: keyId,
         amount: order.amount,
         currency: order.currency,
-        name: 'LiveFit',
+        name: 'WorkFit',
         description: `${plan.name} Membership`,
         order_id: order.id,
         prefill: {
@@ -202,37 +193,27 @@ const Pricing = ({ onAccessGranted }: PricingProps) => {
           try {
             const verifyResponse = await apiClient.post<VerifyResponse>('/api/payment/verify', {
               ...response,
+              product: 'workfit',
               planId: selectedPlan.id,
               customer,
               receipt: order.receipt,
             });
 
             localStorage.setItem(
-              'livefitMembership',
+              'workfitMembership',
               JSON.stringify({
-                product: 'livefit',
+                product: 'workfit',
                 planId: verifyResponse.data.payment.planId,
                 planName: verifyResponse.data.payment.planName,
-                email: customer.email,
-                customer,
-                paidAt: new Date().toISOString(),
+                email: verifyResponse.data.payment.customer.email,
+                customer: verifyResponse.data.payment.customer,
+                paidAt: verifyResponse.data.payment.paidAt,
               })
             );
 
-            if (onAccessGranted) {
-              onAccessGranted();
-              return;
-            }
-
-            const params = new URLSearchParams({
-              plan: verifyResponse.data.payment.planName,
-              payment_id: verifyResponse.data.payment.razorpayPaymentId,
-              order_id: verifyResponse.data.payment.razorpayOrderId,
-              amount: String(verifyResponse.data.payment.amount),
-              currency: verifyResponse.data.payment.currency,
-            });
-
-            window.location.assign(`/success?${params.toString()}`);
+            onUnlock(verifyResponse.data.payment);
+            setSelectedPlan(null);
+            setIsProcessing(false);
           } catch (verifyError: any) {
             setError(verifyError.response?.data?.message || 'Payment completed, but verification failed.');
           }
@@ -251,7 +232,6 @@ const Pricing = ({ onAccessGranted }: PricingProps) => {
       razorpay.open();
     } catch (err: any) {
       setError(err.response?.data?.message || err.message || 'Unable to start payment.');
-      setIsProcessing(false);
     } finally {
       setIsProcessing(false);
     }
@@ -264,21 +244,51 @@ const Pricing = ({ onAccessGranted }: PricingProps) => {
         <div className="absolute bottom-0 right-[-5%] w-96 h-96 rounded-full bg-orange-100/50 blur-3xl" />
       </div>
 
-      <div className="max-w-7xl mx-auto text-center mb-20 relative z-10">
-        <h1 className="text-5xl md:text-6xl font-serif font-bold text-sky-950 mb-6 italic">Choose Your LiveFit Plan</h1>
+      <div className="max-w-6xl mx-auto text-center mb-16 relative z-10">
+        <p className="text-[10px] font-black uppercase tracking-[0.35em] text-orange-500 mb-4">WorkFit Membership</p>
+        <h1 className="text-5xl md:text-6xl font-serif font-bold text-sky-950 mb-6 italic">Choose Your Access Plan</h1>
         <p className="text-sky-900/60 text-lg max-w-2xl mx-auto">
-          Select a LiveFit membership that fits your lifestyle and wellness goals. Payments are processed securely through Razorpay.
+          Select a plan to unlock the WorkFit experience. Once payment is successful, the full WorkFit area opens for you automatically.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto relative z-10">
+      {!isWorkfitUser && (
+        <div className="max-w-3xl mx-auto mb-10 relative z-10">
+          <div className="bg-white border border-sky-100 rounded-[2rem] p-6 md:p-8 shadow-lg text-center">
+            <div className="w-14 h-14 rounded-full bg-sky-50 flex items-center justify-center mx-auto mb-5">
+              <LogIn className="w-7 h-7 text-orange-500" />
+            </div>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500 mb-3">Login Required</p>
+            <h2 className="text-3xl font-serif font-bold text-sky-950 italic mb-3">Sign in with your WorkFit account first</h2>
+            <p className="text-sky-900/60 text-sm max-w-xl mx-auto mb-6">
+              We only allow membership purchase for verified WorkFit users. Please log in with the same email and mobile number you used during registration.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                onClick={() => navigate('/login')}
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-sky-950 px-6 py-4 text-white font-black uppercase tracking-[0.18em] text-[10px]"
+              >
+                Login <LogIn className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => navigate('/signup?role=workfit')}
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border border-sky-100 px-6 py-4 text-sky-950 font-black uppercase tracking-[0.18em] text-[10px]"
+              >
+                Create WorkFit Account <UserPlus className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
         {plans.map((plan, idx) => (
           <motion.div
             key={plan.id}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
-            className={`bg-white rounded-[2.5rem] p-10 border-2 ${plan.color} relative shadow-xl overflow-hidden`}
+            className={`bg-white rounded-[2.5rem] p-8 border-2 ${plan.accent} relative shadow-xl overflow-hidden`}
           >
             {plan.popular && (
               <div className="absolute top-6 right-6 bg-orange-100 text-orange-600 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
@@ -292,12 +302,12 @@ const Pricing = ({ onAccessGranted }: PricingProps) => {
 
             <h3 className="text-2xl font-serif font-bold text-sky-950 mb-2">{plan.name}</h3>
             <div className="flex items-baseline gap-1 mb-8">
-              <span className="text-4xl font-black text-sky-950">₹{getDynamicPlanPrice(plan.id, plan.price)}</span>
-              <span className="text-sky-900/40 font-bold uppercase tracking-widest text-xs">{plan.period}</span>
+              <span className="text-4xl font-black text-sky-950">₹{plan.price}</span>
+              <span className="text-sky-900/40 font-bold uppercase tracking-widest text-xs">/ month</span>
             </div>
 
             <div className="space-y-4 mb-10">
-              {getDynamicPlanFeatures(plan.id, plan.features).map((feature) => (
+              {plan.features.map((feature) => (
                 <div key={feature} className="flex items-center gap-3">
                   <div className="w-5 h-5 rounded-full bg-green-50 flex items-center justify-center shrink-0">
                     <Check className="w-3 h-3 text-green-500" />
@@ -309,12 +319,25 @@ const Pricing = ({ onAccessGranted }: PricingProps) => {
 
             <button
               onClick={() => openCheckout(plan)}
-              className={`w-full py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs text-white shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2 ${plan.buttonColor}`}
+              disabled={!isWorkfitUser}
+              className={`w-full py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs text-white shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${plan.buttonColor}`}
             >
-              Buy Plan <ArrowRight className="w-4 h-4" />
+              Unlock WorkFit <ArrowRight className="w-4 h-4" />
             </button>
           </motion.div>
         ))}
+      </div>
+
+      <div className="max-w-4xl mx-auto mt-16 relative z-10">
+        <div className="bg-white/80 border border-sky-100 rounded-[2rem] p-6 md:p-8 shadow-lg text-sky-900/70">
+          <div className="flex items-center gap-3 mb-3">
+            <ShieldCheck className="w-5 h-5 text-orange-500" />
+            <p className="font-black uppercase tracking-[0.25em] text-[10px] text-sky-950">Secure access</p>
+          </div>
+          <p className="text-sm leading-6">
+            After a successful payment, we store your membership in this browser and verify it from the backend so WorkFit stays unlocked for you.
+          </p>
+        </div>
       </div>
 
       {selectedPlan && (
@@ -332,7 +355,7 @@ const Pricing = ({ onAccessGranted }: PricingProps) => {
               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500 mb-3">Secure Razorpay Checkout</p>
               <h2 className="text-3xl font-serif font-bold text-sky-950 italic mb-2">{selectedPlan.name} Membership</h2>
               <p className="text-sky-900/60 text-sm">
-                Confirm your details so we can send payment receipts to both you and the admin.
+                Confirm your details to unlock the WorkFit membership for this account.
               </p>
             </div>
 
@@ -400,4 +423,4 @@ const Pricing = ({ onAccessGranted }: PricingProps) => {
   );
 };
 
-export default Pricing;
+export default WorkFitMembershipGate;

@@ -20,23 +20,17 @@ const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || '';
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || '';
 
 const PLANS = {
-  starter: {
-    id: 'starter',
-    name: 'Starter',
-    amount: 29,
-    description: '3 Live Sessions/week, Access to Video Library, Community Support, Mobile App Access',
+  monthly: {
+    id: 'monthly',
+    name: 'Monthly',
+    amount: 2794.77,
+    description: 'Live online sessions, guided support, library access, and community tools for one month',
   },
-  premium: {
-    id: 'premium',
-    name: 'Premium',
-    amount: 59,
-    description: 'Unlimited Live Sessions, One-on-One Consultation, Personalized Diet Plan, Priority Support',
-  },
-  enterprise: {
-    id: 'enterprise',
-    name: 'Enterprise',
-    amount: 199,
-    description: 'Corporate Wellness Program, Unlimited User Accounts, Dedicated Account Manager, Custom Analytics',
+  yearly: {
+    id: 'yearly',
+    name: 'Yearly',
+    amount: 28900,
+    description: 'Everything in Monthly, plus the best value for full-year LiveFit access and continuity',
   },
 };
 
@@ -98,7 +92,24 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+const pendingSignupSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
+  phone: { type: String, required: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ['livefit', 'workfit'], default: 'livefit' },
+  focusAreas: { type: [String], default: [] },
+  otpHash: { type: String, required: true },
+  otpExpiresAt: { type: Date, required: true },
+  otpAttempts: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+});
+
+const PendingSignup = mongoose.model('PendingSignup', pendingSignupSchema);
+
 const paymentSchema = new mongoose.Schema({
+  product: { type: String, enum: ['livefit', 'workfit'], default: 'livefit' },
   planId: { type: String, required: true },
   planName: { type: String, required: true },
   amount: { type: Number, required: true },
@@ -133,6 +144,131 @@ function formatCurrency(amount, currency = 'INR') {
     currency,
     maximumFractionDigits: 0,
   }).format(amount);
+}
+
+function getPlanById(_product, planId) {
+  return PLANS[planId] || null;
+}
+
+function generateOtp() {
+  return String(crypto.randomInt(100000, 1000000));
+}
+
+function hashOtp(otp) {
+  return crypto.createHash('sha256').update(String(otp)).digest('hex');
+}
+
+async function sendSignupOtpEmail({ email, name, otp }) {
+  const mailOptions = {
+    from: EMAIL_FROM,
+    to: email,
+    subject: 'Verify Your Email - LiveFit OTP',
+    text: `Hi ${name || 'there'},\n\nYour OTP for LiveFit signup is: ${otp}\n\nThis code will expire in 10 minutes.\n\nIf you did not request this, you can ignore this email.`,
+    html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #0f172a;">
+        <h2 style="margin: 0 0 16px;">Verify Your Email</h2>
+        <p>Hi ${name || 'there'},</p>
+        <p>Your OTP for LiveFit signup is:</p>
+        <div style="display:inline-block;padding:14px 20px;border-radius:16px;background:#fff7ed;border:1px solid #fdba74;font-size:28px;font-weight:800;letter-spacing:0.2em;color:#0f172a;">${otp}</div>
+        <p style="margin-top:16px;">This code will expire in 10 minutes.</p>
+      </div>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+}
+
+async function sendRegistrationConfirmationEmail({ name, phone, email, role }) {
+  try {
+    const mailOptions = {
+      from: EMAIL_FROM,
+      to: email,
+      subject: 'Registration Confirmation - LiveFit',
+      text: `Hi ${name},\n\nThank you for registering with LiveFit! Your account has been successfully created.\n\nWelcome to our wellness community!`,
+    };
+
+    const adminMailOptions = {
+      from: EMAIL_FROM,
+      to: ADMIN_EMAIL,
+      subject: 'New User Registration - LiveFit',
+      text: `A new user has registered on LiveFit.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nRole: ${role}`,
+    };
+
+    transporter.sendMail(mailOptions).catch((err) => console.error('Error sending user email:', err));
+    transporter.sendMail(adminMailOptions).catch((err) => console.error('Error sending admin email:', err));
+  } catch (err) {
+    console.error('Email error:', err);
+  }
+}
+
+async function finalizeSignup({ email, otp }) {
+  const normalizedEmail = email.trim().toLowerCase();
+  const pending = await PendingSignup.findOne({ email: normalizedEmail });
+
+  if (!pending) {
+    const error = new Error('OTP expired or invalid');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (pending.otpExpiresAt.getTime() < Date.now()) {
+    await PendingSignup.deleteOne({ email: normalizedEmail });
+    const error = new Error('OTP expired or invalid');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const incomingOtpHash = hashOtp(otp);
+  if (pending.otpHash !== incomingOtpHash) {
+    pending.otpAttempts += 1;
+    if (pending.otpAttempts >= 5) {
+      await PendingSignup.deleteOne({ email: normalizedEmail });
+    } else {
+      pending.updatedAt = new Date();
+      await pending.save();
+    }
+    const error = new Error('Invalid OTP');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const existingUser = await User.findOne({ email: normalizedEmail });
+  if (existingUser) {
+    await PendingSignup.deleteOne({ email: normalizedEmail });
+    const error = new Error('Email already exists');
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const user = new User({
+    name: pending.name,
+    phone: pending.phone,
+    email: normalizedEmail,
+    password: pending.password,
+    role: pending.role,
+    focusAreas: pending.focusAreas,
+  });
+  await user.save();
+  await PendingSignup.deleteOne({ email: normalizedEmail });
+  await sendRegistrationConfirmationEmail({
+    name: pending.name,
+    phone: pending.phone,
+    email: normalizedEmail,
+    role: pending.role,
+  });
+
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
+  return {
+    token,
+    user: {
+      id: user._id,
+      name: user.name,
+      phone: user.phone,
+      email: normalizedEmail,
+      role: user.role,
+      focusAreas: user.focusAreas,
+    },
+  };
 }
 
 function createRazorpayOrder(options) {
@@ -280,81 +416,141 @@ app.post('/api/auth/signup', async (req, res) => {
   try {
     const { name, phone, email, password, role, focusAreas } = req.body;
     const normalizedEmail = email ? email.trim().toLowerCase() : '';
+    const normalizedPhone = phone ? String(phone).trim() : '';
 
-    // Check if user exists globally across all roles
-    let user = await User.findOne({ email: normalizedEmail });
-    if (user) {
-      return res.status(400).json({ 
-        message: 'Email already exists. You can login in both LiveFit and WorkFit' 
+    if (!normalizedEmail) {
+      return res.status(400).json({ message: 'Invalid email' });
+    }
+
+    const existingUser = await User.findOne({ email: normalizedEmail });
+    if (existingUser) {
+      return res.status(400).json({
+        message: 'Email already exists. Please login instead.',
       });
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create user
-    user = new User({ 
-      name, 
-      phone, 
-      email: normalizedEmail, 
-      password: hashedPassword,
-      role: role || 'livefit',
-      focusAreas: focusAreas || []
-    });
-    await user.save();
-
-    // Send confirmation emails asynchronously
-    try {
-      const mailOptions = {
-        from: EMAIL_FROM,
-        to: normalizedEmail,
-        subject: 'Registration Confirmation - LiveFit',
-        text: `Hi ${name},\n\nThank you for registering with LiveFit! Your account has been successfully created.\n\nWelcome to our wellness community!`,
-      };
-
-      const adminMailOptions = {
-        from: EMAIL_FROM,
-        to: ADMIN_EMAIL,
-        subject: 'New User Registration - LiveFit',
-        text: `A new user has registered on LiveFit.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${normalizedEmail}\nRole: ${role || 'livefit'}`,
-      };
-
-      transporter.sendMail(mailOptions).catch((err) => console.error('Error sending user email:', err));
-      transporter.sendMail(adminMailOptions).catch((err) => console.error('Error sending admin email:', err));
-    } catch (err) {
-      console.error('Email error:', err);
+    if (!normalizedPhone) {
+      return res.status(400).json({ message: 'Invalid mobile number' });
     }
 
-    // Create JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
-    res.status(201).json({ 
-      token, 
-      user: { 
-        id: user._id, 
-        name, 
-        phone, 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const otp = generateOtp();
+    const otpHashValue = hashOtp(otp);
+    const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+    await PendingSignup.findOneAndUpdate(
+      { email: normalizedEmail },
+      {
         email: normalizedEmail,
-        role: user.role,
-        focusAreas: user.focusAreas
-      } 
+        name,
+        phone: normalizedPhone,
+        password: hashedPassword,
+        role: role || 'livefit',
+        focusAreas: focusAreas || [],
+        otpHash: otpHashValue,
+        otpExpiresAt,
+        otpAttempts: 0,
+        updatedAt: new Date(),
+      },
+      {
+        upsert: true,
+        new: true,
+        setDefaultsOnInsert: true,
+      }
+    );
+
+    await sendSignupOtpEmail({ email: normalizedEmail, name, otp });
+
+    res.status(200).json({
+      message: 'OTP sent to your email address',
+      email: normalizedEmail,
     });
   } catch (err) {
+    console.error('Signup OTP error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+app.post('/api/auth/signup/verify', async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      return res.status(400).json({ message: 'Email and OTP are required' });
+    }
+
+    const result = await finalizeSignup({ email, otp });
+    res.status(201).json(result);
+  } catch (err) {
+    console.error('Signup verification error:', err);
+    res.status(err.statusCode || 500).json({ message: err.message || 'Server error' });
+  }
+});
+
+app.post('/api/auth/signup/resend-otp', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const normalizedEmail = email ? email.trim().toLowerCase() : '';
+
+    if (!normalizedEmail) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    const pending = await PendingSignup.findOne({ email: normalizedEmail });
+    if (!pending) {
+      return res.status(400).json({ message: 'No pending signup found for this email' });
+    }
+
+    const otp = generateOtp();
+    pending.otpHash = hashOtp(otp);
+    pending.otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    pending.otpAttempts = 0;
+    pending.updatedAt = new Date();
+    await pending.save();
+
+    await sendSignupOtpEmail({
+      email: pending.email,
+      name: pending.name,
+      otp,
+    });
+
+    res.json({
+      message: 'OTP resent successfully',
+      email: pending.email,
+    });
+  } catch (err) {
+    console.error('Resend OTP error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
 app.post('/api/auth/login', async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, phone, password, role } = req.body;
     const normalizedEmail = email ? email.trim().toLowerCase() : '';
+    const normalizedPhone = phone ? String(phone).trim() : '';
 
-    // Find user globally by email regardless of role
-    const user = await User.findOne({ email: normalizedEmail });
-    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+    if (!normalizedEmail) {
+      return res.status(400).json({ message: 'Invalid email' });
+    }
+
+    const userByEmail = await User.findOne({ email: normalizedEmail });
+    if (!userByEmail) {
+      return res.status(400).json({ message: 'Invalid email' });
+    }
+
+    if (!normalizedPhone || userByEmail.phone.trim() !== normalizedPhone) {
+      return res.status(400).json({ message: 'Invalid mobile number' });
+    }
+
+    const user = userByEmail;
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+
+    if (role && user.role !== role) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'secret', { expiresIn: '1h' });
     res.json({ 
@@ -364,7 +560,7 @@ app.post('/api/auth/login', async (req, res) => {
         name: user.name, 
         phone: user.phone, 
         email: normalizedEmail,
-        role: role || user.role,
+        role: user.role,
         focusAreas: user.focusAreas
       } 
     });
@@ -376,8 +572,8 @@ app.post('/api/auth/login', async (req, res) => {
 // Payment Routes
 app.post('/api/payment/create-order', async (req, res) => {
   try {
-    const { planId, customer } = req.body;
-    const plan = PLANS[planId];
+    const { planId, customer, product = 'livefit' } = req.body;
+    const plan = getPlanById(product, planId);
 
     if (!plan) {
       return res.status(400).json({ message: 'Invalid plan selected' });
@@ -397,13 +593,15 @@ app.post('/api/payment/create-order', async (req, res) => {
       return res.status(400).json({ message: 'Customer name, email, and phone are required' });
     }
 
-    const receipt = `livefit_${planId}_${Date.now()}`;
+    const receiptPrefix = product === 'workfit' ? 'workfit' : 'livefit';
+    const receipt = `${receiptPrefix}_${planId}_${Date.now()}`;
     const order = await createRazorpayOrder({
       amount: planAmount * 100,
       currency: 'INR',
       receipt,
       payment_capture: 1,
       notes: {
+        product,
         planId: plan.id,
         planName: plan.name,
         customerName: customer.name,
@@ -414,6 +612,7 @@ app.post('/api/payment/create-order', async (req, res) => {
 
     res.json({
       keyId: RAZORPAY_KEY_ID,
+      product,
       order: {
         id: order.id,
         amount: order.amount,
@@ -442,9 +641,10 @@ app.post('/api/payment/verify', async (req, res) => {
       planId,
       customer,
       receipt,
+      product = 'livefit',
     } = req.body;
 
-    const plan = PLANS[planId];
+    const plan = getPlanById(product, planId);
     if (!plan) {
       return res.status(400).json({ message: 'Invalid plan selected' });
     }
@@ -469,6 +669,7 @@ app.post('/api/payment/verify', async (req, res) => {
     const paymentRecord = await Payment.findOneAndUpdate(
       { razorpayPaymentId: razorpay_payment_id },
       {
+        product,
         planId: plan.id,
         planName: plan.name,
         amount: plan.amount,
@@ -497,6 +698,7 @@ app.post('/api/payment/verify', async (req, res) => {
     res.json({
       message: 'Payment verified successfully',
       payment: {
+        product: paymentRecord.product,
         planId: paymentRecord.planId,
         planName: paymentRecord.planName,
         amount: paymentRecord.amount,
@@ -512,6 +714,44 @@ app.post('/api/payment/verify', async (req, res) => {
   } catch (err) {
     console.error('Payment verification error:', err);
     res.status(500).json({ message: 'Failed to verify payment' });
+  }
+});
+
+app.get('/api/payment/access-status', async (req, res) => {
+  try {
+    const { email, product = 'livefit' } = req.query;
+    const normalizedEmail = email ? String(email).trim().toLowerCase() : '';
+
+    if (!normalizedEmail) {
+      return res.status(400).json({ message: 'Email is required' });
+    }
+
+    const payment = await Payment.findOne({
+      product,
+      status: 'paid',
+      'customer.email': normalizedEmail,
+    }).sort({ paidAt: -1, createdAt: -1 });
+
+    if (!payment) {
+      return res.json({ hasAccess: false });
+    }
+
+    res.json({
+      hasAccess: true,
+      payment: {
+        product: payment.product,
+        planId: payment.planId,
+        planName: payment.planName,
+        amount: payment.amount,
+        currency: payment.currency,
+        customer: payment.customer,
+        receipt: payment.receipt,
+        paidAt: payment.paidAt,
+      },
+    });
+  } catch (err) {
+    console.error('Access status error:', err);
+    res.status(500).json({ message: 'Failed to check access status' });
   }
 });
 
@@ -646,17 +886,13 @@ app.get('/api/content/:page', async (req, res) => {
         ];
       } else if (page === 'plans') {
         defaultData = {
-          starter: {
-            price: 29,
-            description: '3 Live Sessions/week, Access to Video Library, Community Support, Mobile App Access'
+          monthly: {
+            price: 2794.77,
+            description: 'Live online sessions, guided support, library access, and community tools for one month'
           },
-          premium: {
-            price: 59,
-            description: 'Unlimited Live Sessions, One-on-One Consultation, Personalized Diet Plan, Priority Support'
-          },
-          enterprise: {
-            price: 199,
-            description: 'Corporate Wellness Program, Unlimited User Accounts, Dedicated Account Manager, Custom Analytics'
+          yearly: {
+            price: 28900,
+            description: 'Everything in Monthly, plus the best value for full-year LiveFit access and continuity'
           }
         };
       } else {

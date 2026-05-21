@@ -19,7 +19,7 @@ type AuthResponse = {
 
 const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ email: '', phone: '', password: '' });
   const [activeRole, setActiveRole] = useState<'livefit' | 'workfit'>('livefit');
   const [error, setError] = useState('');
 
@@ -33,18 +33,14 @@ const Login = () => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
       
-      if (res.data.user.role === 'workfit') {
-        navigate('/workfit');
-      } else {
-        navigate('/');
-      }
+      navigate('/workfit');
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
-        setError(error.response?.data?.message || 'Invalid email or password');
+        setError(error.response?.data?.message || 'Invalid email, mobile number, or password');
         return;
       }
 
-      setError('Invalid email or password');
+      setError('Invalid email, mobile number, or password');
     }
   };
 
@@ -102,6 +98,20 @@ const Login = () => {
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-sky-950"
                 placeholder="name@example.com"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-[10px] font-black text-sky-950 uppercase tracking-[0.2em] mb-3">Mobile Number</label>
+            <div className="relative">
+              <input
+                type="tel"
+                required
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-sky-950"
+                placeholder="+91 98765 43210"
               />
             </div>
           </div>

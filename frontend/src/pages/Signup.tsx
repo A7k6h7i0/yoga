@@ -17,6 +17,16 @@ type AuthResponse = {
   };
 };
 
+type OtpStartResponse = {
+  message: string;
+  email: string;
+};
+
+type ResendOtpResponse = {
+  message: string;
+  email: string;
+};
+
 const ONBOARDING_OPTIONS = [
   'Build Strength',
   'Increase Flexibility',
@@ -40,8 +50,11 @@ const Signup = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', password: '' });
   const [selectedFocus, setSelectedFocus] = useState<string[]>([]);
+  const [otp, setOtp] = useState('');
+  const [otpEmail, setOtpEmail] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
 
   const handleNextStep = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,24 +74,19 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSendOtp = async () => {
     setLoading(true);
     setError('');
     try {
-      const res = await apiClient.post<AuthResponse>('/api/auth/signup', {
+      const res = await apiClient.post<OtpStartResponse>('/api/auth/signup', {
         ...formData,
         role,
         focusAreas: selectedFocus,
       });
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
-      
-      // Redirect based on role
-      if (res.data.user.role === 'workfit') {
-        navigate('/workfit');
-      } else {
-        navigate('/');
-      }
+      setOtpEmail(res.data.email || formData.email.trim().toLowerCase());
+      setOtp('');
+      setStep(3);
+      setError('');
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         setError(err.response?.data?.message || 'Something went wrong');
@@ -88,6 +96,51 @@ const Signup = () => {
       setStep(1); // Go back to first step to fix errors
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await apiClient.post<AuthResponse>('/api/auth/signup/verify', {
+        email: otpEmail || formData.email,
+        otp,
+      });
+
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+
+      navigate('/workfit');
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        setError(err.response?.data?.message || 'Something went wrong');
+      } else {
+        setError('Something went wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setResendLoading(true);
+    setError('');
+    try {
+      const res = await apiClient.post<ResendOtpResponse>('/api/auth/signup/resend-otp', {
+        email: otpEmail || formData.email,
+      });
+      setOtpEmail(res.data.email || otpEmail || formData.email.trim().toLowerCase());
+      setOtp('');
+      setError('');
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        setError(err.response?.data?.message || 'Could not resend OTP');
+      } else {
+        setError('Could not resend OTP');
+      }
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -193,7 +246,7 @@ const Signup = () => {
                 </button>
               </div>
             </motion.div>
-          ) : (
+          ) : step === 2 ? (
             <motion.div
               key="step2"
               initial={{ opacity: 0, y: 20 }}
@@ -252,12 +305,74 @@ const Signup = () => {
 
               {/* Continue orange button */}
               <button
-                onClick={handleSubmit}
+                onClick={handleSendOtp}
                 disabled={loading}
                 className="w-full py-5 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-orange-100 hover:shadow-orange-200 transition-all flex items-center justify-center gap-2"
               >
-                {loading ? 'Creating Account...' : 'Continue'}
+                {loading ? 'Sending OTP...' : 'Send OTP'}
               </button>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="step3"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white p-6 sm:p-10 md:p-12 rounded-[2.5rem] shadow-2xl border border-orange-100"
+            >
+              <button
+                onClick={() => setStep(2)}
+                className="flex items-center gap-2 text-sky-950/60 font-semibold text-sm hover:text-orange-500 transition-colors mb-6"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Back
+              </button>
+
+              <div className="text-center mb-10">
+                <div className="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Check className="w-8 h-8 text-orange-500" />
+                </div>
+                <h1 className="text-3xl font-serif text-sky-950 font-bold mb-2">Verify Your Email</h1>
+                <p className="text-sky-900/50 text-sm font-bold uppercase tracking-widest">
+                  Enter the OTP sent to {otpEmail || formData.email}
+                </p>
+              </div>
+
+              {error && <p className="text-red-500 text-xs font-bold text-center mb-6">{error}</p>}
+
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-[10px] font-black text-sky-950 uppercase tracking-[0.2em] mb-3">OTP</label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={6}
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-sky-950 tracking-[0.35em] text-center text-lg"
+                    placeholder="123456"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleVerifyOtp}
+                  disabled={loading || otp.length !== 6}
+                  className="w-full py-5 bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white rounded-2xl font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-orange-100 hover:shadow-orange-200 transition-all flex items-center justify-center gap-2"
+                >
+                  {loading ? 'Verifying...' : 'Verify OTP & Create Account'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleResendOtp}
+                  disabled={resendLoading}
+                  className="w-full py-4 rounded-2xl border border-sky-100 text-sky-900 font-black uppercase tracking-[0.2em] text-[10px] disabled:opacity-50"
+                >
+                  {resendLoading ? 'Resending...' : 'Resend OTP'}
+                </button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

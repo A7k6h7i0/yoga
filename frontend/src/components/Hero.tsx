@@ -102,7 +102,7 @@ const Hero = () => {
   }, [progress, handleNext]);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#F5F5F3] group/hero">
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#F5F5F3] group/hero pt-24 md:pt-28">
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence mode="popLayout">

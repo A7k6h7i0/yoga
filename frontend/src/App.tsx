@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import WorkFit from './pages/WorkFit';
@@ -15,6 +15,44 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import Solutions from './pages/Solutions';
 import WorkFitSolutionDetail from './pages/WorkFitSolutionDetail';
+import LiveFitPortal from './pages/LiveFitPortal';
+
+const getToken = () => localStorage.getItem('token');
+
+const RequireAuth = ({ children }: { children: React.ReactNode }) => {
+  if (!getToken()) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+const ProtectedRoutes = () => (
+  <Layout>
+    <Routes>
+      <Route path="/" element={<LiveFitPortal />} />
+      <Route path="/workfit" element={<WorkFit />} />
+      <Route path="/solutions" element={<Solutions />} />
+      <Route path="/solutions/employee-burnout" element={<WorkFitSolutionDetail solutionId="employee-burnout" />} />
+      <Route path="/solutions/posture-back-pain" element={<WorkFitSolutionDetail solutionId="posture-back-pain" />} />
+      <Route path="/solutions/stress-mental-health" element={<WorkFitSolutionDetail solutionId="stress-mental-health" />} />
+      <Route path="/solutions/low-employee-engagement" element={<WorkFitSolutionDetail solutionId="low-employee-engagement" />} />
+      <Route path="/solutions/low-productivity-energy" element={<WorkFitSolutionDetail solutionId="low-productivity-energy" />} />
+      <Route path="/solutions/hybrid-work-challenges" element={<WorkFitSolutionDetail solutionId="hybrid-work-challenges" />} />
+      <Route path="/solutions/high-healthcare-costs" element={<WorkFitSolutionDetail solutionId="high-healthcare-costs" />} />
+      <Route path="/solutions/boring-wellness-programs" element={<WorkFitSolutionDetail solutionId="boring-wellness-programs" />} />
+      <Route path="/solutions/:slug" element={<SolutionDetail />} />
+      <Route path="/livefitinquiry" element={<Schedule />} />
+      <Route path="/pricing" element={<Pricing />} />
+      <Route path="/success" element={<Success />} />
+      <Route path="/workfit-membership" element={<Navigate to="/workfit" replace />} />
+      <Route path="/workfitinquiry" element={<Inquiry />} />
+      <Route path="/how-it-works" element={<HowToBook />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/termsofservice" element={<TermsOfService />} />
+    </Routes>
+  </Layout>
+);
 
 const Success = () => {
   const location = useLocation();
@@ -24,6 +62,7 @@ const Success = () => {
   const orderId = params.get('order_id');
   const amount = params.get('amount');
   const currency = params.get('currency') || 'INR';
+  const currencyLabel = currency === 'INR' ? '₹' : `${currency} `;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F5F5F3] px-6 py-20">
@@ -48,7 +87,7 @@ const Success = () => {
               <div className="rounded-2xl bg-sky-50/70 p-4">
                 <p className="text-[10px] uppercase tracking-[0.2em] font-black text-sky-900/50 mb-1">Amount</p>
                 <p className="text-sm font-bold text-sky-950">
-                  {currency} {Number(amount).toLocaleString('en-IN')}
+                  {currencyLabel}{Number(amount).toLocaleString('en-IN')}
                 </p>
               </div>
             )}
@@ -76,34 +115,23 @@ const Success = () => {
 };
 
 function App() {
+  const token = getToken();
+
   return (
     <Router>
       <ScrollToTop />
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/workfit" element={<WorkFit />} />
-          <Route path="/solutions" element={<Solutions />} />
-          <Route path="/solutions/employee-burnout" element={<WorkFitSolutionDetail solutionId="employee-burnout" />} />
-          <Route path="/solutions/posture-back-pain" element={<WorkFitSolutionDetail solutionId="posture-back-pain" />} />
-          <Route path="/solutions/stress-mental-health" element={<WorkFitSolutionDetail solutionId="stress-mental-health" />} />
-          <Route path="/solutions/low-employee-engagement" element={<WorkFitSolutionDetail solutionId="low-employee-engagement" />} />
-          <Route path="/solutions/low-productivity-energy" element={<WorkFitSolutionDetail solutionId="low-productivity-energy" />} />
-          <Route path="/solutions/hybrid-work-challenges" element={<WorkFitSolutionDetail solutionId="hybrid-work-challenges" />} />
-          <Route path="/solutions/high-healthcare-costs" element={<WorkFitSolutionDetail solutionId="high-healthcare-costs" />} />
-          <Route path="/solutions/boring-wellness-programs" element={<WorkFitSolutionDetail solutionId="boring-wellness-programs" />} />
-          <Route path="/solutions/:slug" element={<SolutionDetail />} />
-          <Route path="/livefitinquiry" element={<Schedule />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/success" element={<Success />} />
-          <Route path="/workfitinquiry" element={<Inquiry />} />
-          <Route path="/how-it-works" element={<HowToBook />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/termsofservice" element={<TermsOfService />} />
-        </Routes>
-      </Layout>
+      <Routes>
+        <Route path="/login" element={token ? <Navigate to="/" replace /> : <Login />} />
+        <Route path="/signup" element={token ? <Navigate to="/" replace /> : <Signup />} />
+        <Route
+          path="/*"
+          element={
+            <RequireAuth>
+              <ProtectedRoutes />
+            </RequireAuth>
+          }
+        />
+      </Routes>
     </Router>
   );
 }
