@@ -2,6 +2,22 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Flower2, MoveRight, Play, Image as ImageIcon, FileText, Accessibility } from 'lucide-react';
 
+const YOUTUBE_PLAYLIST_URL = 'https://www.youtube.com/playlist?list=PLu2ojSmcKZTcXjLu7hsSC12A9nyv-y7EE';
+
+const openLiveFitResource = () => {
+  const membership = JSON.parse(localStorage.getItem('livefitMembership') || 'null');
+
+  if (!membership?.email) {
+    const shouldViewPlans = window.confirm('This LiveFit resource is for members. Would you like to view the membership plans first?');
+    if (shouldViewPlans) {
+      window.location.href = '/pricing';
+    }
+    return;
+  }
+
+  window.open(YOUTUBE_PLAYLIST_URL, '_blank', 'noopener,noreferrer');
+};
+
 const sectionReveal = {
   hidden: { opacity: 0, y: 34 },
   show: {
@@ -82,7 +98,7 @@ const ResourceCard: React.FC<CardProps> = ({ image, icon: Icon, iconBg, title, d
         </p>
         
         <button 
-          onClick={() => window.open('https://www.youtube.com/playlist?list=PLu2ojSmcKZTcXjLu7hsSC12A9nyv-y7EE', '_blank')}
+          onClick={openLiveFitResource}
           className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border-2 ${buttonColor} font-bold text-sm tracking-widest group/btn transition-all duration-300 hover:shadow-lg`}
         >
           {buttonText}
@@ -192,7 +208,7 @@ const GalleryLibrary: React.FC = () => {
             </div>
           </div>
           <button
-            onClick={() => window.open('https://www.youtube.com/playlist?list=PLu2ojSmcKZTcXjLu7hsSC12A9nyv-y7EE', '_blank')}
+            onClick={openLiveFitResource}
             className="bg-[#ff7f00] text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-sky-900 transition-all duration-300 shadow-lg shadow-orange-200 flex-shrink-0 active:scale-95 group/main-btn overflow-hidden relative"
           >
             <span className="relative z-10 flex items-center gap-2">

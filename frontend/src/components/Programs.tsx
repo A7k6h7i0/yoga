@@ -28,6 +28,22 @@ const categories = [
   'Lifestyle'
 ];
 
+const YOUTUBE_PLAYLIST_URL = 'https://www.youtube.com/playlist?list=PLu2ojSmcKZTcXjLu7hsSC12A9nyv-y7EE';
+
+const openLiveFitResource = () => {
+  const membership = JSON.parse(localStorage.getItem('livefitMembership') || 'null');
+
+  if (!membership?.email) {
+    const shouldViewPlans = window.confirm('This LiveFit video library is for members. Would you like to view the membership plans first?');
+    if (shouldViewPlans) {
+      window.location.href = '/pricing';
+    }
+    return;
+  }
+
+  window.open(YOUTUBE_PLAYLIST_URL, '_blank', 'noopener,noreferrer');
+};
+
 function Programs() {
   const [activeCategory, setActiveCategory] = useState('All Programs');
   const [selectedProgram, setSelectedProgram] = useState(null);
@@ -369,7 +385,7 @@ function Programs() {
           </div>
           <button
             className="bg-brand-primary text-white px-8 py-3 rounded-full font-bold hover:bg-brand-dark transition-all duration-300 shadow-lg shadow-brand-primary/20 hover:shadow-brand-dark/20 uppercase text-xs tracking-widest"
-            onClick={() => window.open('https://www.youtube.com/playlist?list=PLu2ojSmcKZTcXjLu7hsSC12A9nyv-y7EE', '_blank')}
+            onClick={openLiveFitResource}
           >
             Explore All Programs
           </button>
