@@ -12,6 +12,7 @@ import {
   RemoteIcon, MentalIcon, RewardsIcon, GlobalIcon,
   HolisticIcon, AnalyticsIcon
 } from './WorkFitIcons';
+import { AUTH_FALLBACK_PATH, SHOW_LOGIN } from '../config/auth';
 
 const solutions = [
   { 
@@ -146,7 +147,7 @@ const Navigation = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    navigate('/login');
+    navigate(AUTH_FALLBACK_PATH);
   };
 
   const scrollToSection = (id: string) => {
@@ -402,14 +403,14 @@ const Navigation = () => {
                     )}
                   </AnimatePresence>
                 </div>
-              ) : (
+              ) : SHOW_LOGIN ? (
                 <Link
                   to="/login"
                   className="ml-8 text-sm font-black text-sky-950 hover:text-orange-600 transition-colors uppercase tracking-[0.25em]"
                 >
                   Login
                 </Link>
-              )}
+              ) : null}
             </div>
           </div>
 
@@ -533,7 +534,7 @@ const Navigation = () => {
                       <LogOut className="w-5 h-5" />
                     </button>
                   </div>
-                ) : (
+                ) : SHOW_LOGIN ? (
                   <Link 
                     to="/login" 
                     onClick={() => setIsOpen(false)}
@@ -541,7 +542,7 @@ const Navigation = () => {
                   >
                     Login to Account
                   </Link>
-                )}
+                ) : null}
                 <button className="w-full py-6 bg-orange-600 text-white rounded-[2rem] font-black text-xs uppercase tracking-[0.3em] shadow-2xl shadow-orange-100">
                   Request a Free Consultation
                 </button>

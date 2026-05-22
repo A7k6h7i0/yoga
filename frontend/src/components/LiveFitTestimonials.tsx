@@ -1,7 +1,68 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Star, Quote, Globe2, Users2, Building, Activity, X } from 'lucide-react';
+
+const TypingText = ({
+  text,
+  speed = 60,
+  caretClassName = 'bg-sky-950',
+}: {
+  text: string;
+  speed?: number;
+  caretClassName?: string;
+}) => {
+  const [typedText, setTypedText] = useState('');
+  const [isInView, setIsInView] = useState(false);
+  const ref = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.45 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isInView) {
+      setTypedText('');
+      return;
+    }
+
+    let index = 0;
+    setTypedText('');
+
+    const timer = window.setInterval(() => {
+      index += 1;
+      setTypedText(text.slice(0, index));
+
+      if (index >= text.length) {
+        window.clearInterval(timer);
+      }
+    }, speed);
+
+    return () => window.clearInterval(timer);
+  }, [isInView, speed, text]);
+
+  const isTyping = typedText.length < text.length;
+
+  return (
+    <span ref={ref} className="inline-block whitespace-pre-wrap">
+      {typedText}
+      {isTyping ? (
+        <span className={`inline-block w-[2px] h-[0.95em] translate-y-[0.1em] ml-1 align-middle animate-pulse ${caretClassName}`} />
+      ) : null}
+    </span>
+  );
+};
 
 const testimonialsData = [
   {
@@ -123,7 +184,9 @@ const LiveFitTestimonials = () => {
         {/* Header */}
         <div className="text-center">
           <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">Testimonials</div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold mb-6">Real Stories. Real Transformation.</h2>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-bold mb-6">
+            <TypingText text="Real Stories. Real Transformation." speed={55} caretClassName="bg-sky-950" />
+          </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
             See how LiveFit and WorkFit have helped individuals, families, and teams feel healthier, calmer, stronger, and more energized.
           </p>

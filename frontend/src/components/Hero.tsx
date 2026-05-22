@@ -3,6 +3,60 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Flower2, ArrowRight, CheckCircle2, Users, Video, Clock, Play, Pause, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 
+const heroContentVariants = {
+  hidden: { opacity: 0, x: -48 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 1,
+      ease: [0.23, 1, 0.32, 1],
+      staggerChildren: 0.1,
+      delayChildren: 0.08,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: 28,
+    transition: { duration: 0.45, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const heroItemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const heroImageVariants = {
+  hidden: { opacity: 0, x: 56, scale: 1.04 },
+  show: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: { duration: 1.15, ease: [0.23, 1, 0.32, 1] },
+  },
+  exit: {
+    opacity: 0,
+    x: -36,
+    scale: 1.02,
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const heroFeatureVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.15,
+    },
+  },
+};
+
 const slides = [
   {
     image: '/globall.png',
@@ -108,8 +162,12 @@ const Hero = () => {
         <AnimatePresence mode="popLayout">
           <motion.div
             key={currentSlide}
-            className="absolute inset-y-0 right-0 w-full lg:w-[60%] h-full" animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }} >
+            className="absolute inset-y-0 right-0 w-full lg:w-[60%] h-full"
+            variants={heroImageVariants}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+          >
             <img
               src={slides[currentSlide].image}
               className="w-full h-full object-cover object-[center_top] md:object-center"
@@ -131,15 +189,19 @@ const Hero = () => {
         <div className="max-w-2xl text-left">
           <AnimatePresence mode="wait">
             <motion.div
-              key={currentSlide} animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 40 }} >
+              key={currentSlide}
+              variants={heroContentVariants}
+              initial="hidden"
+              animate="show"
+              exit="exit"
+            >
               {slides[currentSlide].badge && (
-                <div className="inline-block px-5 py-2 border border-orange-200 rounded-full bg-orange-50 text-orange-600 font-black text-[10px] md:text-xs tracking-[0.2em] mb-8 shadow-sm">
+                <motion.div variants={heroItemVariants} className="inline-block px-5 py-2 border border-orange-200 rounded-full bg-orange-50 text-orange-600 font-black text-[10px] md:text-xs tracking-[0.2em] mb-8 shadow-sm">
                   {slides[currentSlide].badge}
-                </div>
+                </motion.div>
               )}
 
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif text-sky-950 mb-6 leading-[1.1] font-bold tracking-tight">
+              <motion.h1 variants={heroItemVariants} className="text-5xl sm:text-6xl md:text-7xl font-serif text-sky-950 mb-6 leading-[1.1] font-bold tracking-tight">
                 {currentSlide === 0 && dynamicContent?.heroTitle ? (
                   <>
                     <span className="block">{dynamicContent.heroTitle.split(' ').slice(0, Math.ceil(dynamicContent.heroTitle.split(' ').length / 2)).join(' ')}</span>
@@ -152,61 +214,61 @@ const Hero = () => {
                     </span>
                   ))
                 )}
-              </h1>
+              </motion.h1>
 
               {currentSlide === 0 && dynamicContent?.heroSubtitle ? (
-                <p className="text-xl md:text-2xl font-serif italic text-orange-500 mb-8 leading-relaxed font-bold">
+                <motion.p variants={heroItemVariants} className="text-xl md:text-2xl font-serif italic text-orange-500 mb-8 leading-relaxed font-bold">
                   {dynamicContent.heroSubtitle}
-                </p>
+                </motion.p>
               ) : (
                 slides[currentSlide].subtitle && (
-                  <p className="text-xl md:text-2xl font-serif italic text-orange-500 mb-8 leading-relaxed font-bold">
+                  <motion.p variants={heroItemVariants} className="text-xl md:text-2xl font-serif italic text-orange-500 mb-8 leading-relaxed font-bold">
                     {slides[currentSlide].subtitle}
-                  </p>
+                  </motion.p>
                 )
               )}
 
               {slides[currentSlide].features && (
-                <div className="flex flex-wrap gap-x-10 gap-y-6 mb-12 max-w-lg">
+                <motion.div variants={heroFeatureVariants} className="flex flex-wrap gap-x-10 gap-y-6 mb-12 max-w-lg">
                   {slides[currentSlide].features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-4 group">
+                    <motion.div key={idx} variants={heroItemVariants} className="flex items-center gap-4 group">
                       <div className="w-12 h-12 rounded-2xl bg-white border border-orange-100 flex items-center justify-center shadow-sm group-hover:shadow-md group-hover:-translate-y-1 transition-all">
                         <feature.icon className="w-6 h-6 text-orange-500" />
                       </div>
                       <span className="text-sm md:text-base font-black text-sky-950 tracking-wide uppercase">
                         {feature.text}
                       </span>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               )}
 
               {currentSlide === 0 && dynamicContent?.heroDescription ? (
-                <p className="text-base md:text-lg text-sky-900/80 mb-8 max-w-xl leading-relaxed">
+                <motion.p variants={heroItemVariants} className="text-base md:text-lg text-sky-900/80 mb-8 max-w-xl leading-relaxed">
                   {dynamicContent.heroDescription}
-                </p>
+                </motion.p>
               ) : (
                 slides[currentSlide].description && (
-                  <p className="text-base md:text-lg text-sky-900/80 mb-8 max-w-xl leading-relaxed">
+                  <motion.p variants={heroItemVariants} className="text-base md:text-lg text-sky-900/80 mb-8 max-w-xl leading-relaxed">
                     {slides[currentSlide].description}
-                  </p>
+                  </motion.p>
                 )
               )}
 
               {slides[currentSlide].bullets && (
-                <div className="space-y-4 mb-12">
+                <motion.div variants={heroFeatureVariants} className="space-y-4 mb-12">
                   {slides[currentSlide].bullets.map((bullet, idx) => (
-                    <div key={idx} className="flex items-center gap-4">
+                    <motion.div key={idx} variants={heroItemVariants} className="flex items-center gap-4">
                       <div className="flex-shrink-0 w-6 h-6 rounded-full border-2 border-orange-500 flex items-center justify-center bg-orange-50">
                         <Check className="w-3.5 h-3.5 text-orange-500" strokeWidth={4} />
                       </div>
                       <span className="text-sky-950/90 font-bold md:text-xl tracking-tight">{bullet}</span>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               )}
 
-              <div className="flex flex-col sm:flex-row items-center gap-6">
+              <motion.div variants={heroItemVariants} className="flex flex-col sm:flex-row items-center gap-6">
                 <motion.button 
                   whileHover={{ scale: 1.05, boxShadow: "0 25px 50px -12px rgba(249, 115, 22, 0.4)" }}
                   whileTap={{ scale: 0.95 }}
@@ -216,7 +278,7 @@ const Hero = () => {
                   {slides[currentSlide].primaryButtonText}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </motion.button>
-              </div>
+              </motion.div>
             </motion.div>
           </AnimatePresence>
         </div>

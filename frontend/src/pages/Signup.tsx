@@ -4,6 +4,7 @@ import { User, Lock, ArrowRight, Phone, Check, ChevronLeft } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { apiClient } from '../lib/api';
+import { SHOW_LOGIN } from '../config/auth';
 
 type AuthResponse = {
   token: string;
@@ -236,15 +237,17 @@ const Signup = () => {
                 </button>
               </form>
 
-              <div className="mt-10 pt-8 border-t border-slate-50 text-center">
-                <p className="text-sm text-sky-900/50 font-medium mb-4">Already have an account?</p>
-                <button
-                  onClick={() => navigate('/login')}
-                  className="text-sky-950 font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 mx-auto hover:text-orange-500 transition-colors"
-                >
-                  Login Instead <ArrowRight className="w-3 h-3 text-orange-500" />
-                </button>
-              </div>
+              {SHOW_LOGIN && (
+                <div className="mt-10 pt-8 border-t border-slate-50 text-center">
+                  <p className="text-sm text-sky-900/50 font-medium mb-4">Already have an account?</p>
+                  <button
+                    onClick={() => navigate('/login')}
+                    className="text-sky-950 font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-2 mx-auto hover:text-orange-500 transition-colors"
+                  >
+                    Login Instead <ArrowRight className="w-3 h-3 text-orange-500" />
+                  </button>
+                </div>
+              )}
             </motion.div>
           ) : step === 2 ? (
             <motion.div

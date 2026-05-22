@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import {
   Menu, X, Sparkles, ChevronRight, ArrowRight, Flower2, Activity, Apple,
@@ -13,6 +13,201 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../lib/env';
 
 const BASE_URL = API_BASE_URL || 'http://localhost:5000';
+
+const challengeRevealContainer = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.08,
+    },
+  },
+};
+
+const challengeRevealUp = {
+  hidden: { opacity: 0, y: 28 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.85, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const challengeRevealLeft = {
+  hidden: { opacity: 0, x: -28 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.85, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const challengeRevealRight = {
+  hidden: { opacity: 0, x: 28 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.95, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const challengeCardReveal = (delay = 0) => ({
+  hidden: { opacity: 0, y: 26, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.85, delay, ease: [0.23, 1, 0.32, 1] },
+  },
+});
+
+const CountUpValue = ({
+  value,
+  prefix = '',
+  suffix = '',
+}: {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+}) => {
+  const [displayValue, setDisplayValue] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const ref = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.4 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    const duration = 1200;
+    const start = performance.now();
+    let frame = 0;
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayValue(Math.round(value * eased));
+
+      if (progress < 1) {
+        frame = window.requestAnimationFrame(tick);
+      }
+    };
+
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, [isInView, value]);
+
+  return (
+    <span ref={ref}>
+      {prefix}
+      {displayValue}
+      {suffix}
+    </span>
+  );
+};
+
+const TypingText = ({
+  text,
+  speed = 60,
+  caretClassName = 'bg-white',
+}: {
+  text: string;
+  speed?: number;
+  caretClassName?: string;
+}) => {
+  const [typedText, setTypedText] = useState('');
+  const [isInView, setIsInView] = useState(false);
+  const ref = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.45 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isInView) {
+      setTypedText('');
+      return;
+    }
+
+    let index = 0;
+    setTypedText('');
+
+    const timer = window.setInterval(() => {
+      index += 1;
+      setTypedText(text.slice(0, index));
+
+      if (index >= text.length) {
+        window.clearInterval(timer);
+      }
+    }, speed);
+
+    return () => window.clearInterval(timer);
+  }, [isInView, speed, text]);
+
+  const isTyping = typedText.length < text.length;
+
+  return (
+    <span ref={ref} className="inline-block whitespace-pre-wrap">
+      {typedText}
+      {isTyping ? (
+        <span className={`inline-block w-[2px] h-[0.95em] translate-y-[0.1em] ml-1 align-middle animate-pulse ${caretClassName}`} />
+      ) : null}
+    </span>
+  );
+};
+
+const workfitWorksReveal = {
+  hidden: { opacity: 0, y: 70 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1.1, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const workfitWorksContainer = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.14,
+      delayChildren: 0.12,
+    },
+  },
+};
+
+const workfitWorksCard = (delay = 0) => ({
+  hidden: { opacity: 0, y: 80, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 1.05, delay, ease: [0.23, 1, 0.32, 1] },
+  },
+});
 
 const workplaceSolutionsData = [
   {
@@ -648,50 +843,75 @@ const WorkFit = () => {
 
       {/* The Challenge Section */}
       <section id="one-on-one-coaching" className="py-24 bg-[#0a1128] text-white overflow-hidden relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-500/5 via-[#0a1128] to-[#0a1128] pointer-events-none" />
+        <motion.div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-500/5 via-[#0a1128] to-[#0a1128] pointer-events-none"
+          animate={{ opacity: [0.75, 1, 0.75] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute top-[-8%] right-[-6%] w-[28rem] h-[28rem] rounded-full bg-orange-500/6 blur-[110px] pointer-events-none"
+          animate={{ y: [0, -18, 0], x: [0, 10, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute bottom-[-12%] left-[-8%] w-[26rem] h-[26rem] rounded-full bg-cyan-400/5 blur-[120px] pointer-events-none"
+          animate={{ y: [0, 16, 0], x: [0, -8, 0] }}
+          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+        />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             {/* Left Column: Text & Icons */}
-            <div className="lg:col-span-4 pr-0 lg:pr-8">
-              <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">The Challenge</div>
-              <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
+            <motion.div
+              className="lg:col-span-4 pr-0 lg:pr-8"
+              variants={challengeRevealContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: false, amount: 0.3 }}
+            >
+              <motion.div variants={challengeRevealUp} className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">
+                The Challenge
+              </motion.div>
+              <motion.h2 variants={challengeRevealUp} className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
                 Today's Workplace<br />Is Under <span className="text-orange-500">Pressure</span>
-              </h2>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-10 max-w-lg">
+              </motion.h2>
+              <motion.p variants={challengeRevealUp} className="text-gray-300 text-base md:text-lg leading-relaxed mb-10 max-w-lg">
                 Rising stress, unhealthy habits, and disengagement are impacting employee well-being and business performance.
-              </p>
-              
-              <div className="grid grid-cols-4 gap-4">
-                <div className="text-center group">
+              </motion.p>
+
+              <motion.div className="grid grid-cols-4 gap-4" variants={challengeRevealLeft}>
+                {[
+                  { label: 'High Stress &\nBurnout', icon: Brain, color: 'text-orange-500' },
+                  { label: 'Sedentary\nLifestyles', icon: Armchair, color: 'text-blue-400' },
+                  { label: 'Chronic\nHealth Risks', icon: HeartPulse, color: 'text-red-400' },
+                  { label: 'Low Engagement\n& Productivity', icon: TrendingDown, color: 'text-green-400' },
+                ].map((item, idx) => (
+                  <motion.div
+                    key={item.label}
+                    variants={challengeCardReveal(0.08 * idx)}
+                    whileHover={{ y: -4, transition: { duration: 0.22 } }}
+                    className="text-center group"
+                  >
                   <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
-                    <Brain className="w-5 h-5 text-orange-500" />
+                      <item.icon className={`w-5 h-5 ${item.color}`} />
                   </div>
-                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">High Stress &<br/>Burnout</div>
-                </div>
-                <div className="text-center group">
-                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
-                    <Armchair className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">Sedentary<br/>Lifestyles</div>
-                </div>
-                <div className="text-center group">
-                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
-                    <HeartPulse className="w-5 h-5 text-red-400" />
-                  </div>
-                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">Chronic<br/>Health Risks</div>
-                </div>
-                <div className="text-center group">
-                  <div className="w-12 h-12 rounded-2xl border border-white/10 bg-white/5 flex items-center justify-center mx-auto mb-3 group-hover:bg-white/10 transition-colors">
-                    <TrendingDown className="w-5 h-5 text-green-400" />
-                  </div>
-                  <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight">Low Engagement<br/>& Productivity</div>
-                </div>
-              </div>
-            </div>
+                    <div className="text-[10px] md:text-xs font-semibold text-gray-300 leading-tight whitespace-pre-line">{item.label}</div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
 
             {/* Right Column: Stat Cards */}
-            <div className="lg:col-span-8">
+            <motion.div
+              className="lg:col-span-8"
+              variants={challengeRevealRight}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: false, amount: 0.25 }}
+            >
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 {[
                   { stat: '77%', desc: 'of employees experience work-related stress', source: 'Gallup', img: '/tc1.png' },
@@ -699,7 +919,12 @@ const WorkFit = () => {
                   { stat: '40%', desc: 'drop in productivity due to poor well-being', source: 'WHO', img: '/tc3.png' },
                   { stat: '$1.8T', desc: 'lost annually by businesses due to poor employee health', source: 'Harvard Business Review', img: '/tc4.png' },
                 ].map((item, idx) => (
-                  <div key={idx} className="rounded-2xl overflow-hidden bg-[#0d1530] border border-white/5 flex flex-col group cursor-pointer hover:border-white/10 transition-colors h-full">
+                  <motion.div
+                    key={idx}
+                    variants={challengeCardReveal(0.09 * idx)}
+                    whileHover={{ y: -8, scale: 1.01, transition: { duration: 0.25 } }}
+                    className="rounded-2xl overflow-hidden bg-[#0d1530] border border-white/5 flex flex-col group cursor-pointer hover:border-white/10 transition-colors h-full"
+                  >
                     <div className="h-40 overflow-hidden relative">
                       <img src={item.img} alt="Stat Context" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" />
                       <div className="absolute inset-0 bg-[#0a1128]/20 group-hover:bg-transparent transition-colors" />
@@ -711,10 +936,10 @@ const WorkFit = () => {
                       </div>
                       <div className="text-[10px] text-gray-500 font-medium">Source: {item.source}</div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </div>
@@ -722,23 +947,60 @@ const WorkFit = () => {
 
       {/* How WorkFit Helps Section */}
       <section className="py-24 bg-[#0a1128] text-white border-y border-white/5 relative overflow-hidden">
+        <motion.div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-orange-500/8 via-[#0a1128] to-[#0a1128] pointer-events-none"
+          animate={{ opacity: [0.75, 1, 0.75] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute top-[-8%] right-[-8%] w-[26rem] h-[26rem] rounded-full bg-orange-500/6 blur-[120px] pointer-events-none"
+          animate={{ y: [0, -16, 0], x: [0, 10, 0] }}
+          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute bottom-[-12%] left-[-8%] w-[28rem] h-[28rem] rounded-full bg-cyan-400/5 blur-[120px] pointer-events-none"
+          animate={{ y: [0, 14, 0], x: [0, -10, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-          <div className="text-center mb-16">
-            <div className="text-orange-500 font-bold text-lg tracking-[0.2em] uppercase mb-4">How WorkFit Helps</div>
-            <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
+          <motion.div
+            className="text-center mb-16"
+            variants={challengeRevealContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.35 }}
+          >
+            <motion.div variants={challengeRevealUp} className="text-orange-500 font-bold text-lg tracking-[0.2em] uppercase mb-4">
+              How WorkFit Helps
+            </motion.div>
+            <motion.h2 variants={challengeRevealUp} className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
               Wellness programs that drive real impact
-            </h2>
-          </div>
+            </motion.h2>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+            variants={challengeRevealContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.2 }}
+          >
             {[
               { title: 'Improve Well-being', desc: 'Reduce stress, boost energy, and support physical & mental health.', icon: Flower2, iconBg: 'bg-orange-500', img: '/wp1.png' },
               { title: 'Increase Engagement', desc: 'Foster connection, motivation, and a positive workplace culture.', icon: Users2, iconBg: 'bg-green-500', img: '/wp2.png' },
               { title: 'Boost Productivity', desc: 'Healthy employees are more focused, productive, and present.', icon: TrendingUp, iconBg: 'bg-purple-500', img: '/wp3.png' },
               { title: 'Lower Healthcare Costs', desc: 'Prevent illnesses and reduce medical claims & absenteeism.', icon: ShieldCheck, iconBg: 'bg-blue-500', img: '/wp4.png' },
             ].map((item, idx) => (
-              <div key={idx} className="rounded-2xl overflow-visible bg-[#0d1530] border border-white/5 flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative mt-6 lg:mt-0">
+              <motion.div
+                key={idx}
+                variants={challengeCardReveal(0.08 * idx)}
+                whileHover={{ y: -10, scale: 1.015, transition: { duration: 0.25 } }}
+                className="rounded-2xl overflow-visible bg-[#0d1530] border border-white/5 flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative mt-6 lg:mt-0"
+              >
                 <div className="h-48 overflow-hidden rounded-t-2xl relative">
                   <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" />
                   <div className="absolute inset-0 bg-[#0a1128]/20 group-hover:bg-transparent transition-colors" />
@@ -755,12 +1017,18 @@ const WorkFit = () => {
                     <p className="text-gray-400 text-sm leading-relaxed mb-6">{item.desc}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Highlights Bar at the Bottom of Section */}
-          <div className="pt-10 border-t border-white/10 mt-16">
+          <motion.div
+            className="pt-10 border-t border-white/10 mt-16"
+            variants={challengeRevealContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.2 }}
+          >
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-0">
               {[
                 {
@@ -784,8 +1052,10 @@ const WorkFit = () => {
                   icon: ShieldCheck
                 }
               ].map((item, idx) => (
-                <div
+                <motion.div
                   key={idx}
+                  variants={challengeCardReveal(0.07 * idx)}
+                  whileHover={{ x: 4, transition: { duration: 0.2 } }}
                   className={`flex gap-4 items-start px-6 ${idx !== 3 ? 'md:border-r border-white/10' : ''
                     }`}
                 >
@@ -794,27 +1064,59 @@ const WorkFit = () => {
                     <h4 className="font-extrabold text-white text-sm mb-1 tracking-wide">{item.title}</h4>
                     <p className="text-slate-300/80 text-[11px] leading-relaxed max-w-[190px] font-semibold">{item.desc}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </section>
 
       {/* Workplace Challenges Grid Section */}
       <section id="wellness-challenges" className="py-24 bg-white text-[#0a1128] overflow-hidden relative">
+        <motion.div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-orange-500/5 via-white to-white pointer-events-none"
+          animate={{ opacity: [0.75, 1, 0.75] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute top-[-10%] right-[-8%] w-[28rem] h-[28rem] rounded-full bg-orange-500/5 blur-[120px] pointer-events-none"
+          animate={{ y: [0, -16, 0], x: [0, 10, 0] }}
+          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute bottom-[-12%] left-[-8%] w-[26rem] h-[26rem] rounded-full bg-sky-500/5 blur-[120px] pointer-events-none"
+          animate={{ y: [0, 14, 0], x: [0, -10, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
-          <div className="text-center mb-20">
-            <div className="text-[#f97316] font-bold text-sm tracking-[0.25em] uppercase mb-4">THE PROBLEMS WE SOLVE</div>
-            <h2 className="text-4xl md:text-5xl font-sans font-extrabold mb-6 leading-tight text-[#0a1128] tracking-tight">
+          <motion.div
+            className="text-center mb-20"
+            variants={challengeRevealContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.35 }}
+          >
+            <motion.div variants={challengeRevealUp} className="text-[#f97316] font-bold text-sm tracking-[0.25em] uppercase mb-4">
+              THE PROBLEMS WE SOLVE
+            </motion.div>
+            <motion.h2 variants={challengeRevealUp} className="text-4xl md:text-5xl font-sans font-extrabold mb-6 leading-tight text-[#0a1128] tracking-tight">
               Workplace Challenges. Real Solutions.
-            </h2>
-            <div className="w-20 h-1 bg-[#f97316] mx-auto rounded-full" />
-          </div>
+            </motion.h2>
+            <motion.div variants={challengeRevealUp} className="w-20 h-1 bg-[#f97316] mx-auto rounded-full" />
+          </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={challengeRevealContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.2 }}
+          >
             {[
               {
                 id: "01",
@@ -907,10 +1209,8 @@ const WorkFit = () => {
             ].map((card, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.05 }}
-                viewport={{ once: true }}
+                variants={challengeCardReveal(0.08 * idx)}
+                whileHover={{ y: -10, scale: 1.015, transition: { duration: 0.25 } }}
                 onMouseEnter={() => setActiveSolutionCard(workplaceSolutionsData[idx])}
                 onClick={() => {
                   const paths = [
@@ -925,7 +1225,7 @@ const WorkFit = () => {
                   ];
                   navigate(paths[idx]);
                 }}
-                className="bg-white rounded-[2rem] overflow-hidden border border-slate-100/80 shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-500 flex flex-col h-full group relative cursor-pointer"
+                className="bg-white rounded-[2rem] overflow-hidden border border-slate-100/80 shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transition-all duration-500 flex flex-col h-full group relative cursor-pointer"
               >
                 {/* Image Section */}
                 <div className="relative h-56 overflow-hidden shrink-0">
@@ -996,11 +1296,17 @@ const WorkFit = () => {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <div className="text-left text-[10px] md:text-xs text-sky-900/40 font-bold mt-10 pt-4 border-t border-slate-100">
+          <motion.div
+            className="text-left text-[10px] md:text-xs text-sky-900/40 font-bold mt-10 pt-4 border-t border-slate-100"
+            variants={challengeRevealUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+          >
             *Sources: Gallup 2024, WHO 2023, Harvard Business Review, McKinsey, Global Wellness Institute
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -1321,11 +1627,17 @@ const WorkFit = () => {
       </section>
 
       {/* Resource & Library Section */}
-      <section id="wellness-library" className="py-12 md:py-16 bg-[#0a1128] text-white">
+      <section id="wellness-library" className="py-12 md:py-16 bg-[#0a1128] text-white overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}
-          <div className="text-center mb-10 md:mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+            className="text-center mb-10 md:mb-12"
+          >
             <div className="flex items-center justify-center gap-4 mb-6">
               <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-orange-500"></div>
               <span className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase">Your Wellness Library</span>
@@ -1339,12 +1651,18 @@ const WorkFit = () => {
               Expert-led wellness resources designed to help employees recharge, recover,
               focus, and build healthier daily habits — anytime, anywhere.
             </p>
-          </div>
+          </motion.div>
 
           {/* Grid Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             {/* Left Column (Featured) */}
-            <div className="lg:col-span-1 rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}>
+            <motion.div
+              initial={{ opacity: 0, x: -60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: 'easeOut' }}
+              className="lg:col-span-1 rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}
+            >
               <div className="relative aspect-[4/3] md:aspect-auto md:h-64 lg:h-72 w-full overflow-hidden">
                 <img src="/yw1.png" alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
@@ -1375,13 +1693,19 @@ const WorkFit = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right Columns (2x2 Grid) */}
             <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
 
               {/* Quick Relief Videos */}
-              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}>
+              <motion.div
+                initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+                className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}
+              >
                 <div className="absolute inset-0 right-0 w-[65%] ml-auto overflow-hidden">
                   <img src="/yw2.png" alt="Quick Relief" className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-700 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-r from-[#111836] via-[#111836]/80 to-transparent" />
@@ -1407,10 +1731,16 @@ const WorkFit = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Recorded Wellness Programs */}
-              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}>
+              <motion.div
+                initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+                className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}
+              >
                 <div className="absolute inset-0 right-0 w-[65%] ml-auto overflow-hidden">
                   <img src="/yw3.png" alt="Recorded Programs" className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-700 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-r from-[#111836] via-[#111836]/80 to-transparent" />
@@ -1436,10 +1766,16 @@ const WorkFit = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Podcasts & Mindfulness Audio */}
-              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}>
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
+                className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}
+              >
                 <div className="absolute inset-0 right-0 w-[65%] ml-auto overflow-hidden">
                   <img src="/yw4.png" alt="Audio" className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-700 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-r from-[#111836] via-[#111836]/80 to-transparent" />
@@ -1465,10 +1801,16 @@ const WorkFit = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Success Stories */}
-              <div className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}>
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.6, ease: 'easeOut', delay: 0.4 }}
+                className="rounded-2xl bg-[#111836] border border-white/5 overflow-hidden flex flex-col group cursor-pointer hover:border-white/10 transition-colors relative" onClick={() => window.open("https://www.youtube.com/channel/UCPRWk7Ch4FQSJEf8L8hrK6w", "_blank")}
+              >
                 <div className="absolute inset-0 right-0 w-[65%] ml-auto overflow-hidden">
                   <img src="/yw5.png" alt="Success Stories" className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-700 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-r from-[#111836] via-[#111836]/80 to-transparent" />
@@ -1494,12 +1836,18 @@ const WorkFit = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
 
           {/* Bottom Banner */}
-          <div className="rounded-2xl bg-[#111836] border border-white/5 p-4 lg:py-5 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-6 mt-6 relative overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
+            className="rounded-2xl bg-[#111836] border border-white/5 p-4 lg:py-5 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-6 mt-6 relative overflow-hidden"
+          >
             <div className="flex-1 w-full lg:pr-8 lg:border-r border-white/10 z-10">
               <h3 className="text-lg font-bold mb-3">Accessible Across <span className="text-orange-500">Every Workplace</span></h3>
               <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
@@ -1533,7 +1881,7 @@ const WorkFit = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </section>
@@ -1543,15 +1891,21 @@ const WorkFit = () => {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}
-          <div className="text-center mb-16">
-            <div className="text-[#f97316] font-bold text-xs tracking-[0.25em] uppercase mb-4">TESTIMONIALS</div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-[#0B1530] mb-5 tracking-tight leading-[1.1]">
+          <motion.div
+            className="text-center mb-16"
+            variants={challengeRevealContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.3 }}
+          >
+            <motion.div variants={challengeRevealUp} className="text-[#f97316] font-bold text-xs tracking-[0.25em] uppercase mb-4">TESTIMONIALS</motion.div>
+            <motion.h2 variants={challengeRevealUp} className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-[#0B1530] mb-5 tracking-tight leading-[1.1]">
               What Teams say about Workfit
-            </h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-sm md:text-base leading-relaxed font-medium">
+            </motion.h2>
+            <motion.p variants={challengeRevealUp} className="text-gray-500 max-w-2xl mx-auto text-sm md:text-base leading-relaxed font-medium">
             Helping organizations create healthier, happier, and more engaged workplaces through movement, mindfulness, and modern wellness experiences.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           {/* Featured Testimonial */}
           {(() => {
@@ -1565,18 +1919,24 @@ const WorkFit = () => {
               company: 'Tech Company'
             });
             return (
-              <div className="rounded-[2.5rem] border border-gray-100 overflow-hidden mb-16 bg-white shadow-[0_15px_50px_rgba(0,0,0,0.025)]">
+              <motion.div
+                className="rounded-[2.5rem] border border-gray-100 overflow-hidden mb-16 bg-white shadow-[0_15px_50px_rgba(0,0,0,0.025)]"
+                variants={challengeRevealContainer}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: false, amount: 0.2 }}
+              >
                 <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[480px]">
                   {/* Left: Photo */}
-                  <div className="lg:col-span-5 min-h-[320px] lg:min-h-full relative overflow-hidden">
+                  <motion.div className="lg:col-span-5 min-h-[320px] lg:min-h-full relative overflow-hidden" variants={challengeRevealLeft}>
                     <img
                       src={fT.img}
                       alt="WorkFit Team Session"
                       className="absolute inset-0 w-full h-full object-cover"
                     />
-                  </div>
+                  </motion.div>
                   {/* Right: Quote Card */}
-                  <div className="lg:col-span-7 bg-white p-8 md:p-12 lg:p-16 flex flex-col justify-center relative">
+                  <motion.div className="lg:col-span-7 bg-white p-8 md:p-12 lg:p-16 flex flex-col justify-center relative" variants={challengeRevealRight}>
                     {/* Elegant Quote Icon */}
                     <div className="text-[#f97316] text-[5rem] font-serif leading-none absolute top-4 left-6 md:top-6 md:left-10 select-none opacity-15">“</div>
                     <div className="relative z-10">
@@ -1629,9 +1989,9 @@ const WorkFit = () => {
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
             );
           })()}
 
@@ -1757,7 +2117,7 @@ const WorkFit = () => {
             ];
 
             return (
-              <div className="relative flex overflow-hidden py-10 select-none group -mx-4 sm:-mx-6 lg:-mx-8 mb-16">
+              <motion.div className="relative flex overflow-hidden py-10 select-none group -mx-4 sm:-mx-6 lg:-mx-8 mb-16" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false, amount: 0.15 }} transition={{ duration: 0.7, ease: 'easeOut' }}>
                 <motion.div 
                   animate={{ x: [0, -4608] }}
                   transition={{ 
@@ -1768,8 +2128,10 @@ const WorkFit = () => {
                   className="flex gap-6 whitespace-nowrap min-w-full"
                 >
                   {[...allWorkfitTestimonials, ...allWorkfitTestimonials].map((t, idx) => (
-                    <div 
+                    <motion.div 
                       key={idx} 
+                      variants={challengeCardReveal(0.04 * (idx % 6))}
+                      whileHover={{ y: -8, scale: 1.015, transition: { duration: 0.22 } }}
                       onClick={() => setSelectedTestimonial(t)}
                       className="w-[360px] cursor-pointer flex-shrink-0 rounded-[2rem] border border-gray-100 overflow-hidden bg-white shadow-[0_8px_30px_rgba(0,0,0,0.02)] flex flex-col hover:border-[#f97316]/50 hover:shadow-2xl hover:shadow-[#f97316]/10 transition-all duration-500 hover:-translate-y-2 group/card relative whitespace-normal"
                     >
@@ -1817,38 +2179,40 @@ const WorkFit = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </motion.div>
 
                 {/* Side Fades */}
                 <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none" />
                 <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none" />
-              </div>
+              </motion.div>
             );
           })()}
 
           {/* Stats Row */}
-          <div className="rounded-[2.5rem] bg-gray-50/50 border border-gray-100 p-8 md:py-12 md:px-8 mb-16">
+          <motion.div className="rounded-[2.5rem] bg-gray-50/50 border border-gray-100 p-8 md:py-12 md:px-8 mb-16" variants={challengeRevealContainer} initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.2 }}>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-y-8 gap-x-4">
               {[
-                { icon: UserCircle2, value: '90%', label: 'employees prefer engaging wellness programs' },
-                { icon: TrendingUp, value: '+41%', label: 'increase in wellness program participation' },
-                { icon: HeartPulse, value: '+27%', label: 'improvement in employee engagement' },
-                { icon: Brain, value: '-32%', label: 'reduction in stress levels' },
-                { icon: Zap, value: '+24%', label: 'increase in overall productivity' },
-                { icon: CalendarDays, value: '-18%', label: 'reduction in absenteeism' },
+                { icon: UserCircle2, value: 90, prefix: '', suffix: '%', label: 'employees prefer engaging wellness programs' },
+                { icon: TrendingUp, value: 41, prefix: '+', suffix: '%', label: 'increase in wellness program participation' },
+                { icon: HeartPulse, value: 27, prefix: '+', suffix: '%', label: 'improvement in employee engagement' },
+                { icon: Brain, value: 32, prefix: '-', suffix: '%', label: 'reduction in stress levels' },
+                { icon: Zap, value: 24, prefix: '+', suffix: '%', label: 'increase in overall productivity' },
+                { icon: CalendarDays, value: 18, prefix: '-', suffix: '%', label: 'reduction in absenteeism' },
               ].map((stat, idx) => (
-                <div key={idx} className="flex flex-col items-center text-center px-2 lg:border-r lg:border-gray-200/60 last:border-r-0">
+                <motion.div key={idx} variants={challengeCardReveal(0.05 * idx)} whileHover={{ y: -4, transition: { duration: 0.2 } }} className="flex flex-col items-center text-center px-2 lg:border-r lg:border-gray-200/60 last:border-r-0">
                   <div className="w-10 h-10 flex items-center justify-center mb-3">
                     <stat.icon className="w-8 h-8 text-[#f97316]" />
                   </div>
-                  <div className="text-2xl md:text-3xl font-extrabold text-[#0B1530] mb-2">{stat.value}</div>
+                  <div className="text-2xl md:text-3xl font-extrabold text-[#0B1530] mb-2">
+                    <CountUpValue value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
+                  </div>
                   <div className="text-[10px] md:text-xs text-gray-400 font-semibold leading-relaxed max-w-[140px] mx-auto">{stat.label}</div>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
         </div>
 
@@ -1908,23 +2272,33 @@ const WorkFit = () => {
       </section>
 
       {/* How WorkFit Works Section */}
-      <section className="py-24 bg-[#F9FAFB] text-[#0a1128] overflow-hidden">
+      <section className="py-20 bg-white text-[#0a1128] overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center mb-20">
-            <div className="text-[#ea580c] font-bold text-sm tracking-[0.25em] uppercase mb-4">
-              HOW WORKFIT WORKS
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold mb-6 leading-tight tracking-tight">
-              Simple. Strategic. Impactful.
-            </h2>
-            <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-              Our proven 4-step process makes workplace wellness easy to implement and delivers results your teams and business can feel.
-            </p>
-          </div>
+          <motion.div
+            className="text-center mb-24"
+            variants={workfitWorksReveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.35 }}
+          >
+            <motion.h2 className="text-5xl md:text-6xl lg:text-7xl font-sans font-bold mb-6 text-[#ff5722] tracking-tight relative inline-block" variants={workfitWorksReveal}>
+              How Workfit Works
+              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 h-1.5 bg-[#ff5722] rounded-full"></div>
+            </motion.h2>
+            <motion.p className="text-gray-700 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mt-10 font-medium" variants={workfitWorksReveal}>
+              Our proven 4-step process makes workplace wellness easy to implement<br className="hidden md:block"/> and delivers results your teams and business can feel.
+            </motion.p>
+          </motion.div>
 
           {/* 4-Step Process Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-6 xl:gap-8 mb-16">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-6 xl:gap-8 mb-16"
+            variants={workfitWorksContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.2 }}
+          >
             {[
               {
                 id: '01',
@@ -1955,147 +2329,183 @@ const WorkFit = () => {
                 img: '/Test5.png'
               }
             ].map((step, idx) => (
-              <div key={idx} className="relative flex flex-col bg-white rounded-[2rem] p-6 md:p-8 pt-14 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <motion.div
+                key={idx}
+                variants={workfitWorksCard(0.08 * idx)}
+                whileHover={{ y: -8, transition: { duration: 0.25 } }}
+                className="relative flex flex-col bg-white rounded-[2rem] p-6 pt-14 shadow-[0_8px_30px_rgba(0,0,0,0.06)] border border-gray-100 hover:shadow-xl transition-all duration-300"
+              >
                 {/* Connecting Arrow for lg screens */}
                 {idx < 3 && (
                   <div className="hidden lg:flex absolute top-1/2 -right-5 lg:-right-4 xl:-right-6 -translate-y-1/2 z-10 w-8 h-8 items-center justify-center">
-                    <ArrowRight className="text-gray-400 w-6 h-6" />
+                    <ArrowRight className="text-[#ff5722] w-6 h-6" strokeWidth={2.5} />
                   </div>
                 )}
 
                 {/* Floating Icon */}
-                <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 bg-[#0a1128] rounded-full flex items-center justify-center border-4 border-[#F9FAFB] shadow-md">
-                  <step.icon className="w-7 h-7 text-white" />
+                <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 bg-[#ff5722] rounded-full flex items-center justify-center shadow-lg">
+                  <step.icon className="w-8 h-8 text-white" strokeWidth={2} />
                 </div>
 
-                <div className="text-center mb-4">
-                  <span className="text-[#ea580c] font-bold text-lg mr-2">{step.id}</span>
-                  <span className="font-extrabold text-[#0a1128] text-lg lg:text-[1.1rem] xl:text-xl tracking-tight">{step.title}</span>
+                <div className="text-center mb-3">
+                  <span className="text-[#ff5722] font-bold text-xl mr-2">{step.id}</span>
+                  <span className="font-extrabold text-[#091535] text-lg tracking-tight">{step.title}</span>
                 </div>
-                <p className="text-sm text-gray-500 text-center mb-8 flex-grow leading-relaxed">
+                <p className="text-sm text-gray-600 text-center mb-6 flex-grow leading-relaxed font-medium px-2">
                   {step.desc}
                 </p>
-                <div className="rounded-2xl overflow-hidden h-40 w-full mt-auto">
+                <div className="rounded-2xl overflow-hidden h-40 w-full mt-auto bg-gray-100">
                   <img src={step.img} alt={step.title} className="w-full h-full object-cover" />
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Bottom Banner */}
-          <div className="rounded-[2rem] bg-[#0a1128] overflow-hidden flex flex-col relative shadow-2xl border border-white/5 mt-8">
-            {/* Background image on the right */}
-            <div className="absolute inset-y-0 right-0 w-full lg:w-[45%] opacity-50 z-0">
-              <img src="/team_discussion.png" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0a1128] via-[#0a1128]/90 to-transparent lg:to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a1128] lg:hidden" />
-            </div>
-
-            <div className="p-8 md:p-10 lg:p-12 relative z-10 w-full">
-              <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start lg:items-center justify-between">
+          <motion.div
+            className="rounded-2xl bg-[#091535] overflow-hidden flex flex-col lg:flex-row items-stretch shadow-2xl mt-12 mb-6"
+            variants={workfitWorksReveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.2 }}
+          >
+            <div className="flex-1 p-8 md:p-10 flex flex-col lg:flex-row gap-8 lg:gap-10 items-center lg:items-center justify-between">
+              
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 lg:gap-8 flex-1">
+                {/* Target Icon */}
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#ff5722] flex items-center justify-center shrink-0 border-[3px] border-[#091535] shadow-[0_0_0_4px_rgba(255,87,34,0.3)] mt-1">
+                  <Target className="w-8 h-8 md:w-10 md:h-10 text-white" strokeWidth={2.5} />
+                </div>
                 
-                {/* Left side: Icon + Text */}
-                <div className="flex flex-col sm:flex-row gap-5 lg:gap-6 items-start">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#ea580c] flex items-center justify-center shrink-0 border-[4px] border-white/10 shadow-lg">
-                    <Target className="w-7 h-7 md:w-8 md:h-8 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-2 tracking-tight">
-                      Wellness that works. Results that matter.
-                    </h3>
-                    <p className="text-gray-300 text-sm md:text-base max-w-lg leading-relaxed">
-                      We make workplace wellness simple to start and easy to sustain—so you can focus on what matters most: your people and your business.
-                    </p>
-                  </div>
+                {/* Text Block */}
+                <div className="text-center sm:text-left flex-1">
+                  <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 tracking-tight">
+                    Wellness that works. Results that matter.
+                  </h3>
+                  <p className="text-gray-300 text-sm md:text-base leading-relaxed">
+                    We make workplace wellness simple to start and easy to sustain—<br className="hidden md:block"/>
+                    so you can focus on what matters most:<br className="hidden md:block"/>
+                    <span className="text-[#ff5722] font-semibold mt-1 inline-block">your people and your business.</span>
+                  </p>
                 </div>
-
-                {/* Right side: Button + Subtext */}
-                <div className="flex flex-col items-center lg:items-start gap-3 shrink-0 w-full lg:w-auto mt-4 lg:mt-0">
-                  <button 
-                    onClick={() => navigate('/workfitinquiry')}
-                    className="bg-[#ea580c] text-white px-8 py-4 rounded-full font-black text-xs uppercase tracking-[0.2em] w-full hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20"
-                  >
-                    BOOK A DEMO
-                  </button>
-                  <div className="flex items-center gap-2 text-xs font-medium text-gray-300">
-                    <CheckCircle2 className="w-4 h-4 text-[#ea580c]" />
-                    No obligation. Just better outcomes.
-                  </div>
+              </div>
+              
+              {/* Button Block */}
+              <div className="flex flex-col items-center lg:items-center shrink-0 lg:pl-4">
+                <button 
+                  onClick={() => navigate('/workfitinquiry')}
+                  className="bg-[#ff5722] text-white px-8 py-3.5 rounded-full font-bold text-sm uppercase tracking-wider hover:bg-orange-600 transition-colors shadow-lg w-full sm:w-auto mb-3"
+                >
+                  BOOK A DEMO
+                </button>
+                <div className="flex items-center justify-center gap-2 text-xs font-medium text-gray-400">
+                  <CheckCircle2 className="w-4 h-4 text-[#ff5722]" />
+                  No obligation. Just better outcomes.
                 </div>
-
               </div>
             </div>
-          </div>
 
-          <div className="text-center mt-8 text-gray-500 font-semibold text-sm">
-            A proven process. A healthier workforce. A stronger organization.
-          </div>
+            {/* Right side Image */}
+            <div className="w-full lg:w-[35%] min-h-[250px] lg:min-h-auto relative shrink-0">
+              <img src="/team_discussion.png" className="absolute inset-0 w-full h-full object-cover object-center" />
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="text-center mt-6 text-gray-500 font-medium text-sm md:text-base tracking-wide word-spacing-large"
+            variants={workfitWorksReveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.2 }}
+          >
+            A proven process. &nbsp;&nbsp;A healthier workforce. &nbsp;&nbsp;A stronger organization.
+          </motion.div>
         </div>
       </section>
 
       {/* Our Program Formats Section */}
-      <section className="py-24 bg-white text-[#0a1128] overflow-hidden border-t border-gray-100">
+      <section className="py-20 bg-white text-[#0a1128] overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Top Banner (Split Background with Image) */}
-          <div className="rounded-[2.5rem] bg-[#0a1128] relative overflow-hidden mb-16 shadow-2xl border border-white/5">
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[400px]">
-              
-              {/* Left Side (Text Content) */}
-              <div className="lg:col-span-7 flex flex-col justify-center p-8 md:p-12 lg:p-16 z-10 relative">
-                <div className="w-12 h-1 bg-[#ea580c] mb-6 rounded-full" />
-                <div className="text-[#ea580c] font-bold text-sm tracking-[0.2em] uppercase mb-4">
-                  OUR PROGRAM FORMATS
-                </div>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-white mb-6 leading-tight tracking-tight">
-                  Wellness That Fits Your Workplace
-                </h2>
-                <p className="text-gray-300 text-lg md:text-xl leading-relaxed max-w-xl">
-                  Flexible delivery options designed to engage your teams—whether in the office, remote, or everywhere in between.
-                </p>
-              </div>
+          {/* Top Header & Right Image Card layout */}
+          <motion.div
+            className="flex flex-col lg:flex-row gap-8 mb-16 items-center"
+            variants={workfitWorksContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.2 }}
+          >
+            {/* Left text */}
+            <motion.div className="flex-1 w-full lg:max-w-xl" variants={workfitWorksCard(0)}>
+              <motion.div className="text-[#ff5722] font-bold text-2xl lg:text-3xl tracking-wide uppercase mb-3" variants={workfitWorksReveal}>
+                OUR PROGRAM FORMATS
+              </motion.div>
+              <motion.h2 className="text-5xl md:text-6xl lg:text-[5rem] font-sans font-black text-[#091535] leading-[1] tracking-tight mb-8 uppercase" variants={workfitWorksReveal}>
+                WELLNESS THAT FITS<br/>YOUR WORKPLACE
+              </motion.h2>
+              <motion.p className="text-gray-800 text-xl leading-relaxed font-medium" variants={workfitWorksReveal}>
+                Flexible delivery options designed to engage your teams—<br className="hidden md:block"/>
+                whether in the office, remote, or everywhere in between.
+              </motion.p>
+            </motion.div>
 
-              {/* Right Side (Image + Benefits) */}
-              <div className="lg:col-span-5 relative min-h-[300px] lg:min-h-full overflow-hidden bg-gradient-to-br from-[#0a1128] to-[#1a2b5e]">
-                <img src="/office3.png" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-40" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0a1128] to-transparent z-10 hidden lg:block" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a1128] to-transparent z-10 lg:hidden" />
-                
-                {/* Benefits List over the image */}
-                <div className="absolute inset-0 z-20 flex flex-col justify-center p-8 md:p-12">
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-4 border-b border-white/10 pb-4">
-                      <div className="w-10 h-10 rounded-full bg-[#ea580c]/20 flex items-center justify-center shrink-0">
-                        <Users2 className="w-5 h-5 text-[#ea580c]" />
-                      </div>
-                      <span className="text-white font-bold text-lg">For Every Team</span>
+            {/* Right Image + Overlapping floating card */}
+            <motion.div className="flex-1 w-full relative" variants={workfitWorksCard(0.1)}>
+              <div className="w-full h-[350px] md:h-[400px] rounded-3xl overflow-hidden shadow-lg border border-gray-100">
+                <img src="/office3.png" alt="Office Stretching" className="w-full h-full object-cover" />
+              </div>
+              
+              {/* Overlapping Card */}
+              <div className="absolute top-8 -left-8 lg:-left-20 bg-[#091535] rounded-3xl p-8 lg:p-10 shadow-2xl z-10 hidden sm:block">
+                <div className="flex flex-col gap-8">
+                  <div className="flex gap-5 items-start">
+                    <div className="mt-1">
+                      <Users2 className="w-8 h-8 text-[#ff5722]" strokeWidth={1.5} />
                     </div>
-                    <div className="flex items-center gap-4 border-b border-white/10 pb-4">
-                      <div className="w-10 h-10 rounded-full bg-[#ea580c]/20 flex items-center justify-center shrink-0">
-                        <Monitor className="w-5 h-5 text-[#ea580c]" />
-                      </div>
-                      <span className="text-white font-bold text-lg">Flexible & Scalable</span>
+                    <div>
+                      <h4 className="text-white font-bold text-lg mb-1">For Every Team</h4>
+                      <p className="text-gray-300 text-sm lg:text-base max-w-[200px] leading-snug">Programs for all roles, levels & locations</p>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-[#ea580c]/20 flex items-center justify-center shrink-0">
-                        <TrendingUp className="w-5 h-5 text-[#ea580c]" />
-                      </div>
-                      <span className="text-white font-bold text-lg">Engaging & Impactful</span>
+                  </div>
+
+                  <div className="flex gap-5 items-start">
+                    <div className="mt-1">
+                      <CalendarDays className="w-8 h-8 text-[#ff5722]" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-lg mb-1">Flexible & Scalable</h4>
+                      <p className="text-gray-300 text-sm lg:text-base max-w-[200px] leading-snug">Adaptable to your goals, schedule & culture</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-5 items-start">
+                    <div className="mt-1">
+                      <TrendingUp className="w-8 h-8 text-[#ff5722]" strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-lg mb-1">Engaging & Impactful</h4>
+                      <p className="text-gray-300 text-sm lg:text-base max-w-[200px] leading-snug">Experience-driven formats that drive real results</p>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* 4 Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-16">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
+            variants={workfitWorksContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.18 }}
+          >
             {[
               {
                 title: 'On-site Programs',
-                desc: 'Bring energy directly to your workplace with in-person yoga, meditation, and fitness classes.',
+                desc: 'In-person sessions that bring energy, movement, and mindfulness right to your workplace.',
                 icon: Building2,
-                points: ['In-person Instructors', 'Team Building Events', 'Equipment Provided'],
+                points: ['Group Fitness & Yoga', 'Wellness Talks & Workshops', 'Posture & Ergonomics Training'],
                 img: '/office1.png'
               },
               {
@@ -2120,71 +2530,87 @@ const WorkFit = () => {
                 img: '/Wc1.png'
               }
             ].map((card, idx) => (
-              <div key={idx} className="bg-white rounded-[2rem] p-6 md:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col hover:shadow-xl hover:border-orange-100 transition-all duration-300 hover:-translate-y-1">
-                <div className="w-14 h-14 rounded-2xl bg-orange-50 flex items-center justify-center mb-6 text-[#ea580c]">
-                  <card.icon className="w-7 h-7" />
+              <motion.div key={idx} variants={workfitWorksCard(0.08 * idx)} whileHover={{ y: -6, transition: { duration: 0.25 } }} className="bg-white rounded-3xl p-6 lg:p-8 shadow-sm border border-gray-100 flex flex-col hover:shadow-xl transition-all duration-300">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 rounded-full bg-orange-50/50 flex items-center justify-center text-[#ff5722] border border-orange-100 shrink-0">
+                    <card.icon className="w-7 h-7" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-[#091535] leading-tight">{card.title}</h3>
                 </div>
-                <h3 className="text-xl font-extrabold text-[#0a1128] mb-3">{card.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">{card.desc}</p>
+                
+                <p className="text-gray-700 text-sm leading-relaxed mb-6 flex-grow font-medium">{card.desc}</p>
                 
                 <ul className="space-y-3 mb-8">
                   {card.points.map((pt, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-gray-700 font-medium">
-                      <div className="w-5 h-5 rounded-full bg-[#ea580c] flex items-center justify-center shrink-0 mt-0.5">
-                        <CheckCircle2 className="w-3 h-3 text-white" />
-                      </div>
-                      {pt}
+                    <li key={i} className="flex items-start gap-3 text-sm text-gray-800 font-semibold">
+                      <Check className="w-5 h-5 text-[#ff5722] shrink-0" strokeWidth={3} />
+                      <span className="pt-0.5">{pt}</span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="rounded-xl overflow-hidden h-40 mt-auto">
+                <div className="rounded-2xl overflow-hidden h-40 mt-auto bg-gray-100">
                   <img src={card.img} alt={card.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          {/* Bottom Call-To-Action Banner */}
-          <div className="rounded-[2.5rem] bg-[#0a1128] p-8 md:p-12 border border-white/5 shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[#ea580c]/10 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#ea580c]/10 rounded-full blur-[100px] pointer-events-none" />
-            
-            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
-              <div className="flex-1">
-                <div className="flex items-center gap-4 mb-4">
-                  <Target className="w-8 h-8 text-[#ea580c]" />
-                  <span className="text-[#ea580c] font-bold text-sm tracking-[0.2em] uppercase">Customizable. Measurable. Meaningful.</span>
+          {/* Bottom Banner */}
+          <motion.div
+            className="rounded-[2rem] bg-[#091535] overflow-hidden flex flex-col xl:flex-row items-stretch shadow-2xl border border-white/5"
+            variants={workfitWorksReveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.2 }}
+          >
+            <div className="p-8 lg:p-10 flex flex-col xl:flex-row gap-10 lg:gap-12 items-center justify-between w-full">
+              
+              {/* Left text with Target Icon */}
+              <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start flex-1 w-full">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white flex items-center justify-center shrink-0 shadow-lg mt-1">
+                  <Target className="w-8 h-8 md:w-10 md:h-10 text-[#ff5722]" strokeWidth={2} />
                 </div>
-                <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-6">Every organization is unique. Your wellness program should be too.</h3>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <button 
-                    onClick={() => navigate('/workfitinquiry')}
-                    className="bg-[#ea580c] text-white px-8 py-4 rounded-full font-black text-xs uppercase tracking-[0.2em] hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20"
-                  >
-                    BOOK A DEMO
-                  </button>
+                <div className="text-center sm:text-left flex-1">
+                  <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">Customizable. Measurable. Meaningful.</h3>
+                  <p className="text-gray-300 text-sm lg:text-base leading-relaxed">
+                    Every organization is unique. We design programs that<br className="hidden lg:block"/> align with your goals and deliver measurable impact.
+                  </p>
                 </div>
               </div>
-              
-              <div className="hidden lg:grid grid-cols-2 gap-6 pl-12 border-l border-white/10">
+
+              {/* Center Button */}
+              <div className="flex flex-col items-center shrink-0 xl:border-r border-white/10 xl:pr-12 w-full xl:w-auto">
+                <button 
+                  onClick={() => navigate('/workfitinquiry')}
+                  className="bg-[#ff5722] text-white px-10 py-4 rounded-full font-bold text-sm uppercase tracking-wider hover:bg-orange-600 transition-colors shadow-lg w-full sm:w-auto mb-3"
+                >
+                  BOOK A DEMO
+                </button>
+                <div className="flex items-center justify-center gap-2 text-xs font-medium text-gray-400">
+                  <CheckCircle2 className="w-4 h-4 text-[#ff5722]" />
+                  No obligation. Just better outcomes.
+                </div>
+              </div>
+
+              {/* Right Stats */}
+              <div className="grid grid-cols-4 gap-6 lg:gap-12 justify-center shrink-0 w-full xl:w-auto">
                 {[
                   { icon: Sliders, label: 'Tailored To You' },
-                  { icon: Trophy, label: 'Expert Led' },
-                  { icon: BarChart3, label: 'Proven Results' },
+                  { icon: UserCircle2, label: 'Expert Led' },
+                  { icon: TrendingUp, label: 'Proven Results' },
                   { icon: Heart, label: 'Lasting Impact' },
                 ].map((stat, i) => (
-                  <div key={i} className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10 text-[#ea580c]">
-                      <stat.icon className="w-5 h-5" />
-                    </div>
-                    <span className="text-white font-bold text-sm">{stat.label}</span>
-                  </div>
+                  <motion.div key={i} variants={workfitWorksCard(0.06 * i)} className="flex flex-col items-center gap-4 text-center">
+                    <stat.icon className="w-8 h-8 text-[#ff5722]" strokeWidth={1.5} />
+                    <span className="text-gray-300 font-medium text-xs lg:text-sm max-w-[70px] leading-tight">
+                      {stat.label.split(' ').map((word, j) => <React.Fragment key={j}>{word}<br/></React.Fragment>)}
+                    </span>
+                  </motion.div>
                 ))}
               </div>
             </div>
-          </div>
-
+          </motion.div>
         </div>
       </section>
 
@@ -2251,7 +2677,21 @@ const WorkFit = () => {
           </div>
 
           {/* 6-Card Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-14">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-14"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.2 }}
+            variants={{
+              hidden: {},
+              show: {
+                transition: {
+                  staggerChildren: 0.14,
+                  delayChildren: 0.12,
+                },
+              },
+            }}
+          >
             {[
               {
                 icon: UserCircle2,
@@ -2290,7 +2730,23 @@ const WorkFit = () => {
                 img: '/Wc7.png'
               }
             ].map((card, idx) => (
-              <div key={idx} className="bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.015)] p-4 flex flex-col justify-between hover:shadow-md transition-shadow duration-300">
+              <motion.div
+                key={idx}
+                variants={{
+                  hidden: { opacity: 0, x: -80 },
+                  show: {
+                    opacity: 1,
+                    x: 0,
+                    transition: {
+                      duration: 1,
+                      ease: [0.23, 1, 0.32, 1],
+                      delay: idx * 0.05,
+                    },
+                  },
+                }}
+                whileHover={{ x: 4, y: -4, transition: { duration: 0.2 } }}
+                className="bg-white rounded-2xl border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.015)] p-4 flex flex-col justify-between hover:shadow-md transition-shadow duration-300"
+              >
                 <div>
                   <div className="w-8 h-8 rounded-lg bg-orange-50/50 flex items-center justify-center mb-3 shrink-0">
                     <card.icon className="w-4 h-4 text-[#f97316]" />
@@ -2301,9 +2757,9 @@ const WorkFit = () => {
                 <div className="h-32 rounded-xl overflow-hidden relative shadow-sm shrink-0">
                   <img src={card.img} alt={card.title} className="w-full h-full object-cover" />
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -2314,7 +2770,7 @@ const WorkFit = () => {
           <div className="text-center mb-16">
             <div className="text-orange-500 font-bold text-sm tracking-[0.25em] uppercase mb-4">THE WORKFIT IMPACT</div>
             <h2 className="text-4xl md:text-5xl font-sans font-extrabold mb-6 leading-tight text-white tracking-tight">
-              Healthier Employees. Stronger Organisations.
+              <TypingText text="Healthier Employees. Stronger Organisations." speed={55} caretClassName="bg-white/90" />
             </h2>
           </div>
 
@@ -2331,7 +2787,13 @@ const WorkFit = () => {
                   <item.icon className="w-6 h-6 text-[#f97316]" />
                 </div>
                 <div>
-                  <div className="font-extrabold text-white text-2xl md:text-3xl tracking-tight mb-1">{item.value}</div>
+                  <div className="font-extrabold text-white text-2xl md:text-3xl tracking-tight mb-1">
+                    <CountUpValue
+                      value={parseInt(item.value.replace(/[^0-9]/g, ''), 10)}
+                      prefix={item.value.startsWith('-') ? '-' : item.value.startsWith('+') ? '+' : ''}
+                      suffix="%"
+                    />
+                  </div>
                   <div className="text-slate-300/80 text-[11px] leading-snug font-semibold max-w-[130px]">{item.label}</div>
                 </div>
               </div>
@@ -2427,27 +2889,58 @@ const WorkFit = () => {
       </section>
       {/* FAQ Section */}
       <section className="py-24 bg-[#0a1128] text-white border-t border-white/5 relative overflow-hidden">
+        <motion.div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-orange-500/6 via-[#0a1128] to-[#0a1128] pointer-events-none"
+          animate={{ opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute top-[-10%] left-[-8%] w-[26rem] h-[26rem] rounded-full bg-orange-500/6 blur-[120px] pointer-events-none"
+          animate={{ y: [0, 14, 0], x: [0, -8, 0] }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute bottom-[-14%] right-[-6%] w-[28rem] h-[28rem] rounded-full bg-cyan-400/5 blur-[120px] pointer-events-none"
+          animate={{ y: [0, -16, 0], x: [0, 10, 0] }}
+          transition={{ duration: 17, repeat: Infinity, ease: 'easeInOut' }}
+        />
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 mb-16">
 
             {/* Left Column: Info & Contact */}
-            <div className="lg:w-1/3 flex flex-col">
-              <div className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">F&Q</div>
-              <h2 className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
+            <motion.div
+              className="lg:w-1/3 flex flex-col"
+              variants={challengeRevealContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: false, amount: 0.28 }}
+            >
+              <motion.div variants={challengeRevealUp} className="text-orange-500 font-bold text-sm tracking-[0.2em] uppercase mb-4">
+                Do You Have Any Questions?
+              </motion.div>
+              <motion.h2 variants={challengeRevealUp} className="text-4xl md:text-5xl font-sans font-bold mb-6 leading-tight">
                 Everything You Need to Know About <span className="text-orange-500">WorkFit</span>
-              </h2>
-              <p className="text-gray-400 text-sm leading-relaxed mb-12">
+              </motion.h2>
+              <motion.p variants={challengeRevealUp} className="text-gray-400 text-sm leading-relaxed mb-12">
                 Find answers to common questions about our wellness programs, services, and how we drive real impact in workplaces.
-              </p>
+              </motion.p>
 
-              <div className="space-y-8 flex-1">
+              <motion.div className="space-y-8 flex-1" variants={challengeRevealContainer}>
                 {[
                   { title: 'Expert-Led Programs', desc: 'Certified experts delivering holistic wellness solutions.', icon: UserCircle2, color: 'text-orange-500', border: 'border-orange-500/30' },
                   { title: 'Tailored for Workplaces', desc: "Programs customized to fit your organization's needs.", icon: Building, color: 'text-green-500', border: 'border-green-500/30' },
                   { title: 'Accessible Anywhere', desc: 'Onsite, online, and on-demand - wellness anytime, anywhere.', icon: Users2, color: 'text-teal-500', border: 'border-teal-500/30' },
                   { title: 'Results That Matter', desc: 'Measurable improvements in health, engagement, and productivity.', icon: ShieldCheck, color: 'text-purple-500', border: 'border-purple-500/30' },
                 ].map((item, idx) => (
-                  <div key={idx} className="flex gap-5">
+                  <motion.div
+                    key={idx}
+                    variants={challengeCardReveal(0.08 * idx)}
+                    whileHover={{ x: 4, transition: { duration: 0.2 } }}
+                    className="flex gap-5"
+                  >
                     <div className={`w-12 h-12 rounded-full border ${item.border} flex items-center justify-center shrink-0`}>
                       <item.icon className={`w-5 h-5 ${item.color}`} />
                     </div>
@@ -2455,12 +2948,15 @@ const WorkFit = () => {
                       <h4 className="font-bold text-base text-white mb-1">{item.title}</h4>
                       <p className="text-sm text-gray-400 leading-relaxed">{item.desc}</p>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
 
               {/* Contact Box */}
-              <div className="mt-12 rounded-2xl bg-[#0d1530] border border-white/5 p-6 flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between shadow-xl">
+              <motion.div
+                variants={challengeRevealUp}
+                className="mt-12 rounded-2xl bg-[#0d1530] border border-white/5 p-6 flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between shadow-xl"
+              >
                 <div className="flex gap-4 items-center">
                   <Headphones className="w-8 h-8 text-orange-500 shrink-0" />
                   <div>
@@ -2476,12 +2972,21 @@ const WorkFit = () => {
                     <Phone className="w-3.5 h-3.5" /> +91 9890008742
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Right Column: Accordion */}
-            <div className="lg:w-2/3">
-              <div className="rounded-2xl border border-white/10 bg-[#0d1530]/50 overflow-hidden divide-y divide-white/5 shadow-2xl">
+            <motion.div
+              className="lg:w-2/3"
+              variants={challengeRevealRight}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: false, amount: 0.25 }}
+            >
+              <motion.div
+                className="rounded-2xl border border-white/10 bg-[#0d1530]/50 overflow-hidden divide-y divide-white/5 shadow-2xl backdrop-blur-sm"
+                variants={challengeRevealContainer}
+              >
                 {[
                   { q: "What is WorkFit?", a: "WorkFit is a comprehensive corporate wellness solution by LiveFit, designed to improve employee well-being, boost engagement, and enhance productivity. Our programs combine expert-led sessions, on-demand resources, and personalized support to help organizations build healthier, happier, and high-performing teams." },
                   { q: "Who can benefit from your wellness programs?", a: "All employees can benefit from our programs, whether they aim to reduce stress, improve fitness, build healthier habits, or enhance overall well-being." },
@@ -2494,32 +2999,44 @@ const WorkFit = () => {
                   { q: "Can programs be customized for our organization?", a: "Absolutely! We tailor our wellness programs to match your organization's unique goals, culture, and employee needs." },
                   { q: "How do we get started with WorkFit?", a: "Simply reach out to us via email or phone. Our team will understand your requirements and create a customized wellness plan for your organization." }
                 ].map((faq, idx) => (
-                  <div key={idx} className="group">
+                  <motion.div
+                    key={idx}
+                    variants={challengeCardReveal(0.05 * idx)}
+                    className="group"
+                  >
                     <button
                       onClick={() => setOpenFaq(openFaq === idx ? -1 : idx)}
                       className="w-full text-left px-6 py-5 flex items-start gap-4 hover:bg-white/5 transition-colors"
                     >
-                      <div className="mt-0.5 shrink-0">
+                      <motion.div
+                        className="mt-0.5 shrink-0"
+                        animate={openFaq === idx ? { rotate: 180, scale: 1.06 } : { rotate: 0, scale: 1 }}
+                        transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+                      >
                         {openFaq === idx ?
                           <MinusCircle className="w-5 h-5 text-orange-500 fill-orange-500/20" /> :
                           <PlusCircle className="w-5 h-5 text-orange-500 fill-orange-500/20" />
                         }
-                      </div>
+                      </motion.div>
                       <div className="flex-1 font-bold text-[15px] pr-4">{faq.q}</div>
-                      <div className="mt-0.5 shrink-0">
+                      <motion.div
+                        className="mt-0.5 shrink-0"
+                        animate={openFaq === idx ? { y: -1 } : { y: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
                         {openFaq === idx ?
                           <ChevronUp className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors" /> :
                           <ChevronDown className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors" />
                         }
-                      </div>
+                      </motion.div>
                     </button>
                     <AnimatePresence>
                       {openFaq === idx && (
                         <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
+                          initial={{ height: 0, opacity: 0, y: -6 }}
+                          animate={{ height: 'auto', opacity: 1, y: 0 }}
+                          exit={{ height: 0, opacity: 0, y: -6 }}
+                          transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
                           className="overflow-hidden"
                         >
                           <div className="px-6 pb-6 pt-1 pl-14 text-sm text-gray-400 leading-relaxed pr-10">
@@ -2528,10 +3045,10 @@ const WorkFit = () => {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
           </div>
 

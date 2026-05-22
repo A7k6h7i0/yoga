@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Check, Crown, Sparkles, Users2, X, ShieldCheck, LogIn, UserPlus } from 'lucide-react';
 import { apiClient } from '../lib/api';
 import { useNavigate } from 'react-router-dom';
+import { SHOW_LOGIN } from '../config/auth';
 
 type WorkFitPlan = {
   id: 'essential' | 'team' | 'enterprise';
@@ -125,7 +126,7 @@ const WorkFitMembershipGate = ({
 
   const openCheckout = (plan: WorkFitPlan) => {
     if (!isWorkfitUser) {
-      setError('Please login with a WorkFit account first.');
+      setError(SHOW_LOGIN ? 'Please login with a WorkFit account first.' : 'Please create a WorkFit account first.');
       return;
     }
 
@@ -253,23 +254,29 @@ const WorkFitMembershipGate = ({
       </div>
 
       {!isWorkfitUser && (
-        <div className="max-w-3xl mx-auto mb-10 relative z-10">
-          <div className="bg-white border border-sky-100 rounded-[2rem] p-6 md:p-8 shadow-lg text-center">
-            <div className="w-14 h-14 rounded-full bg-sky-50 flex items-center justify-center mx-auto mb-5">
-              <LogIn className="w-7 h-7 text-orange-500" />
-            </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500 mb-3">Login Required</p>
-            <h2 className="text-3xl font-serif font-bold text-sky-950 italic mb-3">Sign in with your WorkFit account first</h2>
+      <div className="max-w-3xl mx-auto mb-10 relative z-10">
+        <div className="bg-white border border-sky-100 rounded-[2rem] p-6 md:p-8 shadow-lg text-center">
+          <div className="w-14 h-14 rounded-full bg-sky-50 flex items-center justify-center mx-auto mb-5">
+            <LogIn className="w-7 h-7 text-orange-500" />
+          </div>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-orange-500 mb-3">
+              {SHOW_LOGIN ? 'Login Required' : 'Account Required'}
+            </p>
+            <h2 className="text-3xl font-serif font-bold text-sky-950 italic mb-3">
+              {SHOW_LOGIN ? 'Sign in with your WorkFit account first' : 'Create your WorkFit account first'}
+            </h2>
             <p className="text-sky-900/60 text-sm max-w-xl mx-auto mb-6">
-              We only allow membership purchase for verified WorkFit users. Please log in with the same email and mobile number you used during registration.
+              We only allow membership purchase for verified WorkFit users. Please use the same email and mobile number you used during registration.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <button
-                onClick={() => navigate('/login')}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-sky-950 px-6 py-4 text-white font-black uppercase tracking-[0.18em] text-[10px]"
-              >
-                Login <LogIn className="w-4 h-4" />
-              </button>
+              {SHOW_LOGIN && (
+                <button
+                  onClick={() => navigate('/login')}
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl bg-sky-950 px-6 py-4 text-white font-black uppercase tracking-[0.18em] text-[10px]"
+                >
+                  Login <LogIn className="w-4 h-4" />
+                </button>
+              )}
               <button
                 onClick={() => navigate('/signup?role=workfit')}
                 className="inline-flex items-center justify-center gap-2 rounded-2xl border border-sky-100 px-6 py-4 text-sky-950 font-black uppercase tracking-[0.18em] text-[10px]"

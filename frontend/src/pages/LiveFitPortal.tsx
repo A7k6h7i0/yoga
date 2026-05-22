@@ -3,22 +3,23 @@ import { Navigate } from 'react-router-dom';
 import { apiClient } from '../lib/api';
 import Home from './Home';
 import Pricing from './Pricing';
+import { AUTH_FALLBACK_PATH } from '../config/auth';
 
 const LiveFitPortal = () => {
-  const [hasAccess, setHasAccess] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
+  // Read localStorage synchronously on first render to avoid any flash
+  const storedMembership = JSON.parse(localStorage.getItem('livefitMembership') || 'null');
+  const cachedAccess = !!(storedMembership?.email);
+
+  const [hasAccess, setHasAccess] = useState(cachedAccess);
+  const [isChecking, setIsChecking] = useState(!cachedAccess); // skip loading if cached
   const user = JSON.parse(localStorage.getItem('user') || 'null');
 
   useEffect(() => {
+    // If we already have cached access, no need to hit the API
+    if (cachedAccess) return;
+
     const checkAccess = async () => {
       try {
-        const storedMembership = JSON.parse(localStorage.getItem('livefitMembership') || 'null');
-        if (storedMembership?.email) {
-          setHasAccess(true);
-          setIsChecking(false);
-          return;
-        }
-
         const email = user?.email;
         if (!email) {
           setHasAccess(false);
@@ -58,11 +59,7 @@ const LiveFitPortal = () => {
     };
 
     checkAccess();
-  }, [user?.email]);
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  }, [user?.email, cachedAccess]);
 
   if (isChecking) {
     return (

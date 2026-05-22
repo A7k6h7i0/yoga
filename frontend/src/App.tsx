@@ -18,14 +18,12 @@ import TermsOfService from './pages/TermsOfService';
 import Solutions from './pages/Solutions';
 import WorkFitSolutionDetail from './pages/WorkFitSolutionDetail';
 import LiveFitPortal from './pages/LiveFitPortal';
+import { AUTH_FALLBACK_PATH } from './config/auth';
 
 const getToken = () => localStorage.getItem('token');
 
 const RequireAuth = ({ children }: { children: React.ReactNode }) => {
-  if (!getToken()) {
-    return <Navigate to="/login" replace />;
-  }
-
+  // Bypassing auth for now to allow public testing
   return <>{children}</>;
 };
 
@@ -131,8 +129,8 @@ function App() {
     <Router>
       <ScrollToTop />
       <Routes>
-        <Route path="/login" element={token ? <Navigate to="/" replace /> : <Login />} />
-        <Route path="/signup" element={token ? <Navigate to="/" replace /> : <Signup />} />
+        <Route path="/login" element={<Navigate to="/workfit" replace />} />
+        <Route path="/signup" element={<Navigate to="/workfit" replace />} />
         <Route
           path="/*"
           element={

@@ -2,6 +2,40 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Flower2, MoveRight, Play, Image as ImageIcon, FileText, Accessibility } from 'lucide-react';
 
+const sectionReveal = {
+  hidden: { opacity: 0, y: 34 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9, ease: [0.23, 1, 0.32, 1] },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.14,
+      delayChildren: 0.12,
+    },
+  },
+};
+
+const cardReveal = (delay = 0, x = 0) => ({
+  hidden: { opacity: 0, y: 40, x, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    x: 0,
+    scale: 1,
+    transition: {
+      duration: 0.95,
+      delay,
+      ease: [0.23, 1, 0.32, 1],
+    },
+  },
+});
+
 interface CardProps {
   image: string | string[];
   icon: React.ElementType;
@@ -18,10 +52,8 @@ const ResourceCard: React.FC<CardProps> = ({ image, icon: Icon, iconBg, title, d
   return (
     <motion.div
       className="bg-white rounded-[2rem] overflow-hidden border border-sky-100 flex flex-col h-full shadow-sm hover:shadow-2xl transition-all duration-500 group"
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, amount: 0.2 }}
-      transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+      variants={cardReveal(0, 0)}
+      whileHover={{ y: -8, transition: { duration: 0.22 } }}
     >
       <div className="relative h-64 overflow-hidden">
         {isGallery ? (
@@ -104,40 +136,51 @@ const GalleryLibrary: React.FC = () => {
   return (
     <section className="py-24 bg-white overflow-hidden">
       <div className="w-full px-4 md:px-10 lg:px-16">
-        <div className="text-center mb-20">
+        <motion.div
+          className="text-center mb-20"
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.35 }}
+        >
           <motion.h2
             className="text-5xl md:text-7xl font-bold text-sky-950 mb-8 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.4 }}
-            transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+            variants={sectionReveal}
           >
             Gallery & <span className="text-brand-primary">Library</span>
           </motion.h2>
           <motion.p
             className="text-xl text-sky-900/60 max-w-2xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.35 }}
-            transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1], delay: 0.08 }}
+            variants={sectionReveal}
           >
             Explore a rich collection of resources designed to inspire, educate, and support your wellness journey anytime, anywhere.
           </motion.p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
-          {resources.map((res) => (
-            <ResourceCard key={res.title} {...res} />
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, amount: 0.2 }}
+        >
+          {resources.map((res, idx) => (
+            <motion.div
+              key={res.title}
+              variants={cardReveal(0.08 * idx, idx % 2 === 0 ? -70 : 70)}
+            >
+              <ResourceCard {...res} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Bottom Banner - Smaller & More Compact */}
         <motion.div
           className="bg-[#fff9f5] rounded-[2.5rem] py-5 px-8 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-6 border border-orange-100 shadow-sm"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="show"
           viewport={{ once: false, amount: 0.3 }}
-          transition={{ duration: 0.95, ease: [0.23, 1, 0.32, 1] }}
         >
           <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
             <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-[#ff7f00] shadow-lg shadow-orange-100/50 border border-orange-50 flex-shrink-0">
