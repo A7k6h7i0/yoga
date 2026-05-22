@@ -9,10 +9,10 @@ const heroContentVariants = {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 1,
+      duration: 1.2,
       ease: [0.23, 1, 0.32, 1],
-      staggerChildren: 0.1,
-      delayChildren: 0.08,
+      staggerChildren: 0.12,
+      delayChildren: 0.12,
     },
   },
   exit: {
@@ -27,17 +27,17 @@ const heroItemVariants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: [0.23, 1, 0.32, 1] },
+    transition: { duration: 0.9, ease: [0.23, 1, 0.32, 1] },
   },
 };
 
 const heroImageVariants = {
-  hidden: { opacity: 0, x: 56, scale: 1.04 },
+  hidden: { opacity: 0, x: 64, scale: 1.05 },
   show: {
     opacity: 1,
     x: 0,
     scale: 1,
-    transition: { duration: 1.15, ease: [0.23, 1, 0.32, 1] },
+    transition: { duration: 1.45, ease: [0.23, 1, 0.32, 1] },
   },
   exit: {
     opacity: 0,
@@ -51,8 +51,8 @@ const heroFeatureVariants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.15,
+      staggerChildren: 0.1,
+      delayChildren: 0.18,
     },
   },
 };
@@ -159,6 +159,18 @@ const Hero = () => {
     <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#F5F5F3] group/hero pt-24 md:pt-28">
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
+        <motion.div
+          aria-hidden="true"
+          className="absolute top-[-8%] left-[-6%] w-[28rem] h-[28rem] rounded-full bg-orange-200/25 blur-[130px] pointer-events-none"
+          animate={{ y: [0, 18, 0], x: [0, -12, 0], opacity: [0.5, 0.75, 0.5] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute bottom-[-12%] right-[-8%] w-[24rem] h-[24rem] rounded-full bg-sky-200/25 blur-[130px] pointer-events-none"
+          animate={{ y: [0, -16, 0], x: [0, 14, 0], opacity: [0.35, 0.55, 0.35] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        />
         <AnimatePresence mode="popLayout">
           <motion.div
             key={currentSlide}

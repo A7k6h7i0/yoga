@@ -26,7 +26,7 @@ const plans: Plan[] = [
   {
     id: 'monthly',
     name: 'Monthly',
-    price: '2,794.77',
+    price: '29',
     period: '/ month',
     features: ['Live online sessions', 'Video library access', 'Community support', 'Mobile app access'],
     icon: Zap,
@@ -37,7 +37,7 @@ const plans: Plan[] = [
   {
     id: 'yearly',
     name: 'Yearly',
-    price: '28,900',
+    price: '300',
     period: '/ year',
     features: ['Everything in Monthly', 'Best yearly value', 'Continuity support', 'Full LiveFit access'],
     icon: Star,
@@ -292,7 +292,7 @@ const Pricing = ({ onAccessGranted }: PricingProps) => {
 
             <h3 className="text-2xl font-serif font-bold text-sky-950 mb-2">{plan.name}</h3>
             <div className="flex items-baseline gap-1 mb-8">
-              <span className="text-4xl font-black text-sky-950">₹{getDynamicPlanPrice(plan.id, plan.price)}</span>
+              <span className="text-4xl font-black text-sky-950">${getDynamicPlanPrice(plan.id, plan.price)}</span>
               <span className="text-sky-900/40 font-bold uppercase tracking-widest text-xs">{plan.period}</span>
             </div>
 
