@@ -3,6 +3,32 @@ import { motion } from 'framer-motion';
 import { User, Activity, Calendar, Globe, ArrowRight, PlayCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+const contentVariants = {
+  hidden: { opacity: 0, x: -90 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 1.5,
+      ease: [0.23, 1, 0.32, 1],
+      staggerChildren: 0.16,
+      delayChildren: 0.22,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1.1,
+      ease: [0.23, 1, 0.32, 1],
+    },
+  },
+};
+
 const OneOnOne = () => {
   const navigate = useNavigate();
 
@@ -17,25 +43,26 @@ const OneOnOne = () => {
           {/* Content Column */}
           <div className="lg:w-1/2">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              variants={contentVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: false, amount: 0.25 }}
             >
-              <h4 className="text-orange-500 font-bold uppercase tracking-widest text-xs mb-4">
+              <motion.h4 variants={itemVariants} className="text-orange-500 font-bold uppercase tracking-widest text-xs mb-4">
                 Personalized. Purposeful. Powerful.
-              </h4>
-              <h2 className="text-3xl md:text-[34px] font-bold mb-4 leading-[1.2] text-slate-900">
+              </motion.h4>
+              <motion.h2 variants={itemVariants} className="text-3xl md:text-[34px] font-bold mb-4 leading-[1.2] text-slate-900">
                 One-on-One Wellness Coaching <br className="hidden lg:block" />
                 Backed by <span className="text-orange-500">Yoga, Workouts & Programs</span>
-              </h2>
+              </motion.h2>
               
-              <div className="w-12 h-1 bg-orange-500 mb-8 rounded-full"></div>
+              <motion.div variants={itemVariants} className="w-12 h-1 bg-orange-500 mb-8 rounded-full"></motion.div>
               
-              <p className="text-[15px] text-slate-600 mb-12 leading-relaxed">
+              <motion.p variants={itemVariants} className="text-[15px] text-slate-600 mb-12 leading-relaxed">
                 Get fully personalized guidance designed around your body, goals, lifestyle, and challenges. Our expert coaches combine the power of yoga, functional training, mindfulness, and structured programs to help you move better, feel stronger, reduce stress, and create lasting habits.
-              </p>
+              </motion.p>
               
-              <div className="space-y-8 mb-12">
+              <motion.div variants={itemVariants} className="space-y-8 mb-12">
                 {[
                   {
                     icon: User,
@@ -50,7 +77,7 @@ const OneOnOne = () => {
                   {
                     icon: Calendar,
                     title: 'Flexible & Convenient',
-                    desc: 'Choose timings that suit your schedule with complete flexibility—anytime, anywhere.'
+                    desc: 'Choose timings that suit your schedule with complete flexibilityâ€”anytime, anywhere.'
                   },
                   {
                     icon: Globe,
@@ -69,34 +96,33 @@ const OneOnOne = () => {
                     </div>
                   </div>
                 ))}
-              </div>
+              </motion.div>
               
-              <div className="flex flex-wrap items-center gap-6">
-                <button 
+              <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-6">
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => navigate('/livefitinquiry')}
                   className="px-8 py-4 bg-orange-500 text-white font-bold rounded-full hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30 flex items-center gap-2 hover:-translate-y-0.5"
                 >
                   Book Your Personalized Session <ArrowRight className="w-5 h-5" />
-                </button>
-                <button 
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={navigateToHowItWorks}
                   className="px-6 py-4 text-slate-700 font-bold hover:text-orange-500 transition-colors flex items-center gap-3 group border border-orange-500 rounded-full"
                 >
                   <PlayCircle className="w-7 h-7 text-slate-800 group-hover:text-orange-500 transition-colors" strokeWidth={1.5} /> 
                   How It Works
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
             </motion.div>
           </div>
           
           {/* Image/Mock Column */}
           <div className="lg:w-1/2 w-full relative">
-             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative w-full drop-shadow-2xl"
+             <motion.div data-aos="fade-up" className="relative w-full drop-shadow-2xl"
              >
                <img 
                  src="/oneonone.png" 

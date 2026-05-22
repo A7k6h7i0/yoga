@@ -161,13 +161,8 @@ const UniqueNeeds = () => {
         {/* Main Grid: 5 columns on desktop */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-16">
           {programs.map((program, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.05 }}
-              onClick={() => setSelectedProgram(program)}
+            <motion.div data-aos="fade-up" 
+              key={idx} onClick={() => setSelectedProgram(program)}
               className="flex flex-col group cursor-pointer"
             >
               {/* Image Container with Rounded Corners */}
@@ -204,13 +199,8 @@ const UniqueNeeds = () => {
         {/* Sub-Programs Row (Wider Cards) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
           {subPrograms.map((program, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 + (idx * 0.1) }}
-              onClick={() => setSelectedProgram(program)}
+            <motion.div data-aos="fade-up" 
+              key={idx} onClick={() => setSelectedProgram(program)}
               className="relative group cursor-pointer rounded-3xl bg-orange-50/20 overflow-hidden flex h-32 md:h-40 border border-orange-100/40 hover:bg-white hover:shadow-xl hover:shadow-orange-100/50 transition-all duration-500"
             >
               <div className="w-[40%] overflow-hidden relative">
@@ -239,11 +229,7 @@ const UniqueNeeds = () => {
         </div>
 
         {/* CTA Bar */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          className="rounded-[3rem] bg-[#FFF8F2] py-8 px-8 md:px-16 flex flex-col lg:flex-row items-center justify-between gap-8 border border-orange-100"
+        <motion.div data-aos="fade-up" className="rounded-[3rem] bg-[#FFF8F2] py-8 px-8 md:px-16 flex flex-col lg:flex-row items-center justify-between gap-8 border border-orange-100"
         >
           <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
             <div className="w-16 h-16 rounded-3xl bg-white flex items-center justify-center text-orange-500 shadow-xl shadow-orange-100/50 border border-orange-50 shrink-0">
@@ -276,16 +262,12 @@ const UniqueNeeds = () => {
       <AnimatePresence>
         {selectedProgram && (
           <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+            <motion.div animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedProgram(null)}
               className="fixed inset-0 bg-slate-950/40 backdrop-blur-md z-[100]"
             />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 40 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
+            <motion.div animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 40 }}
               className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl bg-white rounded-[3rem] shadow-2xl z-[101] overflow-hidden max-h-[90vh] flex flex-col"
             >

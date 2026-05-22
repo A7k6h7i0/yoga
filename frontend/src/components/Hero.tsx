@@ -108,12 +108,8 @@ const Hero = () => {
         <AnimatePresence mode="popLayout">
           <motion.div
             key={currentSlide}
-            className="absolute inset-y-0 right-0 w-full lg:w-[60%] h-full"
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-          >
+            className="absolute inset-y-0 right-0 w-full lg:w-[60%] h-full" animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }} >
             <img
               src={slides[currentSlide].image}
               className="w-full h-full object-cover object-[center_top] md:object-center"
@@ -135,12 +131,8 @@ const Hero = () => {
         <div className="max-w-2xl text-left">
           <AnimatePresence mode="wait">
             <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 40 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
+              key={currentSlide} animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 40 }} >
               {slides[currentSlide].badge && (
                 <div className="inline-block px-5 py-2 border border-orange-200 rounded-full bg-orange-50 text-orange-600 font-black text-[10px] md:text-xs tracking-[0.2em] mb-8 shadow-sm">
                   {slides[currentSlide].badge}

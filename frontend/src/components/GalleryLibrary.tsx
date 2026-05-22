@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Flower2, MoveRight, Play, Image as ImageIcon, FileText, Accessibility } from 'lucide-react';
 
 interface CardProps {
@@ -15,7 +16,13 @@ const ResourceCard: React.FC<CardProps> = ({ image, icon: Icon, iconBg, title, d
   const isGallery = Array.isArray(image);
 
   return (
-    <div className="bg-white rounded-[2rem] overflow-hidden border border-sky-100 flex flex-col h-full shadow-sm hover:shadow-2xl transition-all duration-500 group">
+    <motion.div
+      className="bg-white rounded-[2rem] overflow-hidden border border-sky-100 flex flex-col h-full shadow-sm hover:shadow-2xl transition-all duration-500 group"
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, amount: 0.2 }}
+      transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+    >
       <div className="relative h-64 overflow-hidden">
         {isGallery ? (
           <div className="grid grid-cols-2 grid-rows-2 h-full gap-0.5 bg-gray-100">
@@ -24,7 +31,11 @@ const ResourceCard: React.FC<CardProps> = ({ image, icon: Icon, iconBg, title, d
             ))}
           </div>
         ) : (
-          <img src={image as string} alt={title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out" />
+          <img
+            src={image as string}
+            alt={title}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+          />
         )}
         
         <div className={`absolute -bottom-1 left-2 w-14 h-14 ${iconBg} rounded-full flex items-center justify-center text-white shadow-xl z-10 border-4 border-white`}>
@@ -46,7 +57,7 @@ const ResourceCard: React.FC<CardProps> = ({ image, icon: Icon, iconBg, title, d
           <MoveRight size={18} className="group-hover/btn:translate-x-1.5 transition-transform" />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -66,7 +77,7 @@ const GalleryLibrary: React.FC = () => {
       icon: Accessibility,
       iconBg: "bg-[#ff7f00]", // Brand Primary Orange
       title: "Poses Library",
-      description: "Step-by-step pose guides with photos, alignment tips, benefits, and modifications for all levels — from beginners to advanced practitioners.",
+      description: "Step-by-step pose guides with photos, alignment tips, benefits, and modifications for all levels â€” from beginners to advanced practitioners.",
       buttonText: "EXPLORE POSES",
       buttonColor: "border-[#ff7f00] text-[#ff7f00] hover:bg-[#ff7f00]/5"
     },
@@ -75,7 +86,7 @@ const GalleryLibrary: React.FC = () => {
       icon: Play,
       iconBg: "bg-[#4ade80]", // Vibrant Green
       title: "Quick Videos for Quick Solutions",
-      description: "Short, effective videos to address common issues like back pain, neck stiffness, bloating, poor posture, stress relief, and more — with simple, practical solutions.",
+      description: "Short, effective videos to address common issues like back pain, neck stiffness, bloating, poor posture, stress relief, and more â€” with simple, practical solutions.",
       buttonText: "SEE VIDEOS",
       buttonColor: "border-[#4ade80] text-[#166534] hover:bg-[#4ade80]/5"
     },
@@ -94,22 +105,40 @@ const GalleryLibrary: React.FC = () => {
     <section className="py-24 bg-white overflow-hidden">
       <div className="w-full px-4 md:px-10 lg:px-16">
         <div className="text-center mb-20">
-          <h2 className="text-5xl md:text-7xl font-bold text-sky-950 mb-8 tracking-tight">
+          <motion.h2
+            className="text-5xl md:text-7xl font-bold text-sky-950 mb-8 tracking-tight"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.4 }}
+            transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1] }}
+          >
             Gallery & <span className="text-brand-primary">Library</span>
-          </h2>
-          <p className="text-xl text-sky-900/60 max-w-2xl mx-auto leading-relaxed">
-            Explore a rich collection of resources designed to inspire, educate, and support your wellness journey—anytime, anywhere.
-          </p>
+          </motion.h2>
+          <motion.p
+            className="text-xl text-sky-900/60 max-w-2xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.35 }}
+            transition={{ duration: 0.9, ease: [0.23, 1, 0.32, 1], delay: 0.08 }}
+          >
+            Explore a rich collection of resources designed to inspire, educate, and support your wellness journey anytime, anywhere.
+          </motion.p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
-          {resources.map((res, index) => (
-            <ResourceCard key={index} {...res} />
+          {resources.map((res) => (
+            <ResourceCard key={res.title} {...res} />
           ))}
         </div>
 
         {/* Bottom Banner - Smaller & More Compact */}
-        <div className="bg-[#fff9f5] rounded-[2.5rem] py-5 px-8 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-6 border border-orange-100 shadow-sm">
+        <motion.div
+          className="bg-[#fff9f5] rounded-[2.5rem] py-5 px-8 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-6 border border-orange-100 shadow-sm"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.95, ease: [0.23, 1, 0.32, 1] }}
+        >
           <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
             <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-[#ff7f00] shadow-lg shadow-orange-100/50 border border-orange-50 flex-shrink-0">
               <FileText size={32} />
@@ -119,7 +148,7 @@ const GalleryLibrary: React.FC = () => {
               <p className="text-base text-sky-900/60 max-w-xl">Dive into our library and gallery to learn, relax, and stay inspired every day.</p>
             </div>
           </div>
-          <button 
+          <button
             onClick={() => window.open('https://www.youtube.com/@Livefit4U', '_blank')}
             className="bg-[#ff7f00] text-white px-8 py-3.5 rounded-full font-bold text-base hover:bg-sky-900 transition-all duration-300 shadow-lg shadow-orange-200 flex-shrink-0 active:scale-95 group/main-btn overflow-hidden relative"
           >
@@ -128,7 +157,7 @@ const GalleryLibrary: React.FC = () => {
               <MoveRight className="group-hover/main-btn:translate-x-1 transition-transform" />
             </span>
           </button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
