@@ -7,7 +7,7 @@ import {
   Armchair, TrendingUp, ShieldCheck, CheckCircle2, CalendarDays, Zap, Scale, DollarSign,
   Wind, Shield, Droplets, Check, Quote, Building, Globe2, PlusCircle, MinusCircle,
   ChevronDown, ChevronUp, Mail, Phone, Footprints, Smile, Target, Trophy, Leaf, Moon,
-  Dumbbell
+  Dumbbell, UserPlus, ClipboardList, BarChart3, Building2, Sliders, Heart
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../lib/env';
@@ -1905,6 +1905,287 @@ const WorkFit = () => {
           </div>
         </div>
 
+      </section>
+
+      {/* How WorkFit Works Section */}
+      <section className="py-24 bg-[#F9FAFB] text-[#0a1128] overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-20">
+            <div className="text-[#ea580c] font-bold text-sm tracking-[0.25em] uppercase mb-4">
+              HOW WORKFIT WORKS
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold mb-6 leading-tight tracking-tight">
+              Simple. Strategic. Impactful.
+            </h2>
+            <p className="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+              Our proven 4-step process makes workplace wellness easy to implement and delivers results your teams and business can feel.
+            </p>
+          </div>
+
+          {/* 4-Step Process Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-6 xl:gap-8 mb-16">
+            {[
+              {
+                id: '01',
+                title: 'Discover & Onboard',
+                desc: 'We learn about your goals, culture, and team needs to build the perfect wellness foundation.',
+                icon: UserPlus,
+                img: '/Test3.png'
+              },
+              {
+                id: '02',
+                title: 'Assess & Customize',
+                desc: 'We assess baseline well-being and customize a program that fits your people and priorities.',
+                icon: ClipboardList,
+                img: '/wt_cta.png'
+              },
+              {
+                id: '03',
+                title: 'Engage & Execute',
+                desc: 'We deliver engaging wellness sessions, challenges, and resources your teams will love.',
+                icon: Activity,
+                img: '/Wc1.png'
+              },
+              {
+                id: '04',
+                title: 'Measure & Maximize',
+                desc: 'We track results, share insights, and continuously optimize for greater impact.',
+                icon: BarChart3,
+                img: '/Test5.png'
+              }
+            ].map((step, idx) => (
+              <div key={idx} className="relative flex flex-col bg-white rounded-[2rem] p-6 md:p-8 pt-14 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                {/* Connecting Arrow for lg screens */}
+                {idx < 3 && (
+                  <div className="hidden lg:flex absolute top-1/2 -right-5 lg:-right-4 xl:-right-6 -translate-y-1/2 z-10 w-8 h-8 items-center justify-center">
+                    <ArrowRight className="text-gray-400 w-6 h-6" />
+                  </div>
+                )}
+
+                {/* Floating Icon */}
+                <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-16 bg-[#0a1128] rounded-full flex items-center justify-center border-4 border-[#F9FAFB] shadow-md">
+                  <step.icon className="w-7 h-7 text-white" />
+                </div>
+
+                <div className="text-center mb-4">
+                  <span className="text-[#ea580c] font-bold text-lg mr-2">{step.id}</span>
+                  <span className="font-extrabold text-[#0a1128] text-lg lg:text-[1.1rem] xl:text-xl tracking-tight">{step.title}</span>
+                </div>
+                <p className="text-sm text-gray-500 text-center mb-8 flex-grow leading-relaxed">
+                  {step.desc}
+                </p>
+                <div className="rounded-2xl overflow-hidden h-40 w-full mt-auto">
+                  <img src={step.img} alt={step.title} className="w-full h-full object-cover" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom Banner */}
+          <div className="rounded-[2rem] bg-[#0a1128] overflow-hidden flex flex-col relative shadow-2xl border border-white/5 mt-8">
+            {/* Background image on the right */}
+            <div className="absolute inset-y-0 right-0 w-full lg:w-[45%] opacity-50 z-0">
+              <img src="/team_discussion.png" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0a1128] via-[#0a1128]/90 to-transparent lg:to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a1128] lg:hidden" />
+            </div>
+
+            <div className="p-8 md:p-10 lg:p-12 relative z-10 w-full">
+              <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start lg:items-center justify-between">
+                
+                {/* Left side: Icon + Text */}
+                <div className="flex flex-col sm:flex-row gap-5 lg:gap-6 items-start">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#ea580c] flex items-center justify-center shrink-0 border-[4px] border-white/10 shadow-lg">
+                    <Target className="w-7 h-7 md:w-8 md:h-8 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-2 tracking-tight">
+                      Wellness that works. Results that matter.
+                    </h3>
+                    <p className="text-gray-300 text-sm md:text-base max-w-lg leading-relaxed">
+                      We make workplace wellness simple to start and easy to sustain—so you can focus on what matters most: your people and your business.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Right side: Button + Subtext */}
+                <div className="flex flex-col items-center lg:items-start gap-3 shrink-0 w-full lg:w-auto mt-4 lg:mt-0">
+                  <button 
+                    onClick={() => navigate('/workfitinquiry')}
+                    className="bg-[#ea580c] text-white px-8 py-4 rounded-full font-black text-xs uppercase tracking-[0.2em] w-full hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20"
+                  >
+                    BOOK A DEMO
+                  </button>
+                  <div className="flex items-center gap-2 text-xs font-medium text-gray-300">
+                    <CheckCircle2 className="w-4 h-4 text-[#ea580c]" />
+                    No obligation. Just better outcomes.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-8 text-gray-500 font-semibold text-sm">
+            A proven process. A healthier workforce. A stronger organization.
+          </div>
+        </div>
+      </section>
+
+      {/* Our Program Formats Section */}
+      <section className="py-24 bg-white text-[#0a1128] overflow-hidden border-t border-gray-100">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Top Banner (Split Background with Image) */}
+          <div className="rounded-[2.5rem] bg-[#0a1128] relative overflow-hidden mb-16 shadow-2xl border border-white/5">
+            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[400px]">
+              
+              {/* Left Side (Text Content) */}
+              <div className="lg:col-span-7 flex flex-col justify-center p-8 md:p-12 lg:p-16 z-10 relative">
+                <div className="w-12 h-1 bg-[#ea580c] mb-6 rounded-full" />
+                <div className="text-[#ea580c] font-bold text-sm tracking-[0.2em] uppercase mb-4">
+                  OUR PROGRAM FORMATS
+                </div>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-extrabold text-white mb-6 leading-tight tracking-tight">
+                  Wellness That Fits Your Workplace
+                </h2>
+                <p className="text-gray-300 text-lg md:text-xl leading-relaxed max-w-xl">
+                  Flexible delivery options designed to engage your teams—whether in the office, remote, or everywhere in between.
+                </p>
+              </div>
+
+              {/* Right Side (Image + Benefits) */}
+              <div className="lg:col-span-5 relative min-h-[300px] lg:min-h-full overflow-hidden bg-gradient-to-br from-[#0a1128] to-[#1a2b5e]">
+                <img src="/office3.png" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-40" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0a1128] to-transparent z-10 hidden lg:block" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a1128] to-transparent z-10 lg:hidden" />
+                
+                {/* Benefits List over the image */}
+                <div className="absolute inset-0 z-20 flex flex-col justify-center p-8 md:p-12">
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-4 border-b border-white/10 pb-4">
+                      <div className="w-10 h-10 rounded-full bg-[#ea580c]/20 flex items-center justify-center shrink-0">
+                        <Users2 className="w-5 h-5 text-[#ea580c]" />
+                      </div>
+                      <span className="text-white font-bold text-lg">For Every Team</span>
+                    </div>
+                    <div className="flex items-center gap-4 border-b border-white/10 pb-4">
+                      <div className="w-10 h-10 rounded-full bg-[#ea580c]/20 flex items-center justify-center shrink-0">
+                        <Monitor className="w-5 h-5 text-[#ea580c]" />
+                      </div>
+                      <span className="text-white font-bold text-lg">Flexible & Scalable</span>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-[#ea580c]/20 flex items-center justify-center shrink-0">
+                        <TrendingUp className="w-5 h-5 text-[#ea580c]" />
+                      </div>
+                      <span className="text-white font-bold text-lg">Engaging & Impactful</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 4 Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-16">
+            {[
+              {
+                title: 'On-site Programs',
+                desc: 'Bring energy directly to your workplace with in-person yoga, meditation, and fitness classes.',
+                icon: Building2,
+                points: ['In-person Instructors', 'Team Building Events', 'Equipment Provided'],
+                img: '/office1.png'
+              },
+              {
+                title: 'Virtual Programs',
+                desc: 'Live, interactive sessions that keep remote and hybrid teams connected and motivated.',
+                icon: Monitor,
+                points: ['Live Online Classes', 'Virtual Wellness Challenges', 'Expert Webinars'],
+                img: '/zoom.png'
+              },
+              {
+                title: 'Hybrid Programs',
+                desc: 'A blend of on-site and virtual experiences for a seamless wellness journey.',
+                icon: Users2,
+                points: ['On-site + Live Online', 'Hybrid Challenges', 'Flexible Participation'],
+                img: '/hybrid_yoga.png'
+              },
+              {
+                title: 'Special Programs',
+                desc: 'High-impact initiatives that create excitement, engagement, and lasting wellness habits.',
+                icon: CalendarDays,
+                points: ['Wellness Weeks', 'Challenges & Competitions', 'Wellness Retreats'],
+                img: '/Wc1.png'
+              }
+            ].map((card, idx) => (
+              <div key={idx} className="bg-white rounded-[2rem] p-6 md:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col hover:shadow-xl hover:border-orange-100 transition-all duration-300 hover:-translate-y-1">
+                <div className="w-14 h-14 rounded-2xl bg-orange-50 flex items-center justify-center mb-6 text-[#ea580c]">
+                  <card.icon className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-extrabold text-[#0a1128] mb-3">{card.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">{card.desc}</p>
+                
+                <ul className="space-y-3 mb-8">
+                  {card.points.map((pt, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-gray-700 font-medium">
+                      <div className="w-5 h-5 rounded-full bg-[#ea580c] flex items-center justify-center shrink-0 mt-0.5">
+                        <CheckCircle2 className="w-3 h-3 text-white" />
+                      </div>
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="rounded-xl overflow-hidden h-40 mt-auto">
+                  <img src={card.img} alt={card.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom Call-To-Action Banner */}
+          <div className="rounded-[2.5rem] bg-[#0a1128] p-8 md:p-12 border border-white/5 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#ea580c]/10 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#ea580c]/10 rounded-full blur-[100px] pointer-events-none" />
+            
+            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
+              <div className="flex-1">
+                <div className="flex items-center gap-4 mb-4">
+                  <Target className="w-8 h-8 text-[#ea580c]" />
+                  <span className="text-[#ea580c] font-bold text-sm tracking-[0.2em] uppercase">Customizable. Measurable. Meaningful.</span>
+                </div>
+                <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-6">Every organization is unique. Your wellness program should be too.</h3>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button 
+                    onClick={() => navigate('/workfitinquiry')}
+                    className="bg-[#ea580c] text-white px-8 py-4 rounded-full font-black text-xs uppercase tracking-[0.2em] hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/20"
+                  >
+                    BOOK A DEMO
+                  </button>
+                </div>
+              </div>
+              
+              <div className="hidden lg:grid grid-cols-2 gap-6 pl-12 border-l border-white/10">
+                {[
+                  { icon: Sliders, label: 'Tailored To You' },
+                  { icon: Trophy, label: 'Expert Led' },
+                  { icon: BarChart3, label: 'Proven Results' },
+                  { icon: Heart, label: 'Lasting Impact' },
+                ].map((stat, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10 text-[#ea580c]">
+                      <stat.icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-white font-bold text-sm">{stat.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
       </section>
 
       {/* Why Companies Choose WorkFit Section */}
