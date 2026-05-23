@@ -18,14 +18,6 @@ import TermsOfService from './pages/TermsOfService';
 import Solutions from './pages/Solutions';
 import WorkFitSolutionDetail from './pages/WorkFitSolutionDetail';
 import LiveFitPortal from './pages/LiveFitPortal';
-import { AUTH_FALLBACK_PATH } from './config/auth';
-
-const getToken = () => localStorage.getItem('token');
-
-const RequireAuth = ({ children }: { children: React.ReactNode }) => {
-  // Bypassing auth for now to allow public testing
-  return <>{children}</>;
-};
 
 const ProtectedRoutes = () => (
   <Layout>
@@ -115,8 +107,6 @@ const Success = () => {
 };
 
 function App() {
-  const token = getToken();
-
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -129,16 +119,23 @@ function App() {
     <Router>
       <ScrollToTop />
       <Routes>
-        <Route path="/login" element={<Navigate to="/workfit" replace />} />
-        <Route path="/signup" element={<Navigate to="/workfit" replace />} />
         <Route
-          path="/*"
+          path="/login"
           element={
-            <RequireAuth>
-              <ProtectedRoutes />
-            </RequireAuth>
+            <Layout>
+              <Login />
+            </Layout>
           }
         />
+        <Route
+          path="/signup"
+          element={
+            <Layout>
+              <Signup />
+            </Layout>
+          }
+        />
+        <Route path="/*" element={<ProtectedRoutes />} />
       </Routes>
     </Router>
   );

@@ -6,7 +6,6 @@ import {
   UserRound, Smile, Users, User, Calendar,
   Wind, Moon, Trophy, ArrowRight, X, CheckCircle2, Target, Sparkles
 } from 'lucide-react';
-import { SHOW_LOGIN } from '../config/auth';
 
 const UniqueNeeds = () => {
   const navigate = useNavigate();
@@ -336,13 +335,13 @@ const UniqueNeeds = () => {
 
                 <div className="mt-12 flex flex-col sm:flex-row gap-4">
                   <button 
-                    onClick={() => navigate(SHOW_LOGIN ? '/login' : '/')}
+                    onClick={() => navigate('/livefitinquiry')}
                     className="flex-1 bg-orange-500 text-white py-4 rounded-2xl font-bold text-lg shadow-xl shadow-orange-100 hover:bg-slate-900 transition-all duration-300"
                   >
                     Start Today
                   </button>
                   <button 
-                    onClick={() => navigate('/workfitinquiry')}
+                    onClick={() => navigate('/livefitinquiry')}
                     className="flex-1 bg-white text-orange-500 border border-orange-500 py-4 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all duration-300"
                   >
                     Free Consultation

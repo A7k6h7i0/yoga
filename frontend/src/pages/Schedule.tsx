@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Calendar, Clock, Mail, CheckCircle2, ArrowRight, Globe2, MessageSquare, Target, Phone } from 'lucide-react';
 import { API_BASE_URL } from '../lib/env';
 
@@ -110,6 +111,14 @@ const Schedule = () => {
           <p className="text-xl text-sky-900/60 mb-12 leading-relaxed max-w-lg">
             Experience the transformation firsthand. Select your preferred time slot, and we'll match you with the perfect session.
           </p>
+
+          <Link
+            to="/pricing"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-orange-200 bg-white text-orange-600 font-bold uppercase tracking-widest text-[10px] shadow-sm hover:bg-orange-50 transition-all"
+          >
+            View Membership Plans
+            <ArrowRight className="w-4 h-4" />
+          </Link>
 
           <div className="space-y-6">
             <div className="flex items-center gap-4">
@@ -287,6 +296,16 @@ const Schedule = () => {
             <p className="mt-6 text-center text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
               * We will contact you within 24 hours to <br /> confirm your session details.
             </p>
+
+            <div className="mt-6 text-center">
+              <Link
+                to="/pricing"
+                className="inline-flex items-center gap-2 text-sm font-bold text-orange-600 hover:text-orange-700 transition-colors"
+              >
+                Want to compare plans first?
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </form>
         </motion.div>
 
